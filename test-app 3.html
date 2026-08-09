@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>English Test</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+<style>
+  :root{
+    --ink:#1B1F3B;
+    --ink-soft:#2E3358;
+    --paper:#F7F4EC;
+    --gold:#F2B705;
+    --coral:#FF6B6B;
+    --mint:#3DDC97;
+    --line: rgba(247,244,236,0.14);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--ink);
+    color: var(--paper);
+    min-height: 100vh;
+    display:flex;
+    justify-content:center;
+  }
+  #app{
+    width:100%;
+    max-width:480px;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    padding: 20px 18px 30px;
+    position:relative;
+  }
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    letter-spacing: 0.18em;
+    text-transform:uppercase;
+    font-size:11px;
+    color: var(--gold);
+    margin-bottom:6px;
+  }
+  h1{
+    font-family: 'Space Grotesk','Inter',sans-serif;
+    font-weight:700;
+    font-size:26px;
+    letter-spacing:-0.01em;
+    margin-bottom:8px;
+  }
+  .sub{
+    color: rgba(247,244,236,0.65);
+    font-size:14.5px;
+    line-height:1.5;
+    margin-bottom:24px;
+  }
+  .screen{ display:none; flex-direction:column; flex:1; animation: fade .3s ease; }
+  .screen.active{ display:flex; }
+  @keyframes fade{ from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);} }
+
+  .card{
+    background: var(--ink-soft);
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:18px;
+  }
+
+  input[type=text]{
+    width:100%;
+    padding:14px 16px;
+    border-radius:12px;
+    border:1px solid var(--line);
+    background: var(--ink-soft);
+    color: var(--paper);
+    font-size:16px;
+    font-family:inherit;
+    margin-bottom:14px;
+  }
+  input[type=text]::placeholder{ color: rgba(247,244,236,0.4); }
+  input[type=text]:focus{ outline:none; border-color: var(--gold); }
+
+  button{
+    font-family:inherit;
+    cursor:pointer;
+    border:none;
+  }
+  .btn-primary{
+    background: var(--gold);
+    color: var(--ink);
+    font-weight:700;
+    font-size:15.5px;
+    padding:15px 20px;
+    border-radius:12px;
+    width:100%;
+    transition: transform .15s ease, opacity .15s ease;
+  }
+  .btn-primary:active{ transform: scale(0.98); }
+  .btn-secondary{
+    background: transparent;
+    color: var(--paper);
+    border:1px solid var(--line) !important;
+    font-size:14.5px;
+    padding:13px 18px;
+    border-radius:12px;
+    width:100%;
+    margin-top:10px;
+  }
+
+  /* progress */
+  .progress-row{ display:flex; align-items:center; gap:10px; margin-bottom:22px; }
+  .progress-track{ flex:1; height:6px; background: rgba(247,244,236,0.12); border-radius:99px; overflow:hidden; }
+  .progress-fill{ height:100%; background: var(--gold); border-radius:99px; transition: width .3s ease; }
+  .progress-num{ font-family:'IBM Plex Mono', monospace; font-size:12.5px; color: rgba(247,244,236,0.6); white-space:nowrap; }
+
+  .q-text{ font-family:'Space Grotesk','Inter',sans-serif; font-size:20px; font-weight:600; line-height:1.4; margin-bottom:22px; }
+  .opt{
+    display:flex; align-items:center; gap:12px;
+    padding:15px 16px; border-radius:12px;
+    border:1px solid var(--line); background: var(--ink-soft);
+    margin-bottom:10px; font-size:15px;
+    transition: border-color .15s ease, background .15s ease;
+  }
+  .opt-letter{
+    font-family:'IBM Plex Mono', monospace; font-size:12px;
+    width:24px; height:24px; border-radius:50%;
+    border:1px solid rgba(247,244,236,0.3);
+    display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  }
+  .opt.correct{ border-color: var(--mint); background: rgba(61,220,151,0.12); }
+  .opt.wrong{ border-color: var(--coral); background: rgba(255,107,107,0.12); }
+  .opt.correct .opt-letter{ background: var(--mint); color: var(--ink); border-color:var(--mint); }
+  .opt.wrong .opt-letter{ background: var(--coral); color: var(--ink); border-color:var(--coral); }
+
+  /* result */
+  .rank-badge{ font-family:'IBM Plex Mono', monospace; font-size:60px; font-weight:700; color: var(--gold); line-height:1; margin: 6px 0 2px; }
+  .rank-label{ font-size:13px; color: rgba(247,244,236,0.55); letter-spacing:0.08em; text-transform:uppercase; margin-bottom:24px; }
+  .score-big{ font-family:'Space Grotesk','Inter',sans-serif; font-size:40px; font-weight:700; }
+  .score-of{ color: rgba(247,244,236,0.5); font-size:20px; }
+
+  .stat-row{ display:flex; gap:10px; margin: 18px 0 6px; }
+  .stat{ flex:1; background: var(--ink-soft); border:1px solid var(--line); border-radius:12px; padding:14px; text-align:center; }
+  .stat-val{ font-family:'IBM Plex Mono', monospace; font-size:20px; font-weight:700; }
+  .stat-lbl{ font-size:11px; color: rgba(247,244,236,0.5); margin-top:4px; text-transform:uppercase; letter-spacing:0.05em; }
+
+  /* leaderboard */
+  .lb-row{ display:flex; align-items:center; gap:12px; padding:13px 14px; border-radius:12px; margin-bottom:8px; background: var(--ink-soft); border:1px solid var(--line); }
+  .lb-row.me{ border-color: var(--gold); background: rgba(242,183,5,0.08); }
+  .lb-pos{ font-family:'IBM Plex Mono', monospace; font-weight:700; font-size:15px; width:26px; color: rgba(247,244,236,0.5); }
+  .lb-row:nth-child(1) .lb-pos{ color: var(--gold); }
+  .lb-row:nth-child(2) .lb-pos{ color: #C9CBD6; }
+  .lb-row:nth-child(3) .lb-pos{ color: #D08A52; }
+  .lb-name{ flex:1; font-size:14.5px; font-weight:500; }
+  .lb-score{ font-family:'IBM Plex Mono', monospace; font-size:14px; color: var(--gold); }
+
+  .empty{ text-align:center; padding: 40px 10px; color: rgba(247,244,236,0.5); font-size:14px; }
+  .loading{ display:flex; align-items:center; justify-content:center; flex:1; color: rgba(247,244,236,0.5); font-size:14px; }
+
+  /* vocabulary */
+  .search-row{ position:relative; margin-bottom:16px; }
+  .search-row input{ padding-left:40px; margin-bottom:0; }
+  .search-icon{ position:absolute; left:14px; top:50%; transform:translateY(-50%); color: rgba(247,244,236,0.4); font-size:15px; }
+
+  .word-card{ background: var(--ink-soft); border:1px solid var(--line); border-radius:14px; padding:14px 16px; margin-bottom:10px; }
+  .word-head{ display:flex; align-items:baseline; justify-content:space-between; margin-bottom:4px; }
+  .word-en{ font-family:'Space Grotesk','Inter',sans-serif; font-size:17px; font-weight:600; }
+  .word-cat{ font-family:'IBM Plex Mono', monospace; font-size:10px; color: var(--gold); text-transform:uppercase; letter-spacing:0.06em; }
+  .word-uz{ font-size:14px; color: rgba(247,244,236,0.7); margin-bottom:6px; }
+  .word-ex{ font-size:12.5px; color: rgba(247,244,236,0.45); font-style:italic; line-height:1.4; }
+
+  .filter-row{ display:flex; gap:6px; margin-bottom:16px; overflow-x:auto; padding-bottom:2px; }
+  .filter-chip{
+    font-size:12px; font-weight:600; padding:7px 13px; border-radius:99px;
+    background: var(--ink-soft); border:1px solid var(--line); color: rgba(247,244,236,0.6);
+    white-space:nowrap; flex-shrink:0;
+  }
+  .filter-chip.active{ background: var(--gold); color: var(--ink); border-color: var(--gold); }
+
+  /* grammar / info */
+  .rule-card{ background: var(--ink-soft); border:1px solid var(--line); border-radius:14px; padding:16px; margin-bottom:12px; }
+  .rule-title{ font-family:'Space Grotesk','Inter',sans-serif; font-size:16px; font-weight:600; margin-bottom:6px; color: var(--gold); }
+  .rule-text{ font-size:13.5px; color: rgba(247,244,236,0.75); line-height:1.55; margin-bottom:8px; }
+  .rule-ex{ font-size:12.5px; color: rgba(247,244,236,0.45); font-family:'IBM Plex Mono', monospace; line-height:1.6; }
+
+  /* tab bar */
+  .tabbar{
+    display:flex; gap:6px;
+    background: var(--ink);
+    border-bottom:1px solid var(--line);
+    padding: 0 0 14px;
+    margin-bottom:22px;
+  }
+  .tab-item{
+    flex:1; display:flex; flex-direction:column; align-items:center; gap:3px;
+    padding:8px 4px; border-radius:12px;
+    background:transparent; color: rgba(247,244,236,0.5);
+  }
+  .tab-item.active{ background: var(--gold); color: var(--ink); }
+  .tab-icon{ font-size:17px; line-height:1; }
+  .tab-lbl{ font-size:9.5px; font-weight:600; }
+</style>
+</head>
+<body>
+<div id="app">
+
+  <!-- TAB BAR -->
+  <div class="tabbar" id="tabbar" style="display:none;">
+    <button class="tab-item" data-tab="vocab"><span class="tab-icon">&#9776;</span><span class="tab-lbl">Lug'at</span></button>
+    <button class="tab-item" data-tab="quiz"><span class="tab-icon">?</span><span class="tab-lbl">Test</span></button>
+    <button class="tab-item" data-tab="leaderboard"><span class="tab-icon">&#9733;</span><span class="tab-lbl">Reyting</span></button>
+    <button class="tab-item" data-tab="info"><span class="tab-icon">i</span><span class="tab-lbl">Qoidalar</span></button>
+  </div>
+
+  <!-- SCREEN: Ism kiritish -->
+  <div class="screen active" id="screen-name">
+    <div class="eyebrow">English Test</div>
+    <h1>Testga xush kelibsiz</h1>
+    <p class="sub">Ismingizni kiriting va ilovadan foydalanishni boshlang.</p>
+    <input type="text" id="nameInput" placeholder="Ismingiz va familiyangiz" maxlength="40">
+    <button class="btn-primary" id="startBtn">Boshlash</button>
+  </div>
+
+  <!-- SCREEN: Lug'at -->
+  <div class="screen" id="screen-vocab">
+    <div class="eyebrow">Lug'at</div>
+    <h1>So'zlarni o'rganish</h1>
+    <div class="search-row">
+      <span class="search-icon">&#9906;</span>
+      <input type="text" id="vocabSearch" placeholder="So'z qidirish...">
+    </div>
+    <div class="filter-row" id="vocabFilters"></div>
+    <div id="vocabList"></div>
+  </div>
+
+  <!-- SCREEN: Test -->
+  <div class="screen" id="screen-quiz">
+    <div class="progress-row">
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="progress-num" id="progressNum">1/10</div>
+    </div>
+    <div class="q-text" id="qText"></div>
+    <div id="optsWrap"></div>
+  </div>
+
+  <!-- SCREEN: Natija -->
+  <div class="screen" id="screen-result">
+    <div class="eyebrow">Natija</div>
+    <div class="score-big"><span id="resultScore">0</span><span class="score-of" id="resultOf">/10</span></div>
+    <div class="rank-badge" id="rankBadge">#1</div>
+    <div class="rank-label">Umumiy reytingdagi o'rningiz</div>
+    <div class="stat-row">
+      <div class="stat"><div class="stat-val" id="statCorrect">0</div><div class="stat-lbl">To'g'ri</div></div>
+      <div class="stat"><div class="stat-val" id="statWrong">0</div><div class="stat-lbl">Xato</div></div>
+      <div class="stat"><div class="stat-val" id="statPercent">0%</div><div class="stat-lbl">Natija</div></div>
+    </div>
+    <button class="btn-primary" id="viewLbFromResult" style="margin-top:22px;">Reytingni ko'rish</button>
+    <button class="btn-secondary" id="retryBtn">Qayta ishlash</button>
+  </div>
+
+  <!-- SCREEN: Reyting -->
+  <div class="screen" id="screen-leaderboard">
+    <div class="eyebrow">Reyting</div>
+    <h1 style="font-size:22px; margin-bottom:18px;">Eng yaxshi natijalar</h1>
+    <div id="lbList"></div>
+  </div>
+
+  <!-- SCREEN: Qoidalar -->
+  <div class="screen" id="screen-info">
+    <div class="eyebrow">Qoidalar</div>
+    <h1 style="font-size:22px; margin-bottom:18px;">Grammatika ma'lumotlari</h1>
+    <div id="infoList"></div>
+  </div>
+
+
+</div>
+
+<script>
+/* =========================================================
+   1) TEST SAVOLLARI
+   { q: "Savol matni", options: ["A","B","C","D"], correct: 0 }
+   ========================================================= */
+const QUESTIONS = [
+  { q: "Choose the correct form: She ___ to school every day.", options: ["go", "goes", "going", "gone"], correct: 1 },
+  { q: "What is the past tense of 'write'?", options: ["writed", "wrote", "written", "writing"], correct: 1 },
+  { q: "Choose the correct sentence.", options: ["I have 20 years old.", "I am 20 years old.", "I has 20 years old.", "I is 20 years old."], correct: 1 },
+  { q: "'Beautiful' is a/an ___.", options: ["noun", "verb", "adjective", "adverb"], correct: 2 },
+  { q: "Complete: If it rains, I ___ stay home.", options: ["will", "would", "am", "was"], correct: 0 },
+  { q: "Choose the synonym for 'happy'.", options: ["sad", "joyful", "angry", "tired"], correct: 1 },
+  { q: "Which word is a preposition?", options: ["quickly", "under", "beautiful", "run"], correct: 1 },
+  { q: "Choose the correct plural of 'child'.", options: ["childs", "childes", "children", "childrens"], correct: 2 },
+  { q: "'They ___ playing football now.' Fill the gap.", options: ["is", "am", "are", "be"], correct: 2 },
+  { q: "Choose the opposite of 'difficult'.", options: ["hard", "easy", "complex", "tough"], correct: 1 }
+];
+
+/* =========================================================
+   2) LUG'AT (SO'ZLAR RO'YXATI)
+   category: "verb" | "noun" | "adjective" | "phrase" va h.k.
+   ========================================================= */
+const VOCAB = [
+  { en: "happy", uz: "baxtli, xursand", category: "adjective", example: "She feels happy today." },
+  { en: "difficult", uz: "qiyin", category: "adjective", example: "This exercise is difficult." },
+  { en: "achieve", uz: "erishmoq", category: "verb", example: "He achieved his goal." },
+  { en: "improve", uz: "yaxshilamoq", category: "verb", example: "I want to improve my English." },
+  { en: "opportunity", uz: "imkoniyat", category: "noun", example: "This is a great opportunity." },
+  { en: "environment", uz: "atrof-muhit", category: "noun", example: "We must protect the environment." },
+  { en: "however", uz: "biroq, ammo", category: "phrase", example: "However, he decided to stay." },
+  { en: "in addition", uz: "qo'shimcha ravishda", category: "phrase", example: "In addition, she speaks French." },
+  { en: "curious", uz: "qiziquvchan", category: "adjective", example: "Children are naturally curious." },
+  { en: "decide", uz: "qaror qilmoq", category: "verb", example: "We need to decide today." },
+  { en: "knowledge", uz: "bilim", category: "noun", example: "Knowledge is power." },
+  { en: "as soon as", uz: "...dan so'ng darhol", category: "phrase", example: "Call me as soon as you arrive." }
+];
+
+/* =========================================================
+   3) QOIDALAR / GRAMMATIKA MA'LUMOTLARI
+   ========================================================= */
+const GRAMMAR = [
+  {
+    title: "Present Simple",
+    text: "Doimiy holat, odat yoki umumiy haqiqatlarni ifodalash uchun ishlatiladi. 3-shaxs birlikda fe'lga -s/-es qo'shiladi.",
+    example: "She works every day.\nThey play football on Sundays."
+  },
+  {
+    title: "Present Continuous",
+    text: "Hozirgi paytda sodir bo'layotgan harakatni bildiradi. am/is/are + fe'l-ing shaklida quriladi.",
+    example: "I am reading a book now.\nShe is cooking dinner."
+  },
+  {
+    title: "Past Simple",
+    text: "O'tgan zamonda tugallangan harakatni bildiradi. Muntazam fe'llarga -ed qo'shiladi, notog'ri fe'llar 2-shaklda ishlatiladi.",
+    example: "I visited my grandmother.\nHe went to school."
+  },
+  {
+    title: "Future Simple",
+    text: "Kelajakdagi harakat yoki qarorni bildiradi. will + fe'l shaklida quriladi.",
+    example: "I will call you tomorrow.\nThey will travel next year."
+  },
+  {
+    title: "Comparative & Superlative",
+    text: "Qisqa sifatlarga -er/-est, uzun sifatlarga more/most qo'shiladi.",
+    example: "big -> bigger -> biggest\nbeautiful -> more beautiful -> most beautiful"
+  }
+];
+
+/* =========================================================
+   FIREBASE ULANISHI (umumiy reyting shu orqali saqlanadi)
+   ========================================================= */
+const firebaseConfig = {
+  apiKey: "AIzaSyAEvrj_qZohqGIBt3JCzC4QQ0jLNbZc4js",
+  authDomain: "english-test-c7f57.firebaseapp.com",
+  databaseURL: "https://english-test-c7f57-default-rtdb.firebaseio.com",
+  projectId: "english-test-c7f57",
+  storageBucket: "english-test-c7f57.firebasestorage.app",
+  messagingSenderId: "809563193589",
+  appId: "1:809563193589:web:1a6578b812458c1d6d45bc"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+
+let currentUser = "";
+let currentIndex = 0;
+let score = 0;
+let answered = false;
+let vocabFilter = "all";
+
+const screens = {
+  name: document.getElementById('screen-name'),
+  vocab: document.getElementById('screen-vocab'),
+  quiz: document.getElementById('screen-quiz'),
+  result: document.getElementById('screen-result'),
+  leaderboard: document.getElementById('screen-leaderboard'),
+  info: document.getElementById('screen-info'),
+};
+const tabbar = document.getElementById('tabbar');
+const tabItems = document.querySelectorAll('.tab-item');
+
+function showScreen(name, opts){
+  opts = opts || {};
+  Object.values(screens).forEach(s => s.classList.remove('active'));
+  screens[name].classList.add('active');
+  const tabNames = ['vocab','quiz','leaderboard','info'];
+  if(tabNames.includes(name)){
+    tabbar.style.display = 'flex';
+    tabItems.forEach(t => t.classList.toggle('active', t.dataset.tab === name));
+  } else if(!opts.keepTabbar){
+    tabbar.style.display = 'none';
+  }
+}
+
+tabItems.forEach(btn => {
+  btn.addEventListener('click', async () => {
+    const tab = btn.dataset.tab;
+    showScreen(tab);
+    if(tab === 'quiz'){ currentIndex = 0; score = 0; renderQuestion(); }
+    if(tab === 'leaderboard'){ await renderLeaderboard(); }
+  });
+});
+
+// ---- Telegram WebApp init ----
+try{
+  if(window.Telegram && window.Telegram.WebApp){
+    Telegram.WebApp.ready();
+    Telegram.WebApp.expand();
+    const tgUser = Telegram.WebApp.initDataUnsafe?.user;
+    if(tgUser){
+      const fullName = [tgUser.first_name, tgUser.last_name].filter(Boolean).join(' ');
+      if(fullName) document.getElementById('nameInput').value = fullName;
+    }
+  }
+}catch(e){}
+
+// ---- Shaxsiy ism saqlash (faqat shu qurilmada, localStorage orqali) ----
+function saveLastName(name){
+  try{ localStorage.setItem('last-name', name); }catch(e){}
+}
+function getLastName(){
+  try{ return localStorage.getItem('last-name'); }catch(e){ return null; }
+}
+
+// ---- Start flow ----
+document.getElementById('startBtn').addEventListener('click', async () => {
+  const name = document.getElementById('nameInput').value.trim();
+  if(!name){
+    document.getElementById('nameInput').style.borderColor = 'var(--coral)';
+    return;
+  }
+  currentUser = name;
+  saveLastName(name);
+  renderVocab();
+  showScreen('vocab');
+});
+
+(() => {
+  const last = getLastName();
+  if(last) document.getElementById('nameInput').value = last;
+})();
+
+/* ============== VOCAB ============== */
+function renderVocabFilters(){
+  const cats = ["all", ...new Set(VOCAB.map(w => w.category))];
+  const labels = { all: "Hammasi", verb: "Fe'l", noun: "Ot", adjective: "Sifat", phrase: "Ibora" };
+  const wrap = document.getElementById('vocabFilters');
+  wrap.innerHTML = '';
+  cats.forEach(c => {
+    const chip = document.createElement('button');
+    chip.className = 'filter-chip' + (c === vocabFilter ? ' active' : '');
+    chip.textContent = labels[c] || c;
+    chip.addEventListener('click', () => { vocabFilter = c; renderVocab(); });
+    wrap.appendChild(chip);
+  });
+}
+
+function renderVocab(){
+  renderVocabFilters();
+  const query = (document.getElementById('vocabSearch').value || '').toLowerCase();
+  const list = document.getElementById('vocabList');
+  const filtered = VOCAB.filter(w => {
+    const matchCat = vocabFilter === 'all' || w.category === vocabFilter;
+    const matchQuery = w.en.toLowerCase().includes(query) || w.uz.toLowerCase().includes(query);
+    return matchCat && matchQuery;
+  });
+  list.innerHTML = '';
+  if(filtered.length === 0){
+    list.innerHTML = '<div class="empty">Hech narsa topilmadi.</div>';
+    return;
+  }
+  const catLabels = { verb: "Fe'l", noun: "Ot", adjective: "Sifat", phrase: "Ibora" };
+  filtered.forEach(w => {
+    const div = document.createElement('div');
+    div.className = 'word-card';
+    div.innerHTML = `
+      <div class="word-head">
+        <div class="word-en">${w.en}</div>
+        <div class="word-cat">${catLabels[w.category] || w.category}</div>
+      </div>
+      <div class="word-uz">${w.uz}</div>
+      <div class="word-ex">${w.example}</div>
+    `;
+    list.appendChild(div);
+  });
+}
+document.getElementById('vocabSearch').addEventListener('input', renderVocab);
+
+/* ============== QUIZ ============== */
+function renderQuestion(){
+  answered = false;
+  const q = QUESTIONS[currentIndex];
+  document.getElementById('qText').textContent = q.q;
+  document.getElementById('progressNum').textContent = `${currentIndex+1}/${QUESTIONS.length}`;
+  document.getElementById('progressFill').style.width = `${((currentIndex)/QUESTIONS.length)*100}%`;
+
+  const wrap = document.getElementById('optsWrap');
+  wrap.innerHTML = '';
+  const letters = ['A','B','C','D','E','F'];
+  q.options.forEach((opt, i) => {
+    const div = document.createElement('div');
+    div.className = 'opt';
+    div.innerHTML = `<div class="opt-letter">${letters[i]}</div><div>${opt}</div>`;
+    div.addEventListener('click', () => selectAnswer(i, div));
+    wrap.appendChild(div);
+  });
+}
+
+function selectAnswer(i, el){
+  if(answered) return;
+  answered = true;
+  const q = QUESTIONS[currentIndex];
+  const allOpts = document.querySelectorAll('#optsWrap .opt');
+
+  if(i === q.correct){ el.classList.add('correct'); score++; }
+  else{ el.classList.add('wrong'); allOpts[q.correct].classList.add('correct'); }
+
+  setTimeout(() => {
+    currentIndex++;
+    if(currentIndex < QUESTIONS.length){ renderQuestion(); }
+    else{ finishQuiz(); }
+  }, 700);
+}
+
+async function finishQuiz(){
+  document.getElementById('progressFill').style.width = '100%';
+  const percent = Math.round((score / QUESTIONS.length) * 100);
+  document.getElementById('resultScore').textContent = score;
+  document.getElementById('resultOf').textContent = `/${QUESTIONS.length}`;
+  document.getElementById('statCorrect').textContent = score;
+  document.getElementById('statWrong').textContent = QUESTIONS.length - score;
+  document.getElementById('statPercent').textContent = `${percent}%`;
+
+  const entry = { name: currentUser, score, total: QUESTIONS.length, percent, ts: Date.now() };
+  await saveScoreToFirebase(entry);
+
+  const rank = await computeRank(entry);
+  document.getElementById('rankBadge').textContent = `#${rank}`;
+
+  showScreen('result');
+}
+
+async function saveScoreToFirebase(entry){
+  try{
+    const safeKey = entry.name.replace(/[.#$\[\]\/]/g, '_') + '_' + entry.ts;
+    await db.ref('scores/' + safeKey).set(entry);
+  }catch(e){ console.error('firebase save failed', e); }
+}
+
+async function getAllScores(){
+  try{
+    const snap = await db.ref('scores').once('value');
+    const val = snap.val() || {};
+    return Object.values(val);
+  }catch(e){ console.error('leaderboard fetch failed', e); return []; }
+}
+
+async function computeRank(myEntry){
+  const all = await getAllScores();
+  const best = {};
+  all.forEach(e => { if(!best[e.name] || e.percent > best[e.name].percent) best[e.name] = e; });
+  const list = Object.values(best).sort((a,b) => b.percent - a.percent || a.ts - b.ts);
+  const idx = list.findIndex(e => e.name === myEntry.name && e.ts === myEntry.ts);
+  return idx >= 0 ? idx + 1 : list.length;
+}
+
+async function renderLeaderboard(){
+  const lbList = document.getElementById('lbList');
+  lbList.innerHTML = '<div class="loading">Yuklanmoqda...</div>';
+
+  const all = await getAllScores();
+  const best = {};
+  all.forEach(e => { if(!best[e.name] || e.percent > best[e.name].percent) best[e.name] = e; });
+  const list = Object.values(best).sort((a,b) => b.percent - a.percent || a.ts - b.ts);
+
+  if(list.length === 0){
+    lbList.innerHTML = '<div class="empty">Hozircha hech kim test ishlamagan.<br>Birinchi bo\'ling!</div>';
+    return;
+  }
+  lbList.innerHTML = '';
+  list.slice(0, 50).forEach((e, i) => {
+    const row = document.createElement('div');
+    row.className = 'lb-row' + (e.name === currentUser ? ' me' : '');
+    row.innerHTML = `
+      <div class="lb-pos">${i+1}</div>
+      <div class="lb-name">${e.name}</div>
+      <div class="lb-score">${e.score}/${e.total} · ${e.percent}%</div>
+    `;
+    lbList.appendChild(row);
+  });
+}
+
+/* ============== INFO / GRAMMAR ============== */
+function renderInfo(){
+  const list = document.getElementById('infoList');
+  list.innerHTML = '';
+  GRAMMAR.forEach(g => {
+    const div = document.createElement('div');
+    div.className = 'rule-card';
+    div.innerHTML = `
+      <div class="rule-title">${g.title}</div>
+      <div class="rule-text">${g.text}</div>
+      <div class="rule-ex">${g.example.replace(/\n/g, '<br>')}</div>
+    `;
+    list.appendChild(div);
+  });
+}
+renderInfo();
+
+/* ============== NAV BUTTONS ============== */
+document.getElementById('viewLbFromResult').addEventListener('click', async () => {
+  showScreen('leaderboard');
+  await renderLeaderboard();
+});
+document.getElementById('retryBtn').addEventListener('click', () => {
+  currentIndex = 0; score = 0;
+  showScreen('quiz');
+  renderQuestion();
+});
+</script>
+</body>
+</html>
