@@ -1,0 +1,2218 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>English Test</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+<style>
+  :root{
+    --ink:#14152B;
+    --ink-soft: rgba(42,32,58,0.55);
+    --paper:#F7F4EC;
+    --gold:#FFD23F;
+    --coral:#FF5A7A;
+    --mint:#3DDC97;
+    --violet:#8B5CF6;
+    --blue:#2E5EAA;
+    --royalred:#D7263D;
+    --royalblue:#274C9E;
+    --line: rgba(255,255,255,0.16);
+    --glass: rgba(42,32,58,0.55);
+  }
+  .card, .stat, .opt, .rule-card, .xp-strip, .flip-face, .profile-stat-card,
+  .activity-row, .lb-row, .filter-chip, .avatar-circle, .podium-avatar,
+  .level-card, .word-card{
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: linear-gradient(160deg, #241536 0%, #171233 40%, #14152B 100%);
+    color: var(--paper);
+    min-height: 100vh;
+    display:flex;
+    justify-content:center;
+    overflow-x:hidden;
+  }
+  #app{
+    width:100%;
+    max-width:480px;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    padding: 20px 18px 40px;
+    position:relative;
+    z-index:1;
+  }
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    letter-spacing: 0.18em;
+    text-transform:uppercase;
+    font-size:11px;
+    color: var(--gold);
+    margin-bottom:6px;
+  }
+  h1{
+    font-family: 'Space Grotesk','Inter',sans-serif;
+    font-weight:700;
+    font-size:26px;
+    letter-spacing:-0.01em;
+    margin-bottom:8px;
+  }
+  .sub{
+    color: rgba(247,244,236,0.65);
+    font-size:14.5px;
+    line-height:1.5;
+    margin-bottom:24px;
+  }
+  .screen{ display:none; flex-direction:column; flex:1; animation: fade .3s ease; }
+  .screen.active{ display:flex; }
+  @keyframes fade{ from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);} }
+
+  input[type=text]{
+    width:100%;
+    padding:14px 16px;
+    border-radius:12px;
+    border:1px solid var(--line);
+    background: var(--ink-soft);
+    color: var(--paper);
+    font-size:16px;
+    font-family:inherit;
+    margin-bottom:14px;
+  }
+  input[type=text]::placeholder{ color: rgba(247,244,236,0.4); }
+  input[type=text]:focus{ outline:none; border-color: var(--gold); }
+
+  button{ font-family:inherit; cursor:pointer; border:none; }
+  .btn-primary{
+    background: var(--gold); color: var(--ink); font-weight:700; font-size:15.5px;
+    padding:15px 20px; border-radius:12px; width:100%;
+    transition: transform .15s ease, opacity .15s ease;
+    box-shadow: 0 10px 24px rgba(242,183,5,0.18);
+  }
+  .btn-primary:active{ transform: scale(0.98); }
+  .btn-secondary{
+    background: transparent; color: var(--paper); border:1px solid var(--line) !important;
+    font-size:14.5px; padding:13px 18px; border-radius:12px; width:100%; margin-top:10px;
+  }
+
+  .progress-row{ display:flex; align-items:center; gap:10px; margin-bottom:22px; }
+  .progress-track{ flex:1; height:6px; background: rgba(247,244,236,0.12); border-radius:99px; overflow:hidden; }
+  .progress-fill{ height:100%; background: var(--gold); border-radius:99px; transition: width .3s ease; }
+  .progress-num{ font-family:'IBM Plex Mono', monospace; font-size:12.5px; color: rgba(247,244,236,0.6); white-space:nowrap; }
+
+  .q-text{ font-family:'Space Grotesk','Inter',sans-serif; font-size:20px; font-weight:600; line-height:1.4; margin-bottom:22px; }
+  .opt{
+    display:flex; align-items:center; gap:12px; padding:15px 16px; border-radius:12px;
+    border:1px solid var(--line); background: var(--ink-soft); margin-bottom:10px; font-size:15px;
+    transition: border-color .15s ease, background .15s ease;
+  }
+  .opt-letter{
+    font-family:'IBM Plex Mono', monospace; font-size:12px; width:24px; height:24px; border-radius:50%;
+    border:1px solid rgba(247,244,236,0.3); display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  }
+  .opt.correct{ border-color: var(--mint); background: rgba(61,220,151,0.12); animation: popIn .35s ease; }
+  .opt.wrong{ border-color: var(--coral); background: rgba(255,107,107,0.12); animation: shakeX .45s ease; }
+  .opt.correct .opt-letter{ background: var(--mint); color: var(--ink); border-color:var(--mint); }
+  .opt.wrong .opt-letter{ background: var(--coral); color: var(--ink); border-color:var(--coral); }
+  @keyframes shakeX{ 10%,90%{transform:translateX(-2px);} 20%,80%{transform:translateX(4px);} 30%,50%,70%{transform:translateX(-9px);} 40%,60%{transform:translateX(9px);} }
+  @keyframes popIn{ 0%{transform:scale(0.85);} 50%{transform:scale(1.06);} 100%{transform:scale(1);} }
+
+  .rank-badge{ font-family:'IBM Plex Mono', monospace; font-size:56px; font-weight:700; color: var(--gold); line-height:1; margin: 6px 0 2px; }
+  .rank-label{ font-size:13px; color: rgba(247,244,236,0.55); letter-spacing:0.08em; text-transform:uppercase; margin-bottom:24px; }
+  .score-big{ font-family:'Space Grotesk','Inter',sans-serif; font-size:40px; font-weight:700; }
+  .score-of{ color: rgba(247,244,236,0.5); font-size:20px; }
+  .stat-row{ display:flex; gap:10px; margin: 18px 0 6px; }
+  .stat{ flex:1; background: var(--ink-soft); border:1px solid var(--line); border-radius:12px; padding:14px; text-align:center; }
+  .stat-val{ font-family:'IBM Plex Mono', monospace; font-size:20px; font-weight:700; }
+  .stat-lbl{ font-size:11px; color: rgba(247,244,236,0.5); margin-top:4px; text-transform:uppercase; letter-spacing:0.05em; }
+
+  .empty{ text-align:center; padding: 40px 10px; color: rgba(247,244,236,0.5); font-size:14px; }
+  .loading{ display:flex; align-items:center; justify-content:center; flex:1; color: rgba(247,244,236,0.5); font-size:14px; }
+
+  .search-row{ position:relative; margin-bottom:16px; }
+  .search-row input{ padding-left:40px; margin-bottom:0; }
+  .search-icon{ position:absolute; left:14px; top:50%; transform:translateY(-50%); color: rgba(247,244,236,0.4); font-size:15px; }
+
+  .filter-row{ display:flex; gap:6px; margin-bottom:16px; overflow-x:auto; padding-bottom:2px; }
+  .filter-chip{
+    font-size:12px; font-weight:600; padding:7px 13px; border-radius:99px;
+    background: var(--ink-soft); border:1px solid var(--line); color: rgba(247,244,236,0.6);
+    white-space:nowrap; flex-shrink:0;
+  }
+  .filter-chip.active{ background: var(--gold); color: var(--ink); border-color: var(--gold); }
+
+  .rule-card{ cursor:pointer; background: var(--ink-soft); border:1px solid var(--line); border-radius:14px; padding:16px; margin-bottom:12px; }
+  .rule-head{ display:flex; align-items:center; justify-content:space-between; }
+  .rule-title{ font-family:'Space Grotesk','Inter',sans-serif; font-size:16px; font-weight:600; color: var(--gold); }
+  .rule-chevron{ font-size:13px; color: var(--gold); transition: transform .25s ease; flex-shrink:0; margin-left:8px; }
+  .rule-card.open .rule-chevron{ transform: rotate(180deg); }
+  .rule-body{ max-height:0; overflow:hidden; transition: max-height .3s ease, margin-top .3s ease; }
+  .rule-card.open .rule-body{ max-height:220px; margin-top:10px; }
+  .unit-badge{
+    font-family:'IBM Plex Mono', monospace; font-size:10.5px; font-weight:700;
+    color: var(--gold); background: rgba(255,210,63,0.12); border:1px solid rgba(255,210,63,0.3);
+    border-radius:7px; min-width:24px; height:22px; display:flex; align-items:center; justify-content:center;
+    flex-shrink:0; padding:0 5px;
+  }
+  .rule-text{ font-size:13.5px; color: rgba(247,244,236,0.75); line-height:1.55; margin-bottom:8px; }
+  .rule-ex{ font-size:12.5px; color: rgba(247,244,236,0.45); font-family:'IBM Plex Mono', monospace; line-height:1.6; }
+
+  /* ================= TAB BAR ================= */
+  .tabbar{ display:flex; gap:4px; background: var(--ink); border-bottom:1px solid var(--line); padding: 0 0 12px; margin-bottom:18px; }
+  .tab-item{ flex:1; display:flex; flex-direction:column; align-items:center; gap:3px; padding:7px 2px; border-radius:12px; background:transparent; color: rgba(247,244,236,0.5); }
+  .tab-item.active{ background: var(--gold); color: var(--ink); }
+  .tab-icon{ font-size:15px; line-height:1; }
+  .tab-lbl{ font-size:8.5px; font-weight:600; }
+
+  /* ================= BACKGROUND ================= */
+  .bg-fx{ position:fixed; inset:0; overflow:hidden; z-index:0; pointer-events:none; }
+  .bg-fx span{
+    position:absolute; bottom:-60px; font-family:'Space Grotesk','Inter',sans-serif; font-weight:700;
+    color: rgba(255,255,255,0.05); animation: floatUp linear infinite; white-space:nowrap;
+  }
+  @keyframes floatUp{ 0%{transform:translateY(0) rotate(0deg); opacity:0;} 10%{opacity:1;} 90%{opacity:1;} 100%{transform:translateY(-115vh) rotate(25deg); opacity:0;} }
+  .glow-blob{ position:fixed; border-radius:50%; filter: blur(60px); pointer-events:none; z-index:0; animation: blobDrift 20s ease-in-out infinite; }
+  @keyframes blobDrift{ 0%,100%{ transform: translate(0,0) scale(1);} 50%{ transform: translate(24px,-34px) scale(1.18);} }
+
+  .bg-shapes{ position:fixed; inset:0; overflow:hidden; z-index:0; pointer-events:none; }
+  .bg-shape{ position:absolute; bottom:-80px; animation: shapeFloat linear infinite; opacity:0.5; }
+  @keyframes shapeFloat{
+    0%{ transform: translateY(0) rotate(0deg); opacity:0; }
+    12%{ opacity:0.5; }
+    88%{ opacity:0.5; }
+    100%{ transform: translateY(-118vh) rotate(340deg); opacity:0; }
+  }
+  .shape-circle{ border-radius:50%; }
+  .shape-triangle{ width:0; height:0; border-style:solid; }
+
+  .bigben-fx{ position:fixed; left:0; right:0; bottom:0; width:100%; max-width:480px; margin:0 auto; height:200px; z-index:0; pointer-events:none; opacity:0.15; }
+
+  /* ================= FX LAYER ================= */
+  #fxLayer{ position:fixed; inset:0; z-index:9999; pointer-events:none; overflow:hidden; }
+  .confetti-piece{ position:absolute; width:7px; height:7px; border-radius:2px; animation: confettiFall .9s ease-out forwards; }
+  @keyframes confettiFall{ 0%{transform:translate(0,0) rotate(0deg); opacity:1;} 100%{transform:var(--ct) rotate(var(--cr)); opacity:0;} }
+  .toast{
+    position:fixed; top:18px; left:50%; transform:translateX(-50%) translateY(-20px);
+    background: var(--gold); color: var(--ink); font-weight:700; font-size:13px; padding:10px 18px; border-radius:99px;
+    white-space:nowrap; opacity:0; transition: opacity .25s ease, transform .25s ease; z-index:10000; box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  }
+  .toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+
+  /* ================= XP STRIP ================= */
+  .xp-strip{ display:flex; align-items:center; gap:10px; background: var(--ink-soft); border:1px solid var(--line); border-radius:14px; padding:10px 14px; margin-bottom:16px; }
+  .xp-level-badge{ font-family:'IBM Plex Mono', monospace; font-size:11px; font-weight:700; color: var(--ink); background: var(--gold); border-radius:8px; padding:5px 8px; flex-shrink:0; }
+  .xp-info{ flex:1; min-width:0; }
+  .xp-title{ font-size:12px; font-weight:600; color: var(--paper); margin-bottom:4px; }
+  .xp-track{ height:5px; background: rgba(247,244,236,0.12); border-radius:99px; overflow:hidden; }
+  .xp-fill{ height:100%; background: linear-gradient(90deg, var(--gold), var(--mint)); border-radius:99px; transition: width .4s ease; }
+  .xp-num{ font-family:'IBM Plex Mono', monospace; font-size:10px; color: rgba(247,244,236,0.5); flex-shrink:0; }
+
+  .levelup-overlay{
+    position:fixed; inset:0; background: rgba(10,12,26,0.85); display:flex; align-items:center; justify-content:center;
+    z-index:10001; opacity:0; pointer-events:none; transition: opacity .3s ease;
+  }
+  .levelup-overlay.show{ opacity:1; pointer-events:auto; }
+  .levelup-card{
+    background: var(--ink-soft); border:1px solid var(--gold); border-radius:20px; padding:32px 28px; text-align:center;
+    transform: scale(0.8); transition: transform .3s ease; box-shadow: 0 0 60px rgba(242,183,5,0.25);
+  }
+  .levelup-overlay.show .levelup-card{ transform: scale(1); }
+  .levelup-emoji{ font-size:48px; margin-bottom:10px; }
+  .levelup-title{ font-family:'Space Grotesk','Inter',sans-serif; font-size:22px; font-weight:700; color: var(--gold); margin-bottom:6px; }
+  .levelup-sub{ font-size:13px; color: rgba(247,244,236,0.7); margin-bottom:18px; }
+
+  /* ================= FLASHCARD ================= */
+  .flip-card{ perspective:1200px; margin-bottom:12px; cursor:pointer; }
+  .flip-inner{ position:relative; min-height:92px; transition: transform .5s cubic-bezier(.4,.2,.2,1); transform-style: preserve-3d; }
+  .flip-card.flipped .flip-inner{ transform: rotateY(180deg); }
+  .flip-face{ background: var(--ink-soft); border:1px solid var(--line); border-radius:14px; padding:14px 16px; backface-visibility:hidden; }
+  .flip-front{ display:flex; flex-direction:column; justify-content:center; min-height:92px; }
+  .flip-back{ position:absolute; inset:0; transform: rotateY(180deg); display:flex; flex-direction:column; justify-content:center; border-color: var(--gold); }
+  .flip-hint{ font-size:10px; color: rgba(247,244,236,0.35); margin-top:6px; font-style:italic; }
+  .word-head{ display:flex; align-items:baseline; justify-content:space-between; margin-bottom:4px; }
+  .word-en{ font-family:'Space Grotesk','Inter',sans-serif; font-size:17px; font-weight:600; }
+  .word-cat{ font-family:'IBM Plex Mono', monospace; font-size:10px; color: var(--gold); text-transform:uppercase; letter-spacing:0.06em; }
+  .word-ex{ font-size:12.5px; color: rgba(247,244,236,0.45); font-style:italic; line-height:1.4; }
+
+  /* ================= MASCOT ================= */
+  #mascotMane{ transform-origin: 60px 60px; animation: maneBreathe 3s ease-in-out infinite; }
+  @keyframes maneBreathe{ 0%,100%{ transform: scale(1) rotate(0deg);} 50%{ transform: scale(1.04) rotate(3deg);} }
+  #mascotTail{ animation: tailWag 1.6s ease-in-out infinite; }
+  @keyframes tailWag{ 0%,100%{ transform: rotate(0deg);} 50%{ transform: rotate(-14deg);} }
+  #mascotEyes{ animation: eyeBlink 4.5s ease-in-out infinite; transform-origin: 60px 58px; }
+  @keyframes eyeBlink{ 0%,92%,100%{ transform: scaleY(1);} 95%{ transform: scaleY(0.1);} }
+
+  .mascot-wrap.mood-happy .mascot-body{ animation: mascotHappy .6s ease; }
+  .mascot-wrap.mood-happy #mascotMane{ animation: maneShake .5s ease 2; }
+  .mascot-wrap.mood-happy #mascotTail{ animation: tailWagFast .3s ease-in-out 3; }
+  @keyframes mascotHappy{ 0%,100%{transform:scale(1) rotate(0);} 30%{transform:scale(1.18) rotate(-8deg);} 60%{transform:scale(1.12) rotate(8deg);} }
+  @keyframes maneShake{ 0%,100%{transform:rotate(0deg) scale(1);} 50%{transform:rotate(10deg) scale(1.08);} }
+  @keyframes tailWagFast{ 0%,100%{transform:rotate(0deg);} 50%{transform:rotate(-24deg);} }
+
+  .mascot-wrap.mood-sad .mascot-body{ animation: mascotSad .6s ease; }
+  .mascot-wrap.mood-sad #mascotMane{ animation: maneDroop .5s ease forwards; }
+  @keyframes mascotSad{ 0%,100%{transform:rotate(0);} 30%{transform:rotate(-10deg) translateY(3px);} 60%{transform:rotate(10deg) translateY(3px);} }
+  @keyframes maneDroop{ to{ transform: scale(0.94) rotate(-4deg);} }
+  .mascot-wrap.mood-sad #mascotTear{ animation: tearFall 1s ease forwards; }
+  @keyframes tearFall{ 0%{ opacity:0; transform:translateY(0);} 20%{opacity:1;} 100%{ opacity:0; transform:translateY(18px);} }
+
+  .sparkle{ position:fixed; z-index:6; pointer-events:none; font-size:14px; animation: sparklePop .7s ease forwards; }
+  @keyframes sparklePop{ 0%{ transform:scale(0) translateY(0); opacity:1;} 60%{ transform:scale(1.3) translateY(-18px); opacity:1;} 100%{ transform:scale(0.4) translateY(-30px); opacity:0;} }
+
+  /* ============ BOSH SAHIFA ============ */
+  .home-stat-grid{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .home-stat{ background: var(--ink-soft); border:1px solid var(--line); border-radius:16px; padding:14px; backdrop-filter: blur(14px); }
+  .home-stat-icon{ font-size:17px; margin-bottom:6px; }
+  .home-stat-val{ font-family:'Space Grotesk','Inter',sans-serif; font-size:24px; font-weight:700; }
+  .home-stat-lbl{ font-size:11px; color: rgba(247,244,236,0.5); margin-top:2px; }
+  .chart-box{
+    background: var(--ink-soft); border:1px solid var(--line); border-radius:16px; padding:16px 14px 10px;
+    display:flex; align-items:flex-end; justify-content:space-between; gap:5px; height:120px; backdrop-filter: blur(14px);
+  }
+  .chart-bar-wrap{ flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; height:100%; }
+  .chart-bar{ width:100%; max-width:22px; border-radius:5px 5px 0 0; background: linear-gradient(180deg, var(--gold), #C9931A); transition: height .4s ease; }
+  .chart-bar-lbl{ font-size:8.5px; color: rgba(247,244,236,0.4); margin-top:4px; font-family:'IBM Plex Mono', monospace; }
+
+  /* ============ TEST TANLASH ============ */
+  .quizset-card{
+    display:flex; align-items:center; gap:14px; background: var(--ink-soft); border:1px solid var(--line);
+    border-radius:16px; padding:16px; margin-bottom:12px; cursor:pointer; backdrop-filter: blur(14px);
+    transition: border-color .15s ease, transform .15s ease;
+  }
+  .quizset-card:active{ transform: scale(0.98); }
+  .quizset-card.locked{ opacity:0.5; }
+  .quizset-card.locked .quizset-count{ color: rgba(247,244,236,0.45); }
+  .quizset-icon{ width:46px; height:46px; border-radius:13px; display:flex; align-items:center; justify-content:center; font-size:22px; background: rgba(255,210,63,0.12); flex-shrink:0; }
+  .quizset-body{ flex:1; min-width:0; }
+  .quizset-title{ font-family:'Space Grotesk','Inter',sans-serif; font-size:15.5px; font-weight:600; margin-bottom:3px; }
+  .quizset-desc{ font-size:12.5px; color: rgba(247,244,236,0.55); }
+  .quizset-count{ font-family:'IBM Plex Mono', monospace; font-size:11px; color: var(--gold); flex-shrink:0; }
+
+  /* ============ QUIZ TOPBAR / NAV ============ */
+  .quiz-topbar{ display:flex; align-items:center; gap:10px; margin-bottom:14px; }
+  .quiz-back, .quiz-grid-btn{
+    width:34px; height:34px; border-radius:10px; background: var(--ink-soft); border:1px solid var(--line);
+    color: var(--paper); font-size:15px; display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  }
+  .quiz-title{ flex:1; font-family:'Space Grotesk','Inter',sans-serif; font-size:15px; font-weight:600; text-align:center; }
+  .quiz-nav{ display:flex; gap:8px; margin-top:16px; }
+  .quiz-nav-btn{ flex:1; }
+  .quiz-nav-btn:disabled{ opacity:0.35; }
+  .opt.selected{ border-color: var(--gold); background: rgba(255,210,63,0.12); }
+  .opt.selected .opt-letter{ background: var(--gold); color: var(--ink); border-color: var(--gold); }
+
+  /* ============ SAVOLLAR TO'RI ============ */
+  .qgrid-overlay{
+    position:fixed; inset:0; background: rgba(10,12,26,0.7); z-index:10002;
+    display:flex; align-items:flex-end; justify-content:center;
+    opacity:0; pointer-events:none; transition: opacity .25s ease;
+  }
+  .qgrid-overlay.show{ opacity:1; pointer-events:auto; }
+  .qgrid-sheet{
+    width:100%; max-width:480px; background:#231A3D; border:1px solid var(--line);
+    border-radius:22px 22px 0 0; padding:20px 18px calc(24px + env(safe-area-inset-bottom));
+    transform: translateY(24px); transition: transform .25s ease;
+    max-height:85vh; display:flex; flex-direction:column;
+  }
+  .qgrid-overlay.show .qgrid-sheet{ transform: translateY(0); }
+  .qgrid-head{ display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:16px; flex-shrink:0; }
+  .qgrid-title{ font-family:'Space Grotesk','Inter',sans-serif; font-size:19px; font-weight:700; }
+  .qgrid-sub{ font-size:12.5px; color: rgba(247,244,236,0.55); margin-top:3px; }
+  .qgrid-close{ width:32px; height:32px; border-radius:50%; background: rgba(255,255,255,0.08); color: var(--paper); font-size:13px; flex-shrink:0; }
+  .qgrid-wrap{
+    display:grid; grid-template-columns: repeat(5, 1fr); gap:9px;
+    overflow-y:auto; flex:1; min-height:0; padding-right:2px;
+  }
+  .qgrid-cell{
+    aspect-ratio:1; border-radius:12px; background: rgba(255,255,255,0.06); border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center; font-family:'IBM Plex Mono', monospace;
+    font-size:15px; font-weight:700; color: var(--paper); cursor:pointer;
+  }
+  .qgrid-cell.answered{ background: rgba(61,220,151,0.18); border-color: var(--mint); color: var(--mint); }
+  .qgrid-cell.current{ background: var(--gold); border-color: var(--gold); color: var(--ink); }
+
+  /* ============ TOG'GA CHIQISH ============ */
+  .climb-track{
+    position:fixed; right:2px; top:120px;
+    height:190px; width:26px; display:flex; flex-direction:column; align-items:center; justify-content:space-between;
+    z-index:4; pointer-events:none; opacity:0.9;
+  }
+  .climb-line{
+    position:absolute; top:18px; bottom:18px; width:3px; left:50%; margin-left:-1.5px;
+    background: linear-gradient(180deg, var(--gold), rgba(255,255,255,0.12));
+    border-radius:99px;
+  }
+  .climb-flag{ font-size:14px; z-index:1; }
+  .climb-base{ font-size:14px; z-index:1; }
+  .climb-hero{
+    position:absolute; left:50%; margin-left:-9px; font-size:18px; z-index:2;
+    bottom:16px; transition: bottom .5s cubic-bezier(.34,1.4,.5,1);
+  }
+  .climb-hero.jump{ animation: heroJump .5s ease; }
+  @keyframes heroJump{ 0%,100%{ transform:scale(1);} 40%{ transform:scale(1.35) rotate(-12deg);} }
+
+  /* ============ LUG'AT: EMOJI + TALAFFUZ ============ */
+  .word-emoji{ font-size:26px; margin-bottom:6px; }
+  .speak-btn{
+    width:30px; height:30px; border-radius:50%; background: rgba(255,210,63,0.14); border:1px solid rgba(255,210,63,0.35);
+    color: var(--gold); font-size:13px; display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  }
+  .speak-btn:active{ transform: scale(0.9); }
+
+  /* ============ MASKOT: YASHIRIN ============ */
+  .mascot-wrap{
+    position:fixed; right:10px; bottom:-130px; z-index:7; pointer-events:none;
+    transition: bottom .45s cubic-bezier(.34,1.4,.5,1);
+  }
+  .mascot-wrap.peek{ bottom:-14px; }
+  .mascot-body{ width:118px; height:118px; }
+  .mascot-bubble{
+    position:absolute; right:104px; bottom:74px; white-space:nowrap;
+    background: var(--gold); color: var(--ink); font-size:12px; font-weight:700;
+    padding:7px 13px; border-radius:14px 14px 0 14px;
+    opacity:0; transform: translateY(6px); transition: opacity .25s ease, transform .25s ease;
+  }
+  .mascot-wrap.peek .mascot-bubble{ opacity:1; transform: translateY(0); }
+
+  /* ================= YUTUQLAR (ACHIEVEMENTS) ================= */
+  .ach-grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap:14px; margin-top:8px; }
+  .ach-item{ display:flex; flex-direction:column; align-items:center; text-align:center; }
+  .ach-circle{
+    width:66px; height:66px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+    font-size:26px; background: var(--ink-soft); border:2px solid var(--line); margin-bottom:8px; position:relative;
+    filter: grayscale(1); opacity:0.45; transition: all .3s ease;
+  }
+  .ach-item.unlocked .ach-circle{ filter:none; opacity:1; border-color: var(--gold); box-shadow: 0 0 18px rgba(242,183,5,0.35); background: rgba(242,183,5,0.1); }
+  .ach-name{ font-size:11px; font-weight:600; }
+  .ach-progress{ font-size:9.5px; color: rgba(247,244,236,0.45); margin-top:2px; font-family:'IBM Plex Mono', monospace; }
+
+  /* ================= PROFILE ================= */
+  .profile-head{ display:flex; flex-direction:column; align-items:center; margin-bottom:20px; }
+  .avatar-wrap{ position:relative; margin-bottom:12px; }
+  .avatar-circle{
+    width:84px; height:84px; border-radius:50%; background: var(--ink-soft); border:3px solid var(--gold);
+    display:flex; align-items:center; justify-content:center; font-size:30px; font-weight:700; color: var(--gold);
+    overflow:hidden; font-family:'Space Grotesk','Inter',sans-serif;
+  }
+  .avatar-circle img{ width:100%; height:100%; object-fit:cover; }
+  .avatar-edit{
+    position:absolute; bottom:-2px; right:-2px; width:26px; height:26px; border-radius:50%;
+    background: var(--gold); color: var(--ink); display:flex; align-items:center; justify-content:center; font-size:12px;
+    border:2px solid var(--ink); cursor:pointer;
+  }
+  .profile-name{ font-family:'Space Grotesk','Inter',sans-serif; font-size:19px; font-weight:700; margin-bottom:4px; }
+  .profile-rank-chip{ font-size:11px; color: var(--gold); background: rgba(242,183,5,0.1); border:1px solid rgba(242,183,5,0.3); border-radius:99px; padding:4px 12px; }
+
+  .profile-stat-grid{ display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:20px; }
+  .profile-stat-card{ background: var(--ink-soft); border:1px solid var(--line); border-radius:14px; padding:14px; }
+  .profile-stat-icon{ font-size:16px; margin-bottom:6px; }
+  .profile-stat-val{ font-family:'Space Grotesk','Inter',sans-serif; font-size:20px; font-weight:700; }
+  .profile-stat-lbl{ font-size:11px; color: rgba(247,244,236,0.5); }
+
+  .section-label{ font-size:13px; font-weight:700; margin: 4px 0 12px; display:flex; align-items:center; justify-content:space-between; }
+
+  .activity-row{ display:flex; align-items:center; gap:12px; background: var(--ink-soft); border:1px solid var(--line); border-radius:12px; padding:12px 14px; margin-bottom:8px; }
+  .activity-icon{ width:34px; height:34px; border-radius:10px; background: rgba(242,183,5,0.12); display:flex; align-items:center; justify-content:center; font-size:15px; flex-shrink:0; }
+  .activity-body{ flex:1; min-width:0; }
+  .activity-title{ font-size:13px; font-weight:600; }
+  .activity-time{ font-size:11px; color: rgba(247,244,236,0.45); }
+  .activity-score{ font-family:'IBM Plex Mono', monospace; font-size:12px; color: var(--gold); flex-shrink:0; }
+
+  /* ================= PODIUM LEADERBOARD ================= */
+  .me-row{
+    display:flex; align-items:center; gap:12px; background: rgba(242,183,5,0.1); border:1px solid var(--gold);
+    border-radius:14px; padding:12px 14px; margin-bottom:18px;
+  }
+  .me-pos{ font-family:'IBM Plex Mono', monospace; font-weight:700; font-size:16px; color: var(--gold); width:30px; }
+  .me-name{ flex:1; font-size:13.5px; font-weight:600; }
+  .me-chip{ font-size:9px; font-weight:700; background: var(--gold); color: var(--ink); border-radius:99px; padding:2px 8px; margin-left:6px; }
+  .me-score{ font-family:'IBM Plex Mono', monospace; font-size:13px; color: var(--gold); }
+
+  .podium-wrap{ position:relative; display:flex; align-items:flex-end; justify-content:center; gap:12px; margin-bottom:26px; padding-top:34px; }
+  .spotlight{
+    position:absolute; top:-24px; left:50%; transform:translateX(-50%);
+    width:220px; height:260px;
+    background: conic-gradient(from 200deg at 50% 0%, transparent 0deg, rgba(255,210,63,0.35) 20deg, transparent 40deg);
+    filter: blur(6px);
+    animation: spotlightPulse 2.4s ease-in-out infinite;
+    pointer-events:none;
+  }
+  @keyframes spotlightPulse{ 0%,100%{ opacity:0.5;} 50%{ opacity:1;} }
+  .podium-slot{ position:relative; display:flex; flex-direction:column; align-items:center; width:112px; }
+  .podium-avatar{
+    width:60px; height:60px; border-radius:50%; background: var(--ink-soft); border:3px solid var(--line);
+    display:flex; align-items:center; justify-content:center; font-size:22px; font-weight:700; margin-bottom:8px; position:relative;
+  }
+  .podium-slot.first .podium-avatar{
+    width:84px; height:84px; border-color: var(--gold); font-size:30px;
+    box-shadow: 0 0 0 4px rgba(255,210,63,0.2), 0 0 26px rgba(255,210,63,0.55);
+    animation: avatarGlow 1.8s ease-in-out infinite;
+  }
+  @keyframes avatarGlow{ 0%,100%{ box-shadow: 0 0 0 4px rgba(255,210,63,0.2), 0 0 26px rgba(255,210,63,0.55);} 50%{ box-shadow: 0 0 0 8px rgba(255,210,63,0.32), 0 0 46px rgba(255,210,63,0.85);} }
+  .podium-crown{ position:absolute; top:-28px; font-size:26px; animation: crownBob 1.6s ease-in-out infinite; }
+  @keyframes crownBob{ 0%,100%{ transform: translateY(0) rotate(-6deg);} 50%{ transform: translateY(-4px) rotate(6deg);} }
+  .podium-name{ font-size:12.5px; font-weight:600; text-align:center; margin-bottom:2px; max-width:106px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .podium-score{ font-family:'IBM Plex Mono', monospace; font-size:12px; color: var(--gold); margin-bottom:5px; }
+  .podium-ribbon{
+    font-size:9.5px; font-weight:700; color: var(--ink); background: var(--gold);
+    border-radius:99px; padding:3px 11px; margin-bottom:7px; letter-spacing:0.03em;
+  }
+  .podium-bar{
+    width:100%; border-radius:12px 12px 0 0; display:flex; align-items:flex-start; justify-content:center;
+    padding-top:8px; font-family:'IBM Plex Mono', monospace; font-weight:700; font-size:15px; position:relative; overflow:hidden;
+  }
+  .podium-slot.first .podium-bar{ height:112px; background: linear-gradient(180deg, #FFD23F, #C9931A); color:var(--ink); box-shadow: 0 -8px 36px rgba(255,210,63,0.4); }
+  .podium-slot.second .podium-bar{ height:78px; background: linear-gradient(180deg, #B9C0E8, #7A81B3); color:var(--ink); }
+  .podium-slot.third .podium-bar{ height:58px; background: linear-gradient(180deg, #F2B27A, #B06A34); color:var(--ink); }
+  .podium-confetti{ position:absolute; font-size:13px; animation: confettiTwinkle 2s ease-in-out infinite; pointer-events:none; }
+  @keyframes confettiTwinkle{ 0%,100%{ opacity:0.2; transform:translateY(0) rotate(0deg);} 50%{ opacity:1; transform:translateY(-6px) rotate(20deg);} }
+
+  .lb-row{ display:flex; align-items:center; gap:12px; padding:13px 14px; border-radius:12px; margin-bottom:8px; background: var(--ink-soft); border:1px solid var(--line); }
+  .lb-row.me{ border-color: var(--gold); background: rgba(242,183,5,0.08); }
+  .lb-pos{ font-family:'IBM Plex Mono', monospace; font-weight:700; font-size:15px; width:26px; color: rgba(247,244,236,0.5); }
+  .lb-name{ flex:1; font-size:14.5px; font-weight:500; }
+  .lb-score{ font-family:'IBM Plex Mono', monospace; font-size:14px; color: var(--gold); }
+</style>
+</head>
+<body>
+<div class="bg-fx" id="bgFx"></div>
+<div class="bg-shapes" id="bgShapes"></div>
+<div class="bigben-fx" id="bigBenFx">
+  <svg viewBox="0 0 480 220" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMax meet">
+    <!-- ground line -->
+    <rect x="0" y="205" width="480" height="4" fill="#F7F4EC"/>
+
+    <!-- ===== Tower Bridge (left) ===== -->
+    <g>
+      <rect x="18" y="60" width="26" height="145" fill="#F7F4EC"/>
+      <rect x="96" y="60" width="26" height="145" fill="#F7F4EC"/>
+      <polygon points="18,60 31,38 44,60" fill="#F7F4EC"/>
+      <polygon points="96,60 109,38 122,60" fill="#F7F4EC"/>
+      <rect x="31" y="30" width="4" height="10" fill="#F7F4EC"/>
+      <rect x="109" y="30" width="4" height="10" fill="#F7F4EC"/>
+      <rect x="44" y="95" width="52" height="12" fill="#F7F4EC"/>
+      <line x1="44" y1="60" x2="44" y2="95" stroke="#F7F4EC" stroke-width="3"/>
+      <line x1="96" y1="60" x2="96" y2="95" stroke="#F7F4EC" stroke-width="3"/>
+      <rect x="0" y="160" width="140" height="10" fill="#F7F4EC"/>
+      <line x1="18" y1="160" x2="44" y2="107" stroke="#F7F4EC" stroke-width="2"/>
+      <line x1="44" y1="160" x2="44" y2="107" stroke="#F7F4EC" stroke-width="2"/>
+      <line x1="96" y1="160" x2="96" y2="107" stroke="#F7F4EC" stroke-width="2"/>
+      <line x1="122" y1="160" x2="96" y2="107" stroke="#F7F4EC" stroke-width="2"/>
+    </g>
+
+    <!-- ===== London Eye (center) ===== -->
+    <g>
+      <circle cx="255" cy="120" r="58" fill="none" stroke="#F7F4EC" stroke-width="4"/>
+      <line x1="255" y1="62" x2="255" y2="178" stroke="#F7F4EC" stroke-width="1.5"/>
+      <line x1="197" y1="120" x2="313" y2="120" stroke="#F7F4EC" stroke-width="1.5"/>
+      <line x1="214" y1="79" x2="296" y2="161" stroke="#F7F4EC" stroke-width="1.5"/>
+      <line x1="214" y1="161" x2="296" y2="79" stroke="#F7F4EC" stroke-width="1.5"/>
+      <circle cx="255" cy="62" r="4" fill="#F7F4EC"/>
+      <circle cx="255" cy="178" r="4" fill="#F7F4EC"/>
+      <circle cx="197" cy="120" r="4" fill="#F7F4EC"/>
+      <circle cx="313" cy="120" r="4" fill="#F7F4EC"/>
+      <circle cx="214" cy="79" r="4" fill="#F7F4EC"/>
+      <circle cx="296" cy="161" r="4" fill="#F7F4EC"/>
+      <circle cx="214" cy="161" r="4" fill="#F7F4EC"/>
+      <circle cx="296" cy="79" r="4" fill="#F7F4EC"/>
+      <line x1="230" y1="205" x2="255" y2="168" stroke="#F7F4EC" stroke-width="3"/>
+      <line x1="280" y1="205" x2="255" y2="168" stroke="#F7F4EC" stroke-width="3"/>
+    </g>
+
+    <!-- ===== Big Ben (right) ===== -->
+    <g>
+      <rect x="385" y="85" width="40" height="120" fill="#F7F4EC"/>
+      <rect x="380" y="65" width="50" height="22" fill="#F7F4EC"/>
+      <polygon points="405,5 435,65 375,65" fill="#F7F4EC"/>
+      <rect x="395" y="65" width="20" height="18" fill="#F7F4EC"/>
+      <circle cx="405" cy="45" r="14" fill="#14152B"/>
+      <rect x="403" y="33" width="4" height="14" fill="#F7F4EC"/>
+      <rect x="405" y="45" width="10" height="3" fill="#F7F4EC"/>
+      <rect x="392" y="105" width="10" height="18" fill="#14152B"/>
+      <rect x="410" y="105" width="10" height="18" fill="#14152B"/>
+      <rect x="392" y="140" width="10" height="18" fill="#14152B"/>
+      <rect x="410" y="140" width="10" height="18" fill="#14152B"/>
+      <rect x="392" y="175" width="10" height="18" fill="#14152B"/>
+      <rect x="410" y="175" width="10" height="18" fill="#14152B"/>
+    </g>
+  </svg>
+</div>
+<div class="glow-blob" id="glowBlob1" style="width:320px; height:320px; top:-80px; left:-90px; background: var(--royalred); opacity:0.4;"></div>
+<div class="glow-blob" id="glowBlob2" style="width:300px; height:300px; bottom:8%; right:-110px; background: var(--royalblue); opacity:0.45; animation-delay:-6s;"></div>
+<div class="glow-blob" id="glowBlob3" style="width:260px; height:260px; top:35%; left:55%; background: var(--gold); opacity:0.25; animation-delay:-12s;"></div>
+<div class="glow-blob" id="glowBlob4" style="width:220px; height:220px; top:65%; left:-60px; background: var(--royalred); opacity:0.22; animation-delay:-3s;"></div>
+<div id="fxLayer"></div>
+
+<div class="mascot-wrap" id="mascotWrap">
+  <div class="mascot-bubble" id="mascotBubble">Zo'r!</div>
+  <svg class="mascot-body" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+    <!-- tail -->
+    <g id="mascotTail" style="transform-origin:100px 95px;">
+      <path d="M95 90 Q120 82 116 105 Q106 98 96 96 Z" fill="#D97706"/>
+      <circle cx="114" cy="102" r="7" fill="#7C3F0D"/>
+    </g>
+    <!-- mane -->
+    <g id="mascotMane">
+      <path d="M60 12 L71 24 L88 14 L86 34 L106 32 L96 50 L114 60 L94 64 L104 82 L84 74 L82 96 L66 82 L60 100 L54 82 L38 96 L36 74 L16 82 L26 64 L6 60 L24 50 L14 32 L34 34 L32 14 L49 24 Z" fill="#E58A1A"/>
+    </g>
+    <!-- head -->
+    <circle cx="60" cy="60" r="27" fill="#F5B44A"/>
+    <path d="M60 56 Q46 68 60 86 Q74 68 60 56 Z" fill="#FCEFD9"/>
+    <!-- cheeks -->
+    <circle cx="38" cy="66" r="6" fill="#FF9AA6" opacity="0.6"/>
+    <circle cx="82" cy="66" r="6" fill="#FF9AA6" opacity="0.6"/>
+    <!-- eyes -->
+    <g id="mascotEyes">
+      <ellipse cx="48" cy="56" rx="6" ry="7" fill="#1B1F3B"/>
+      <ellipse cx="72" cy="56" rx="6" ry="7" fill="#1B1F3B"/>
+      <circle cx="50" cy="53" r="1.8" fill="#fff"/>
+      <circle cx="74" cy="53" r="1.8" fill="#fff"/>
+    </g>
+    <!-- nose -->
+    <path d="M55 70 L65 70 L60 76 Z" fill="#1B1F3B"/>
+    <!-- mouths -->
+    <path id="mascotMouthHappy" d="M50 78 Q60 87 70 78" stroke="#1B1F3B" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <path id="mascotMouthSad" d="M50 84 Q60 76 70 84" stroke="#1B1F3B" stroke-width="2.5" fill="none" stroke-linecap="round" style="display:none;"/>
+    <!-- tear -->
+    <path id="mascotTear" d="M44 60 Q47 68 44 72 Q41 68 44 60 Z" fill="#4CC9F0" style="display:none;"/>
+  </svg>
+</div>
+
+<div class="levelup-overlay" id="levelUpOverlay">
+  <div class="levelup-card">
+    <div class="levelup-emoji">🎉</div>
+    <div class="levelup-title" id="levelUpTitle">Level Up!</div>
+    <div class="levelup-sub" id="levelUpSub">Endi siz yangi darajadasiz</div>
+    <button class="btn-primary" id="levelUpClose" style="width:auto; padding:10px 24px;">Davom etish</button>
+  </div>
+</div>
+
+<div id="app">
+
+  <div class="tabbar" id="tabbar" style="display:none;">
+    <button class="tab-item" data-tab="home"><span class="tab-icon">&#8962;</span><span class="tab-lbl">Bosh</span></button>
+    <button class="tab-item" data-tab="quizlist"><span class="tab-icon">?</span><span class="tab-lbl">Testlar</span></button>
+    <button class="tab-item" data-tab="vocab"><span class="tab-icon">&#9776;</span><span class="tab-lbl">Lug'at</span></button>
+    <button class="tab-item" data-tab="leaderboard"><span class="tab-icon">&#9733;</span><span class="tab-lbl">Reyting</span></button>
+    <button class="tab-item" data-tab="info"><span class="tab-icon">i</span><span class="tab-lbl">Qoidalar</span></button>
+    <button class="tab-item" data-tab="profile"><span class="tab-icon">&#9787;</span><span class="tab-lbl">Profil</span></button>
+  </div>
+
+  <div class="xp-strip" id="xpStrip" style="display:none;">
+    <div class="xp-level-badge" id="xpLevelBadge">LVL 1</div>
+    <div class="xp-info">
+      <div class="xp-title" id="xpTitle">Boshlang'ich</div>
+      <div class="xp-track"><div class="xp-fill" id="xpFill" style="width:0%;"></div></div>
+    </div>
+    <div class="xp-num" id="xpNum">0/100</div>
+  </div>
+
+  <!-- SCREEN: Bosh sahifa -->
+  <div class="screen" id="screen-home">
+    <h1 style="font-size:24px;" id="homeGreeting">Salom!</h1>
+    <p class="sub" style="margin-bottom:18px;">Bugun ham bilimingizni sinab ko'ring.</p>
+
+    <div class="home-stat-grid">
+      <div class="home-stat"><div class="home-stat-icon">🏆</div><div class="home-stat-val" id="homeRank">—</div><div class="home-stat-lbl">reyting o'rni</div></div>
+      <div class="home-stat"><div class="home-stat-icon">🎯</div><div class="home-stat-val" id="homeAvg">0%</div><div class="home-stat-lbl">o'rtacha natija</div></div>
+      <div class="home-stat"><div class="home-stat-icon">📋</div><div class="home-stat-val" id="homeAttempts">0</div><div class="home-stat-lbl">jami urinish</div></div>
+      <div class="home-stat"><div class="home-stat-icon">🔥</div><div class="home-stat-val" id="homeStreak">0</div><div class="home-stat-lbl">kunlik seriya</div></div>
+    </div>
+
+    <div class="section-label" style="margin-top:22px;"><span>📊 Natijalaringiz</span><span style="color:rgba(247,244,236,0.45); font-weight:500; font-size:11px;">oxirgi 10 urinish</span></div>
+    <div class="chart-box" id="homeChart"></div>
+
+    <button class="btn-primary" id="homeStartBtn" style="margin-top:20px;">Test ishlashni boshlash</button>
+  </div>
+
+  <!-- SCREEN: Test tanlash -->
+  <div class="screen" id="screen-quizlist">
+    <div class="eyebrow">Testlar</div>
+    <h1 style="font-size:22px; margin-bottom:16px;">Mavzuni tanlang</h1>
+    <div id="quizSetList"></div>
+  </div>
+
+  <!-- SCREEN: Ism kiritish -->
+  <div class="screen active" id="screen-name">
+    <div class="eyebrow">English Test</div>
+    <h1>Testga xush kelibsiz</h1>
+    <p class="sub">Ismingizni kiriting va ilovadan foydalanishni boshlang.</p>
+    <input type="text" id="nameInput" placeholder="Ismingiz va familiyangiz" maxlength="40">
+    <button class="btn-primary" id="startBtn">Boshlash</button>
+  </div>
+
+  <!-- SCREEN: Lug'at -->
+  <div class="screen" id="screen-vocab">
+    <div class="eyebrow">Lug'at</div>
+    <h1>So'zlarni o'rganish</h1>
+    <div class="search-row">
+      <span class="search-icon">&#9906;</span>
+      <input type="text" id="vocabSearch" placeholder="So'z qidirish...">
+    </div>
+    <div class="filter-row" id="vocabFilters"></div>
+    <div id="vocabList"></div>
+  </div>
+
+  <!-- SCREEN: Test -->
+  <div class="screen" id="screen-quiz" style="padding-right:30px;">
+    <div class="quiz-topbar">
+      <button class="quiz-back" id="quizBackBtn">&#8592;</button>
+      <div class="quiz-title" id="quizSetTitle">Test</div>
+      <button class="quiz-grid-btn" id="quizGridBtn">&#9638;</button>
+    </div>
+    <div class="progress-row">
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="progress-num" id="progressNum">1/10</div>
+    </div>
+    <div class="q-text" id="qText"></div>
+    <div id="optsWrap"></div>
+    <div class="quiz-nav">
+      <button class="btn-secondary quiz-nav-btn" id="prevQBtn" style="margin-top:0;">&#8592; Oldingi</button>
+      <button class="btn-secondary quiz-nav-btn" id="nextQBtn" style="margin-top:0;">Keyingi &#8594;</button>
+    </div>
+    <button class="btn-primary" id="finishQuizBtn" style="margin-top:12px;">Testni tugatish</button>
+
+    <!-- Tog'ga chiqish yo'lakchasi -->
+    <div class="climb-track" id="climbTrack">
+      <div class="climb-flag">🚩</div>
+      <div class="climb-line"></div>
+      <div class="climb-hero" id="climbHero">🧗</div>
+      <div class="climb-base">⛰️</div>
+    </div>
+  </div>
+
+  <!-- Savollar to'ri (modal) -->
+  <div class="qgrid-overlay" id="qgridOverlay">
+    <div class="qgrid-sheet">
+      <div class="qgrid-head">
+        <div>
+          <div class="qgrid-title">Savollar</div>
+          <div class="qgrid-sub" id="qgridSub">0/0 ta savolga javob belgilandi</div>
+        </div>
+        <button class="qgrid-close" id="qgridClose">&#10005;</button>
+      </div>
+      <div class="qgrid-wrap" id="qgridWrap"></div>
+      <button class="btn-primary" id="qgridFinishBtn" style="margin-top:14px; flex-shrink:0;">Testni tugatish</button>
+    </div>
+  </div>
+
+  <!-- SCREEN: Natija -->
+  <div class="screen" id="screen-result">
+    <div class="eyebrow">Natija</div>
+    <div class="score-big"><span id="resultScore">0</span><span class="score-of" id="resultOf">/10</span></div>
+    <div class="rank-badge" id="rankBadge">#1</div>
+    <div class="rank-label">Umumiy reytingdagi o'rningiz</div>
+    <div class="stat-row">
+      <div class="stat"><div class="stat-val" id="statCorrect">0</div><div class="stat-lbl">To'g'ri</div></div>
+      <div class="stat"><div class="stat-val" id="statWrong">0</div><div class="stat-lbl">Xato</div></div>
+      <div class="stat"><div class="stat-val" id="statPercent">0%</div><div class="stat-lbl">Natija</div></div>
+    </div>
+    <button class="btn-primary" id="viewLbFromResult" style="margin-top:22px;">Reytingni ko'rish</button>
+    <button class="btn-secondary" id="retryBtn">Qayta ishlash</button>
+  </div>
+
+  <!-- SCREEN: Reyting -->
+  <div class="screen" id="screen-leaderboard">
+    <div class="eyebrow">Reyting</div>
+    <h1 style="font-size:22px; margin-bottom:18px;">Eng yaxshi natijalar</h1>
+    <div id="meRowWrap"></div>
+    <div id="podiumWrap" class="podium-wrap"></div>
+    <div id="lbList"></div>
+  </div>
+
+  <!-- SCREEN: Qoidalar -->
+  <div class="screen" id="screen-info">
+    <div class="eyebrow">Qoidalar</div>
+    <h1 style="font-size:22px; margin-bottom:14px;">Grammatika ma'lumotlari</h1>
+    <div class="search-row">
+      <span class="search-icon">&#9906;</span>
+      <input type="text" id="grammarSearch" placeholder="Mavzu qidirish...">
+    </div>
+    <div id="infoList"></div>
+  </div>
+
+  <!-- SCREEN: Profil -->
+  <div class="screen" id="screen-profile">
+    <div class="profile-head">
+      <div class="avatar-wrap">
+        <div class="avatar-circle" id="avatarCircle">?</div>
+        <div class="avatar-edit" id="avatarEditBtn">&#9998;</div>
+        <input type="file" id="avatarInput" accept="image/*" style="display:none;">
+      </div>
+      <div class="profile-name" id="profileName" style="display:flex; align-items:center; gap:8px; justify-content:center;">
+        <span id="profileNameText">Foydalanuvchi</span>
+        <span id="profileNameEditBtn" style="cursor:pointer; font-size:14px; color: var(--gold);">&#9998;</span>
+      </div>
+      <div class="profile-rank-chip" id="profileRankChip">Reytingda hali yo'q</div>
+    </div>
+
+    <div class="profile-stat-grid">
+      <div class="profile-stat-card"><div class="profile-stat-icon">📝</div><div class="profile-stat-val" id="statTests">0</div><div class="profile-stat-lbl">Yechilgan test</div></div>
+      <div class="profile-stat-card"><div class="profile-stat-icon">🎯</div><div class="profile-stat-val" id="statAvg">0%</div><div class="profile-stat-lbl">O'rtacha natija</div></div>
+      <div class="profile-stat-card"><div class="profile-stat-icon">⏱️</div><div class="profile-stat-val" id="statTime">0 daq</div><div class="profile-stat-lbl">Ilovada vaqt</div></div>
+      <div class="profile-stat-card"><div class="profile-stat-icon">🔥</div><div class="profile-stat-val" id="statStreak">0 kun</div><div class="profile-stat-lbl">Ketma-ket faol</div></div>
+    </div>
+
+    <div class="section-label"><span>🏅 Yutuqlar</span><span id="achCount" style="color:rgba(247,244,236,0.5); font-weight:500;">0/9</span></div>
+    <div class="ach-grid" id="achGrid"></div>
+
+    <div class="section-label" style="margin-top:24px;">🕓 So'nggi faollik</div>
+    <div id="activityList"></div>
+  </div>
+
+</div>
+
+<script>
+/* =========================================================
+   MA'LUMOTLAR BAZASI
+   Yangi savol qo'shish uchun tegishli ro'yxatga
+   { q: "...", options: [...], correct: 0 } shaklida qo'shing.
+   ========================================================= */
+
+/* ---------- 1) LUG'AT ---------- */
+const VOCAB = [
+  // ===== 1. Kundalik hayot =====
+  { en:"morning", uz:"ertalab", topic:"daily", emoji:"🌅", example:"I wake up early every morning." },
+  { en:"breakfast", uz:"nonushta", topic:"daily", emoji:"🍳", example:"She has breakfast at seven." },
+  { en:"neighbour", uz:"qo'shni", topic:"daily", emoji:"🏘️", example:"Our neighbour is very kind." },
+  { en:"routine", uz:"kundalik tartib", topic:"daily", emoji:"🔁", example:"My daily routine never changes." },
+  { en:"schedule", uz:"jadval", topic:"daily", emoji:"🗓️", example:"Check the schedule before you come." },
+  { en:"housework", uz:"uy yumushlari", topic:"daily", emoji:"🧹", example:"We share the housework at home." },
+  { en:"shopping", uz:"xarid qilish", topic:"daily", emoji:"🛒", example:"They go shopping on Saturdays." },
+  { en:"neighbourhood", uz:"mahalla", topic:"daily", emoji:"🏡", example:"I grew up in this neighbourhood." },
+  { en:"weekend", uz:"dam olish kunlari", topic:"daily", emoji:"🎈", example:"What do you do at the weekend?" },
+  { en:"alarm clock", uz:"budilnik", topic:"daily", emoji:"⏰", example:"My alarm clock rings at six." },
+
+  // ===== 2. Ta'lim =====
+  { en:"knowledge", uz:"bilim", topic:"education", emoji:"🧠", example:"Knowledge opens many doors." },
+  { en:"subject", uz:"fan, predmet", topic:"education", emoji:"📚", example:"English is my favourite subject." },
+  { en:"exam", uz:"imtihon", topic:"education", emoji:"📝", example:"The exam starts at nine." },
+  { en:"homework", uz:"uy vazifasi", topic:"education", emoji:"📔", example:"I finished my homework early." },
+  { en:"library", uz:"kutubxona", topic:"education", emoji:"📖", example:"The library is open until eight." },
+  { en:"pupil", uz:"o'quvchi", topic:"education", emoji:"🎒", example:"Every pupil received a certificate." },
+  { en:"lesson", uz:"dars", topic:"education", emoji:"🍎", example:"Today's lesson was very useful." },
+  { en:"explain", uz:"tushuntirmoq", topic:"education", emoji:"💬", example:"Can you explain this rule again?" },
+  { en:"progress", uz:"taraqqiyot", topic:"education", emoji:"📈", example:"She is making good progress." },
+  { en:"university", uz:"universitet", topic:"education", emoji:"🎓", example:"He studies at a local university." },
+
+  // ===== 3. Oila va odamlar =====
+  { en:"parents", uz:"ota-ona", topic:"family", emoji:"👨‍👩‍👧", example:"My parents live in Samarkand." },
+  { en:"relative", uz:"qarindosh", topic:"family", emoji:"👪", example:"A relative visited us yesterday." },
+  { en:"childhood", uz:"bolalik", topic:"family", emoji:"🧸", example:"I had a happy childhood." },
+  { en:"marry", uz:"turmush qurmoq", topic:"family", emoji:"💍", example:"They will marry next spring." },
+  { en:"neighbourly", uz:"qo'shnichilik", topic:"family", emoji:"🤝", example:"They have a neighbourly relationship." },
+  { en:"grandparents", uz:"buvi-bobo", topic:"family", emoji:"👴", example:"We visit our grandparents every month." },
+  { en:"friendship", uz:"do'stlik", topic:"family", emoji:"💛", example:"Their friendship lasted many years." },
+  { en:"guest", uz:"mehmon", topic:"family", emoji:"🚪", example:"We are expecting a guest tonight." },
+  { en:"respect", uz:"hurmat", topic:"family", emoji:"🙏", example:"Children should respect their elders." },
+  { en:"twins", uz:"egizaklar", topic:"family", emoji:"👯", example:"The twins look exactly the same." },
+
+  // ===== 4. Ish va kasb =====
+  { en:"job", uz:"ish", topic:"work", emoji:"💼", example:"She found a new job in the city." },
+  { en:"employer", uz:"ish beruvchi", topic:"work", emoji:"🏢", example:"My employer offered me a promotion." },
+  { en:"salary", uz:"maosh", topic:"work", emoji:"💰", example:"His salary increased last year." },
+  { en:"interview", uz:"suhbat (ishga)", topic:"work", emoji:"🗣️", example:"The interview lasted thirty minutes." },
+  { en:"experience", uz:"tajriba", topic:"work", emoji:"⭐", example:"He has ten years of experience." },
+  { en:"colleague", uz:"hamkasb", topic:"work", emoji:"👥", example:"My colleague helped me finish it." },
+  { en:"meeting", uz:"yig'ilish", topic:"work", emoji:"📅", example:"The meeting was moved to Friday." },
+  { en:"responsible", uz:"mas'ul", topic:"work", emoji:"✅", example:"She is responsible for the project." },
+  { en:"skill", uz:"ko'nikma", topic:"work", emoji:"🛠️", example:"Speaking English is a valuable skill." },
+  { en:"career", uz:"martaba", topic:"work", emoji:"🚀", example:"He built a successful career." },
+
+  // ===== 5. Sayohat =====
+  { en:"journey", uz:"safar", topic:"travel", emoji:"🧳", example:"The journey took eight hours." },
+  { en:"airport", uz:"aeroport", topic:"travel", emoji:"✈️", example:"We arrived at the airport early." },
+  { en:"luggage", uz:"yuk, bagaj", topic:"travel", emoji:"🎒", example:"Don't leave your luggage here." },
+  { en:"passenger", uz:"yo'lovchi", topic:"travel", emoji:"🚌", example:"Every passenger must show a ticket." },
+  { en:"abroad", uz:"chet elda", topic:"travel", emoji:"🌍", example:"She has never travelled abroad." },
+  { en:"accommodation", uz:"turar joy", topic:"travel", emoji:"🏨", example:"The price includes accommodation." },
+  { en:"destination", uz:"manzil", topic:"travel", emoji:"📍", example:"Our destination is still far away." },
+  { en:"souvenir", uz:"esdalik sovg'a", topic:"travel", emoji:"🎁", example:"I bought a souvenir for my sister." },
+  { en:"delay", uz:"kechikish", topic:"travel", emoji:"⏳", example:"There was a two-hour delay." },
+  { en:"guide", uz:"gid, yo'lboshchi", topic:"travel", emoji:"🗺️", example:"Our guide knew the city well." },
+
+  // ===== 6. Ovqat =====
+  { en:"delicious", uz:"mazali", topic:"food", emoji:"😋", example:"This soup is really delicious." },
+  { en:"recipe", uz:"retsept", topic:"food", emoji:"📜", example:"She shared her family recipe." },
+  { en:"ingredient", uz:"masalliq", topic:"food", emoji:"🥕", example:"Salt is an important ingredient." },
+  { en:"vegetable", uz:"sabzavot", topic:"food", emoji:"🥦", example:"Eat more vegetables every day." },
+  { en:"dessert", uz:"shirinlik", topic:"food", emoji:"🍰", example:"We had ice cream for dessert." },
+  { en:"taste", uz:"ta'm, tatib ko'rmoq", topic:"food", emoji:"👅", example:"Taste it before you add salt." },
+  { en:"hungry", uz:"och", topic:"food", emoji:"🍽️", example:"The children were very hungry." },
+  { en:"boil", uz:"qaynatmoq", topic:"food", emoji:"🍲", example:"Boil the water for five minutes." },
+  { en:"meal", uz:"ovqat, taom", topic:"food", emoji:"🍛", example:"Dinner is my favourite meal." },
+  { en:"fresh", uz:"yangi, toza", topic:"food", emoji:"🥬", example:"We only buy fresh bread." },
+
+  // ===== 7. Sog'liq =====
+  { en:"health", uz:"sog'liq", topic:"health", emoji:"❤️", example:"Health is more important than money." },
+  { en:"medicine", uz:"dori", topic:"health", emoji:"💊", example:"Take this medicine after meals." },
+  { en:"illness", uz:"kasallik", topic:"health", emoji:"🤒", example:"His illness lasted two weeks." },
+  { en:"treatment", uz:"davolash", topic:"health", emoji:"🩺", example:"The treatment was successful." },
+  { en:"exercise", uz:"mashq, jismoniy mashq", topic:"health", emoji:"🏃", example:"Regular exercise keeps you strong." },
+  { en:"pain", uz:"og'riq", topic:"health", emoji:"😣", example:"He felt a sharp pain in his leg." },
+  { en:"recover", uz:"tuzalmoq", topic:"health", emoji:"🌤️", example:"She recovered after a few days." },
+  { en:"hospital", uz:"kasalxona", topic:"health", emoji:"🏥", example:"The hospital is near our school." },
+  { en:"healthy", uz:"sog'lom", topic:"health", emoji:"🥗", example:"A healthy diet is important." },
+  { en:"tired", uz:"charchagan", topic:"health", emoji:"😴", example:"I feel tired after a long day." },
+
+  // ===== 8. Tabiat =====
+  { en:"environment", uz:"atrof-muhit", topic:"nature", emoji:"🌍", example:"We must protect the environment." },
+  { en:"weather", uz:"ob-havo", topic:"nature", emoji:"🌤️", example:"The weather is nice today." },
+  { en:"mountain", uz:"tog'", topic:"nature", emoji:"⛰️", example:"They climbed the highest mountain." },
+  { en:"forest", uz:"o'rmon", topic:"nature", emoji:"🌲", example:"The forest is full of birds." },
+  { en:"pollution", uz:"ifloslanish", topic:"nature", emoji:"🏭", example:"Air pollution is a serious problem." },
+  { en:"river", uz:"daryo", topic:"nature", emoji:"🏞️", example:"The river flows through the city." },
+  { en:"climate", uz:"iqlim", topic:"nature", emoji:"🌡️", example:"The climate here is very dry." },
+  { en:"animal", uz:"hayvon", topic:"nature", emoji:"🦁", example:"Every animal needs clean water." },
+  { en:"plant", uz:"o'simlik, ekmoq", topic:"nature", emoji:"🌱", example:"Let's plant a tree together." },
+  { en:"season", uz:"fasl", topic:"nature", emoji:"🍂", example:"Autumn is my favourite season." },
+
+  // ===== 9. Texnologiya =====
+  { en:"computer", uz:"kompyuter", topic:"tech", emoji:"💻", example:"He fixed my computer yesterday." },
+  { en:"internet", uz:"internet", topic:"tech", emoji:"🌐", example:"The internet connection is slow." },
+  { en:"download", uz:"yuklab olmoq", topic:"tech", emoji:"⬇️", example:"You can download the file here." },
+  { en:"device", uz:"qurilma", topic:"tech", emoji:"📱", example:"This device is easy to use." },
+  { en:"software", uz:"dasturiy ta'minot", topic:"tech", emoji:"🧩", example:"The software needs an update." },
+  { en:"screen", uz:"ekran", topic:"tech", emoji:"🖥️", example:"Don't look at the screen too long." },
+  { en:"message", uz:"xabar", topic:"tech", emoji:"✉️", example:"I sent you a message this morning." },
+  { en:"password", uz:"parol", topic:"tech", emoji:"🔒", example:"Never share your password." },
+  { en:"invention", uz:"ixtiro", topic:"tech", emoji:"💡", example:"The wheel was a great invention." },
+  { en:"connect", uz:"ulanmoq", topic:"tech", emoji:"🔌", example:"Connect the cable to the laptop." },
+
+  // ===== 10. His-tuyg'ular =====
+  { en:"happy", uz:"baxtli, xursand", topic:"feelings", emoji:"😊", example:"She feels happy today." },
+  { en:"nervous", uz:"asabiy, hayajonli", topic:"feelings", emoji:"😬", example:"I was nervous before the exam." },
+  { en:"proud", uz:"faxrlanuvchi", topic:"feelings", emoji:"🥲", example:"His parents are proud of him." },
+  { en:"afraid", uz:"qo'rqqan", topic:"feelings", emoji:"😨", example:"She is afraid of dogs." },
+  { en:"surprised", uz:"hayron", topic:"feelings", emoji:"😲", example:"We were surprised by the news." },
+  { en:"lonely", uz:"yolg'iz", topic:"feelings", emoji:"🌙", example:"He felt lonely in the new city." },
+  { en:"excited", uz:"hayajonlangan", topic:"feelings", emoji:"🤩", example:"The kids are excited about the trip." },
+  { en:"angry", uz:"jahli chiqqan", topic:"feelings", emoji:"😠", example:"Don't be angry with me." },
+  { en:"calm", uz:"xotirjam", topic:"feelings", emoji:"🧘", example:"Try to stay calm and think." },
+  { en:"grateful", uz:"minnatdor", topic:"feelings", emoji:"🙏", example:"I am grateful for your help." },
+
+  // ===== 11. Tavsiflash (sifatlar) =====
+  { en:"difficult", uz:"qiyin", topic:"describing", emoji:"😰", example:"This exercise is difficult." },
+  { en:"important", uz:"muhim", topic:"describing", emoji:"❗", example:"This is an important decision." },
+  { en:"expensive", uz:"qimmat", topic:"describing", emoji:"💸", example:"That car is too expensive." },
+  { en:"comfortable", uz:"qulay", topic:"describing", emoji:"🛋️", example:"These shoes are very comfortable." },
+  { en:"dangerous", uz:"xavfli", topic:"describing", emoji:"⚠️", example:"Driving fast is dangerous." },
+  { en:"curious", uz:"qiziquvchan", topic:"describing", emoji:"🤔", example:"Children are naturally curious." },
+  { en:"friendly", uz:"do'stona", topic:"describing", emoji:"🤝", example:"Our new teacher is very friendly." },
+  { en:"quiet", uz:"tinch, jim", topic:"describing", emoji:"🤫", example:"The library is a quiet place." },
+  { en:"useful", uz:"foydali", topic:"describing", emoji:"🔧", example:"This app is really useful." },
+  { en:"famous", uz:"mashhur", topic:"describing", emoji:"🌟", example:"She became famous very quickly." },
+
+  // ===== 12. Muhim fe'llar =====
+  { en:"achieve", uz:"erishmoq", topic:"verbs", emoji:"🏆", example:"He achieved his goal." },
+  { en:"improve", uz:"yaxshilamoq", topic:"verbs", emoji:"📈", example:"I want to improve my English." },
+  { en:"decide", uz:"qaror qilmoq", topic:"verbs", emoji:"✅", example:"We need to decide today." },
+  { en:"remember", uz:"eslamoq", topic:"verbs", emoji:"🧠", example:"I can't remember his name." },
+  { en:"suggest", uz:"taklif qilmoq", topic:"verbs", emoji:"💡", example:"He suggested a different plan." },
+  { en:"prepare", uz:"tayyorlamoq", topic:"verbs", emoji:"🧑‍🍳", example:"She prepared dinner for everyone." },
+  { en:"describe", uz:"tasvirlamoq", topic:"verbs", emoji:"🖊️", example:"Describe your best friend." },
+  { en:"borrow", uz:"qarz olmoq", topic:"verbs", emoji:"🤲", example:"Can I borrow your pen?" },
+  { en:"invite", uz:"taklif etmoq", topic:"verbs", emoji:"💌", example:"They invited us to the wedding." },
+  { en:"complain", uz:"shikoyat qilmoq", topic:"verbs", emoji:"😤", example:"He complained about the noise." },
+
+  // ===== 13. Iboralar =====
+  { en:"however", uz:"biroq, ammo", topic:"phrases", emoji:"🔄", example:"However, he decided to stay." },
+  { en:"in addition", uz:"qo'shimcha ravishda", topic:"phrases", emoji:"➕", example:"In addition, she speaks French." },
+  { en:"as soon as", uz:"...dan so'ng darhol", topic:"phrases", emoji:"⚡", example:"Call me as soon as you arrive." },
+  { en:"look forward to", uz:"intiqlik bilan kutmoq", topic:"phrases", emoji:"🤞", example:"I look forward to seeing you." },
+  { en:"take part in", uz:"qatnashmoq", topic:"phrases", emoji:"🙋", example:"She took part in the contest." },
+  { en:"give up", uz:"voz kechmoq", topic:"phrases", emoji:"🛑", example:"Never give up on your dreams." },
+  { en:"find out", uz:"bilib olmoq", topic:"phrases", emoji:"🔍", example:"I need to find out the truth." },
+  { en:"get on with", uz:"chiqishmoq", topic:"phrases", emoji:"👫", example:"He gets on well with everyone." },
+  { en:"instead of", uz:"...o'rniga", topic:"phrases", emoji:"↔️", example:"Drink water instead of soda." },
+  { en:"at least", uz:"hech bo'lmaganda", topic:"phrases", emoji:"➗", example:"Read at least ten pages a day." }
+];
+
+const VOCAB_TOPICS = {
+  all: "Hammasi",
+  daily: "Kundalik hayot",
+  education: "Ta'lim",
+  family: "Oila",
+  work: "Ish va kasb",
+  travel: "Sayohat",
+  food: "Ovqat",
+  health: "Sog'liq",
+  nature: "Tabiat",
+  tech: "Texnologiya",
+  feelings: "His-tuyg'ular",
+  describing: "Tavsiflash",
+  verbs: "Fe'llar",
+  phrases: "Iboralar"
+};
+
+
+/* ---------- 2) GRAMMATIKA (Murphy tartibida) ---------- */
+const GRAMMAR = [
+  { unit:1, title:"am / is / are", text:"'to be' fe'lining hozirgi zamondagi shakllari. I bilan am, he/she/it bilan is, we/you/they bilan are ishlatiladi. Qisqartma shakllari: I'm, he's, they're.", example:"I am a student.\nShe is at home.\nThey are my friends." },
+  { unit:2, title:"am / is / are: savol va inkor", text:"Savolda 'to be' fe'li ega oldiga chiqadi. Inkorda esa uning yoniga not qo'shiladi (isn't, aren't).", example:"Are you ready?\nIs he a teacher?\nShe isn't at school today." },
+  { unit:3, title:"Present Continuous", text:"Aynan hozir sodir bo'layotgan harakatni bildiradi. am/is/are + fe'l-ing shaklida quriladi.", example:"I am reading a book now.\nThey are playing outside.\nShe isn't sleeping." },
+  { unit:4, title:"Present Simple", text:"Odat, doimiy holat va umumiy haqiqatlarni bildiradi. He/she/it bilan fe'lga -s yoki -es qo'shiladi.", example:"I work every day.\nShe goes to school at eight.\nWater boils at 100 degrees." },
+  { unit:5, title:"Present Simple: savol va inkor", text:"Savol va inkor do/does yordamchi fe'li bilan quriladi. Does ishlatilganda asosiy fe'l asl shaklida qoladi.", example:"Do you speak English?\nDoes he live here?\nThey don't like coffee." },
+  { unit:6, title:"Present Simple va Present Continuous farqi", text:"Present Simple — doimiy, takrorlanuvchi harakat; Present Continuous — hozir davom etayotgan harakat. Ba'zi fe'llar (know, like, want, need) odatda continuous shaklda ishlatilmaydi.", example:"I usually walk to work. (odat)\nToday I am taking a taxi. (hozir)\nI know the answer. (know — continuousda emas)" },
+  { unit:7, title:"was / were", text:"'to be' fe'lining o'tgan zamondagi shakllari. I/he/she/it bilan was, we/you/they bilan were.", example:"I was at home yesterday.\nThey were very tired.\nShe wasn't happy about it." },
+  { unit:8, title:"Past Simple", text:"O'tgan zamonda tugallangan harakatni bildiradi. Muntazam fe'llarga -ed qo'shiladi, notug'ri fe'llar esa 2-shaklda ishlatiladi.", example:"I visited my grandmother.\nHe went to London last year.\nWe finished the work at six." },
+  { unit:9, title:"Past Simple: savol va inkor", text:"Savol va inkor did yordamchi fe'li bilan quriladi. Bu holda asosiy fe'l asl shaklida qoladi.", example:"Did you see the film?\nShe didn't come to the party.\nWhat did he say?" },
+  { unit:10, title:"Past Continuous", text:"O'tgan zamonning ma'lum bir daqiqasida davom etayotgan harakatni bildiradi. was/were + fe'l-ing.", example:"I was watching TV at nine.\nThey were waiting for the bus.\nWhile she was cooking, the phone rang." },
+  { unit:11, title:"Present Perfect", text:"O'tgan harakatning hozirgi natijasi yoki tajribani bildiradi. have/has + fe'lning 3-shakli.", example:"I have finished my homework.\nShe has never been to Paris.\nThey have just arrived." },
+  { unit:12, title:"Present Perfect: just, already, yet", text:"Just — yaqinda; already — allaqachon (ijobiy gapda); yet — hali (inkor va savolda, gap oxirida).", example:"He has just left.\nI have already eaten.\nHave you finished yet?" },
+  { unit:13, title:"Present Perfect: for va since", text:"For — davomiylik muddati bilan (for two years), since — boshlanish nuqtasi bilan (since 2020) ishlatiladi.", example:"I have lived here for five years.\nShe has worked here since March." },
+  { unit:14, title:"Present Perfect Continuous", text:"O'tmishda boshlanib hozirgacha davom etayotgan harakatni ta'kidlaydi. have/has been + fe'l-ing.", example:"I have been studying for three hours.\nIt has been raining all day." },
+  { unit:15, title:"Present Perfect va Past Simple farqi", text:"Aniq o'tgan vaqt ko'rsatilsa (yesterday, last year, in 2019) — Past Simple. Vaqt aniq bo'lmasa yoki hozir bilan bog'liq bo'lsa — Present Perfect.", example:"I saw him yesterday. (aniq vaqt)\nI have seen that film. (vaqt muhim emas)" },
+  { unit:16, title:"Past Perfect", text:"O'tmishdagi ikki harakatdan avvalgisini bildiradi. had + fe'lning 3-shakli.", example:"When I arrived, they had already left.\nShe had never seen snow before." },
+  { unit:17, title:"going to (kelasi zamon)", text:"Rejalashtirilgan harakat yoki ko'rinib turgan natija haqida. am/is/are going to + fe'l.", example:"I am going to buy a new phone.\nLook at those clouds — it's going to rain." },
+  { unit:18, title:"will (kelasi zamon)", text:"Shu daqiqada qabul qilingan qaror, va'da yoki taxmin uchun. will + fe'lning asl shakli.", example:"I will help you with that.\nShe will probably come tomorrow.\nI won't tell anyone." },
+  { unit:19, title:"can, could, be able to", text:"Can — hozirgi imkoniyat/qobiliyat; could — o'tmishdagi qobiliyat yoki muloyim so'rov; be able to — boshqa zamonlarda.", example:"I can swim very well.\nCould you help me, please?\nHe will be able to join us." },
+  { unit:20, title:"must, have to, should", text:"Must — kuchli majburiyat; have to — tashqi qoidadan kelib chiqqan zarurat; should — maslahat.", example:"You must stop at a red light.\nI have to work on Saturday.\nYou should see a doctor." },
+  { unit:21, title:"may, might", text:"Ehtimollikni bildiradi. May — biroz kuchliroq ehtimol, might — kamroq ishonch.", example:"It may rain later.\nShe might not come today." },
+  { unit:22, title:"there is / there are", text:"Biror narsaning mavjudligini bildiradi. Birlik bilan there is, ko'plik bilan there are.", example:"There is a book on the table.\nThere are five students in the class.\nIs there a bank near here?" },
+  { unit:23, title:"a / an va the", text:"A/an — noaniq, birinchi marta tilga olinganda; the — aniq, ma'lum bo'lgan narsa haqida.", example:"I saw a dog. The dog was very big.\nShe is an engineer.\nThe sun is bright today." },
+  { unit:24, title:"some va any", text:"Some — ijobiy gaplarda va taklif qilganda; any — inkor va savollarda.", example:"I have some questions.\nDo you have any money?\nThere isn't any milk left." },
+  { unit:25, title:"Sanaladigan va sanalmaydigan otlar", text:"Sanaladigan otlar ko'plik shaklga ega (books, cars). Sanalmaydigan otlar (water, information, advice) ko'plikda ishlatilmaydi va ular bilan much ishlatiladi.", example:"How many books do you have?\nHow much water do you need?\nI need some advice." },
+  { unit:26, title:"Egalik: my, his, their va 's", text:"My, your, his, her, its, our, their — egalik olmoshlari. Odamlar uchun 's qo'shimchasi ham ishlatiladi.", example:"This is my bag.\nThat is Ali's car.\nTheir house is very big." },
+  { unit:27, title:"Comparative (qiyosiy daraja)", text:"Qisqa sifatlarga -er, uzun sifatlarga more qo'shiladi. Solishtirishda than ishlatiladi.", example:"This book is cheaper than that one.\nEnglish is more useful than I thought.\ngood → better, bad → worse" },
+  { unit:28, title:"Superlative (orttirma daraja)", text:"Qisqa sifatlarga -est, uzun sifatlarga most qo'shiladi va oldidan the qo'yiladi.", example:"He is the tallest boy in the class.\nThis is the most interesting book.\ngood → the best" },
+  { unit:29, title:"Vaqt predloglari: in, on, at", text:"At — aniq vaqt (at 5 o'clock); on — kun va sana (on Monday); in — oy, yil, fasl (in July, in 2025).", example:"The class starts at nine.\nWe met on Friday.\nHe was born in 2005." },
+  { unit:30, title:"Joy predloglari: in, on, at", text:"In — ichida (in the room); on — ustida (on the table); at — nuqtada (at the door, at school).", example:"The keys are in my bag.\nThe book is on the shelf.\nShe is at the bus stop." },
+  { unit:31, title:"First Conditional (1-shart gap)", text:"Real kelajakdagi shart. If + Present Simple, will + fe'l shaklida quriladi.", example:"If it rains, I will stay home.\nIf you study hard, you will pass." },
+  { unit:32, title:"Second Conditional (2-shart gap)", text:"Xayoliy yoki haqiqatga to'g'ri kelmaydigan holat. If + Past Simple, would + fe'l.", example:"If I had more money, I would travel.\nIf I were you, I would apologise." },
+  { unit:33, title:"Passive Voice (majhul nisbat)", text:"Harakatni kim bajarganidan ko'ra, harakatning o'zi muhim bo'lganda ishlatiladi. to be + fe'lning 3-shakli.", example:"The letter was written yesterday.\nEnglish is spoken all over the world.\nThe house is being built." },
+  { unit:34, title:"Reported Speech (o'zga gap)", text:"Boshqa birovning gapini uzatishda zamon bir pog'ona orqaga suriladi.", example:"\"I am tired,\" he said. → He said he was tired.\nShe said she would come." },
+  { unit:35, title:"Relative clauses: who, which, that", text:"Who — odamlar uchun, which — narsalar uchun, that — ikkalasi uchun ham ishlatilishi mumkin.", example:"The man who called you is my uncle.\nThis is the book which I bought.\nThe car that he drives is old." },
+  { unit:36, title:"Gerund va Infinitive", text:"Ba'zi fe'llardan keyin -ing shakli (enjoy, finish, avoid), ba'zilaridan keyin to + fe'l (want, decide, hope) keladi.", example:"I enjoy reading books.\nShe decided to leave early.\nHe finished working at six." },
+  { unit:37, title:"used to", text:"O'tmishda muntazam bo'lgan, lekin hozir yo'q odatni bildiradi.", example:"I used to play football every day.\nShe used to live in Bukhara.\nDid you use to smoke?" },
+  { unit:38, title:"Phrasal verbs (qo'shma fe'llar)", text:"Fe'l va predlog birikmasi bo'lib, ko'pincha yangi ma'no beradi. Ularni yodlab olish kerak.", example:"give up — voz kechmoq\nlook after — qaramoq\nfind out — bilib olmoq\nput off — keyinga qoldirmoq" }
+];
+
+
+/* ---------- 3) ZAMONLAR TESTI (100 savol) ---------- */
+const TENSE_QUESTIONS = [
+  // ===== Present Simple (1-15) =====
+  { q:"She ___ to school every day.", options:["go","goes","going","gone"], correct:1 },
+  { q:"They ___ football on Sundays.", options:["plays","play","playing","played"], correct:1 },
+  { q:"He ___ not like coffee.", options:["do","does","is","are"], correct:1 },
+  { q:"___ you speak English?", options:["Do","Does","Are","Is"], correct:0 },
+  { q:"My brother ___ in London.", options:["live","lives","living","lived"], correct:1 },
+  { q:"Water ___ at 100 degrees.", options:["boil","boils","boiling","is boil"], correct:1 },
+  { q:"We ___ TV in the evening.", options:["watches","watch","watching","are watch"], correct:1 },
+  { q:"___ she work at a hospital?", options:["Do","Does","Is","Are"], correct:1 },
+  { q:"The shop ___ at nine o'clock.", options:["open","opens","opening","is open"], correct:1 },
+  { q:"I ___ tea every morning.", options:["drinks","drink","drinking","am drink"], correct:1 },
+  { q:"Ali and Zara ___ their homework carefully.", options:["does","do","doing","is doing"], correct:1 },
+  { q:"He ___ his teeth twice a day.", options:["brush","brushes","brushing","is brush"], correct:1 },
+  { q:"They don't ___ in that building.", options:["works","work","working","worked"], correct:1 },
+  { q:"My father ___ a taxi driver.", options:["are","is","be","am"], correct:1 },
+  { q:"How often ___ you go to the gym?", options:["does","do","is","are"], correct:1 },
+
+  // ===== Present Continuous (16-30) =====
+  { q:"They ___ playing football now.", options:["is","am","are","be"], correct:2 },
+  { q:"Look! It ___ outside.", options:["rain","rains","is raining","rained"], correct:2 },
+  { q:"I ___ a book at the moment.", options:["read","reads","am reading","have read"], correct:2 },
+  { q:"She ___ dinner right now.", options:["cook","cooks","is cooking","cooked"], correct:2 },
+  { q:"What ___ you doing?", options:["is","are","do","does"], correct:1 },
+  { q:"We ___ not working today.", options:["is","am","are","do"], correct:2 },
+  { q:"The children ___ in the garden now.", options:["play","plays","are playing","played"], correct:2 },
+  { q:"He ___ for the bus at the moment.", options:["wait","waits","is waiting","waited"], correct:2 },
+  { q:"Listen! Someone ___ the piano.", options:["play","plays","is playing","played"], correct:2 },
+  { q:"I ___ my email right now.", options:["check","checks","am checking","checked"], correct:2 },
+  { q:"They ___ to Tashkent this week.", options:["travel","travels","are travelling","travelled"], correct:2 },
+  { q:"Why ___ she crying?", options:["do","does","is","are"], correct:2 },
+  { q:"The students ___ an exam at the moment.", options:["take","takes","are taking","took"], correct:2 },
+  { q:"My phone ___ charging now.", options:["are","is","am","be"], correct:1 },
+  { q:"We ___ having lunch, call later.", options:["is","am","are","do"], correct:2 },
+
+  // ===== Present Simple vs Continuous (31-40) =====
+  { q:"I usually ___ to work, but today I am driving.", options:["walk","walks","am walking","walked"], correct:0 },
+  { q:"She ___ the answer to this question.", options:["is knowing","knows","know","knowing"], correct:1 },
+  { q:"Right now they ___ a new house.", options:["build","builds","are building","built"], correct:2 },
+  { q:"He always ___ late for class.", options:["is coming","comes","come","came"], correct:1 },
+  { q:"I ___ this film very much.", options:["am liking","likes","like","liking"], correct:2 },
+  { q:"Every summer we ___ to the mountains.", options:["go","goes","are going","went"], correct:0 },
+  { q:"Be quiet! The baby ___.", options:["sleep","sleeps","is sleeping","slept"], correct:2 },
+  { q:"She ___ a new car at the moment.", options:["want","wants","is wanting","wanting"], correct:1 },
+  { q:"My sister ___ English at university this year.", options:["study","studies","is studying","studied"], correct:2 },
+  { q:"The sun ___ in the east.", options:["rise","rises","is rising","rose"], correct:1 },
+
+  // ===== Past Simple (41-58) =====
+  { q:"What is the past tense of 'write'?", options:["writed","wrote","written","writing"], correct:1 },
+  { q:"I ___ my grandmother last week.", options:["visit","visits","visited","visiting"], correct:2 },
+  { q:"She ___ to school yesterday.", options:["go","goes","went","gone"], correct:2 },
+  { q:"They ___ not come to the party.", options:["do","did","does","are"], correct:1 },
+  { q:"The past form of 'buy' is ___.", options:["buyed","bought","boughted","buying"], correct:1 },
+  { q:"We ___ a great time in Samarkand.", options:["have","has","had","having"], correct:2 },
+  { q:"___ you finish the project?", options:["Do","Does","Did","Are"], correct:2 },
+  { q:"He ___ the window this morning.", options:["break","breaks","broke","broken"], correct:2 },
+  { q:"The past form of 'teach' is ___.", options:["teached","taught","teaching","taughted"], correct:1 },
+  { q:"I ___ born in 2005.", options:["am","is","was","were"], correct:2 },
+  { q:"They ___ very tired after the trip.", options:["was","were","is","are"], correct:1 },
+  { q:"She didn't ___ me about it.", options:["told","tells","tell","telling"], correct:2 },
+  { q:"The past form of 'take' is ___.", options:["taked","took","taken","taking"], correct:1 },
+  { q:"We ___ the film last night.", options:["watch","watches","watched","watching"], correct:2 },
+  { q:"Where ___ you go last summer?", options:["do","does","did","are"], correct:2 },
+  { q:"He ___ the letter yesterday.", options:["send","sends","sent","sending"], correct:2 },
+  { q:"The past form of 'begin' is ___.", options:["beginned","began","begun","beginning"], correct:1 },
+  { q:"I ___ my keys at home this morning.", options:["leave","leaves","left","leaving"], correct:2 },
+
+  // ===== Past Continuous (59-70) =====
+  { q:"I ___ TV when he called.", options:["watch","watched","was watching","were watching"], correct:2 },
+  { q:"They ___ for the bus at eight.", options:["wait","waited","was waiting","were waiting"], correct:3 },
+  { q:"While she ___, the phone rang.", options:["cook","cooks","was cooking","were cooking"], correct:2 },
+  { q:"What ___ you doing at ten last night?", options:["was","were","did","are"], correct:1 },
+  { q:"The children ___ in the garden all afternoon.", options:["play","played","was playing","were playing"], correct:3 },
+  { q:"He ___ his homework when I arrived.", options:["do","did","was doing","were doing"], correct:2 },
+  { q:"We ___ dinner when the lights went out.", options:["have","had","was having","were having"], correct:3 },
+  { q:"She ___ not listening to the teacher.", options:["was","were","did","is"], correct:0 },
+  { q:"It ___ heavily when we left.", options:["rain","rained","was raining","were raining"], correct:2 },
+  { q:"They ___ about the exam when I came in.", options:["talk","talked","was talking","were talking"], correct:3 },
+  { q:"I ___ across the street when I saw him.", options:["walk","walked","was walking","were walking"], correct:2 },
+  { q:"The students ___ notes during the lecture.", options:["takes","took","was taking","were taking"], correct:3 },
+
+  // ===== Present Perfect (71-88) =====
+  { q:"I ___ finished my homework.", options:["has","have","am","did"], correct:1 },
+  { q:"She ___ never been to Paris.", options:["have","has","did","was"], correct:1 },
+  { q:"They ___ just arrived.", options:["has","have","are","did"], correct:1 },
+  { q:"Have you ___ the news yet?", options:["hear","hears","heard","hearing"], correct:2 },
+  { q:"He has lived here ___ five years.", options:["since","for","from","at"], correct:1 },
+  { q:"She has worked here ___ March.", options:["for","since","from","in"], correct:1 },
+  { q:"I have ___ eaten, thank you.", options:["yet","already","since","ever"], correct:1 },
+  { q:"Have you finished ___?", options:["already","yet","just","since"], correct:1 },
+  { q:"We ___ known each other for years.", options:["has","have","are","did"], correct:1 },
+  { q:"The past participle of 'go' is ___.", options:["went","gone","going","goed"], correct:1 },
+  { q:"He has ___ his keys again.", options:["lose","loses","lost","losing"], correct:2 },
+  { q:"___ you ever visited London?", options:["Did","Have","Has","Are"], correct:1 },
+  { q:"She has ___ finished the report.", options:["yet","just","since","for"], correct:1 },
+  { q:"The past participle of 'see' is ___.", options:["saw","seen","seeing","seed"], correct:1 },
+  { q:"They haven't ___ the letter yet.", options:["send","sends","sent","sending"], correct:2 },
+  { q:"I ___ been to Bukhara three times.", options:["has","have","am","was"], correct:1 },
+  { q:"My father ___ worked here since 2010.", options:["have","has","is","was"], correct:1 },
+  { q:"The past participle of 'do' is ___.", options:["did","done","doing","dided"], correct:1 },
+
+  // ===== Present Perfect Continuous (89-93) =====
+  { q:"I have ___ studying for three hours.", options:["be","been","being","was"], correct:1 },
+  { q:"It has been ___ all day.", options:["rain","rains","raining","rained"], correct:2 },
+  { q:"She ___ been waiting since noon.", options:["have","has","is","was"], correct:1 },
+  { q:"They have been ___ in this office for a year.", options:["work","works","working","worked"], correct:2 },
+  { q:"How long ___ you been learning English?", options:["has","have","did","are"], correct:1 },
+
+  // ===== Present Perfect vs Past Simple (94-97) =====
+  { q:"I ___ him yesterday.", options:["have seen","saw","has seen","seen"], correct:1 },
+  { q:"She ___ that film three times.", options:["watched","has watched","watch","watching"], correct:1 },
+  { q:"We ___ to Turkey in 2019.", options:["have gone","went","have been","go"], correct:1 },
+  { q:"He ___ never tried sushi before.", options:["did","was","has","have"], correct:2 },
+
+  // ===== Future (98-100) =====
+  { q:"I ___ help you with that.", options:["will","am","do","did"], correct:0 },
+  { q:"Look at those clouds! It ___ rain.", options:["will","is going to","goes to","would"], correct:1 },
+  { q:"If it rains, I ___ stay home.", options:["will","would","am","was"], correct:0 }
+];
+
+
+/* ---------- 4) LUG'AT TESTI (100+ savol) ---------- */
+const VOCAB_QUESTIONS = [
+  // ===== Kundalik hayot =====
+  { q:"'Neighbour' so'zining tarjimasi:", options:["qarindosh","qo'shni","mehmon","do'st"], correct:1 },
+  { q:"'Routine' nimani anglatadi?", options:["kundalik tartib","tasodif","sayohat","dam olish"], correct:0 },
+  { q:"'Xarid qilish' inglizcha:", options:["cooking","shopping","cleaning","working"], correct:1 },
+  { q:"My ___ clock rings at six every morning.", options:["alarm","time","hour","watch"], correct:0 },
+  { q:"'Housework' nimani anglatadi?", options:["uy vazifasi","uy yumushlari","uy qurilishi","uy narxi"], correct:1 },
+  { q:"'Nonushta' inglizcha:", options:["lunch","dinner","breakfast","supper"], correct:2 },
+  { q:"We relax at the ___ after a busy week.", options:["weekday","weekend","weekly","week"], correct:1 },
+  { q:"'Schedule' so'zining ma'nosi:", options:["jadval","maktab","joy","narx"], correct:0 },
+
+  // ===== Ta'lim =====
+  { q:"'Knowledge' nimani anglatadi?", options:["kuch","bilim","vaqt","joy"], correct:1 },
+  { q:"'Imtihon' inglizcha:", options:["lesson","exam","subject","class"], correct:1 },
+  { q:"English is my favourite ___.", options:["subject","object","project","reject"], correct:0 },
+  { q:"'Library' nima?", options:["laboratoriya","kutubxona","kitob do'koni","sinf"], correct:1 },
+  { q:"Can you ___ this rule again?", options:["explain","complain","train","remain"], correct:0 },
+  { q:"'Uy vazifasi' inglizcha:", options:["classwork","homework","housework","paperwork"], correct:1 },
+  { q:"She is making good ___ in English.", options:["progress","process","promise","project"], correct:0 },
+  { q:"'Pupil' so'zining ma'nosi:", options:["o'qituvchi","o'quvchi","direktor","ota-ona"], correct:1 },
+
+  // ===== Oila =====
+  { q:"'Relative' nimani anglatadi?", options:["qo'shni","qarindosh","mehmon","hamkasb"], correct:1 },
+  { q:"'Bolalik' inglizcha:", options:["childhood","boyhood","babyhood","kidhood"], correct:0 },
+  { q:"They will ___ next spring.", options:["marry","carry","hurry","worry"], correct:0 },
+  { q:"'Grandparents' kim?", options:["ota-ona","buvi-bobo","amaki-xola","aka-uka"], correct:1 },
+  { q:"'Mehmon' inglizcha:", options:["host","guest","ghost","guess"], correct:1 },
+  { q:"Children should ___ their elders.", options:["respect","expect","inspect","suspect"], correct:0 },
+  { q:"'Twins' nima?", options:["egizaklar","aka-uka","opa-singil","qo'shnilar"], correct:0 },
+  { q:"'Friendship' so'zining ma'nosi:", options:["do'stlik","kema","yordam","sayohat"], correct:0 },
+
+  // ===== Ish va kasb =====
+  { q:"'Salary' nimani anglatadi?", options:["ish","maosh","idora","hujjat"], correct:1 },
+  { q:"'Hamkasb' inglizcha:", options:["college","colleague","collect","collar"], correct:1 },
+  { q:"He has ten years of ___ in teaching.", options:["experiment","experience","expert","expense"], correct:1 },
+  { q:"'Interview' nima?", options:["suhbat (ishga)","yig'ilish","tanaffus","hisobot"], correct:0 },
+  { q:"She is ___ for the whole project.", options:["responsible","reasonable","reliable","remarkable"], correct:0 },
+  { q:"'Ko'nikma' inglizcha:", options:["still","skill","skull","school"], correct:1 },
+  { q:"'Employer' kim?", options:["ishchi","ish beruvchi","mijoz","hamkor"], correct:1 },
+  { q:"He built a successful ___ in medicine.", options:["career","carrier","carry","cargo"], correct:0 },
+
+  // ===== Sayohat =====
+  { q:"'Journey' nimani anglatadi?", options:["kunlik","safar","jurnal","yo'l"], correct:1 },
+  { q:"'Yuk, bagaj' inglizcha:", options:["language","luggage","package","message"], correct:1 },
+  { q:"Every ___ must show a ticket.", options:["passage","passenger","passport","password"], correct:1 },
+  { q:"'Abroad' nimani anglatadi?", options:["keng","chet elda","yo'lda","tashqarida"], correct:1 },
+  { q:"The price includes ___ and breakfast.", options:["accommodation","accomplishment","accompaniment","accountant"], correct:0 },
+  { q:"'Manzil' inglizcha:", options:["direction","destination","decision","description"], correct:1 },
+  { q:"I bought a ___ for my sister in Bukhara.", options:["souvenir","memory","present time","reminder"], correct:0 },
+  { q:"There was a two-hour ___ at the airport.", options:["delay","delete","deliver","demand"], correct:0 },
+
+  // ===== Ovqat =====
+  { q:"'Delicious' nimani anglatadi?", options:["achchiq","mazali","sovuq","qattiq"], correct:1 },
+  { q:"'Retsept' inglizcha:", options:["receipt","recipe","receive","recent"], correct:1 },
+  { q:"Salt is an important ___ in this dish.", options:["ingredient","instrument","instruction","invention"], correct:0 },
+  { q:"'Sabzavot' inglizcha:", options:["fruit","vegetable","grain","meat"], correct:1 },
+  { q:"We had ice cream for ___.", options:["desert","dessert","design","describe"], correct:1 },
+  { q:"'Boil' nimani anglatadi?", options:["qovurmoq","qaynatmoq","pishirmoq","muzlatmoq"], correct:1 },
+  { q:"The children were very ___ after school.", options:["hungry","angry","hurry","husky"], correct:0 },
+  { q:"'Fresh' so'zining ma'nosi:", options:["eski","yangi, toza","issiq","shirin"], correct:1 },
+
+  // ===== Sog'liq =====
+  { q:"'Medicine' nimani anglatadi?", options:["dori","kasallik","shifokor","kasalxona"], correct:0 },
+  { q:"'Kasallik' inglizcha:", options:["healthy","illness","hospital","medical"], correct:1 },
+  { q:"The ___ was successful and he is fine now.", options:["treatment","agreement","statement","movement"], correct:0 },
+  { q:"Regular ___ keeps you strong.", options:["exercise","exercises book","exam","excuse"], correct:0 },
+  { q:"'Og'riq' inglizcha:", options:["pain","rain","gain","main"], correct:0 },
+  { q:"She ___ after a few days in bed.", options:["recovered","discovered","covered","uncovered"], correct:0 },
+  { q:"'Healthy' so'zining ma'nosi:", options:["kasal","sog'lom","charchagan","kuchli"], correct:1 },
+  { q:"I feel ___ after a long day at work.", options:["tired","tried","tide","tiny"], correct:0 },
+
+  // ===== Tabiat =====
+  { q:"'Environment' nimani anglatadi?", options:["atrof-muhit","muhandislik","hodisa","voqea"], correct:0 },
+  { q:"'Ob-havo' inglizcha:", options:["whether","weather","wether","water"], correct:1 },
+  { q:"They climbed the highest ___ in the region.", options:["mountain","fountain","maintain","certain"], correct:0 },
+  { q:"'O'rmon' inglizcha:", options:["field","forest","garden","desert"], correct:1 },
+  { q:"Air ___ is a serious problem in big cities.", options:["pollution","solution","population","portion"], correct:0 },
+  { q:"'Climate' nimani anglatadi?", options:["iqlim","tepalik","ob-havo","harorat"], correct:0 },
+  { q:"Autumn is my favourite ___.", options:["season","reason","seasoning","sea"], correct:0 },
+  { q:"'Daryo' inglizcha:", options:["lake","river","sea","ocean"], correct:1 },
+
+  // ===== Texnologiya =====
+  { q:"'Download' nimani anglatadi?", options:["yuklab olmoq","yuborib bermoq","o'chirib tashlamoq","saqlamoq"], correct:0 },
+  { q:"'Qurilma' inglizcha:", options:["divide","device","advice","devil"], correct:1 },
+  { q:"The ___ needs an update to work properly.", options:["software","hardware","houseware","silverware"], correct:0 },
+  { q:"'Parol' inglizcha:", options:["passport","password","passage","passenger"], correct:1 },
+  { q:"Don't look at the ___ for too long.", options:["screen","scream","script","scratch"], correct:0 },
+  { q:"'Ixtiro' inglizcha:", options:["intention","invention","invitation","information"], correct:1 },
+  { q:"'Connect' nimani anglatadi?", options:["ulanmoq","tanlamoq","tekshirmoq","yopmoq"], correct:0 },
+  { q:"I sent you a ___ this morning.", options:["message","massage","manager","marriage"], correct:0 },
+
+  // ===== His-tuyg'ular =====
+  { q:"'Nervous' nimani anglatadi?", options:["xotirjam","asabiy, hayajonli","xursand","charchagan"], correct:1 },
+  { q:"His parents are very ___ of him.", options:["proud","loud","cloud","proved"], correct:0 },
+  { q:"'Qo'rqqan' inglizcha:", options:["afraid","aloud","abroad","ahead"], correct:0 },
+  { q:"We were ___ by the sudden news.", options:["surprised","supervised","supposed","supported"], correct:0 },
+  { q:"'Lonely' nimani anglatadi?", options:["uzoq","yolg'iz","sekin","baland"], correct:1 },
+  { q:"The kids are ___ about the school trip.", options:["excited","exited","excused","exhausted"], correct:0 },
+  { q:"'Xotirjam' inglizcha:", options:["calm","clam","claim","climb"], correct:0 },
+  { q:"I am very ___ for your help.", options:["grateful","greatly","grade","gradual"], correct:0 },
+
+  // ===== Tavsiflash =====
+  { q:"Choose the opposite of 'difficult'.", options:["hard","easy","complex","tough"], correct:1 },
+  { q:"'Qimmat' inglizcha:", options:["cheap","expensive","expansive","expert"], correct:1 },
+  { q:"These shoes are very ___ to walk in.", options:["comfortable","comparable","considerable","controllable"], correct:0 },
+  { q:"'Dangerous' nimani anglatadi?", options:["xavfli","g'alati","tez","og'ir"], correct:0 },
+  { q:"Children are naturally ___ about the world.", options:["curious","serious","furious","various"], correct:0 },
+  { q:"'Foydali' inglizcha:", options:["useless","useful","user","usual"], correct:1 },
+  { q:"The library is a very ___ place to study.", options:["quiet","quite","quit","quick"], correct:0 },
+  { q:"'Mashhur' inglizcha:", options:["famous","fabulous","furious","familiar"], correct:0 },
+
+  // ===== Fe'llar =====
+  { q:"'Achieve' nimani anglatadi?", options:["erishmoq","yo'qotmoq","boshlamoq","tugatmoq"], correct:0 },
+  { q:"I want to ___ my English this year.", options:["improve","approve","prove","move"], correct:0 },
+  { q:"'Qaror qilmoq' inglizcha:", options:["divide","decide","describe","deliver"], correct:1 },
+  { q:"I can't ___ his name.", options:["remember","remind","remain","remove"], correct:0 },
+  { q:"He ___ a completely different plan.", options:["suggested","suffered","supported","supplied"], correct:0 },
+  { q:"'Tayyorlamoq' inglizcha:", options:["prepare","repair","prefer","present"], correct:0 },
+  { q:"Can I ___ your pen for a minute?", options:["borrow","lend","give","take"], correct:0 },
+  { q:"They ___ us to their wedding.", options:["invited","invented","involved","invested"], correct:0 },
+
+  // ===== Iboralar =====
+  { q:"'However' nimani anglatadi?", options:["shuning uchun","biroq, ammo","masalan","chunki"], correct:1 },
+  { q:"Call me ___ you arrive.", options:["as soon as","as long as","as far as","as well as"], correct:0 },
+  { q:"I ___ seeing you next week.", options:["look forward to","look after","look for","look up"], correct:0 },
+  { q:"She ___ the English competition last year.", options:["took part in","took care of","took off","took over"], correct:0 },
+  { q:"Never ___ on your dreams.", options:["give up","give in","give away","give out"], correct:0 },
+  { q:"I need to ___ the truth about this.", options:["find out","find in","find up","find off"], correct:0 },
+  { q:"Drink water ___ soda.", options:["instead of","in spite of","in front of","in case of"], correct:0 },
+  { q:"Read ___ ten pages every day.", options:["at least","at last","at once","at first"], correct:0 }
+];
+
+
+/* ---------- 5) TEST TO'PLAMLARI ---------- */
+const QUIZ_SETS = [
+  {
+    id: "tenses",
+    icon: "⏰",
+    title: "Zamonlar (Tenses)",
+    desc: "Present, Past, Perfect — to'liq to'plam",
+    questions: TENSE_QUESTIONS
+  },
+  {
+    id: "vocabulary",
+    icon: "📕",
+    title: "Lug'at testi",
+    desc: "Barcha mavzulardagi so'zlar bo'yicha",
+    questions: VOCAB_QUESTIONS
+  },
+  {
+    id: "olympiad",
+    icon: "🏅",
+    title: "Olimpiada",
+    desc: "Olimpiadaga tayyorgarlik testlari",
+    questions: []
+  },
+  {
+    id: "tkt",
+    icon: "🎓",
+    title: "TKT",
+    desc: "Teaching Knowledge Test materiallari",
+    questions: []
+  }
+];
+
+let currentUser = "";
+let currentIndex = 0;
+let score = 0;
+let streak = 0;
+let vocabFilter = "all";
+let activeSet = null;          // tanlangan test to'plami
+let userAnswers = [];          // har bir savolga berilgan javob (null = javobsiz)
+let quizFinished = false;
+
+const screens = {
+  home: document.getElementById('screen-home'),
+  quizlist: document.getElementById('screen-quizlist'),
+  name: document.getElementById('screen-name'),
+  vocab: document.getElementById('screen-vocab'),
+  quiz: document.getElementById('screen-quiz'),
+  result: document.getElementById('screen-result'),
+  leaderboard: document.getElementById('screen-leaderboard'),
+  info: document.getElementById('screen-info'),
+  profile: document.getElementById('screen-profile'),
+};
+const tabbar = document.getElementById('tabbar');
+const tabItems = document.querySelectorAll('.tab-item');
+const xpStrip = document.getElementById('xpStrip');
+const TAB_SCREENS = ['home','quizlist','vocab','leaderboard','info','profile'];
+
+function showScreen(name){
+  Object.values(screens).forEach(s => s.classList.remove('active'));
+  screens[name].classList.add('active');
+  // tog'ga chiqish yo'lakchasi faqat test ekranida
+  document.getElementById('climbTrack').style.display = (name === 'quiz') ? 'flex' : 'none';
+  if(TAB_SCREENS.includes(name)){
+    tabbar.style.display = 'flex';
+    xpStrip.style.display = 'flex';
+    tabItems.forEach(t => t.classList.toggle('active', t.dataset.tab === name));
+  } else {
+    tabbar.style.display = 'none';
+    xpStrip.style.display = 'none';
+  }
+}
+
+tabItems.forEach(btn => {
+  btn.addEventListener('click', async () => {
+    const tab = btn.dataset.tab;
+    showScreen(tab);
+    if(tab === 'home'){ await renderHome(); }
+    if(tab === 'quizlist'){ renderQuizSets(); }
+    if(tab === 'leaderboard'){ await renderLeaderboard(); }
+    if(tab === 'profile'){ renderProfile(); }
+  });
+});
+
+// ---- Telegram WebApp init ----
+try{
+  if(window.Telegram && window.Telegram.WebApp){
+    Telegram.WebApp.ready();
+    Telegram.WebApp.expand();
+    const tgUser = Telegram.WebApp.initDataUnsafe?.user;
+    if(tgUser){
+      const fullName = [tgUser.first_name, tgUser.last_name].filter(Boolean).join(' ');
+      if(fullName) document.getElementById('nameInput').value = fullName;
+    }
+  }
+}catch(e){}
+
+/* =========================================================
+   FIREBASE
+   ========================================================= */
+const firebaseConfig = {
+  apiKey: "AIzaSyAEvrj_qZohqGIBt3JCzC4QQ0jLNbZc4js",
+  authDomain: "english-test-c7f57.firebaseapp.com",
+  databaseURL: "https://english-test-c7f57-default-rtdb.firebaseio.com",
+  projectId: "english-test-c7f57",
+  storageBucket: "english-test-c7f57.firebasestorage.app",
+  messagingSenderId: "809563193589",
+  appId: "1:809563193589:web:1a6578b812458c1d6d45bc"
+};
+let db = null;
+try{
+  firebase.initializeApp(firebaseConfig);
+  db = firebase.database();
+}catch(e){ console.error('Firebase init failed, davom etamiz reytingsiz:', e); }
+
+/* =========================================================
+   ORQA FON ANIMATSIYASI
+   ========================================================= */
+(function initBgFx(){
+  const words = ["London","Big Ben","tea","castle","crown","Oxford","British","Queen","pounds","football","Cambridge","Thames","royal","English","pub","Windsor","fish&chips","Union Jack","knight","garden","Shakespeare","tower"];
+  const wrap = document.getElementById('bgFx');
+  for(let i=0;i<24;i++){
+    const span = document.createElement('span');
+    span.textContent = words[Math.floor(Math.random()*words.length)];
+    span.style.left = Math.random()*96 + '%';
+    span.style.fontSize = (13 + Math.random()*30) + 'px';
+    const duration = 16 + Math.random()*18;
+    span.style.animationDuration = duration + 's';
+    span.style.animationDelay = (Math.random()*duration) + 's';
+    wrap.appendChild(span);
+  }
+
+  const colors = ['#D7263D','#274C9E','#FFD23F','#F7F4EC'];
+  const shapesWrap = document.getElementById('bgShapes');
+  for(let i=0;i<12;i++){
+    const el = document.createElement('div');
+    const isTriangle = Math.random() > 0.5;
+    const size = 10 + Math.random()*18;
+    const color = colors[Math.floor(Math.random()*colors.length)];
+    el.className = 'bg-shape ' + (isTriangle ? 'shape-triangle' : 'shape-circle');
+    if(isTriangle){
+      el.style.borderWidth = `0 ${size/2}px ${size}px ${size/2}px`;
+      el.style.borderColor = `transparent transparent ${color} transparent`;
+    } else {
+      el.style.width = size + 'px';
+      el.style.height = size + 'px';
+      el.style.background = color;
+    }
+    el.style.left = Math.random()*96 + '%';
+    const duration = 14 + Math.random()*16;
+    el.style.animationDuration = duration + 's';
+    el.style.animationDelay = (Math.random()*duration) + 's';
+    shapesWrap.appendChild(el);
+  }
+})();
+
+/* =========================================================
+   KONFETTI / TOAST
+   ========================================================= */
+function confettiBurst(x, y){
+  const colors = ['#F2B705','#3DDC97','#FF6B6B','#F7F4EC','#8B7FF2'];
+  const layer = document.getElementById('fxLayer');
+  for(let i=0;i<22;i++){
+    const p = document.createElement('div');
+    p.className = 'confetti-piece';
+    const angle = Math.random()*Math.PI*2;
+    const dist = 60 + Math.random()*90;
+    p.style.setProperty('--ct', `translate(${Math.cos(angle)*dist}px, ${Math.sin(angle)*dist - 40}px)`);
+    p.style.setProperty('--cr', (Math.random()*360)+'deg');
+    p.style.left = x + 'px';
+    p.style.top = y + 'px';
+    p.style.background = colors[Math.floor(Math.random()*colors.length)];
+    layer.appendChild(p);
+    setTimeout(() => p.remove(), 950);
+  }
+}
+let toastTimer = null;
+function showToast(text){
+  let toast = document.getElementById('appToast');
+  if(!toast){
+    toast = document.createElement('div');
+    toast.id = 'appToast';
+    toast.className = 'toast';
+    document.body.appendChild(toast);
+  }
+  toast.textContent = text;
+  toast.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove('show'), 1600);
+}
+
+/* =========================================================
+   MASKOT
+   ========================================================= */
+let mascotTimer = null;
+const HAPPY_PHRASES = ["Zo'r!", "Ajoyib!", "Barakalla!", "To'g'ri!", "Balli!"];
+const SAD_PHRASES = ["Hechqisi yo'q!", "Yana urinib ko'ring", "Keyingisi bo'ladi"];
+
+function mascotReact(mood, customText){
+  const el = document.getElementById('mascotWrap');
+  const bubble = document.getElementById('mascotBubble');
+  const mouthHappy = document.getElementById('mascotMouthHappy');
+  const mouthSad = document.getElementById('mascotMouthSad');
+  const tear = document.getElementById('mascotTear');
+
+  el.classList.remove('mood-happy','mood-sad');
+  void el.offsetWidth;
+  el.classList.add(mood === 'happy' ? 'mood-happy' : 'mood-sad');
+
+  if(mood === 'happy'){
+    mouthHappy.style.display = '';
+    mouthSad.style.display = 'none';
+    tear.style.display = 'none';
+    bubble.textContent = customText || HAPPY_PHRASES[Math.floor(Math.random()*HAPPY_PHRASES.length)];
+  } else {
+    mouthHappy.style.display = 'none';
+    mouthSad.style.display = '';
+    tear.style.display = '';
+    bubble.textContent = customText || SAD_PHRASES[Math.floor(Math.random()*SAD_PHRASES.length)];
+  }
+
+  el.classList.add('peek');
+  if(mood === 'happy') spawnSparkles();
+
+  clearTimeout(mascotTimer);
+  mascotTimer = setTimeout(() => {
+    el.classList.remove('peek');
+    setTimeout(() => {
+      mouthHappy.style.display = '';
+      mouthSad.style.display = 'none';
+      tear.style.display = 'none';
+    }, 450);
+  }, 1700);
+}
+
+function spawnSparkles(){
+  const rect = document.getElementById('mascotWrap').getBoundingClientRect();
+  const stars = ['✨','⭐','💫'];
+  for(let i=0;i<5;i++){
+    const s = document.createElement('div');
+    s.className = 'sparkle';
+    s.textContent = stars[Math.floor(Math.random()*stars.length)];
+    s.style.left = (rect.left + rect.width/2 + (Math.random()*60-30)) + 'px';
+    s.style.top = (rect.top + 20 + (Math.random()*30-15)) + 'px';
+    s.style.animationDelay = (Math.random()*0.15) + 's';
+    document.body.appendChild(s);
+    setTimeout(() => s.remove(), 900);
+  }
+}
+
+/* =========================================================
+   XP / DARAJA
+   ========================================================= */
+const LEVEL_TITLES = ["Boshlang'ich","O'rganuvchi","O'rta daraja","Ilg'or","Yuqori daraja","Usta"];
+const XP_PER_LEVEL = 100;
+function getXP(){ try{ return parseInt(localStorage.getItem('xp') || '0', 10); }catch(e){ return 0; } }
+function setXP(val){ try{ localStorage.setItem('xp', String(val)); }catch(e){} }
+function levelFromXP(xp){ return Math.min(Math.floor(xp / XP_PER_LEVEL) + 1, LEVEL_TITLES.length); }
+function renderXpStrip(){
+  const xp = getXP();
+  const level = levelFromXP(xp);
+  const xpInLevel = xp % XP_PER_LEVEL;
+  document.getElementById('xpLevelBadge').textContent = 'LVL ' + level;
+  document.getElementById('xpTitle').textContent = LEVEL_TITLES[level-1] || LEVEL_TITLES[LEVEL_TITLES.length-1];
+  document.getElementById('xpFill').style.width = xpInLevel + '%';
+  document.getElementById('xpNum').textContent = `${xpInLevel}/${XP_PER_LEVEL}`;
+}
+function addXP(amount){
+  const before = getXP();
+  const beforeLevel = levelFromXP(before);
+  const after = before + amount;
+  setXP(after);
+  renderXpStrip();
+  if(levelFromXP(after) > beforeLevel){ showLevelUp(levelFromXP(after)); }
+}
+function showLevelUp(level){
+  const overlay = document.getElementById('levelUpOverlay');
+  document.getElementById('levelUpTitle').textContent = `Level ${level}!`;
+  document.getElementById('levelUpSub').textContent = `Siz "${LEVEL_TITLES[level-1] || LEVEL_TITLES[LEVEL_TITLES.length-1]}" darajasiga chiqdingiz`;
+  overlay.classList.add('show');
+}
+document.getElementById('levelUpClose').addEventListener('click', () => {
+  document.getElementById('levelUpOverlay').classList.remove('show');
+});
+
+/* =========================================================
+   FAOLLIK KUZATUVI (activity tracking)
+   ========================================================= */
+function loadJSON(key, fallback){
+  try{ const v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; }catch(e){ return fallback; }
+}
+function saveJSON(key, val){ try{ localStorage.setItem(key, JSON.stringify(val)); }catch(e){} }
+
+function logSessionStart(){
+  const sessions = loadJSON('sessions', []);
+  sessions.push({ ts: Date.now() });
+  if(sessions.length > 200) sessions.shift();
+  saveJSON('sessions', sessions);
+}
+function addActiveSeconds(sec){
+  const total = parseInt(localStorage.getItem('totalSeconds') || '0', 10);
+  localStorage.setItem('totalSeconds', String(total + sec));
+}
+function getTotalSeconds(){ return parseInt(localStorage.getItem('totalSeconds') || '0', 10); }
+
+function logTestResult(entry){
+  const log = loadJSON('testLog', []);
+  log.push({ ts: entry.ts, score: entry.score, total: entry.total, percent: entry.percent });
+  if(log.length > 100) log.shift();
+  saveJSON('testLog', log);
+}
+function getTestLog(){ return loadJSON('testLog', []); }
+
+function markWordSeen(en){
+  const seen = loadJSON('flippedWords', []);
+  if(!seen.includes(en)){ seen.push(en); saveJSON('flippedWords', seen); }
+}
+function getSeenWordsCount(){ return loadJSON('flippedWords', []).length; }
+
+function markGrammarOpened(title){
+  const opened = loadJSON('openedGrammar', []);
+  if(!opened.includes(title)){ opened.push(title); saveJSON('openedGrammar', opened); }
+}
+function getOpenedGrammarCount(){ return loadJSON('openedGrammar', []).length; }
+
+function getActiveDaysCount(){
+  const sessions = loadJSON('sessions', []);
+  const days = new Set(sessions.map(s => new Date(s.ts).toDateString()));
+  return days.size;
+}
+function getCurrentStreakDays(){
+  const sessions = loadJSON('sessions', []);
+  const days = [...new Set(sessions.map(s => new Date(s.ts).toDateString()))]
+    .map(d => new Date(d).getTime()).sort((a,b)=>b-a);
+  if(days.length === 0) return 0;
+  let streakDays = 1;
+  const DAY = 86400000;
+  for(let i=0;i<days.length-1;i++){
+    if(days[i] - days[i+1] <= DAY + 3600000){ streakDays++; } else break;
+  }
+  const today = new Date().toDateString();
+  const mostRecent = new Date(days[0]).toDateString();
+  if(mostRecent !== today){
+    const diff = (new Date(today) - new Date(mostRecent)) / DAY;
+    if(diff > 1.5) return 0;
+  }
+  return streakDays;
+}
+
+// session heartbeat: count active time while tab visible
+logSessionStart();
+setInterval(() => {
+  if(document.visibilityState === 'visible'){ addActiveSeconds(15); }
+}, 15000);
+
+/* =========================================================
+   YUTUQLAR (ACHIEVEMENTS)
+   ========================================================= */
+const ACHIEVEMENTS = [
+  { id:'bilimdon', icon:'📖', title:'Bilimdon', check: () => ({ done: getSeenWordsCount() >= VOCAB.length, cur: getSeenWordsCount(), goal: VOCAB.length }), desc:"Lug'atdagi barcha so'zlarni ko'rish" },
+  { id:'grammatika', icon:'🎓', title:'Grammatika ustasi', check: () => ({ done: getOpenedGrammarCount() >= GRAMMAR.length, cur: getOpenedGrammarCount(), goal: GRAMMAR.length }), desc:"Barcha grammatika mavzularini ochish" },
+  { id:'benuqson', icon:'✅', title:"Benuqson", check: () => { const has = getTestLog().some(t => t.percent === 100); return { done: has, cur: has?1:0, goal:1 }; }, desc:"100% natija bilan test topshirish" },
+  { id:'tungiboyqush', icon:'🦉', title:'Tungi boyqush', check: () => { const has = getTestLog().some(t => { const h = new Date(t.ts).getHours(); return h>=0 && h<5; }); return { done: has, cur: has?1:0, goal:1 }; }, desc:"00:00–05:00 orasida test ishlash" },
+  { id:'ertaqush', icon:'🌅', title:'Erta qush', check: () => { const has = getTestLog().some(t => { const h = new Date(t.ts).getHours(); return h>=5 && h<8; }); return { done: has, cur: has?1:0, goal:1 }; }, desc:"05:00–08:00 orasida test ishlash" },
+  { id:'alanga', icon:'🔥', title:'Alanga', check: () => { const s = getCurrentStreakDays(); return { done: s>=3, cur:Math.min(s,3), goal:3 }; }, desc:"3 kun ketma-ket faol bo'lish" },
+  { id:'marafon', icon:'🏃', title:'Marafon', check: () => { const m = Math.floor(getTotalSeconds()/60); return { done: m>=60, cur:Math.min(m,60), goal:60 }; }, desc:"Ilovada jami 1 soat vaqt o'tkazish" },
+  { id:'elchi', icon:'📮', title:'Elchi', check: () => { const n = getTestLog().length; return { done:n>=10, cur:Math.min(n,10), goal:10 }; }, desc:"10 marta test ishlash" },
+  { id:'sadoqat', icon:'💛', title:'Sadoqat', check: () => { const d = getActiveDaysCount(); return { done:d>=7, cur:Math.min(d,7), goal:7 }; }, desc:"7 xil kunda ilovaga kirish" },
+];
+
+function renderAchievements(){
+  const grid = document.getElementById('achGrid');
+  grid.innerHTML = '';
+  let unlockedCount = 0;
+  ACHIEVEMENTS.forEach(a => {
+    const res = a.check();
+    if(res.done) unlockedCount++;
+    const div = document.createElement('div');
+    div.className = 'ach-item' + (res.done ? ' unlocked' : '');
+    div.innerHTML = `
+      <div class="ach-circle">${a.icon}</div>
+      <div class="ach-name">${a.title}</div>
+      <div class="ach-progress">${res.cur}/${res.goal}</div>
+    `;
+    div.title = a.desc;
+    grid.appendChild(div);
+  });
+  document.getElementById('achCount').textContent = `${unlockedCount}/${ACHIEVEMENTS.length}`;
+}
+
+/* =========================================================
+   PROFIL
+   ========================================================= */
+function saveLastName(name){ try{ localStorage.setItem('last-name', name); }catch(e){} }
+function getLastName(){ try{ return localStorage.getItem('last-name'); }catch(e){ return null; } }
+function saveAvatar(dataUrl){ try{ localStorage.setItem('avatar', dataUrl); }catch(e){} }
+function getAvatar(){ try{ return localStorage.getItem('avatar'); }catch(e){ return null; } }
+
+document.getElementById('avatarEditBtn').addEventListener('click', () => {
+  document.getElementById('avatarInput').click();
+});
+document.getElementById('avatarInput').addEventListener('change', (e) => {
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    saveAvatar(reader.result);
+    renderProfile();
+  };
+  reader.readAsDataURL(file);
+});
+
+function renderProfile(){
+  document.getElementById('profileNameText').textContent = currentUser || 'Foydalanuvchi';
+  const avatarCircle = document.getElementById('avatarCircle');
+  const avatar = getAvatar();
+  if(avatar){
+    avatarCircle.innerHTML = `<img src="${avatar}" alt="avatar">`;
+  } else {
+    avatarCircle.textContent = (currentUser || '?').trim().charAt(0).toUpperCase();
+  }
+
+  const log = getTestLog();
+  const testsCount = log.length;
+  const avgPercent = testsCount ? Math.round(log.reduce((s,t)=>s+t.percent,0)/testsCount) : 0;
+  const totalMin = Math.floor(getTotalSeconds()/60);
+  const streakDays = getCurrentStreakDays();
+
+  document.getElementById('statTests').textContent = testsCount;
+  document.getElementById('statAvg').textContent = avgPercent + '%';
+  document.getElementById('statTime').textContent = totalMin + ' daq';
+  document.getElementById('statStreak').textContent = streakDays + ' kun';
+
+  renderAchievements();
+
+  // so'nggi faollik
+  const activityList = document.getElementById('activityList');
+  activityList.innerHTML = '';
+  const recent = [...log].reverse().slice(0, 6);
+  if(recent.length === 0){
+    activityList.innerHTML = '<div class="empty">Hali faollik yo\'q. Birinchi testni ishlab ko\'ring!</div>';
+  } else {
+    recent.forEach(t => {
+      const d = new Date(t.ts);
+      const timeStr = d.toLocaleDateString('uz-UZ') + ' · ' + d.toLocaleTimeString('uz-UZ', {hour:'2-digit', minute:'2-digit'});
+      const div = document.createElement('div');
+      div.className = 'activity-row';
+      div.innerHTML = `
+        <div class="activity-icon">📝</div>
+        <div class="activity-body">
+          <div class="activity-title">Test yakunlandi</div>
+          <div class="activity-time">${timeStr}</div>
+        </div>
+        <div class="activity-score">${t.score}/${t.total} · ${t.percent}%</div>
+      `;
+      activityList.appendChild(div);
+    });
+  }
+}
+
+document.getElementById('profileNameEditBtn').addEventListener('click', () => {
+  const textEl = document.getElementById('profileNameText');
+  const current = currentUser || '';
+  const input = document.createElement('input');
+  input.type = 'text';
+  input.value = current;
+  input.maxLength = 40;
+  input.style.cssText = 'width:180px; margin-bottom:0; padding:8px 12px; font-size:15px; text-align:center;';
+  textEl.replaceWith(input);
+  input.focus();
+  input.select();
+
+  function commit(){
+    const newName = input.value.trim();
+    if(newName){
+      currentUser = newName;
+      saveLastName(newName);
+    }
+    input.replaceWith(textEl);
+    textEl.textContent = currentUser || 'Foydalanuvchi';
+  }
+  input.addEventListener('blur', commit);
+  input.addEventListener('keydown', (e) => { if(e.key === 'Enter') input.blur(); });
+});
+
+function enterApp(name){
+  currentUser = name;
+  saveLastName(name);
+  renderXpStrip();
+  renderVocab();
+  renderHome();
+  showScreen('home');
+}
+
+document.getElementById('startBtn').addEventListener('click', () => {
+  const name = document.getElementById('nameInput').value.trim();
+  if(!name){
+    document.getElementById('nameInput').style.borderColor = 'var(--coral)';
+    return;
+  }
+  enterApp(name);
+});
+
+(() => {
+  const last = getLastName();
+  if(last){
+    enterApp(last);
+  }
+})();
+
+/* ============== VOCAB ============== */
+function renderVocabFilters(){
+  const cats = ["all", ...new Set(VOCAB.map(w => w.topic))];
+  const labels = VOCAB_TOPICS;
+  const wrap = document.getElementById('vocabFilters');
+  wrap.innerHTML = '';
+  cats.forEach(c => {
+    const chip = document.createElement('button');
+    chip.className = 'filter-chip' + (c === vocabFilter ? ' active' : '');
+    chip.textContent = labels[c] || c;
+    chip.addEventListener('click', () => { vocabFilter = c; renderVocab(); });
+    wrap.appendChild(chip);
+  });
+}
+function renderVocab(){
+  renderVocabFilters();
+  const query = (document.getElementById('vocabSearch').value || '').toLowerCase();
+  const list = document.getElementById('vocabList');
+  const filtered = VOCAB.filter(w => {
+    const matchCat = vocabFilter === 'all' || w.topic === vocabFilter;
+    const matchQuery = w.en.toLowerCase().includes(query) || w.uz.toLowerCase().includes(query);
+    return matchCat && matchQuery;
+  });
+  list.innerHTML = '';
+  if(filtered.length === 0){ list.innerHTML = '<div class="empty">Hech narsa topilmadi.</div>'; return; }
+  const catLabels = VOCAB_TOPICS;
+  filtered.forEach(w => {
+    const div = document.createElement('div');
+    div.className = 'flip-card word-card';
+    div.innerHTML = `
+      <div class="flip-inner">
+        <div class="flip-face flip-front">
+          <div class="word-head">
+            <div style="display:flex; align-items:center; gap:10px;">
+              <div class="word-emoji">${w.emoji || '📘'}</div>
+              <div class="word-en">${w.en}</div>
+            </div>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <div class="word-cat">${catLabels[w.topic] || w.topic}</div>
+              <button class="speak-btn" data-speak="${w.en}">&#128266;</button>
+            </div>
+          </div>
+          <div class="flip-hint">Tarjimasini ko'rish uchun bosing &#8635;</div>
+        </div>
+        <div class="flip-face flip-back">
+          <div class="word-uz" style="font-size:16px; font-weight:600; color:var(--gold); margin-bottom:6px;">${w.emoji || ''} ${w.uz}</div>
+          <div class="word-ex">${w.example}</div>
+        </div>
+      </div>
+    `;
+    div.addEventListener('click', (e) => {
+      if(e.target.closest('.speak-btn')){
+        e.stopPropagation();
+        speakWord(w.en);
+        return;
+      }
+      div.classList.toggle('flipped');
+      markWordSeen(w.en);
+    });
+    list.appendChild(div);
+  });
+}
+
+/* ---- Talaffuz (brauzerning o'z ovozi) ---- */
+let speechSupported = ('speechSynthesis' in window);
+function speakWord(text){
+  if(!speechSupported) return;
+  try{
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'en-US';
+    u.rate = 0.9;
+    window.speechSynthesis.speak(u);
+  }catch(e){ console.warn('speech failed', e); }
+}
+// agar ovoz qo'llab-quvvatlanmasa, tugmalarni yashiramiz
+if(!speechSupported){
+  const style = document.createElement('style');
+  style.textContent = '.speak-btn{ display:none !important; }';
+  document.head.appendChild(style);
+}
+document.getElementById('vocabSearch').addEventListener('input', renderVocab);
+
+/* ============== BOSH SAHIFA ============== */
+async function renderHome(){
+  document.getElementById('homeGreeting').textContent = `Salom, ${currentUser || 'do\'stim'}!`;
+
+  const log = getTestLog();
+  const attempts = log.length;
+  const avg = attempts ? Math.round(log.reduce((s,t)=>s+t.percent,0)/attempts) : 0;
+  document.getElementById('homeAttempts').textContent = attempts;
+  document.getElementById('homeAvg').textContent = avg + '%';
+  document.getElementById('homeStreak').textContent = getCurrentStreakDays();
+
+  // reyting o'rni
+  try{
+    const list = bestScoresList(await getAllScores());
+    const idx = list.findIndex(e => e.name === currentUser);
+    document.getElementById('homeRank').textContent = idx >= 0 ? ('#' + (idx+1)) : '—';
+  }catch(e){ document.getElementById('homeRank').textContent = '—'; }
+
+  // grafik: oxirgi 10 urinish
+  const chart = document.getElementById('homeChart');
+  const last10 = log.slice(-10);
+  chart.innerHTML = '';
+  if(last10.length === 0){
+    chart.innerHTML = '<div class="empty" style="padding:20px 10px; margin:auto;">Hali natija yo\'q</div>';
+  } else {
+    last10.forEach((t, i) => {
+      const wrapEl = document.createElement('div');
+      wrapEl.className = 'chart-bar-wrap';
+      const h = Math.max(6, (t.percent/100) * 80);
+      wrapEl.innerHTML = `<div class="chart-bar" style="height:${h}px;"></div><div class="chart-bar-lbl">${t.percent}</div>`;
+      chart.appendChild(wrapEl);
+    });
+  }
+}
+document.getElementById('homeStartBtn').addEventListener('click', () => {
+  showScreen('quizlist');
+  renderQuizSets();
+});
+
+/* ============== TEST TANLASH ============== */
+function renderQuizSets(){
+  const wrap = document.getElementById('quizSetList');
+  wrap.innerHTML = '';
+  QUIZ_SETS.forEach(set => {
+    const empty = !set.questions || set.questions.length === 0;
+    const div = document.createElement('div');
+    div.className = 'quizset-card' + (empty ? ' locked' : '');
+    div.innerHTML = `
+      <div class="quizset-icon">${set.icon}</div>
+      <div class="quizset-body">
+        <div class="quizset-title">${set.title}</div>
+        <div class="quizset-desc">${set.desc}</div>
+      </div>
+      <div class="quizset-count">${empty ? 'Tez orada' : set.questions.length + ' savol'}</div>
+    `;
+    div.addEventListener('click', () => {
+      if(empty){ showToast('Bu bo\'lim tez orada to\'ldiriladi'); return; }
+      startQuiz(set);
+    });
+    wrap.appendChild(div);
+  });
+}
+
+/* ============== QUIZ ============== */
+function startQuiz(set){
+  activeSet = set;
+  currentIndex = 0;
+  score = 0;
+  streak = 0;
+  quizFinished = false;
+  userAnswers = new Array(set.questions.length).fill(null);
+  document.getElementById('quizSetTitle').textContent = set.title;
+  showScreen('quiz');
+  renderQuestion();
+  updateClimb();
+}
+
+function renderQuestion(){
+  const q = activeSet.questions[currentIndex];
+  const total = activeSet.questions.length;
+  document.getElementById('qText').textContent = q.q;
+  document.getElementById('progressNum').textContent = `${currentIndex+1}/${total}`;
+  const answeredCount = userAnswers.filter(a => a !== null).length;
+  document.getElementById('progressFill').style.width = `${(answeredCount/total)*100}%`;
+
+  const wrap = document.getElementById('optsWrap');
+  wrap.innerHTML = '';
+  const letters = ['A','B','C','D','E','F'];
+  q.options.forEach((opt, i) => {
+    const div = document.createElement('div');
+    div.className = 'opt' + (userAnswers[currentIndex] === i ? ' selected' : '');
+    div.innerHTML = `<div class="opt-letter">${letters[i]}</div><div>${opt}</div>`;
+    div.addEventListener('click', () => selectAnswer(i));
+    wrap.appendChild(div);
+  });
+
+  document.getElementById('prevQBtn').disabled = (currentIndex === 0);
+  document.getElementById('nextQBtn').disabled = (currentIndex === total - 1);
+}
+
+function selectAnswer(i){
+  const q = activeSet.questions[currentIndex];
+  const prev = userAnswers[currentIndex];
+  userAnswers[currentIndex] = i;
+
+  // vizual yangilash
+  const allOpts = document.querySelectorAll('#optsWrap .opt');
+  allOpts.forEach((el, idx) => el.classList.toggle('selected', idx === i));
+
+  // faqat birinchi marta javob berilganda reaksiya
+  if(prev === null){
+    if(i === q.correct){
+      score++; streak++;
+      addXP(10);
+      const el = allOpts[i];
+      const rect = el.getBoundingClientRect();
+      confettiBurst(rect.left + rect.width/2, rect.top + rect.height/2);
+      if(streak >= 3){ mascotReact('happy', `🔥 ${streak} ta ketma-ket!`); }
+      else { mascotReact('happy'); }
+    } else {
+      streak = 0;
+      mascotReact('sad');
+    }
+  } else if(prev !== i){
+    // javobni o'zgartirdi — ballni qayta hisoblaymiz
+    if(prev === q.correct) score--;
+    if(i === q.correct) score++;
+  }
+
+  updateClimb();
+  const total = activeSet.questions.length;
+  const answeredCount = userAnswers.filter(a => a !== null).length;
+  document.getElementById('progressFill').style.width = `${(answeredCount/total)*100}%`;
+
+  // avtomatik keyingi savolga o'tish (agar oxirgisi bo'lmasa)
+  if(currentIndex < total - 1){
+    setTimeout(() => { currentIndex++; renderQuestion(); }, 650);
+  }
+}
+
+/* ---- Tog'ga chiqish yo'lakchasi ---- */
+function updateClimb(){
+  if(!activeSet) return;
+  const total = activeSet.questions.length;
+  const correctCount = activeSet.questions.reduce((acc, q, idx) => acc + (userAnswers[idx] === q.correct ? 1 : 0), 0);
+  const ratio = total ? correctCount / total : 0;
+  const hero = document.getElementById('climbHero');
+  hero.style.bottom = (16 + ratio * 148) + 'px';
+  hero.classList.remove('jump');
+  void hero.offsetWidth;
+  hero.classList.add('jump');
+  if(ratio >= 1){ hero.textContent = '🏔️'; }
+  else { hero.textContent = '🧗'; }
+}
+
+/* ---- Savollar to'ri (modal) ---- */
+const qgridOverlay = document.getElementById('qgridOverlay');
+function openQGrid(){
+  if(!activeSet) return;
+  const wrap = document.getElementById('qgridWrap');
+  const total = activeSet.questions.length;
+  const answeredCount = userAnswers.filter(a => a !== null).length;
+  document.getElementById('qgridSub').textContent = `${answeredCount}/${total} ta savolga javob belgilandi`;
+  wrap.innerHTML = '';
+  for(let i=0;i<total;i++){
+    const cell = document.createElement('div');
+    let cls = 'qgrid-cell';
+    if(i === currentIndex) cls += ' current';
+    else if(userAnswers[i] !== null) cls += ' answered';
+    cell.className = cls;
+    cell.textContent = i+1;
+    cell.addEventListener('click', () => {
+      currentIndex = i;
+      renderQuestion();
+      closeQGrid();
+    });
+    wrap.appendChild(cell);
+  }
+  qgridOverlay.classList.add('show');
+}
+function closeQGrid(){ qgridOverlay.classList.remove('show'); }
+
+document.getElementById('quizGridBtn').addEventListener('click', openQGrid);
+document.getElementById('qgridClose').addEventListener('click', closeQGrid);
+qgridOverlay.addEventListener('click', (e) => { if(e.target === qgridOverlay) closeQGrid(); });
+document.getElementById('qgridFinishBtn').addEventListener('click', () => { closeQGrid(); finishQuiz(); });
+
+document.getElementById('quizBackBtn').addEventListener('click', () => {
+  showScreen('quizlist');
+  renderQuizSets();
+});
+document.getElementById('prevQBtn').addEventListener('click', () => {
+  if(currentIndex > 0){ currentIndex--; renderQuestion(); }
+});
+document.getElementById('nextQBtn').addEventListener('click', () => {
+  if(currentIndex < activeSet.questions.length - 1){ currentIndex++; renderQuestion(); }
+});
+document.getElementById('finishQuizBtn').addEventListener('click', () => finishQuiz());
+
+async function finishQuiz(){
+  if(quizFinished) return;
+  const total = activeSet.questions.length;
+  const answeredCount = userAnswers.filter(a => a !== null).length;
+  if(answeredCount < total){
+    const ok = confirm(`${total - answeredCount} ta savol javobsiz qoldi. Testni yakunlaysizmi?`);
+    if(!ok) return;
+  }
+  quizFinished = true;
+
+  const correctCount = activeSet.questions.reduce((acc, q, idx) => acc + (userAnswers[idx] === q.correct ? 1 : 0), 0);
+  score = correctCount;
+  const percent = Math.round((score / total) * 100);
+
+  document.getElementById('progressFill').style.width = '100%';
+  document.getElementById('resultScore').textContent = score;
+  document.getElementById('resultOf').textContent = `/${total}`;
+  document.getElementById('statCorrect').textContent = score;
+  document.getElementById('statWrong').textContent = total - score;
+  document.getElementById('statPercent').textContent = `${percent}%`;
+
+  const entry = { name: currentUser, score, total, percent, ts: Date.now(), set: activeSet.title };
+  await saveScoreToFirebase(entry);
+  logTestResult(entry);
+
+  if(percent === 100){ addXP(30); showToast("🏆 Ajoyib! 100% natija uchun bonus +30 XP"); }
+
+  const rank = await computeRank(entry);
+  document.getElementById('rankBadge').textContent = `#${rank}`;
+  showScreen('result');
+}
+
+async function saveScoreToFirebase(entry){
+  if(!db) return;
+  try{
+    const safeKey = entry.name.replace(/[.#$\[\]\/]/g, '_') + '_' + entry.ts;
+    await db.ref('scores/' + safeKey).set(entry);
+  }catch(e){ console.error('firebase save failed', e); }
+}
+async function getAllScores(){
+  if(!db) return [];
+  try{
+    const snap = await db.ref('scores').once('value');
+    const val = snap.val() || {};
+    return Object.values(val);
+  }catch(e){ console.error('leaderboard fetch failed', e); return []; }
+}
+function bestScoresList(all){
+  const best = {};
+  all.forEach(e => { if(!best[e.name] || e.percent > best[e.name].percent) best[e.name] = e; });
+  return Object.values(best).sort((a,b) => b.percent - a.percent || a.ts - b.ts);
+}
+async function computeRank(myEntry){
+  const list = bestScoresList(await getAllScores());
+  const idx = list.findIndex(e => e.name === myEntry.name && e.ts === myEntry.ts);
+  return idx >= 0 ? idx + 1 : list.length;
+}
+
+/* ============== LEADERBOARD (PODIUM) ============== */
+async function renderLeaderboard(){
+  const lbList = document.getElementById('lbList');
+  const podiumWrap = document.getElementById('podiumWrap');
+  const meRowWrap = document.getElementById('meRowWrap');
+  lbList.innerHTML = '<div class="loading">Yuklanmoqda...</div>';
+  podiumWrap.innerHTML = '';
+  meRowWrap.innerHTML = '';
+
+  const list = bestScoresList(await getAllScores());
+
+  if(list.length === 0){
+    lbList.innerHTML = '<div class="empty">Hozircha hech kim test ishlamagan.<br>Birinchi bo\'ling!</div>';
+    return;
+  }
+
+  const myIdx = list.findIndex(e => e.name === currentUser);
+  if(myIdx >= 0){
+    const me = list[myIdx];
+    meRowWrap.innerHTML = `
+      <div class="me-row">
+        <div class="me-pos">${myIdx+1}</div>
+        <div class="me-name">${me.name}<span class="me-chip">SIZ</span></div>
+        <div class="me-score">${me.score}/${me.total} · ${me.percent}%</div>
+      </div>
+    `;
+  }
+
+  const top3 = list.slice(0,3);
+  const initials = n => (n||'?').trim().charAt(0).toUpperCase();
+  if(top3.length > 0){
+    const order = [top3[1], top3[0], top3[2]];
+    const classes = ['second','first','third'];
+    const crowns = ['', '👑', ''];
+    const ribbons = ['🥈 2-o\'rin', '🥇 1-o\'rin', '🥉 3-o\'rin'];
+    const confettiEmojis = ['✨','🎉','⭐'];
+    let html = '<div class="spotlight"></div>';
+    for(let c=0;c<6;c++){
+      html += `<span class="podium-confetti" style="left:${10+Math.random()*80}%; top:${Math.random()*40}px; animation-delay:${Math.random()*1.6}s;">${confettiEmojis[c%3]}</span>`;
+    }
+    order.forEach((p, i) => {
+      if(!p){ html += `<div class="podium-slot ${classes[i]}"></div>`; return; }
+      html += `
+        <div class="podium-slot ${classes[i]}">
+          <div class="podium-avatar">${crowns[i] ? `<span class="podium-crown">${crowns[i]}</span>` : ''}${initials(p.name)}</div>
+          <div class="podium-name">${p.name}</div>
+          <div class="podium-score">${p.percent}%</div>
+          <div class="podium-ribbon">${ribbons[i]}</div>
+          <div class="podium-bar"></div>
+        </div>
+      `;
+    });
+    podiumWrap.innerHTML = html;
+  }
+
+  lbList.innerHTML = '';
+  list.slice(3, 50).forEach((e, i) => {
+    const row = document.createElement('div');
+    row.className = 'lb-row' + (e.name === currentUser ? ' me' : '');
+    row.innerHTML = `
+      <div class="lb-pos">${i+4}</div>
+      <div class="lb-name">${e.name}</div>
+      <div class="lb-score">${e.score}/${e.total} · ${e.percent}%</div>
+    `;
+    lbList.appendChild(row);
+  });
+}
+
+/* ============== GRAMMAR ============== */
+function renderInfo(){
+  const list = document.getElementById('infoList');
+  const query = (document.getElementById('grammarSearch')?.value || '').toLowerCase();
+  list.innerHTML = '';
+  const filtered = GRAMMAR.filter(g =>
+    g.title.toLowerCase().includes(query) || g.text.toLowerCase().includes(query)
+  );
+  if(filtered.length === 0){
+    list.innerHTML = '<div class="empty">Hech narsa topilmadi.</div>';
+    return;
+  }
+  filtered.forEach(g => {
+    const div = document.createElement('div');
+    div.className = 'rule-card';
+    div.innerHTML = `
+      <div class="rule-head">
+        <div style="display:flex; align-items:center; gap:10px; min-width:0;">
+          <div class="unit-badge">${g.unit}</div>
+          <div class="rule-title" style="margin-bottom:0;">${g.title}</div>
+        </div>
+        <div class="rule-chevron">&#9660;</div>
+      </div>
+      <div class="rule-body"><div class="rule-text">${g.text}</div><div class="rule-ex">${g.example.replace(/\n/g, '<br>')}</div></div>
+    `;
+    div.addEventListener('click', () => {
+      div.classList.toggle('open');
+      if(div.classList.contains('open')) markGrammarOpened(g.title);
+    });
+    list.appendChild(div);
+  });
+}
+renderInfo();
+document.getElementById('grammarSearch').addEventListener('input', renderInfo);
+
+/* ============== NAV ============== */
+document.getElementById('viewLbFromResult').addEventListener('click', async () => {
+  showScreen('leaderboard');
+  await renderLeaderboard();
+});
+document.getElementById('retryBtn').addEventListener('click', () => {
+  if(activeSet){ startQuiz(activeSet); }
+  else { showScreen('quizlist'); renderQuizSets(); }
+});
+
+renderXpStrip();
+</script>
+</body>
+</html>
