@@ -1741,14 +1741,43 @@ document.getElementById('avatarInput').addEventListener('change', (e) => {
 });
 
 async function saveAvatarToFirebase(dataUrl){
-  if(!db || !currentUser) return;
+  if(!db || !currentUser || !dataUrl) return;
   try{
     await db.ref('avatars/' + safeUserKey(currentUser)).set(dataUrl);
   }catch(e){ console.error('avatar save failed', e); }
 }
 
+/* Telefonda saqlangan rasm Firebase'da yo'q bo'lsa — avtomatik yuklaydi.
+   Eski versiyada rasm qo'ygan foydalanuvchilar uchun kerak. */
+async function syncAvatarToFirebase(){
+  if(!db || !currentUser) return;
+  const local = getAvatar();
+  if(!local) return;
+  try{
+    const key = safeUserKey(currentUser);
+    const snap = await db.ref('avatars/' + key).once('value');
+    if(!snap.exists()){
+      await db.ref('avatars/' + key).set(local);
+      console.log('avatar synced to firebase');
+    }
+  }catch(e){ console.error('avatar sync failed', e); }
+}
+
 function safeUserKey(name){
   return name.replace(/[.#$\[\]\/]/g, '_');
+}
+
+/* Ism boshidagi belgini to'g'ri oladi (emoji va maxsus belgilar bilan ham) */
+function firstChar(name){
+  const s = (name || '').trim();
+  if(!s) return '?';
+  // Unicode belgilarni to'g'ri ajratamiz (emoji surrogat juftliklari buzilmasin)
+  const chars = Array.from(s);
+  // birinchi HARF yoki RAQAMNI qidiramiz, emoji bo'lsa o'shani olamiz
+  for(const ch of chars){
+    if(/[\p{L}\p{N}]/u.test(ch)) return ch.toUpperCase();
+  }
+  return chars[0] || '?';
 }
 
 let avatarCache = {};
@@ -1768,7 +1797,7 @@ function renderProfile(){
   if(avatar){
     avatarCircle.innerHTML = `<img src="${avatar}" alt="avatar">`;
   } else {
-    avatarCircle.textContent = (currentUser || '?').trim().charAt(0).toUpperCase();
+    avatarCircle.textContent = firstChar(currentUser);
   }
 
   const log = getTestLog();
@@ -1823,9 +1852,10 @@ document.getElementById('profileNameEditBtn').addEventListener('click', () => {
 
   function commit(){
     const newName = input.value.trim();
-    if(newName){
+    if(newName && newName !== currentUser){
       currentUser = newName;
       saveLastName(newName);
+      saveAvatarToFirebase(getAvatar());
     }
     input.replaceWith(textEl);
     textEl.textContent = currentUser || 'Foydalanuvchi';
@@ -1841,6 +1871,7 @@ function enterApp(name){
   renderVocab();
   renderHome();
   showScreen('home');
+  syncAvatarToFirebase();
 }
 
 document.getElementById('startBtn').addEventListener('click', () => {
@@ -2326,7 +2357,7 @@ async function renderLeaderboard(){
     return;
   }
 
-  const initials = n => (n||'?').trim().charAt(0).toUpperCase();
+  const initials = n => firstChar(n);
   const avatarHtml = (name, cls) => {
     const src = avatars[safeUserKey(name)];
     return src
