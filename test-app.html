@@ -693,6 +693,11 @@
     border-radius:99px; padding:5px 11px;
   }
   .student-badge span{ font-size:10.5px; font-weight:600; color: var(--gold); }
+  .old-badge{
+    font-size:8.5px; font-weight:700; background: rgba(255,255,255,0.12);
+    color: rgba(247,244,236,0.6); border-radius:99px; padding:2px 7px; margin-left:5px;
+    vertical-align:middle; letter-spacing:0.03em;
+  }
   .podium-avatar img{ width:100%; height:100%; object-fit:cover; border-radius:50%; }
   .podium-avatar{ overflow:hidden; }
   .podium-crown{ overflow:visible; }
@@ -2915,20 +2920,68 @@ async function renderTeacherPanel(){
   listEl.innerHTML = '';
   summaryEl.innerHTML = '';
 
-  const [users, results, avatars] = await Promise.all([
-    getAllUsers(), getOlympiadScores(), loadAllAvatars()
+  const [profiles, scores, results, avatars] = await Promise.all([
+    getAllUsers(), getAllScores(), getOlympiadScores(), loadAllAvatars()
   ]);
-  teacherUsersCache = users;
   teacherAvatarsCache = avatars;
+
+  /* Profil yozuvi bo'lmagan (eski) o'quvchilarni test natijalaridan tiklaymiz.
+     Ular yangi versiyani ochgach, to'liq ma'lumot avtomatik qo'shiladi. */
+  const byName = {};
+  profiles.forEach(p => { if(p && p.name) byName[p.name] = { ...p, hasProfile: true }; });
+
+  const allScores = [...scores, ...results];
+  const derived = {};
+  allScores.forEach(s => {
+    if(!s || !s.name) return;
+    const d = derived[s.name] || (derived[s.name] = { sets:{}, first:s.ts, last:s.ts, correct:0, attempts:0, sumPct:0 });
+    const key = s.setId || s.set || 'default';
+    if(!d.sets[key] || (s.score||0) > (d.sets[key].score||0)) d.sets[key] = s;
+    d.first = Math.min(d.first, s.ts || Date.now());
+    d.last  = Math.max(d.last,  s.ts || 0);
+    d.attempts++;
+    d.sumPct += (s.percent || 0);
+  });
+
+  Object.keys(derived).forEach(name => {
+    const d = derived[name];
+    const bestEntries = Object.values(d.sets);
+    const correct = bestEntries.reduce((s,e)=>s+(e.score||0),0);
+    if(byName[name]){
+      // profil bor — faqat yetishmagan joylarni to'ldiramiz
+      const p = byName[name];
+      if(!p.tests) p.tests = bestEntries.length;
+      if(!p.avgPercent) p.avgPercent = Math.round(d.sumPct / d.attempts);
+      if(!p.totalCorrect) p.totalCorrect = correct;
+      if(!p.firstSeen) p.firstSeen = d.first;
+      p.lastSeen = Math.max(p.lastSeen || 0, d.last);
+    } else {
+      // profil yo'q — eski o'quvchi
+      byName[name] = {
+        name,
+        tests: bestEntries.length,
+        avgPercent: Math.round(d.sumPct / d.attempts),
+        totalCorrect: correct,
+        firstSeen: d.first,
+        lastSeen: d.last,
+        achievements: [],
+        hasProfile: false
+      };
+    }
+  });
+
+  const users = Object.values(byName);
+  teacherUsersCache = users;
 
   // --- umumiy ko'rsatkichlar ---
   const totalTests = users.reduce((s,u) => s + (u.tests||0), 0);
-  const avgAll = users.length
-    ? Math.round(users.filter(u=>u.tests>0).reduce((s,u)=>s+(u.avgPercent||0),0) / Math.max(1, users.filter(u=>u.tests>0).length))
+  const withTests = users.filter(u => (u.tests||0) > 0);
+  const avgAll = withTests.length
+    ? Math.round(withTests.reduce((s,u)=>s+(u.avgPercent||0),0) / withTests.length)
     : 0;
   const activeToday = users.filter(u => u.lastSeen && (Date.now() - u.lastSeen) < 86400000).length;
   summaryEl.innerHTML = `
-    <div class="teacher-stat"><div class="teacher-stat-val">${users.length}</div><div class="teacher-stat-lbl">ro'yxatdan o'tgan</div></div>
+    <div class="teacher-stat"><div class="teacher-stat-val">${users.length}</div><div class="teacher-stat-lbl">jami o'quvchi</div></div>
     <div class="teacher-stat"><div class="teacher-stat-val">${totalTests}</div><div class="teacher-stat-lbl">jami test</div></div>
     <div class="teacher-stat"><div class="teacher-stat-val">${avgAll}%</div><div class="teacher-stat-lbl">o'rtacha</div></div>
     <div class="teacher-stat"><div class="teacher-stat-val">${activeToday}</div><div class="teacher-stat-lbl">bugun faol</div></div>
@@ -2938,7 +2991,7 @@ async function renderTeacherPanel(){
   if(users.length === 0){
     studentsEl.innerHTML = '<div class="empty">Hozircha hech kim ro\'yxatdan o\'tmagan.</div>';
   } else {
-    users.sort((a,b) => (b.xp||0) - (a.xp||0));
+    users.sort((a,b) => (b.xp||0) - (a.xp||0) || (b.totalCorrect||0) - (a.totalCorrect||0));
     studentsEl.innerHTML = '';
     users.forEach(u => {
       const src = avatars[safeUserKey(u.name || '')];
@@ -2947,18 +3000,19 @@ async function renderTeacherPanel(){
         : `<div class="lb-avatar">${firstChar(u.name)}</div>`;
       const lastSeen = u.lastSeen ? new Date(u.lastSeen).toLocaleDateString('uz-UZ') : '—';
       const achCount = (u.achievements || []).length;
+      const right = u.hasProfile
+        ? `LVL ${u.level||1}<br><span>${u.xp||0} XP</span>`
+        : `${u.totalCorrect||0}<br><span>to'g'ri</span>`;
       const row = document.createElement('div');
       row.className = 'activity-row';
       row.style.cursor = 'pointer';
       row.innerHTML = `
         ${av}
         <div class="activity-body">
-          <div class="activity-title">${u.name || '—'}</div>
+          <div class="activity-title">${u.name || '—'}${u.hasProfile ? '' : ' <span class="old-badge">eski</span>'}</div>
           <div class="activity-time">${u.tests||0} test · ${u.avgPercent||0}% · 🏅${achCount} · ${lastSeen}</div>
         </div>
-        <div class="teacher-score ${(u.avgPercent||0)>=80?'good':((u.avgPercent||0)>=50?'mid':'low')}">
-          LVL ${u.level||1}<br><span>${u.xp||0} XP</span>
-        </div>
+        <div class="teacher-score ${(u.avgPercent||0)>=80?'good':((u.avgPercent||0)>=50?'mid':'low')}">${right}</div>
       `;
       row.addEventListener('click', () => openStudentModal(u));
       studentsEl.appendChild(row);
@@ -3009,14 +3063,16 @@ function openStudentModal(u){
     <div class="student-stat"><b>${u.tests||0}</b><span>test</span></div>
     <div class="student-stat"><b>${u.avgPercent||0}%</b><span>o'rtacha</span></div>
     <div class="student-stat"><b>${u.totalCorrect||0}</b><span>to'g'ri javob</span></div>
-    <div class="student-stat"><b>${u.minutes||0} daq</b><span>ilovada</span></div>
-    <div class="student-stat"><b>${u.activeDays||0}</b><span>faol kun</span></div>
-    <div class="student-stat"><b>${u.wordsSeen||0}</b><span>so'z ko'rgan</span></div>
+    <div class="student-stat"><b>${u.hasProfile ? (u.minutes||0)+' daq' : '—'}</b><span>ilovada</span></div>
+    <div class="student-stat"><b>${u.hasProfile ? (u.activeDays||0) : '—'}</b><span>faol kun</span></div>
+    <div class="student-stat"><b>${u.hasProfile ? (u.wordsSeen||0) : '—'}</b><span>so'z ko'rgan</span></div>
   `;
 
   const owned = u.achievements || [];
   const badgesEl = document.getElementById('studentModalBadges');
-  if(owned.length === 0){
+  if(!u.hasProfile){
+    badgesEl.innerHTML = '<div style="font-size:12.5px; color:rgba(247,244,236,0.5); line-height:1.5;">Bu o\'quvchi ilovaning yangi versiyasini hali ochmagan. Ochgach, XP, nishonlar va batafsil statistika avtomatik ko\'rinadi.</div>';
+  } else if(owned.length === 0){
     badgesEl.innerHTML = '<div style="font-size:12.5px; color:rgba(247,244,236,0.45);">Hali nishon yo\'q</div>';
   } else {
     badgesEl.innerHTML = owned.map(id => {
