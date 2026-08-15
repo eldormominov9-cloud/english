@@ -407,6 +407,50 @@
   .ach-item.unlocked .ach-circle{ filter:none; opacity:1; border-color: var(--gold); box-shadow: 0 0 18px rgba(242,183,5,0.35); background: rgba(242,183,5,0.1); }
   .ach-name{ font-size:11px; font-weight:600; }
   .ach-progress{ font-size:9.5px; color: rgba(247,244,236,0.45); margin-top:2px; font-family:'IBM Plex Mono', monospace; }
+  .ach-item{ cursor:pointer; }
+
+  /* ============ NISHON MA'LUMOT OYNASI ============ */
+  .achinfo-modal{
+    position:fixed; inset:0; background: rgba(10,12,26,0.85); z-index:10004;
+    display:flex; align-items:center; justify-content:center; padding:20px;
+    opacity:0; pointer-events:none; transition: opacity .25s ease;
+  }
+  .achinfo-modal.show{ opacity:1; pointer-events:auto; }
+  .achinfo-card{
+    position:relative; background:#231A3D; border:1px solid var(--line); border-radius:22px;
+    padding:28px 22px 24px; width:100%; max-width:340px; text-align:center;
+    transform: scale(0.9); transition: transform .25s ease;
+  }
+  .achinfo-modal.show .achinfo-card{ transform: scale(1); }
+  .achinfo-close{
+    position:absolute; top:14px; right:14px; width:30px; height:30px; border-radius:50%;
+    background: rgba(255,255,255,0.08); color: var(--paper); font-size:12px;
+  }
+  .achinfo-icon{
+    width:78px; height:78px; border-radius:50%; margin:0 auto 14px;
+    display:flex; align-items:center; justify-content:center; font-size:34px;
+    background: rgba(255,255,255,0.06); border:2px solid var(--line);
+    filter: grayscale(1); opacity:0.5;
+  }
+  .achinfo-icon.unlocked{
+    filter:none; opacity:1; border-color: var(--gold);
+    background: rgba(255,210,63,0.12); box-shadow: 0 0 26px rgba(255,210,63,0.35);
+  }
+  .achinfo-title{ font-family:'Space Grotesk','Inter',sans-serif; font-size:20px; font-weight:700; margin-bottom:5px; }
+  .achinfo-status{ font-size:12px; color: rgba(247,244,236,0.5); margin-bottom:14px; font-weight:600; }
+  .achinfo-status.done{ color: var(--mint); }
+  .achinfo-desc{ font-size:13.5px; color: rgba(247,244,236,0.8); line-height:1.5; margin-bottom:16px; }
+  .achinfo-bar{ height:8px; background: rgba(255,255,255,0.1); border-radius:99px; overflow:hidden; margin-bottom:6px; }
+  .achinfo-bar-fill{ height:100%; background: linear-gradient(90deg, var(--gold), var(--mint)); border-radius:99px; transition: width .5s ease; }
+  .achinfo-bar-txt{ font-family:'IBM Plex Mono', monospace; font-size:11.5px; color: rgba(247,244,236,0.5); margin-bottom:18px; }
+  .achinfo-how-label{
+    font-size:11px; font-weight:700; color: var(--gold); text-transform:uppercase;
+    letter-spacing:0.08em; margin-bottom:7px;
+  }
+  .achinfo-how{
+    font-size:13px; color: rgba(247,244,236,0.75); line-height:1.55; text-align:left;
+    background: rgba(255,255,255,0.05); border-radius:12px; padding:12px 14px;
+  }
 
   /* ================= PROFILE ================= */
   .profile-head{ display:flex; flex-direction:column; align-items:center; margin-bottom:20px; }
@@ -501,6 +545,9 @@
     font-family:'Space Grotesk','Inter',sans-serif; font-size:14px; font-weight:700; color: var(--gold);
   }
   .lb-avatar img{ width:100%; height:100%; object-fit:cover; }
+  .lb-sub{ font-size:11px; color: rgba(247,244,236,0.45); font-weight:400; margin-top:2px; font-family:'IBM Plex Mono', monospace; }
+  .lb-ball{ font-size:9.5px; color: rgba(247,244,236,0.45); font-weight:500; text-align:right; }
+  .podium-sub{ font-size:9.5px; color: rgba(247,244,236,0.45); font-family:'IBM Plex Mono', monospace; margin-bottom:5px; }
 
   /* ============ RASMNI KATTA KO'RISH (Telegram uslubi) ============ */
   .photo-viewer{
@@ -526,6 +573,88 @@
   }
   .clickable-avatar{ cursor:pointer; }
 
+  /* ============ TAYMER ============ */
+  .timer-chip{
+    display:flex; align-items:center; gap:6px; font-family:'IBM Plex Mono', monospace;
+    font-size:13px; font-weight:700; color: var(--paper);
+    background: rgba(255,255,255,0.08); border:1px solid var(--line);
+    border-radius:99px; padding:5px 12px; flex-shrink:0;
+  }
+  .timer-chip.warn{ color: var(--coral); border-color: rgba(255,90,122,0.5); background: rgba(255,90,122,0.12); animation: timerPulse 1s ease-in-out infinite; }
+  @keyframes timerPulse{ 0%,100%{ transform:scale(1);} 50%{ transform:scale(1.06);} }
+
+  /* ============ TEST BOSHLASH OYNASI ============ */
+  .startmodal-overlay{
+    position:fixed; inset:0; background: rgba(10,12,26,0.85); z-index:10003;
+    display:flex; align-items:center; justify-content:center; padding:20px;
+    opacity:0; pointer-events:none; transition: opacity .25s ease;
+  }
+  .startmodal-overlay.show{ opacity:1; pointer-events:auto; }
+  .startmodal{
+    background:#231A3D; border:1px solid var(--line); border-radius:20px; padding:24px 20px;
+    width:100%; max-width:340px; transform: scale(0.9); transition: transform .25s ease;
+  }
+  .startmodal-overlay.show .startmodal{ transform: scale(1); }
+  .startmodal h3{ font-family:'Space Grotesk','Inter',sans-serif; font-size:18px; margin-bottom:4px; }
+  .startmodal p{ font-size:13px; color: rgba(247,244,236,0.6); margin-bottom:18px; }
+  .mode-option{
+    display:flex; align-items:center; gap:12px; padding:14px; border-radius:14px;
+    border:1px solid var(--line); background: rgba(255,255,255,0.05); margin-bottom:10px; cursor:pointer;
+  }
+  .mode-option.selected{ border-color: var(--gold); background: rgba(255,210,63,0.12); }
+  .mode-icon{ font-size:20px; }
+  .mode-title{ font-size:14px; font-weight:600; }
+  .mode-desc{ font-size:11.5px; color: rgba(247,244,236,0.5); margin-top:2px; }
+
+  /* ============ XATOLAR RO'YXATI ============ */
+  .mistake-card{
+    background: var(--ink-soft); border:1px solid rgba(255,90,122,0.4); border-radius:14px;
+    padding:14px 16px; margin-bottom:10px; backdrop-filter: blur(14px);
+  }
+  .mistake-q{ font-size:14px; font-weight:600; margin-bottom:8px; line-height:1.4; }
+  .mistake-line{ font-size:12.5px; margin-bottom:4px; }
+  .mistake-wrong{ color: var(--coral); }
+  .mistake-right{ color: var(--mint); }
+  .mistake-expl{ font-size:12px; color: rgba(247,244,236,0.65); margin-top:8px; line-height:1.5; font-style:italic; }
+
+  /* ============ KUNLIK MAQSAD ============ */
+  .goal-card{
+    display:flex; align-items:center; gap:16px; background: var(--ink-soft);
+    border:1px solid var(--line); border-radius:16px; padding:16px; margin-bottom:16px; backdrop-filter: blur(14px);
+  }
+  .goal-ring{ position:relative; width:62px; height:62px; flex-shrink:0; }
+  .goal-ring svg{ transform: rotate(-90deg); }
+  .goal-ring-bg{ fill:none; stroke: rgba(255,255,255,0.12); stroke-width:6; }
+  .goal-ring-fg{ fill:none; stroke: var(--gold); stroke-width:6; stroke-linecap:round; transition: stroke-dashoffset .6s ease; }
+  .goal-ring-txt{
+    position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+    font-family:'IBM Plex Mono', monospace; font-size:13px; font-weight:700;
+  }
+  .goal-body{ flex:1; min-width:0; }
+  .goal-title{ font-size:14px; font-weight:600; margin-bottom:3px; }
+  .goal-sub{ font-size:12px; color: rgba(247,244,236,0.55); }
+  .goal-card.done{ border-color: var(--mint); background: rgba(61,220,151,0.1); }
+
+  /* ============ SO'Z MASHQI (FLASHCARD TRENAJYOR) ============ */
+  .trainer-wrap{ display:flex; flex-direction:column; align-items:center; flex:1; }
+  .trainer-progress{ font-family:'IBM Plex Mono', monospace; font-size:12.5px; color: rgba(247,244,236,0.6); margin-bottom:16px; }
+  .trainer-card{
+    width:100%; background: var(--ink-soft); border:1px solid var(--line); border-radius:20px;
+    padding:36px 20px; text-align:center; margin-bottom:20px; backdrop-filter: blur(14px); min-height:200px;
+    display:flex; flex-direction:column; align-items:center; justify-content:center; cursor:pointer;
+  }
+  .trainer-emoji{ font-size:44px; margin-bottom:12px; }
+  .trainer-word{ font-family:'Space Grotesk','Inter',sans-serif; font-size:28px; font-weight:700; margin-bottom:8px; }
+  .trainer-uz{ font-size:18px; color: var(--gold); font-weight:600; margin-bottom:8px; }
+  .trainer-ex{ font-size:13px; color: rgba(247,244,236,0.5); font-style:italic; line-height:1.5; }
+  .trainer-hint{ font-size:11.5px; color: rgba(247,244,236,0.35); margin-top:12px; }
+  .trainer-btns{ display:flex; gap:10px; width:100%; }
+  .trainer-btn{
+    flex:1; padding:15px; border-radius:14px; font-size:14px; font-weight:700; font-family:inherit;
+  }
+  .trainer-btn.know{ background: rgba(61,220,151,0.18); border:1px solid var(--mint); color: var(--mint); }
+  .trainer-btn.dont{ background: rgba(255,90,122,0.18); border:1px solid var(--coral); color: var(--coral); }
+
   /* ============ O'QITUVCHI PANELI ============ */
   .teacher-stat-row{ display:flex; gap:10px; }
   .teacher-stat{
@@ -542,6 +671,28 @@
   .teacher-score.good{ color: var(--mint); }
   .teacher-score.mid{ color: var(--gold); }
   .teacher-score.low{ color: var(--coral); }
+  .teacher-stat-row{ flex-wrap:wrap; }
+  .teacher-stat{ min-width:calc(50% - 5px); }
+  .teacher-tabs{ display:flex; gap:8px; margin:16px 0 12px; }
+  .teacher-tab{
+    flex:1; padding:10px; border-radius:12px; font-size:12.5px; font-weight:600; font-family:inherit;
+    background: var(--ink-soft); border:1px solid var(--line); color: rgba(247,244,236,0.6);
+  }
+  .teacher-tab.active{ background: var(--gold); color: var(--ink); border-color: var(--gold); }
+  .student-grid{ display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+  .student-stat{
+    background: rgba(255,255,255,0.05); border-radius:12px; padding:10px 12px;
+    display:flex; flex-direction:column;
+  }
+  .student-stat b{ font-family:'Space Grotesk','Inter',sans-serif; font-size:16px; }
+  .student-stat span{ font-size:10.5px; color: rgba(247,244,236,0.5); margin-top:2px; }
+  .student-badges{ display:flex; flex-wrap:wrap; gap:7px; }
+  .student-badge{
+    display:flex; align-items:center; gap:5px; font-size:15px;
+    background: rgba(255,210,63,0.12); border:1px solid rgba(255,210,63,0.35);
+    border-radius:99px; padding:5px 11px;
+  }
+  .student-badge span{ font-size:10.5px; font-weight:600; color: var(--gold); }
   .podium-avatar img{ width:100%; height:100%; object-fit:cover; border-radius:50%; }
   .podium-avatar{ overflow:hidden; }
   .podium-crown{ overflow:visible; }
@@ -666,6 +817,20 @@
   <div class="photo-viewer-name" id="photoViewerName"></div>
 </div>
 
+<div class="achinfo-modal" id="achInfoModal">
+  <div class="achinfo-card">
+    <button class="achinfo-close" id="achInfoClose">&#10005;</button>
+    <div class="achinfo-icon" id="achInfoIcon">🏅</div>
+    <div class="achinfo-title" id="achInfoTitle">Nishon</div>
+    <div class="achinfo-status" id="achInfoStatus">Hali ochilmagan</div>
+    <div class="achinfo-desc" id="achInfoDesc"></div>
+    <div class="achinfo-bar"><div class="achinfo-bar-fill" id="achInfoBarFill"></div></div>
+    <div class="achinfo-bar-txt" id="achInfoBarTxt">0 / 0</div>
+    <div class="achinfo-how-label">Qanday qo'lga kiritish mumkin?</div>
+    <div class="achinfo-how" id="achInfoHow"></div>
+  </div>
+</div>
+
 <div id="app">
 
   <div class="tabbar" id="tabbar" style="display:none;">
@@ -691,6 +856,21 @@
     <h1 style="font-size:24px;" id="homeGreeting">Salom!</h1>
     <p class="sub" style="margin-bottom:18px;">Bugun ham bilimingizni sinab ko'ring.</p>
 
+    <div class="goal-card" id="goalCard">
+      <div class="goal-ring">
+        <svg width="62" height="62" viewBox="0 0 62 62">
+          <circle class="goal-ring-bg" cx="31" cy="31" r="26"></circle>
+          <circle class="goal-ring-fg" id="goalRingFg" cx="31" cy="31" r="26"
+                  stroke-dasharray="163.4" stroke-dashoffset="163.4"></circle>
+        </svg>
+        <div class="goal-ring-txt" id="goalRingTxt">0%</div>
+      </div>
+      <div class="goal-body">
+        <div class="goal-title" id="goalTitle">Bugungi maqsad</div>
+        <div class="goal-sub" id="goalSub">20 ta savol yeching</div>
+      </div>
+    </div>
+
     <div class="home-stat-grid">
       <div class="home-stat"><div class="home-stat-icon">🏆</div><div class="home-stat-val" id="homeRank">—</div><div class="home-stat-lbl">reyting o'rni</div></div>
       <div class="home-stat"><div class="home-stat-icon">🎯</div><div class="home-stat-val" id="homeAvg">0%</div><div class="home-stat-lbl">o'rtacha natija</div></div>
@@ -702,6 +882,7 @@
     <div class="chart-box" id="homeChart"></div>
 
     <button class="btn-primary" id="homeStartBtn" style="margin-top:20px;">Test ishlashni boshlash</button>
+    <button class="btn-secondary" id="homeTrainerBtn">🎴 Kunlik so'z mashqi</button>
   </div>
 
   <!-- SCREEN: Test tanlash -->
@@ -737,6 +918,7 @@
     <div class="quiz-topbar">
       <button class="quiz-back" id="quizBackBtn">&#8592;</button>
       <div class="quiz-title" id="quizSetTitle">Test</div>
+      <div class="timer-chip" id="timerChip" style="display:none;">⏱ <span id="timerValue">00:00</span></div>
       <button class="quiz-grid-btn" id="quizGridBtn">&#9638;</button>
     </div>
     <div class="progress-row">
@@ -773,8 +955,29 @@
       <button class="quiz-grid-btn" id="teacherRefreshBtn">&#8635;</button>
     </div>
     <div class="teacher-stat-row" id="teacherSummary"></div>
-    <div class="section-label" style="margin-top:16px;"><span>🏅 Olimpiada natijalari</span></div>
-    <div id="teacherList"></div>
+    <div class="teacher-tabs">
+      <button class="teacher-tab active" data-ttab="students">👥 O'quvchilar</button>
+      <button class="teacher-tab" data-ttab="olympiad">🏅 Olimpiada</button>
+    </div>
+    <div id="teacherStudents"></div>
+    <div id="teacherList" style="display:none;"></div>
+  </div>
+
+  <!-- O'quvchi tafsilotlari oynasi -->
+  <div class="achinfo-modal" id="studentModal">
+    <div class="achinfo-card" style="max-width:360px; text-align:left;">
+      <button class="achinfo-close" id="studentModalClose">&#10005;</button>
+      <div style="display:flex; align-items:center; gap:14px; margin-bottom:16px;">
+        <div class="lb-avatar" id="studentModalAvatar" style="width:52px; height:52px; font-size:20px;"></div>
+        <div>
+          <div style="font-family:'Space Grotesk',sans-serif; font-size:17px; font-weight:700;" id="studentModalName"></div>
+          <div style="font-size:11.5px; color:rgba(247,244,236,0.5);" id="studentModalMeta"></div>
+        </div>
+      </div>
+      <div class="student-grid" id="studentModalStats"></div>
+      <div class="achinfo-how-label" style="margin-top:16px;">Qo'lga kiritgan nishonlari</div>
+      <div class="student-badges" id="studentModalBadges"></div>
+    </div>
   </div>
 
   <!-- Savollar to'ri (modal) -->  <div class="qgrid-overlay" id="qgridOverlay">
@@ -802,8 +1005,58 @@
       <div class="stat"><div class="stat-val" id="statWrong">0</div><div class="stat-lbl">Xato</div></div>
       <div class="stat"><div class="stat-val" id="statPercent">0%</div><div class="stat-lbl">Natija</div></div>
     </div>
-    <button class="btn-primary" id="viewLbFromResult" style="margin-top:22px;">Reytingni ko'rish</button>
+    <div class="stat-row" id="timeStatRow" style="display:none;">
+      <div class="stat"><div class="stat-val" id="statDuration">0:00</div><div class="stat-lbl">Sarflangan vaqt</div></div>
+    </div>
+    <button class="btn-primary" id="reviewMistakesBtn" style="margin-top:20px;">📋 Xatolarimni ko'rish</button>
+    <button class="btn-secondary" id="viewLbFromResult">Reytingni ko'rish</button>
     <button class="btn-secondary" id="retryBtn">Qayta ishlash</button>
+  </div>
+
+  <!-- SCREEN: Xatolar ro'yxati -->
+  <div class="screen" id="screen-mistakes">
+    <div class="quiz-topbar">
+      <button class="quiz-back" id="mistakesBackBtn">&#8592;</button>
+      <div class="quiz-title">Xatolar ustida ishlash</div>
+      <div style="width:34px;"></div>
+    </div>
+    <div id="mistakesList"></div>
+    <button class="btn-primary" id="retryMistakesBtn" style="margin-top:16px;">🔁 Faqat xatolarni qayta ishlash</button>
+  </div>
+
+  <!-- SCREEN: So'z mashqi -->
+  <div class="screen" id="screen-trainer">
+    <div class="quiz-topbar">
+      <button class="quiz-back" id="trainerBackBtn">&#8592;</button>
+      <div class="quiz-title">Kunlik so'z mashqi</div>
+      <div style="width:34px;"></div>
+    </div>
+    <div class="trainer-wrap">
+      <div class="trainer-progress" id="trainerProgress">1 / 10</div>
+      <div class="trainer-card" id="trainerCard"></div>
+      <div class="trainer-btns">
+        <button class="trainer-btn dont" id="trainerDontBtn">Bilmayman</button>
+        <button class="trainer-btn know" id="trainerKnowBtn">Bilaman</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Test boshlash oynasi -->
+  <div class="startmodal-overlay" id="startModal">
+    <div class="startmodal">
+      <h3 id="startModalTitle">Testni boshlash</h3>
+      <p id="startModalDesc">Rejimni tanlang</p>
+      <div class="mode-option selected" data-mode="untimed">
+        <div class="mode-icon">🕊️</div>
+        <div><div class="mode-title">Vaqtsiz</div><div class="mode-desc">Xotirjam ishlang, vaqt cheklovi yo'q</div></div>
+      </div>
+      <div class="mode-option" data-mode="timed">
+        <div class="mode-icon">⏱️</div>
+        <div><div class="mode-title">Vaqtli</div><div class="mode-desc">Har savolga 45 soniya</div></div>
+      </div>
+      <button class="btn-primary" id="startModalGo" style="margin-top:8px;">Boshlash</button>
+      <button class="btn-secondary" id="startModalCancel">Bekor qilish</button>
+    </div>
   </div>
 
   <!-- SCREEN: Reyting -->
@@ -1086,289 +1339,536 @@ const GRAMMAR = [
 ];
 
 
-/* ---------- 3) ZAMONLAR TESTI (100 savol) ---------- */
+/* ---------- 3) GRAMMATIKA SAVOLLARI BANKI ---------- */
 const TENSE_QUESTIONS = [
   // ===== Present Simple (1-15) =====
-  { q:"She ___ to school every day.", options:["go","goes","going","gone"], correct:1 , explain:"Present Simple: she/he/it bilan fe'lga -s qo'shiladi → goes." },
-  { q:"They ___ football on Sundays.", options:["plays","play","playing","played"], correct:1 , explain:"'They' ko'plik — fe'l asl shaklida qoladi, -s qo'shilmaydi → play." },
-  { q:"He ___ not like coffee.", options:["do","does","is","are"], correct:1 , explain:"Inkorda does not (doesn't) ishlatiladi, chunki ega 'he'." },
-  { q:"___ you speak English?", options:["Do","Does","Are","Is"], correct:0 , explain:"'you' bilan savolda Do yordamchi fe'li ishlatiladi." },
-  { q:"My brother ___ in London.", options:["live","lives","living","lived"], correct:1 , explain:"'My brother' = he, shuning uchun fe'lga -s qo'shiladi → lives." },
-  { q:"Water ___ at 100 degrees.", options:["boil","boils","boiling","is boil"], correct:1 , explain:"Umumiy haqiqat — Present Simple; 'water' = it, shuning uchun boils." },
-  { q:"We ___ TV in the evening.", options:["watches","watch","watching","are watch"], correct:1 , explain:"'We' bilan fe'l asl shaklida qoladi → watch." },
-  { q:"___ she work at a hospital?", options:["Do","Does","Is","Are"], correct:1 , explain:"'she' bilan savolda Does ishlatiladi." },
-  { q:"The shop ___ at nine o'clock.", options:["open","opens","opening","is open"], correct:1 , explain:"'The shop' = it, shuning uchun opens." },
-  { q:"I ___ tea every morning.", options:["drinks","drink","drinking","am drink"], correct:1 , explain:"'I' bilan fe'l asl shaklida → drink." },
-  { q:"Ali and Zara ___ their homework carefully.", options:["does","do","doing","is doing"], correct:1 , explain:"'Ali and Zara' = they (ko'plik), shuning uchun do." },
-  { q:"He ___ his teeth twice a day.", options:["brush","brushes","brushing","is brush"], correct:1 , explain:"'He' bilan -es qo'shiladi (sh, ch, s, x bilan tugagan fe'llarga) → brushes." },
-  { q:"They don't ___ in that building.", options:["works","work","working","worked"], correct:1 , explain:"don't dan keyin fe'l doim asl shaklida qoladi → work." },
-  { q:"My father ___ a taxi driver.", options:["are","is","be","am"], correct:1 , explain:"'My father' = he, 'to be' fe'lining shakli — is." },
-  { q:"How often ___ you go to the gym?", options:["does","do","is","are"], correct:1 , explain:"'you' bilan savolda do ishlatiladi." },
+  { q:"She ___ to school every day.", options:["go","goes","going","gone"], correct:1 , explain:"Present Simple: she/he/it bilan fe'lga -s qo'shiladi → goes.", diff:1 },
+  { q:"They ___ football on Sundays.", options:["plays","play","playing","played"], correct:1 , explain:"'They' ko'plik — fe'l asl shaklida qoladi, -s qo'shilmaydi → play.", diff:1 },
+  { q:"He ___ not like coffee.", options:["do","does","is","are"], correct:1 , explain:"Inkorda does not (doesn't) ishlatiladi, chunki ega 'he'.", diff:1 },
+  { q:"___ you speak English?", options:["Do","Does","Are","Is"], correct:0 , explain:"'you' bilan savolda Do yordamchi fe'li ishlatiladi.", diff:1 },
+  { q:"My brother ___ in London.", options:["live","lives","living","lived"], correct:1 , explain:"'My brother' = he, shuning uchun fe'lga -s qo'shiladi → lives.", diff:1 },
+  { q:"Water ___ at 100 degrees.", options:["boil","boils","boiling","is boil"], correct:1 , explain:"Umumiy haqiqat — Present Simple; 'water' = it, shuning uchun boils.", diff:1 },
+  { q:"We ___ TV in the evening.", options:["watches","watch","watching","are watch"], correct:1 , explain:"'We' bilan fe'l asl shaklida qoladi → watch.", diff:1 },
+  { q:"___ she work at a hospital?", options:["Do","Does","Is","Are"], correct:1 , explain:"'she' bilan savolda Does ishlatiladi.", diff:1 },
+  { q:"The shop ___ at nine o'clock.", options:["open","opens","opening","is open"], correct:1 , explain:"'The shop' = it, shuning uchun opens.", diff:1 },
+  { q:"I ___ tea every morning.", options:["drinks","drink","drinking","am drink"], correct:1 , explain:"'I' bilan fe'l asl shaklida → drink.", diff:1 },
+  { q:"Ali and Zara ___ their homework carefully.", options:["does","do","doing","is doing"], correct:1 , explain:"'Ali and Zara' = they (ko'plik), shuning uchun do.", diff:1 },
+  { q:"He ___ his teeth twice a day.", options:["brush","brushes","brushing","is brush"], correct:1 , explain:"'He' bilan -es qo'shiladi (sh, ch, s, x bilan tugagan fe'llarga) → brushes.", diff:1 },
+  { q:"They don't ___ in that building.", options:["works","work","working","worked"], correct:1 , explain:"don't dan keyin fe'l doim asl shaklida qoladi → work.", diff:1 },
+  { q:"My father ___ a taxi driver.", options:["are","is","be","am"], correct:1 , explain:"'My father' = he, 'to be' fe'lining shakli — is.", diff:1 },
+  { q:"How often ___ you go to the gym?", options:["does","do","is","are"], correct:1 , explain:"'you' bilan savolda do ishlatiladi.", diff:1 },
 
   // ===== Present Continuous (16-30) =====
-  { q:"They ___ playing football now.", options:["is","am","are","be"], correct:2 , explain:"'They' bilan Present Continuous'da are ishlatiladi." },
-  { q:"Look! It ___ outside.", options:["rain","rains","is raining","rained"], correct:2 , explain:"'Look!' — aynan hozir sodir bo'lyapti → Present Continuous: is raining." },
-  { q:"I ___ a book at the moment.", options:["read","reads","am reading","have read"], correct:2 , explain:"'at the moment' — hozir davom etayotgan harakat → am reading." },
-  { q:"She ___ dinner right now.", options:["cook","cooks","is cooking","cooked"], correct:2 , explain:"'right now' — Present Continuous: is cooking." },
-  { q:"What ___ you doing?", options:["is","are","do","does"], correct:1 , explain:"'you' bilan Present Continuous savolida are ishlatiladi." },
-  { q:"We ___ not working today.", options:["is","am","are","do"], correct:2 , explain:"'We' bilan are, inkorda are not." },
-  { q:"The children ___ in the garden now.", options:["play","plays","are playing","played"], correct:2 , explain:"'now' — Present Continuous; 'The children' ko'plik → are playing." },
-  { q:"He ___ for the bus at the moment.", options:["wait","waits","is waiting","waited"], correct:2 , explain:"'at the moment' — Present Continuous: is waiting." },
-  { q:"Listen! Someone ___ the piano.", options:["play","plays","is playing","played"], correct:2 , explain:"'Listen!' — aynan hozir → is playing." },
-  { q:"I ___ my email right now.", options:["check","checks","am checking","checked"], correct:2 , explain:"'right now' — Present Continuous: am checking." },
-  { q:"They ___ to Tashkent this week.", options:["travel","travels","are travelling","travelled"], correct:2 , explain:"'this week' — hozirgi davrda davom etyapti → are travelling." },
-  { q:"Why ___ she crying?", options:["do","does","is","are"], correct:2 , explain:"'she' bilan Present Continuous savolida is ishlatiladi." },
-  { q:"The students ___ an exam at the moment.", options:["take","takes","are taking","took"], correct:2 , explain:"'at the moment' — Present Continuous; 'students' ko'plik → are taking." },
-  { q:"My phone ___ charging now.", options:["are","is","am","be"], correct:1 , explain:"'My phone' = it → is charging." },
-  { q:"We ___ having lunch, call later.", options:["is","am","are","do"], correct:2 , explain:"'We' bilan are having (hozir davom etyapti)." },
+  { q:"They ___ playing football now.", options:["is","am","are","be"], correct:2 , explain:"'They' bilan Present Continuous'da are ishlatiladi.", diff:1 },
+  { q:"Look! It ___ outside.", options:["rain","rains","is raining","rained"], correct:2 , explain:"'Look!' — aynan hozir sodir bo'lyapti → Present Continuous: is raining.", diff:1 },
+  { q:"I ___ a book at the moment.", options:["read","reads","am reading","have read"], correct:2 , explain:"'at the moment' — hozir davom etayotgan harakat → am reading.", diff:1 },
+  { q:"She ___ dinner right now.", options:["cook","cooks","is cooking","cooked"], correct:2 , explain:"'right now' — Present Continuous: is cooking.", diff:1 },
+  { q:"What ___ you doing?", options:["is","are","do","does"], correct:1 , explain:"'you' bilan Present Continuous savolida are ishlatiladi.", diff:1 },
+  { q:"We ___ not working today.", options:["is","am","are","do"], correct:2 , explain:"'We' bilan are, inkorda are not.", diff:1 },
+  { q:"The children ___ in the garden now.", options:["play","plays","are playing","played"], correct:2 , explain:"'now' — Present Continuous; 'The children' ko'plik → are playing.", diff:1 },
+  { q:"He ___ for the bus at the moment.", options:["wait","waits","is waiting","waited"], correct:2 , explain:"'at the moment' — Present Continuous: is waiting.", diff:1 },
+  { q:"Listen! Someone ___ the piano.", options:["play","plays","is playing","played"], correct:2 , explain:"'Listen!' — aynan hozir → is playing.", diff:1 },
+  { q:"I ___ my email right now.", options:["check","checks","am checking","checked"], correct:2 , explain:"'right now' — Present Continuous: am checking.", diff:1 },
+  { q:"They ___ to Tashkent this week.", options:["travel","travels","are travelling","travelled"], correct:2 , explain:"'this week' — hozirgi davrda davom etyapti → are travelling.", diff:1 },
+  { q:"Why ___ she crying?", options:["do","does","is","are"], correct:2 , explain:"'she' bilan Present Continuous savolida is ishlatiladi.", diff:1 },
+  { q:"The students ___ an exam at the moment.", options:["take","takes","are taking","took"], correct:2 , explain:"'at the moment' — Present Continuous; 'students' ko'plik → are taking.", diff:1 },
+  { q:"My phone ___ charging now.", options:["are","is","am","be"], correct:1 , explain:"'My phone' = it → is charging.", diff:1 },
+  { q:"We ___ having lunch, call later.", options:["is","am","are","do"], correct:2 , explain:"'We' bilan are having (hozir davom etyapti).", diff:1 },
 
   // ===== Present Simple vs Continuous (31-40) =====
-  { q:"I usually ___ to work, but today I am driving.", options:["walk","walks","am walking","walked"], correct:0 , explain:"'usually' — odat, ya'ni Present Simple → walk." },
-  { q:"She ___ the answer to this question.", options:["is knowing","knows","know","knowing"], correct:1 , explain:"'know' — his-tuyg'u/bilim fe'li, Continuous shaklda ishlatilmaydi → knows." },
-  { q:"Right now they ___ a new house.", options:["build","builds","are building","built"], correct:2 , explain:"'Right now' — Present Continuous: are building." },
-  { q:"He always ___ late for class.", options:["is coming","comes","come","came"], correct:1 , explain:"'always' — odat, Present Simple → comes." },
-  { q:"I ___ this film very much.", options:["am liking","likes","like","liking"], correct:2 , explain:"'like' ham Continuous shaklda ishlatilmaydi → like." },
-  { q:"Every summer we ___ to the mountains.", options:["go","goes","are going","went"], correct:0 , explain:"'Every summer' — takrorlanuvchi harakat, Present Simple → go." },
-  { q:"Be quiet! The baby ___.", options:["sleep","sleeps","is sleeping","slept"], correct:2 , explain:"'Be quiet!' — aynan hozir uxlayapti → is sleeping." },
-  { q:"She ___ a new car at the moment.", options:["want","wants","is wanting","wanting"], correct:1 , explain:"'want' — Continuous shaklda ishlatilmaydi → wants." },
-  { q:"My sister ___ English at university this year.", options:["study","studies","is studying","studied"], correct:2 , explain:"'this year' — vaqtinchalik davom etayotgan davr → is studying." },
-  { q:"The sun ___ in the east.", options:["rise","rises","is rising","rose"], correct:1 , explain:"Umumiy haqiqat — Present Simple: rises." },
+  { q:"I usually ___ to work, but today I am driving.", options:["walk","walks","am walking","walked"], correct:0 , explain:"'usually' — odat, ya'ni Present Simple → walk.", diff:2 },
+  { q:"She ___ the answer to this question.", options:["is knowing","knows","know","knowing"], correct:1 , explain:"'know' — his-tuyg'u/bilim fe'li, Continuous shaklda ishlatilmaydi → knows.", diff:2 },
+  { q:"Right now they ___ a new house.", options:["build","builds","are building","built"], correct:2 , explain:"'Right now' — Present Continuous: are building.", diff:2 },
+  { q:"He always ___ late for class.", options:["is coming","comes","come","came"], correct:1 , explain:"'always' — odat, Present Simple → comes.", diff:2 },
+  { q:"I ___ this film very much.", options:["am liking","likes","like","liking"], correct:2 , explain:"'like' ham Continuous shaklda ishlatilmaydi → like.", diff:2 },
+  { q:"Every summer we ___ to the mountains.", options:["go","goes","are going","went"], correct:0 , explain:"'Every summer' — takrorlanuvchi harakat, Present Simple → go.", diff:2 },
+  { q:"Be quiet! The baby ___.", options:["sleep","sleeps","is sleeping","slept"], correct:2 , explain:"'Be quiet!' — aynan hozir uxlayapti → is sleeping.", diff:2 },
+  { q:"She ___ a new car at the moment.", options:["want","wants","is wanting","wanting"], correct:1 , explain:"'want' — Continuous shaklda ishlatilmaydi → wants.", diff:2 },
+  { q:"My sister ___ English at university this year.", options:["study","studies","is studying","studied"], correct:2 , explain:"'this year' — vaqtinchalik davom etayotgan davr → is studying.", diff:2 },
+  { q:"The sun ___ in the east.", options:["rise","rises","is rising","rose"], correct:1 , explain:"Umumiy haqiqat — Present Simple: rises.", diff:2 },
 
   // ===== Past Simple (41-58) =====
-  { q:"What is the past tense of 'write'?", options:["writed","wrote","written","writing"], correct:1 , explain:"'write' notug'ri fe'l: write → wrote → written." },
-  { q:"I ___ my grandmother last week.", options:["visit","visits","visited","visiting"], correct:2 , explain:"'last week' — Past Simple; muntazam fe'lga -ed → visited." },
-  { q:"She ___ to school yesterday.", options:["go","goes","went","gone"], correct:2 , explain:"'yesterday' — Past Simple; go → went." },
-  { q:"They ___ not come to the party.", options:["do","did","does","are"], correct:1 , explain:"O'tgan zamon inkorida did not (didn't) ishlatiladi." },
-  { q:"The past form of 'buy' is ___.", options:["buyed","bought","boughted","buying"], correct:1 , explain:"buy — notug'ri fe'l: buy → bought → bought." },
-  { q:"We ___ a great time in Samarkand.", options:["have","has","had","having"], correct:2 , explain:"have fe'lining 2-shakli — had." },
-  { q:"___ you finish the project?", options:["Do","Does","Did","Are"], correct:2 , explain:"O'tgan zamon savolida Did ishlatiladi." },
-  { q:"He ___ the window this morning.", options:["break","breaks","broke","broken"], correct:2 , explain:"break → broke (2-shakl). Broken — 3-shakl." },
-  { q:"The past form of 'teach' is ___.", options:["teached","taught","teaching","taughted"], correct:1 , explain:"teach → taught → taught." },
-  { q:"I ___ born in 2005.", options:["am","is","was","were"], correct:2 , explain:"'I' bilan o'tgan zamonda was ishlatiladi." },
-  { q:"They ___ very tired after the trip.", options:["was","were","is","are"], correct:1 , explain:"'They' bilan o'tgan zamonda were ishlatiladi." },
-  { q:"She didn't ___ me about it.", options:["told","tells","tell","telling"], correct:2 , explain:"didn't dan keyin fe'l asl shaklida qoladi → tell." },
-  { q:"The past form of 'take' is ___.", options:["taked","took","taken","taking"], correct:1 , explain:"take → took → taken. Bu yerda 2-shakl kerak." },
-  { q:"We ___ the film last night.", options:["watch","watches","watched","watching"], correct:2 , explain:"'last night' — Past Simple; watch → watched." },
-  { q:"Where ___ you go last summer?", options:["do","does","did","are"], correct:2 , explain:"'last summer' — Past Simple savoli → did." },
-  { q:"He ___ the letter yesterday.", options:["send","sends","sent","sending"], correct:2 , explain:"send → sent → sent." },
-  { q:"The past form of 'begin' is ___.", options:["beginned","began","begun","beginning"], correct:1 , explain:"begin → began → begun. Bu yerda 2-shakl kerak." },
-  { q:"I ___ my keys at home this morning.", options:["leave","leaves","left","leaving"], correct:2 , explain:"leave → left → left." },
+  { q:"What is the past tense of 'write'?", options:["writed","wrote","written","writing"], correct:1 , explain:"'write' notug'ri fe'l: write → wrote → written.", diff:2 },
+  { q:"I ___ my grandmother last week.", options:["visit","visits","visited","visiting"], correct:2 , explain:"'last week' — Past Simple; muntazam fe'lga -ed → visited.", diff:2 },
+  { q:"She ___ to school yesterday.", options:["go","goes","went","gone"], correct:2 , explain:"'yesterday' — Past Simple; go → went.", diff:2 },
+  { q:"They ___ not come to the party.", options:["do","did","does","are"], correct:1 , explain:"O'tgan zamon inkorida did not (didn't) ishlatiladi.", diff:2 },
+  { q:"The past form of 'buy' is ___.", options:["buyed","bought","boughted","buying"], correct:1 , explain:"buy — notug'ri fe'l: buy → bought → bought.", diff:2 },
+  { q:"We ___ a great time in Samarkand.", options:["have","has","had","having"], correct:2 , explain:"have fe'lining 2-shakli — had.", diff:2 },
+  { q:"___ you finish the project?", options:["Do","Does","Did","Are"], correct:2 , explain:"O'tgan zamon savolida Did ishlatiladi.", diff:2 },
+  { q:"He ___ the window this morning.", options:["break","breaks","broke","broken"], correct:2 , explain:"break → broke (2-shakl). Broken — 3-shakl.", diff:2 },
+  { q:"The past form of 'teach' is ___.", options:["teached","taught","teaching","taughted"], correct:1 , explain:"teach → taught → taught.", diff:2 },
+  { q:"I ___ born in 2005.", options:["am","is","was","were"], correct:2 , explain:"'I' bilan o'tgan zamonda was ishlatiladi.", diff:2 },
+  { q:"They ___ very tired after the trip.", options:["was","were","is","are"], correct:1 , explain:"'They' bilan o'tgan zamonda were ishlatiladi.", diff:2 },
+  { q:"She didn't ___ me about it.", options:["told","tells","tell","telling"], correct:2 , explain:"didn't dan keyin fe'l asl shaklida qoladi → tell.", diff:2 },
+  { q:"The past form of 'take' is ___.", options:["taked","took","taken","taking"], correct:1 , explain:"take → took → taken. Bu yerda 2-shakl kerak.", diff:2 },
+  { q:"We ___ the film last night.", options:["watch","watches","watched","watching"], correct:2 , explain:"'last night' — Past Simple; watch → watched.", diff:2 },
+  { q:"Where ___ you go last summer?", options:["do","does","did","are"], correct:2 , explain:"'last summer' — Past Simple savoli → did.", diff:2 },
+  { q:"He ___ the letter yesterday.", options:["send","sends","sent","sending"], correct:2 , explain:"send → sent → sent.", diff:2 },
+  { q:"The past form of 'begin' is ___.", options:["beginned","began","begun","beginning"], correct:1 , explain:"begin → began → begun. Bu yerda 2-shakl kerak.", diff:2 },
+  { q:"I ___ my keys at home this morning.", options:["leave","leaves","left","leaving"], correct:2 , explain:"leave → left → left.", diff:2 },
 
   // ===== Past Continuous (59-70) =====
-  { q:"I ___ TV when he called.", options:["watch","watched","was watching","were watching"], correct:2 , explain:"Boshqa harakat (called) uzilgan paytda davom etayotgan → was watching." },
-  { q:"They ___ for the bus at eight.", options:["wait","waited","was waiting","were waiting"], correct:3 , explain:"'They' ko'plik, Past Continuous'da were waiting." },
-  { q:"While she ___, the phone rang.", options:["cook","cooks","was cooking","were cooking"], correct:2 , explain:"'While' bilan davom etayotgan harakat → was cooking." },
-  { q:"What ___ you doing at ten last night?", options:["was","were","did","are"], correct:1 , explain:"'you' bilan Past Continuous savolida were ishlatiladi." },
-  { q:"The children ___ in the garden all afternoon.", options:["play","played","was playing","were playing"], correct:3 , explain:"'The children' ko'plik → were playing." },
-  { q:"He ___ his homework when I arrived.", options:["do","did","was doing","were doing"], correct:2 , explain:"'He' birlik → was doing." },
-  { q:"We ___ dinner when the lights went out.", options:["have","had","was having","were having"], correct:3 , explain:"'We' ko'plik → were having." },
-  { q:"She ___ not listening to the teacher.", options:["was","were","did","is"], correct:0 , explain:"'She' birlik → was not listening." },
-  { q:"It ___ heavily when we left.", options:["rain","rained","was raining","were raining"], correct:2 , explain:"'It' birlik → was raining." },
-  { q:"They ___ about the exam when I came in.", options:["talk","talked","was talking","were talking"], correct:3 , explain:"'They' ko'plik → were talking." },
-  { q:"I ___ across the street when I saw him.", options:["walk","walked","was walking","were walking"], correct:2 , explain:"'I' bilan Past Continuous'da was ishlatiladi." },
-  { q:"The students ___ notes during the lecture.", options:["takes","took","was taking","were taking"], correct:3 , explain:"'The students' ko'plik → were taking." },
+  { q:"I ___ TV when he called.", options:["watch","watched","was watching","were watching"], correct:2 , explain:"Boshqa harakat (called) uzilgan paytda davom etayotgan → was watching.", diff:2 },
+  { q:"They ___ for the bus at eight.", options:["wait","waited","was waiting","were waiting"], correct:3 , explain:"'They' ko'plik, Past Continuous'da were waiting.", diff:2 },
+  { q:"While she ___, the phone rang.", options:["cook","cooks","was cooking","were cooking"], correct:2 , explain:"'While' bilan davom etayotgan harakat → was cooking.", diff:2 },
+  { q:"What ___ you doing at ten last night?", options:["was","were","did","are"], correct:1 , explain:"'you' bilan Past Continuous savolida were ishlatiladi.", diff:2 },
+  { q:"The children ___ in the garden all afternoon.", options:["play","played","was playing","were playing"], correct:3 , explain:"'The children' ko'plik → were playing.", diff:2 },
+  { q:"He ___ his homework when I arrived.", options:["do","did","was doing","were doing"], correct:2 , explain:"'He' birlik → was doing.", diff:2 },
+  { q:"We ___ dinner when the lights went out.", options:["have","had","was having","were having"], correct:3 , explain:"'We' ko'plik → were having.", diff:2 },
+  { q:"She ___ not listening to the teacher.", options:["was","were","did","is"], correct:0 , explain:"'She' birlik → was not listening.", diff:2 },
+  { q:"It ___ heavily when we left.", options:["rain","rained","was raining","were raining"], correct:2 , explain:"'It' birlik → was raining.", diff:2 },
+  { q:"They ___ about the exam when I came in.", options:["talk","talked","was talking","were talking"], correct:3 , explain:"'They' ko'plik → were talking.", diff:2 },
+  { q:"I ___ across the street when I saw him.", options:["walk","walked","was walking","were walking"], correct:2 , explain:"'I' bilan Past Continuous'da was ishlatiladi.", diff:2 },
+  { q:"The students ___ notes during the lecture.", options:["takes","took","was taking","were taking"], correct:3 , explain:"'The students' ko'plik → were taking.", diff:2 },
 
   // ===== Present Perfect (71-88) =====
-  { q:"I ___ finished my homework.", options:["has","have","am","did"], correct:1 , explain:"'I' bilan Present Perfect'da have ishlatiladi." },
-  { q:"She ___ never been to Paris.", options:["have","has","did","was"], correct:1 , explain:"'She' bilan Present Perfect'da has ishlatiladi." },
-  { q:"They ___ just arrived.", options:["has","have","are","did"], correct:1 , explain:"'They' bilan have; 'just' — yaqinda sodir bo'lgan." },
-  { q:"Have you ___ the news yet?", options:["hear","hears","heard","hearing"], correct:2 , explain:"Present Perfect'da fe'lning 3-shakli: hear → heard → heard." },
-  { q:"He has lived here ___ five years.", options:["since","for","from","at"], correct:1 , explain:"'five years' — davomiylik muddati, shuning uchun for." },
-  { q:"She has worked here ___ March.", options:["for","since","from","in"], correct:1 , explain:"'March' — boshlanish nuqtasi, shuning uchun since." },
-  { q:"I have ___ eaten, thank you.", options:["yet","already","since","ever"], correct:1 , explain:"'already' — ijobiy gapda, 'allaqachon' ma'nosida." },
-  { q:"Have you finished ___?", options:["already","yet","just","since"], correct:1 , explain:"'yet' — savol va inkor gaplarda, gap oxirida." },
-  { q:"We ___ known each other for years.", options:["has","have","are","did"], correct:1 , explain:"'We' bilan have known." },
-  { q:"The past participle of 'go' is ___.", options:["went","gone","going","goed"], correct:1 , explain:"go → went → gone. 3-shakl — gone." },
-  { q:"He has ___ his keys again.", options:["lose","loses","lost","losing"], correct:2 , explain:"lose → lost → lost." },
-  { q:"___ you ever visited London?", options:["Did","Have","Has","Are"], correct:1 , explain:"'ever' bilan Present Perfect savoli → Have you ever...?" },
-  { q:"She has ___ finished the report.", options:["yet","just","since","for"], correct:1 , explain:"'just' — hozirgina tugagan harakat." },
-  { q:"The past participle of 'see' is ___.", options:["saw","seen","seeing","seed"], correct:1 , explain:"see → saw → seen. 3-shakl — seen." },
-  { q:"They haven't ___ the letter yet.", options:["send","sends","sent","sending"], correct:2 , explain:"send → sent → sent (3-shakl)." },
-  { q:"I ___ been to Bukhara three times.", options:["has","have","am","was"], correct:1 , explain:"'three times' — tajriba, Present Perfect: have been." },
-  { q:"My father ___ worked here since 2010.", options:["have","has","is","was"], correct:1 , explain:"'My father' = he → has worked; 'since 2010' — boshlanish nuqtasi." },
-  { q:"The past participle of 'do' is ___.", options:["did","done","doing","dided"], correct:1 , explain:"do → did → done. 3-shakl — done." },
+  { q:"I ___ finished my homework.", options:["has","have","am","did"], correct:1 , explain:"'I' bilan Present Perfect'da have ishlatiladi.", diff:3 },
+  { q:"She ___ never been to Paris.", options:["have","has","did","was"], correct:1 , explain:"'She' bilan Present Perfect'da has ishlatiladi.", diff:3 },
+  { q:"They ___ just arrived.", options:["has","have","are","did"], correct:1 , explain:"'They' bilan have; 'just' — yaqinda sodir bo'lgan.", diff:3 },
+  { q:"Have you ___ the news yet?", options:["hear","hears","heard","hearing"], correct:2 , explain:"Present Perfect'da fe'lning 3-shakli: hear → heard → heard.", diff:3 },
+  { q:"He has lived here ___ five years.", options:["since","for","from","at"], correct:1 , explain:"'five years' — davomiylik muddati, shuning uchun for.", diff:3 },
+  { q:"She has worked here ___ March.", options:["for","since","from","in"], correct:1 , explain:"'March' — boshlanish nuqtasi, shuning uchun since.", diff:3 },
+  { q:"I have ___ eaten, thank you.", options:["yet","already","since","ever"], correct:1 , explain:"'already' — ijobiy gapda, 'allaqachon' ma'nosida.", diff:3 },
+  { q:"Have you finished ___?", options:["already","yet","just","since"], correct:1 , explain:"'yet' — savol va inkor gaplarda, gap oxirida.", diff:3 },
+  { q:"We ___ known each other for years.", options:["has","have","are","did"], correct:1 , explain:"'We' bilan have known.", diff:3 },
+  { q:"The past participle of 'go' is ___.", options:["went","gone","going","goed"], correct:1 , explain:"go → went → gone. 3-shakl — gone.", diff:3 },
+  { q:"He has ___ his keys again.", options:["lose","loses","lost","losing"], correct:2 , explain:"lose → lost → lost.", diff:3 },
+  { q:"___ you ever visited London?", options:["Did","Have","Has","Are"], correct:1 , explain:"'ever' bilan Present Perfect savoli → Have you ever...?", diff:3 },
+  { q:"She has ___ finished the report.", options:["yet","just","since","for"], correct:1 , explain:"'just' — hozirgina tugagan harakat.", diff:3 },
+  { q:"The past participle of 'see' is ___.", options:["saw","seen","seeing","seed"], correct:1 , explain:"see → saw → seen. 3-shakl — seen.", diff:3 },
+  { q:"They haven't ___ the letter yet.", options:["send","sends","sent","sending"], correct:2 , explain:"send → sent → sent (3-shakl).", diff:3 },
+  { q:"I ___ been to Bukhara three times.", options:["has","have","am","was"], correct:1 , explain:"'three times' — tajriba, Present Perfect: have been.", diff:3 },
+  { q:"My father ___ worked here since 2010.", options:["have","has","is","was"], correct:1 , explain:"'My father' = he → has worked; 'since 2010' — boshlanish nuqtasi.", diff:3 },
+  { q:"The past participle of 'do' is ___.", options:["did","done","doing","dided"], correct:1 , explain:"do → did → done. 3-shakl — done.", diff:3 },
 
   // ===== Present Perfect Continuous (89-93) =====
-  { q:"I have ___ studying for three hours.", options:["be","been","being","was"], correct:1 , explain:"Present Perfect Continuous: have + been + fe'l-ing." },
-  { q:"It has been ___ all day.", options:["rain","rains","raining","rained"], correct:2 , explain:"has been + fe'l-ing → has been raining." },
-  { q:"She ___ been waiting since noon.", options:["have","has","is","was"], correct:1 , explain:"'She' bilan has been waiting." },
-  { q:"They have been ___ in this office for a year.", options:["work","works","working","worked"], correct:2 , explain:"have been + fe'l-ing → have been working." },
-  { q:"How long ___ you been learning English?", options:["has","have","did","are"], correct:1 , explain:"'you' bilan have been learning." },
+  { q:"I have ___ studying for three hours.", options:["be","been","being","was"], correct:1 , explain:"Present Perfect Continuous: have + been + fe'l-ing.", diff:3 },
+  { q:"It has been ___ all day.", options:["rain","rains","raining","rained"], correct:2 , explain:"has been + fe'l-ing → has been raining.", diff:3 },
+  { q:"She ___ been waiting since noon.", options:["have","has","is","was"], correct:1 , explain:"'She' bilan has been waiting.", diff:3 },
+  { q:"They have been ___ in this office for a year.", options:["work","works","working","worked"], correct:2 , explain:"have been + fe'l-ing → have been working.", diff:3 },
+  { q:"How long ___ you been learning English?", options:["has","have","did","are"], correct:1 , explain:"'you' bilan have been learning.", diff:3 },
 
   // ===== Present Perfect vs Past Simple (94-97) =====
-  { q:"I ___ him yesterday.", options:["have seen","saw","has seen","seen"], correct:1 , explain:"'yesterday' — aniq o'tgan vaqt, shuning uchun Past Simple: saw." },
-  { q:"She ___ that film three times.", options:["watched","has watched","watch","watching"], correct:1 , explain:"Vaqt aniq emas, natija hozir muhim → has watched." },
-  { q:"We ___ to Turkey in 2019.", options:["have gone","went","have been","go"], correct:1 , explain:"'in 2019' — aniq o'tgan vaqt → Past Simple: went." },
-  { q:"He ___ never tried sushi before.", options:["did","was","has","have"], correct:2 , explain:"'never ... before' — tajriba, Present Perfect: has never tried." },
+  { q:"I ___ him yesterday.", options:["have seen","saw","has seen","seen"], correct:1 , explain:"'yesterday' — aniq o'tgan vaqt, shuning uchun Past Simple: saw.", diff:3 },
+  { q:"She ___ that film three times.", options:["watched","has watched","watch","watching"], correct:1 , explain:"Vaqt aniq emas, natija hozir muhim → has watched.", diff:3 },
+  { q:"We ___ to Turkey in 2019.", options:["have gone","went","have been","go"], correct:1 , explain:"'in 2019' — aniq o'tgan vaqt → Past Simple: went.", diff:3 },
+  { q:"He ___ never tried sushi before.", options:["did","was","has","have"], correct:2 , explain:"'never ... before' — tajriba, Present Perfect: has never tried.", diff:3 },
 
   // ===== Future (98-100) =====
-  { q:"I ___ help you with that.", options:["will","am","do","did"], correct:0 , explain:"Shu daqiqada qabul qilingan qaror/taklif → will." },
-  { q:"Look at those clouds! It ___ rain.", options:["will","is going to","goes to","would"], correct:1 , explain:"Ko'rinib turgan dalil (bulutlar) asosidagi taxmin → is going to rain." },
-  { q:"If it rains, I ___ stay home.", options:["will","would","am","was"], correct:0 , explain:"1-shart gap: If + Present Simple, will + fe'l." }
+  { q:"I ___ help you with that.", options:["will","am","do","did"], correct:0 , explain:"Shu daqiqada qabul qilingan qaror/taklif → will.", diff:3 },
+  { q:"Look at those clouds! It ___ rain.", options:["will","is going to","goes to","would"], correct:1 , explain:"Ko'rinib turgan dalil (bulutlar) asosidagi taxmin → is going to rain.", diff:3 },
+  { q:"If it rains, I ___ stay home.", options:["will","would","am","was"], correct:0 , explain:"1-shart gap: If + Present Simple, will + fe'l.", diff:3 }
 ];
 
-/* ---------- 4) LUG'AT TESTI (100+ savol) ---------- */
+/* Zamonlardan tashqari grammatika savollari
+   diff: 1 = oddiy, 2 = o'rta, 3 = murakkab */
+const GRAMMAR_EXTRA = [
+
+// ===== ODDIY (diff 1) =====
+{ q:"There ___ a book on the table.", options:["is","are","were","have"], correct:0, diff:1, explain:"Birlik ot (a book) bilan there is ishlatiladi." },
+{ q:"There ___ five students in the class.", options:["is","are","was","has"], correct:1, diff:1, explain:"Ko'plik ot (five students) bilan there are ishlatiladi." },
+{ q:"She is ___ engineer.", options:["a","an","the","—"], correct:1, diff:1, explain:"'engineer' unli tovush bilan boshlanadi, shuning uchun an." },
+{ q:"I saw ___ dog in the street.", options:["a","an","the","—"], correct:0, diff:1, explain:"Birinchi marta tilga olinayotgan narsa uchun a ishlatiladi." },
+{ q:"___ sun is very bright today.", options:["A","An","The","—"], correct:2, diff:1, explain:"Yagona narsalar (sun, moon, sky) bilan the ishlatiladi." },
+{ q:"I have ___ questions for you.", options:["some","any","much","a"], correct:0, diff:1, explain:"Ijobiy gaplarda some ishlatiladi." },
+{ q:"Do you have ___ money?", options:["some","any","much of","a"], correct:1, diff:1, explain:"Savol gaplarda any ishlatiladi." },
+{ q:"This is ___ bag.", options:["my","mine","me","I"], correct:0, diff:1, explain:"Otdan oldin egalik olmoshi my ishlatiladi." },
+{ q:"That is ___ car.", options:["Ali","Ali's","Alis","of Ali"], correct:1, diff:1, explain:"Odamlar uchun egalikni 's bilan ifodalaymiz." },
+{ q:"I ___ swim very well.", options:["can","must","should","am"], correct:0, diff:1, explain:"Qobiliyatni can bildiradi." },
+{ q:"The class starts ___ nine o'clock.", options:["in","on","at","to"], correct:2, diff:1, explain:"Aniq soat bilan at ishlatiladi." },
+{ q:"We met ___ Friday.", options:["in","on","at","by"], correct:1, diff:1, explain:"Hafta kunlari bilan on ishlatiladi." },
+{ q:"He was born ___ 2005.", options:["in","on","at","from"], correct:0, diff:1, explain:"Yillar bilan in ishlatiladi." },
+{ q:"The keys are ___ my bag.", options:["in","on","at","over"], correct:0, diff:1, explain:"Ichida ma'nosida in ishlatiladi." },
+{ q:"The book is ___ the shelf.", options:["in","on","at","under"], correct:1, diff:1, explain:"Yuzasida/ustida ma'nosida on ishlatiladi." },
+{ q:"This book is ___ than that one.", options:["cheap","cheaper","cheapest","more cheap"], correct:1, diff:1, explain:"Qisqa sifatga qiyosiy darajada -er qo'shiladi." },
+{ q:"He is the ___ boy in the class.", options:["tall","taller","tallest","most tall"], correct:2, diff:1, explain:"Orttirma darajada -est qo'shiladi va oldidan the qo'yiladi." },
+{ q:"How ___ books do you have?", options:["much","many","long","far"], correct:1, diff:1, explain:"Sanaladigan otlar bilan many ishlatiladi." },
+{ q:"How ___ water do you need?", options:["much","many","long","few"], correct:0, diff:1, explain:"Sanalmaydigan otlar bilan much ishlatiladi." },
+{ q:"There isn't ___ milk left.", options:["some","any","many","a"], correct:1, diff:1, explain:"Inkor gaplarda any ishlatiladi." },
+{ q:"You ___ stop at a red light.", options:["must","might","could","may"], correct:0, diff:1, explain:"Qat'iy majburiyatni must bildiradi." },
+{ q:"___ you help me, please?", options:["Could","Must","Should","Would have"], correct:0, diff:1, explain:"Muloyim so'rovda Could ishlatiladi." },
+{ q:"Choose the correct plural of 'child'.", options:["childs","childes","children","childrens"], correct:2, diff:1, explain:"child — notug'ri ko'plik shakl: children." },
+{ q:"The plural of 'woman' is ___.", options:["womans","women","womens","womanes"], correct:1, diff:1, explain:"woman → women (notug'ri ko'plik)." },
+{ q:"'Beautiful' is a/an ___.", options:["noun","verb","adjective","adverb"], correct:2, diff:1, explain:"Beautiful — sifat (adjective), otni tavsiflaydi." },
+
+// ===== O'RTA (diff 2) =====
+{ q:"You ___ see a doctor about that cough.", options:["should","must","can","will"], correct:0, diff:2, explain:"Maslahat berishda should ishlatiladi." },
+{ q:"I ___ work on Saturday — it's the company rule.", options:["have to","should","might","can"], correct:0, diff:2, explain:"Tashqi qoidadan kelib chiqqan zaruratni have to bildiradi." },
+{ q:"It ___ rain later, take an umbrella.", options:["may","must","should","can"], correct:0, diff:2, explain:"Ehtimollikni may bildiradi." },
+{ q:"She ___ not come today, she is ill.", options:["might","must","should","would"], correct:0, diff:2, explain:"Kam ishonchli ehtimolni might bildiradi." },
+{ q:"He will ___ to join us tomorrow.", options:["can","be able","be able to","could"], correct:2, diff:2, explain:"Kelasi zamonda 'can' o'rniga be able to ishlatiladi." },
+{ q:"This exercise is ___ difficult than that one.", options:["more","most","much","many"], correct:0, diff:2, explain:"Uzun sifatlarda qiyosiy daraja more bilan yasaladi." },
+{ q:"This is the ___ interesting book I've read.", options:["more","most","much","very"], correct:1, diff:2, explain:"Uzun sifatlarda orttirma daraja the most bilan yasaladi." },
+{ q:"'Good' bo'yicha qiyosiy daraja qaysi?", options:["gooder","better","best","more good"], correct:1, diff:2, explain:"good → better → the best (notug'ri shakl)." },
+{ q:"'Bad' bo'yicha orttirma daraja qaysi?", options:["baddest","worse","the worst","most bad"], correct:2, diff:2, explain:"bad → worse → the worst." },
+{ q:"I need ___ advice about this problem.", options:["an","some","many","a few"], correct:1, diff:2, explain:"'advice' sanalmaydigan ot, some bilan ishlatiladi." },
+{ q:"She gave me ___ useful information.", options:["a","an","some","many"], correct:2, diff:2, explain:"'information' sanalmaydigan ot, a/an va many bilan ishlatilmaydi." },
+{ q:"The letter ___ written yesterday.", options:["is","was","has","were"], correct:1, diff:2, explain:"Passive Voice o'tgan zamonda: was + 3-shakl." },
+{ q:"English ___ all over the world.", options:["speaks","is speaking","is spoken","spoke"], correct:2, diff:2, explain:"Majhul nisbat: is + spoken (3-shakl)." },
+{ q:"The house ___ built last year.", options:["is","was","has","does"], correct:1, diff:2, explain:"O'tgan zamondagi passive: was built." },
+{ q:"If it rains, I ___ stay home.", options:["will","would","am","was"], correct:0, diff:2, explain:"1-shart gap: If + Present Simple, will + fe'l." },
+{ q:"If you study hard, you ___ pass the exam.", options:["will","would","are","have"], correct:0, diff:2, explain:"Real kelajakdagi shart — 1-shart gap: will." },
+{ q:"I ___ play football every day when I was young.", options:["use to","used to","am used to","was used"], correct:1, diff:2, explain:"O'tmishdagi odat — used to." },
+{ q:"___ you use to live in Bukhara?", options:["Do","Did","Were","Have"], correct:1, diff:2, explain:"used to savolida did + use to shakli ishlatiladi." },
+{ q:"I enjoy ___ books in the evening.", options:["read","to read","reading","reads"], correct:2, diff:2, explain:"enjoy dan keyin -ing shakli keladi." },
+{ q:"She decided ___ early.", options:["leave","to leave","leaving","left"], correct:1, diff:2, explain:"decide dan keyin to + fe'l keladi." },
+{ q:"He finished ___ at six o'clock.", options:["work","to work","working","works"], correct:2, diff:2, explain:"finish dan keyin -ing shakli keladi." },
+{ q:"The man ___ called you is my uncle.", options:["which","who","whose","what"], correct:1, diff:2, explain:"Odamlar uchun who ishlatiladi." },
+{ q:"This is the book ___ I bought yesterday.", options:["who","which","whose","when"], correct:1, diff:2, explain:"Narsalar uchun which ishlatiladi." },
+{ q:"Which word is a preposition?", options:["quickly","under","beautiful","run"], correct:1, diff:2, explain:"under — predlog (joy bildiradi)." },
+{ q:"'Quickly' is a/an ___.", options:["noun","adverb","adjective","verb"], correct:1, diff:2, explain:"Quickly — ravish (adverb), harakat qanday bajarilganini bildiradi." },
+{ q:"He gets ___ well with everyone.", options:["on","in","up","off"], correct:0, diff:2, explain:"get on with — chiqishmoq (phrasal verb)." },
+{ q:"Please look ___ my cat while I'm away.", options:["after","for","up","at"], correct:0, diff:2, explain:"look after — qaramoq, e'tibor bermoq." },
+{ q:"They put ___ the meeting until next week.", options:["off","on","up","in"], correct:0, diff:2, explain:"put off — keyinga qoldirmoq." },
+
+// ===== MURAKKAB (diff 3) =====
+{ q:"If I ___ more money, I would travel the world.", options:["have","had","will have","would have"], correct:1, diff:3, explain:"2-shart gap: If + Past Simple, would + fe'l." },
+{ q:"If I ___ you, I would apologise.", options:["am","was","were","will be"], correct:2, diff:3, explain:"2-shart gapda 'to be' fe'li barcha shaxslar bilan were bo'ladi." },
+{ q:"If she had studied, she ___ have passed.", options:["will","would","did","was"], correct:1, diff:3, explain:"3-shart gap: If + Past Perfect, would have + 3-shakl." },
+{ q:"\"I am tired,\" he said. → He said he ___ tired.", options:["is","was","were","has been"], correct:1, diff:3, explain:"O'zga gapda zamon bir pog'ona orqaga suriladi: am → was." },
+{ q:"She said she ___ come tomorrow.", options:["will","would","is","has"], correct:1, diff:3, explain:"O'zga gapda will → would ga aylanadi." },
+{ q:"He told me that he ___ finished the work.", options:["has","had","have","was"], correct:1, diff:3, explain:"O'zga gapda Present Perfect → Past Perfect: had finished." },
+{ q:"The house ___ being built at the moment.", options:["is","was","has","are"], correct:0, diff:3, explain:"Hozirgi davomiy majhul: is being + 3-shakl." },
+{ q:"The report ___ finished by tomorrow.", options:["will be","will","is being","was"], correct:0, diff:3, explain:"Kelasi zamondagi majhul: will be + 3-shakl." },
+{ q:"The girl ___ father is a doctor is my friend.", options:["who","which","whose","whom"], correct:2, diff:3, explain:"Egalikni bildiruvchi bog'lovchi — whose." },
+{ q:"That's the place ___ we first met.", options:["which","where","who","when"], correct:1, diff:3, explain:"Joy haqida gap ketganda where ishlatiladi." },
+{ q:"I remember ___ him somewhere before.", options:["to see","seeing","see","saw"], correct:1, diff:3, explain:"remember + -ing — o'tmishdagi voqeani eslash ma'nosida." },
+{ q:"Don't forget ___ the door when you leave.", options:["locking","to lock","lock","locked"], correct:1, diff:3, explain:"forget + to — kelajakda bajarilishi kerak bo'lgan ish." },
+{ q:"He stopped ___ to answer the phone.", options:["working","to work","work","worked"], correct:1, diff:3, explain:"stop + to — biror ishni bajarish maqsadida to'xtash." },
+{ q:"She is used ___ early in the morning.", options:["to get up","to getting up","get up","got up"], correct:1, diff:3, explain:"be used to + -ing — odatlanib qolgan (used to dan farqli)." },
+{ q:"By the time we arrived, the film ___.", options:["started","has started","had started","was starting"], correct:2, diff:3, explain:"O'tmishdagi ikki harakatdan avvalgisi — Past Perfect." },
+{ q:"She ___ here since she graduated.", options:["works","worked","has worked","is working"], correct:2, diff:3, explain:"since bilan Present Perfect ishlatiladi." },
+{ q:"Neither of the students ___ the answer.", options:["know","knows","are knowing","have known"], correct:1, diff:3, explain:"'Neither of' birlik sifatida qaraladi → knows." },
+{ q:"Not only ___ he late, but he also forgot the file.", options:["was","is","did","has"], correct:0, diff:3, explain:"'Not only' gap boshida kelganda inversiya bo'ladi: was he." },
+{ q:"Hardly ___ I arrived when the phone rang.", options:["have","had","did","was"], correct:1, diff:3, explain:"'Hardly' bilan inversiya va Past Perfect: Hardly had I arrived." },
+{ q:"I wish I ___ speak French fluently.", options:["can","could","will","would have"], correct:1, diff:3, explain:"I wish dan keyin could ishlatiladi (afsuslanish)." },
+{ q:"He must ___ forgotten about the meeting.", options:["have","has","had","be"], correct:0, diff:3, explain:"must have + 3-shakl — o'tmish haqidagi kuchli taxmin." },
+{ q:"You ___ have told me earlier!", options:["should","must","can","may"], correct:0, diff:3, explain:"should have + 3-shakl — qilinmagan ish uchun tanbeh." },
+{ q:"The more you practise, ___ you become.", options:["the better","better","the best","best"], correct:0, diff:3, explain:"'The more..., the more...' tuzilmasi: the better." },
+{ q:"It's high time we ___ home.", options:["go","went","will go","have gone"], correct:1, diff:3, explain:"'It's high time' dan keyin Past Simple ishlatiladi." },
+{ q:"I'd rather you ___ smoke here.", options:["don't","didn't","won't","haven't"], correct:1, diff:3, explain:"'I'd rather you' dan keyin Past Simple ishlatiladi." },
+{ q:"Rarely ___ such a beautiful sunset.", options:["I have seen","have I seen","I saw","did I saw"], correct:1, diff:3, explain:"'Rarely' gap boshida kelganda inversiya: have I seen." },
+{ q:"He looks ___ he hasn't slept for days.", options:["like","as if","such as","so"], correct:1, diff:3, explain:"'as if' — go'yo, xuddi ... kabi ma'nosida gap bilan ishlatiladi." },
+{ q:"She apologised ___ being late.", options:["for","to","of","about being"], correct:0, diff:3, explain:"apologise for + -ing — biror narsa uchun uzr so'ramoq." },
+{ q:"They accused him ___ stealing the money.", options:["for","of","with","about"], correct:1, diff:3, explain:"accuse somebody of + -ing — ayblamoq." },
+{ q:"I look forward ___ from you soon.", options:["to hear","to hearing","hearing","hear"], correct:1, diff:3, explain:"look forward to dan keyin -ing shakli keladi (to — predlog)." }
+];
+
+
+/* ---------- 4) LUG'AT SAVOLLARI BANKI ---------- */
 const VOCAB_QUESTIONS = [
   // ===== Kundalik hayot =====
-  { q:"'Neighbour' so'zining tarjimasi:", options:["qarindosh","qo'shni","mehmon","do'st"], correct:1, explain:"neighbour — qo'shni. Misol: Our neighbour is very kind." },
-  { q:"'Routine' nimani anglatadi?", options:["kundalik tartib","tasodif","sayohat","dam olish"], correct:0, explain:"Routine — kundalik tartib. Misol: My daily routine never changes." },
-  { q:"'Xarid qilish' inglizcha:", options:["cooking","shopping","cleaning","working"], correct:1, explain:"shopping — xarid qilish. Misol: They go shopping on Saturdays." },
-  { q:"My ___ clock rings at six every morning.", options:["alarm","time","hour","watch"], correct:0, explain:"alarm clock — budilnik. Misol: My alarm clock rings at six." },
-  { q:"'Housework' nimani anglatadi?", options:["uy vazifasi","uy yumushlari","uy qurilishi","uy narxi"], correct:1, explain:"Housework — uy yumushlari. Misol: We share the housework at home." },
-  { q:"'Nonushta' inglizcha:", options:["lunch","dinner","breakfast","supper"], correct:2, explain:"breakfast — nonushta. Misol: She has breakfast at seven." },
-  { q:"We relax at the ___ after a busy week.", options:["weekday","weekend","weekly","week"], correct:1, explain:"weekend — dam olish kunlari. Misol: What do you do at the weekend?" },
-  { q:"'Schedule' so'zining ma'nosi:", options:["jadval","maktab","joy","narx"], correct:0, explain:"schedule — jadval. Misol: Check the schedule before you come." },
+  { q:"'Neighbour' so'zining tarjimasi:", options:["qarindosh","qo'shni","mehmon","do'st"], correct:1, explain:"neighbour — qo'shni. Misol: Our neighbour is very kind.", diff:1 },
+  { q:"'Routine' nimani anglatadi?", options:["kundalik tartib","tasodif","sayohat","dam olish"], correct:0, explain:"Routine — kundalik tartib. Misol: My daily routine never changes.", diff:1 },
+  { q:"'Xarid qilish' inglizcha:", options:["cooking","shopping","cleaning","working"], correct:1, explain:"shopping — xarid qilish. Misol: They go shopping on Saturdays.", diff:1 },
+  { q:"My ___ clock rings at six every morning.", options:["alarm","time","hour","watch"], correct:0, explain:"alarm clock — budilnik. Misol: My alarm clock rings at six.", diff:2 },
+  { q:"'Housework' nimani anglatadi?", options:["uy vazifasi","uy yumushlari","uy qurilishi","uy narxi"], correct:1, explain:"Housework — uy yumushlari. Misol: We share the housework at home.", diff:1 },
+  { q:"'Nonushta' inglizcha:", options:["lunch","dinner","breakfast","supper"], correct:2, explain:"breakfast — nonushta. Misol: She has breakfast at seven.", diff:1 },
+  { q:"We relax at the ___ after a busy week.", options:["weekday","weekend","weekly","week"], correct:1, explain:"weekend — dam olish kunlari. Misol: What do you do at the weekend?", diff:2 },
+  { q:"'Schedule' so'zining ma'nosi:", options:["jadval","maktab","joy","narx"], correct:0, explain:"schedule — jadval. Misol: Check the schedule before you come.", diff:1 },
 
   // ===== Ta'lim =====
-  { q:"'Knowledge' nimani anglatadi?", options:["kuch","bilim","vaqt","joy"], correct:1, explain:"Knowledge — bilim. Misol: Knowledge opens many doors." },
-  { q:"'Imtihon' inglizcha:", options:["lesson","exam","subject","class"], correct:1, explain:"exam — imtihon. Misol: The exam starts at nine." },
-  { q:"English is my favourite ___.", options:["subject","object","project","reject"], correct:0, explain:"subject — fan, predmet. Misol: English is my favourite subject." },
-  { q:"'Library' nima?", options:["laboratoriya","kutubxona","kitob do'koni","sinf"], correct:1, explain:"Library — kutubxona. Misol: The library is open until eight." },
-  { q:"Can you ___ this rule again?", options:["explain","complain","train","remain"], correct:0, explain:"explain — tushuntirmoq. Misol: Can you explain this rule again?" },
-  { q:"'Uy vazifasi' inglizcha:", options:["classwork","homework","housework","paperwork"], correct:1, explain:"homework — uy vazifasi. Misol: I finished my homework early." },
-  { q:"She is making good ___ in English.", options:["progress","process","promise","project"], correct:0, explain:"progress — taraqqiyot. Misol: She is making good progress." },
-  { q:"'Pupil' so'zining ma'nosi:", options:["o'qituvchi","o'quvchi","direktor","ota-ona"], correct:1, explain:"pupil — o'quvchi. Misol: Every pupil received a certificate." },
+  { q:"'Knowledge' nimani anglatadi?", options:["kuch","bilim","vaqt","joy"], correct:1, explain:"Knowledge — bilim. Misol: Knowledge opens many doors.", diff:1 },
+  { q:"'Imtihon' inglizcha:", options:["lesson","exam","subject","class"], correct:1, explain:"exam — imtihon. Misol: The exam starts at nine.", diff:1 },
+  { q:"English is my favourite ___.", options:["subject","object","project","reject"], correct:0, explain:"subject — fan, predmet. Misol: English is my favourite subject.", diff:2 },
+  { q:"'Library' nima?", options:["laboratoriya","kutubxona","kitob do'koni","sinf"], correct:1, explain:"Library — kutubxona. Misol: The library is open until eight.", diff:1 },
+  { q:"Can you ___ this rule again?", options:["explain","complain","train","remain"], correct:0, explain:"explain — tushuntirmoq. Misol: Can you explain this rule again?", diff:2 },
+  { q:"'Uy vazifasi' inglizcha:", options:["classwork","homework","housework","paperwork"], correct:1, explain:"homework — uy vazifasi. Misol: I finished my homework early.", diff:1 },
+  { q:"She is making good ___ in English.", options:["progress","process","promise","project"], correct:0, explain:"progress — taraqqiyot. Misol: She is making good progress.", diff:2 },
+  { q:"'Pupil' so'zining ma'nosi:", options:["o'qituvchi","o'quvchi","direktor","ota-ona"], correct:1, explain:"pupil — o'quvchi. Misol: Every pupil received a certificate.", diff:1 },
 
   // ===== Oila =====
-  { q:"'Relative' nimani anglatadi?", options:["qo'shni","qarindosh","mehmon","hamkasb"], correct:1, explain:"Relative — qarindosh. Misol: A relative visited us yesterday." },
-  { q:"'Bolalik' inglizcha:", options:["childhood","boyhood","babyhood","kidhood"], correct:0, explain:"childhood — bolalik. Misol: I had a happy childhood." },
-  { q:"They will ___ next spring.", options:["marry","carry","hurry","worry"], correct:0, explain:"marry — turmush qurmoq. Misol: They will marry next spring." },
-  { q:"'Grandparents' kim?", options:["ota-ona","buvi-bobo","amaki-xola","aka-uka"], correct:1, explain:"Grandparents — buvi-bobo. Misol: We visit our grandparents every month." },
-  { q:"'Mehmon' inglizcha:", options:["host","guest","ghost","guess"], correct:1, explain:"guest — mehmon. Misol: We are expecting a guest tonight." },
-  { q:"Children should ___ their elders.", options:["respect","expect","inspect","suspect"], correct:0, explain:"respect — hurmat. Misol: Children should respect their elders." },
-  { q:"'Twins' nima?", options:["egizaklar","aka-uka","opa-singil","qo'shnilar"], correct:0, explain:"Twins — egizaklar. Misol: The twins look exactly the same." },
-  { q:"'Friendship' so'zining ma'nosi:", options:["do'stlik","kema","yordam","sayohat"], correct:0, explain:"friendship — do'stlik. Misol: Their friendship lasted many years." },
+  { q:"'Relative' nimani anglatadi?", options:["qo'shni","qarindosh","mehmon","hamkasb"], correct:1, explain:"Relative — qarindosh. Misol: A relative visited us yesterday.", diff:1 },
+  { q:"'Bolalik' inglizcha:", options:["childhood","boyhood","babyhood","kidhood"], correct:0, explain:"childhood — bolalik. Misol: I had a happy childhood.", diff:1 },
+  { q:"They will ___ next spring.", options:["marry","carry","hurry","worry"], correct:0, explain:"marry — turmush qurmoq. Misol: They will marry next spring.", diff:2 },
+  { q:"'Grandparents' kim?", options:["ota-ona","buvi-bobo","amaki-xola","aka-uka"], correct:1, explain:"Grandparents — buvi-bobo. Misol: We visit our grandparents every month.", diff:1 },
+  { q:"'Mehmon' inglizcha:", options:["host","guest","ghost","guess"], correct:1, explain:"guest — mehmon. Misol: We are expecting a guest tonight.", diff:1 },
+  { q:"Children should ___ their elders.", options:["respect","expect","inspect","suspect"], correct:0, explain:"respect — hurmat. Misol: Children should respect their elders.", diff:2 },
+  { q:"'Twins' nima?", options:["egizaklar","aka-uka","opa-singil","qo'shnilar"], correct:0, explain:"Twins — egizaklar. Misol: The twins look exactly the same.", diff:1 },
+  { q:"'Friendship' so'zining ma'nosi:", options:["do'stlik","kema","yordam","sayohat"], correct:0, explain:"friendship — do'stlik. Misol: Their friendship lasted many years.", diff:1 },
 
   // ===== Ish va kasb =====
-  { q:"'Salary' nimani anglatadi?", options:["ish","maosh","idora","hujjat"], correct:1, explain:"Salary — maosh. Misol: His salary increased last year." },
-  { q:"'Hamkasb' inglizcha:", options:["college","colleague","collect","collar"], correct:1, explain:"colleague — hamkasb. Misol: My colleague helped me finish it." },
-  { q:"He has ten years of ___ in teaching.", options:["experiment","experience","expert","expense"], correct:1, explain:"experience — tajriba. Misol: He has ten years of experience." },
-  { q:"'Interview' nima?", options:["suhbat (ishga)","yig'ilish","tanaffus","hisobot"], correct:0, explain:"Interview — suhbat (ishga). Misol: The interview lasted thirty minutes." },
-  { q:"She is ___ for the whole project.", options:["responsible","reasonable","reliable","remarkable"], correct:0, explain:"responsible — mas'ul. Misol: She is responsible for the project." },
-  { q:"'Ko'nikma' inglizcha:", options:["still","skill","skull","school"], correct:1, explain:"skill — ko'nikma. Misol: Speaking English is a valuable skill." },
-  { q:"'Employer' kim?", options:["ishchi","ish beruvchi","mijoz","hamkor"], correct:1, explain:"Employer — ish beruvchi. Misol: My employer offered me a promotion." },
-  { q:"He built a successful ___ in medicine.", options:["career","carrier","carry","cargo"], correct:0, explain:"career — martaba. Misol: He built a successful career." },
+  { q:"'Salary' nimani anglatadi?", options:["ish","maosh","idora","hujjat"], correct:1, explain:"Salary — maosh. Misol: His salary increased last year.", diff:1 },
+  { q:"'Hamkasb' inglizcha:", options:["college","colleague","collect","collar"], correct:1, explain:"colleague — hamkasb. Misol: My colleague helped me finish it.", diff:1 },
+  { q:"He has ten years of ___ in teaching.", options:["experiment","experience","expert","expense"], correct:1, explain:"experience — tajriba. Misol: He has ten years of experience.", diff:2 },
+  { q:"'Interview' nima?", options:["suhbat (ishga)","yig'ilish","tanaffus","hisobot"], correct:0, explain:"Interview — suhbat (ishga). Misol: The interview lasted thirty minutes.", diff:1 },
+  { q:"She is ___ for the whole project.", options:["responsible","reasonable","reliable","remarkable"], correct:0, explain:"responsible — mas'ul. Misol: She is responsible for the project.", diff:2 },
+  { q:"'Ko'nikma' inglizcha:", options:["still","skill","skull","school"], correct:1, explain:"skill — ko'nikma. Misol: Speaking English is a valuable skill.", diff:1 },
+  { q:"'Employer' kim?", options:["ishchi","ish beruvchi","mijoz","hamkor"], correct:1, explain:"Employer — ish beruvchi. Misol: My employer offered me a promotion.", diff:1 },
+  { q:"He built a successful ___ in medicine.", options:["career","carrier","carry","cargo"], correct:0, explain:"career — martaba. Misol: He built a successful career.", diff:2 },
 
   // ===== Sayohat =====
-  { q:"'Journey' nimani anglatadi?", options:["kunlik","safar","jurnal","yo'l"], correct:1, explain:"Journey — safar. Misol: The journey took eight hours." },
-  { q:"'Yuk, bagaj' inglizcha:", options:["language","luggage","package","message"], correct:1, explain:"luggage — yuk, bagaj. Misol: Don't leave your luggage here." },
-  { q:"Every ___ must show a ticket.", options:["passage","passenger","passport","password"], correct:1, explain:"passenger — yo'lovchi. Misol: Every passenger must show a ticket." },
-  { q:"'Abroad' nimani anglatadi?", options:["keng","chet elda","yo'lda","tashqarida"], correct:1, explain:"Abroad — chet elda. Misol: She has never travelled abroad." },
-  { q:"The price includes ___ and breakfast.", options:["accommodation","accomplishment","accompaniment","accountant"], correct:0, explain:"accommodation — turar joy. Misol: The price includes accommodation." },
-  { q:"'Manzil' inglizcha:", options:["direction","destination","decision","description"], correct:1, explain:"destination — manzil. Misol: Our destination is still far away." },
-  { q:"I bought a ___ for my sister in Bukhara.", options:["souvenir","memory","present time","reminder"], correct:0, explain:"souvenir — esdalik sovg'a. Misol: I bought a souvenir for my sister." },
-  { q:"There was a two-hour ___ at the airport.", options:["delay","delete","deliver","demand"], correct:0, explain:"delay — kechikish. Misol: There was a two-hour delay." },
+  { q:"'Journey' nimani anglatadi?", options:["kunlik","safar","jurnal","yo'l"], correct:1, explain:"Journey — safar. Misol: The journey took eight hours.", diff:1 },
+  { q:"'Yuk, bagaj' inglizcha:", options:["language","luggage","package","message"], correct:1, explain:"luggage — yuk, bagaj. Misol: Don't leave your luggage here.", diff:1 },
+  { q:"Every ___ must show a ticket.", options:["passage","passenger","passport","password"], correct:1, explain:"passenger — yo'lovchi. Misol: Every passenger must show a ticket.", diff:2 },
+  { q:"'Abroad' nimani anglatadi?", options:["keng","chet elda","yo'lda","tashqarida"], correct:1, explain:"Abroad — chet elda. Misol: She has never travelled abroad.", diff:1 },
+  { q:"The price includes ___ and breakfast.", options:["accommodation","accomplishment","accompaniment","accountant"], correct:0, explain:"accommodation — turar joy. Misol: The price includes accommodation.", diff:2 },
+  { q:"'Manzil' inglizcha:", options:["direction","destination","decision","description"], correct:1, explain:"destination — manzil. Misol: Our destination is still far away.", diff:1 },
+  { q:"I bought a ___ for my sister in Bukhara.", options:["souvenir","memory","present time","reminder"], correct:0, explain:"souvenir — esdalik sovg'a. Misol: I bought a souvenir for my sister.", diff:2 },
+  { q:"There was a two-hour ___ at the airport.", options:["delay","delete","deliver","demand"], correct:0, explain:"delay — kechikish. Misol: There was a two-hour delay.", diff:2 },
 
   // ===== Ovqat =====
-  { q:"'Delicious' nimani anglatadi?", options:["achchiq","mazali","sovuq","qattiq"], correct:1, explain:"Delicious — mazali. Misol: This soup is really delicious." },
-  { q:"'Retsept' inglizcha:", options:["receipt","recipe","receive","recent"], correct:1, explain:"recipe — retsept. Misol: She shared her family recipe." },
-  { q:"Salt is an important ___ in this dish.", options:["ingredient","instrument","instruction","invention"], correct:0, explain:"ingredient — masalliq. Misol: Salt is an important ingredient." },
-  { q:"'Sabzavot' inglizcha:", options:["fruit","vegetable","grain","meat"], correct:1, explain:"vegetable — sabzavot. Misol: Eat more vegetables every day." },
-  { q:"We had ice cream for ___.", options:["desert","dessert","design","describe"], correct:1, explain:"dessert — shirinlik. Misol: We had ice cream for dessert." },
-  { q:"'Boil' nimani anglatadi?", options:["qovurmoq","qaynatmoq","pishirmoq","muzlatmoq"], correct:1, explain:"Boil — qaynatmoq. Misol: Boil the water for five minutes." },
-  { q:"The children were very ___ after school.", options:["hungry","angry","hurry","husky"], correct:0, explain:"hungry — och. Misol: The children were very hungry." },
-  { q:"'Fresh' so'zining ma'nosi:", options:["eski","yangi, toza","issiq","shirin"], correct:1, explain:"fresh — yangi, toza. Misol: We only buy fresh bread." },
+  { q:"'Delicious' nimani anglatadi?", options:["achchiq","mazali","sovuq","qattiq"], correct:1, explain:"Delicious — mazali. Misol: This soup is really delicious.", diff:1 },
+  { q:"'Retsept' inglizcha:", options:["receipt","recipe","receive","recent"], correct:1, explain:"recipe — retsept. Misol: She shared her family recipe.", diff:1 },
+  { q:"Salt is an important ___ in this dish.", options:["ingredient","instrument","instruction","invention"], correct:0, explain:"ingredient — masalliq. Misol: Salt is an important ingredient.", diff:2 },
+  { q:"'Sabzavot' inglizcha:", options:["fruit","vegetable","grain","meat"], correct:1, explain:"vegetable — sabzavot. Misol: Eat more vegetables every day.", diff:1 },
+  { q:"We had ice cream for ___.", options:["desert","dessert","design","describe"], correct:1, explain:"dessert — shirinlik. Misol: We had ice cream for dessert.", diff:2 },
+  { q:"'Boil' nimani anglatadi?", options:["qovurmoq","qaynatmoq","pishirmoq","muzlatmoq"], correct:1, explain:"Boil — qaynatmoq. Misol: Boil the water for five minutes.", diff:1 },
+  { q:"The children were very ___ after school.", options:["hungry","angry","hurry","husky"], correct:0, explain:"hungry — och. Misol: The children were very hungry.", diff:2 },
+  { q:"'Fresh' so'zining ma'nosi:", options:["eski","yangi, toza","issiq","shirin"], correct:1, explain:"fresh — yangi, toza. Misol: We only buy fresh bread.", diff:1 },
 
   // ===== Sog'liq =====
-  { q:"'Medicine' nimani anglatadi?", options:["dori","kasallik","shifokor","kasalxona"], correct:0, explain:"Medicine — dori. Misol: Take this medicine after meals." },
-  { q:"'Kasallik' inglizcha:", options:["healthy","illness","hospital","medical"], correct:1, explain:"illness — kasallik. Misol: His illness lasted two weeks." },
-  { q:"The ___ was successful and he is fine now.", options:["treatment","agreement","statement","movement"], correct:0, explain:"treatment — davolash. Misol: The treatment was successful." },
-  { q:"Regular ___ keeps you strong.", options:["exercise","exercises book","exam","excuse"], correct:0, explain:"exercise — mashq, jismoniy mashq. Misol: Regular exercise keeps you strong." },
-  { q:"'Og'riq' inglizcha:", options:["pain","rain","gain","main"], correct:0, explain:"pain — og'riq. Misol: He felt a sharp pain in his leg." },
-  { q:"She ___ after a few days in bed.", options:["recovered","discovered","covered","uncovered"], correct:0, explain:"recover — tuzalmoq. Misol: She recovered after a few days." },
-  { q:"'Healthy' so'zining ma'nosi:", options:["kasal","sog'lom","charchagan","kuchli"], correct:1, explain:"healthy — sog'lom. Misol: A healthy diet is important." },
-  { q:"I feel ___ after a long day at work.", options:["tired","tried","tide","tiny"], correct:0, explain:"tired — charchagan. Misol: I feel tired after a long day." },
+  { q:"'Medicine' nimani anglatadi?", options:["dori","kasallik","shifokor","kasalxona"], correct:0, explain:"Medicine — dori. Misol: Take this medicine after meals.", diff:1 },
+  { q:"'Kasallik' inglizcha:", options:["healthy","illness","hospital","medical"], correct:1, explain:"illness — kasallik. Misol: His illness lasted two weeks.", diff:1 },
+  { q:"The ___ was successful and he is fine now.", options:["treatment","agreement","statement","movement"], correct:0, explain:"treatment — davolash. Misol: The treatment was successful.", diff:2 },
+  { q:"Regular ___ keeps you strong.", options:["exercise","exercises book","exam","excuse"], correct:0, explain:"exercise — mashq, jismoniy mashq. Misol: Regular exercise keeps you strong.", diff:2 },
+  { q:"'Og'riq' inglizcha:", options:["pain","rain","gain","main"], correct:0, explain:"pain — og'riq. Misol: He felt a sharp pain in his leg.", diff:1 },
+  { q:"She ___ after a few days in bed.", options:["recovered","discovered","covered","uncovered"], correct:0, explain:"recover — tuzalmoq. Misol: She recovered after a few days.", diff:2 },
+  { q:"'Healthy' so'zining ma'nosi:", options:["kasal","sog'lom","charchagan","kuchli"], correct:1, explain:"healthy — sog'lom. Misol: A healthy diet is important.", diff:1 },
+  { q:"I feel ___ after a long day at work.", options:["tired","tried","tide","tiny"], correct:0, explain:"tired — charchagan. Misol: I feel tired after a long day.", diff:2 },
 
   // ===== Tabiat =====
-  { q:"'Environment' nimani anglatadi?", options:["atrof-muhit","muhandislik","hodisa","voqea"], correct:0, explain:"Environment — atrof-muhit. Misol: We must protect the environment." },
-  { q:"'Ob-havo' inglizcha:", options:["whether","weather","wether","water"], correct:1, explain:"weather — ob-havo. Misol: The weather is nice today." },
-  { q:"They climbed the highest ___ in the region.", options:["mountain","fountain","maintain","certain"], correct:0, explain:"mountain — tog'. Misol: They climbed the highest mountain." },
-  { q:"'O'rmon' inglizcha:", options:["field","forest","garden","desert"], correct:1, explain:"forest — o'rmon. Misol: The forest is full of birds." },
-  { q:"Air ___ is a serious problem in big cities.", options:["pollution","solution","population","portion"], correct:0, explain:"pollution — ifloslanish. Misol: Air pollution is a serious problem." },
-  { q:"'Climate' nimani anglatadi?", options:["iqlim","tepalik","ob-havo","harorat"], correct:0, explain:"Climate — iqlim. Misol: The climate here is very dry." },
-  { q:"Autumn is my favourite ___.", options:["season","reason","seasoning","sea"], correct:0, explain:"season — fasl. Misol: Autumn is my favourite season." },
-  { q:"'Daryo' inglizcha:", options:["lake","river","sea","ocean"], correct:1, explain:"river — daryo. Misol: The river flows through the city." },
+  { q:"'Environment' nimani anglatadi?", options:["atrof-muhit","muhandislik","hodisa","voqea"], correct:0, explain:"Environment — atrof-muhit. Misol: We must protect the environment.", diff:1 },
+  { q:"'Ob-havo' inglizcha:", options:["whether","weather","wether","water"], correct:1, explain:"weather — ob-havo. Misol: The weather is nice today.", diff:1 },
+  { q:"They climbed the highest ___ in the region.", options:["mountain","fountain","maintain","certain"], correct:0, explain:"mountain — tog'. Misol: They climbed the highest mountain.", diff:2 },
+  { q:"'O'rmon' inglizcha:", options:["field","forest","garden","desert"], correct:1, explain:"forest — o'rmon. Misol: The forest is full of birds.", diff:1 },
+  { q:"Air ___ is a serious problem in big cities.", options:["pollution","solution","population","portion"], correct:0, explain:"pollution — ifloslanish. Misol: Air pollution is a serious problem.", diff:2 },
+  { q:"'Climate' nimani anglatadi?", options:["iqlim","tepalik","ob-havo","harorat"], correct:0, explain:"Climate — iqlim. Misol: The climate here is very dry.", diff:1 },
+  { q:"Autumn is my favourite ___.", options:["season","reason","seasoning","sea"], correct:0, explain:"season — fasl. Misol: Autumn is my favourite season.", diff:2 },
+  { q:"'Daryo' inglizcha:", options:["lake","river","sea","ocean"], correct:1, explain:"river — daryo. Misol: The river flows through the city.", diff:1 },
 
   // ===== Texnologiya =====
-  { q:"'Download' nimani anglatadi?", options:["yuklab olmoq","yuborib bermoq","o'chirib tashlamoq","saqlamoq"], correct:0, explain:"Download — yuklab olmoq. Misol: You can download the file here." },
-  { q:"'Qurilma' inglizcha:", options:["divide","device","advice","devil"], correct:1, explain:"device — qurilma. Misol: This device is easy to use." },
-  { q:"The ___ needs an update to work properly.", options:["software","hardware","houseware","silverware"], correct:0, explain:"software — dasturiy ta'minot. Misol: The software needs an update." },
-  { q:"'Parol' inglizcha:", options:["passport","password","passage","passenger"], correct:1, explain:"password — parol. Misol: Never share your password." },
-  { q:"Don't look at the ___ for too long.", options:["screen","scream","script","scratch"], correct:0, explain:"screen — ekran. Misol: Don't look at the screen too long." },
-  { q:"'Ixtiro' inglizcha:", options:["intention","invention","invitation","information"], correct:1, explain:"invention — ixtiro. Misol: The wheel was a great invention." },
-  { q:"'Connect' nimani anglatadi?", options:["ulanmoq","tanlamoq","tekshirmoq","yopmoq"], correct:0, explain:"Connect — ulanmoq. Misol: Connect the cable to the laptop." },
-  { q:"I sent you a ___ this morning.", options:["message","massage","manager","marriage"], correct:0, explain:"message — xabar. Misol: I sent you a message this morning." },
+  { q:"'Download' nimani anglatadi?", options:["yuklab olmoq","yuborib bermoq","o'chirib tashlamoq","saqlamoq"], correct:0, explain:"Download — yuklab olmoq. Misol: You can download the file here.", diff:1 },
+  { q:"'Qurilma' inglizcha:", options:["divide","device","advice","devil"], correct:1, explain:"device — qurilma. Misol: This device is easy to use.", diff:1 },
+  { q:"The ___ needs an update to work properly.", options:["software","hardware","houseware","silverware"], correct:0, explain:"software — dasturiy ta'minot. Misol: The software needs an update.", diff:2 },
+  { q:"'Parol' inglizcha:", options:["passport","password","passage","passenger"], correct:1, explain:"password — parol. Misol: Never share your password.", diff:1 },
+  { q:"Don't look at the ___ for too long.", options:["screen","scream","script","scratch"], correct:0, explain:"screen — ekran. Misol: Don't look at the screen too long.", diff:2 },
+  { q:"'Ixtiro' inglizcha:", options:["intention","invention","invitation","information"], correct:1, explain:"invention — ixtiro. Misol: The wheel was a great invention.", diff:1 },
+  { q:"'Connect' nimani anglatadi?", options:["ulanmoq","tanlamoq","tekshirmoq","yopmoq"], correct:0, explain:"Connect — ulanmoq. Misol: Connect the cable to the laptop.", diff:1 },
+  { q:"I sent you a ___ this morning.", options:["message","massage","manager","marriage"], correct:0, explain:"message — xabar. Misol: I sent you a message this morning.", diff:2 },
 
   // ===== His-tuyg'ular =====
-  { q:"'Nervous' nimani anglatadi?", options:["xotirjam","asabiy, hayajonli","xursand","charchagan"], correct:1, explain:"Nervous — asabiy, hayajonli. Misol: I was nervous before the exam." },
-  { q:"His parents are very ___ of him.", options:["proud","loud","cloud","proved"], correct:0, explain:"proud — faxrlanuvchi. Misol: His parents are proud of him." },
-  { q:"'Qo'rqqan' inglizcha:", options:["afraid","aloud","abroad","ahead"], correct:0, explain:"afraid — qo'rqqan. Misol: She is afraid of dogs." },
-  { q:"We were ___ by the sudden news.", options:["surprised","supervised","supposed","supported"], correct:0, explain:"surprised — hayron. Misol: We were surprised by the news." },
-  { q:"'Lonely' nimani anglatadi?", options:["uzoq","yolg'iz","sekin","baland"], correct:1, explain:"Lonely — yolg'iz. Misol: He felt lonely in the new city." },
-  { q:"The kids are ___ about the school trip.", options:["excited","exited","excused","exhausted"], correct:0, explain:"excited — hayajonlangan. Misol: The kids are excited about the trip." },
-  { q:"'Xotirjam' inglizcha:", options:["calm","clam","claim","climb"], correct:0, explain:"calm — xotirjam. Misol: Try to stay calm and think." },
-  { q:"I am very ___ for your help.", options:["grateful","greatly","grade","gradual"], correct:0, explain:"grateful — minnatdor. Misol: I am grateful for your help." },
+  { q:"'Nervous' nimani anglatadi?", options:["xotirjam","asabiy, hayajonli","xursand","charchagan"], correct:1, explain:"Nervous — asabiy, hayajonli. Misol: I was nervous before the exam.", diff:1 },
+  { q:"His parents are very ___ of him.", options:["proud","loud","cloud","proved"], correct:0, explain:"proud — faxrlanuvchi. Misol: His parents are proud of him.", diff:2 },
+  { q:"'Qo'rqqan' inglizcha:", options:["afraid","aloud","abroad","ahead"], correct:0, explain:"afraid — qo'rqqan. Misol: She is afraid of dogs.", diff:1 },
+  { q:"We were ___ by the sudden news.", options:["surprised","supervised","supposed","supported"], correct:0, explain:"surprised — hayron. Misol: We were surprised by the news.", diff:2 },
+  { q:"'Lonely' nimani anglatadi?", options:["uzoq","yolg'iz","sekin","baland"], correct:1, explain:"Lonely — yolg'iz. Misol: He felt lonely in the new city.", diff:1 },
+  { q:"The kids are ___ about the school trip.", options:["excited","exited","excused","exhausted"], correct:0, explain:"excited — hayajonlangan. Misol: The kids are excited about the trip.", diff:2 },
+  { q:"'Xotirjam' inglizcha:", options:["calm","clam","claim","climb"], correct:0, explain:"calm — xotirjam. Misol: Try to stay calm and think.", diff:1 },
+  { q:"I am very ___ for your help.", options:["grateful","greatly","grade","gradual"], correct:0, explain:"grateful — minnatdor. Misol: I am grateful for your help.", diff:2 },
 
   // ===== Tavsiflash =====
-  { q:"Choose the opposite of 'difficult'.", options:["hard","easy","complex","tough"], correct:1, explain:"difficult — qiyin. Misol: This exercise is difficult." },
-  { q:"'Qimmat' inglizcha:", options:["cheap","expensive","expansive","expert"], correct:1, explain:"expensive — qimmat. Misol: That car is too expensive." },
-  { q:"These shoes are very ___ to walk in.", options:["comfortable","comparable","considerable","controllable"], correct:0, explain:"comfortable — qulay. Misol: These shoes are very comfortable." },
-  { q:"'Dangerous' nimani anglatadi?", options:["xavfli","g'alati","tez","og'ir"], correct:0, explain:"Dangerous — xavfli. Misol: Driving fast is dangerous." },
-  { q:"Children are naturally ___ about the world.", options:["curious","serious","furious","various"], correct:0, explain:"curious — qiziquvchan. Misol: Children are naturally curious." },
-  { q:"'Foydali' inglizcha:", options:["useless","useful","user","usual"], correct:1, explain:"useful — foydali. Misol: This app is really useful." },
-  { q:"The library is a very ___ place to study.", options:["quiet","quite","quit","quick"], correct:0, explain:"quiet — tinch, jim. Misol: The library is a quiet place." },
-  { q:"'Mashhur' inglizcha:", options:["famous","fabulous","furious","familiar"], correct:0, explain:"famous — mashhur. Misol: She became famous very quickly." },
+  { q:"Choose the opposite of 'difficult'.", options:["hard","easy","complex","tough"], correct:1, explain:"difficult — qiyin. Misol: This exercise is difficult.", diff:2 },
+  { q:"'Qimmat' inglizcha:", options:["cheap","expensive","expansive","expert"], correct:1, explain:"expensive — qimmat. Misol: That car is too expensive.", diff:1 },
+  { q:"These shoes are very ___ to walk in.", options:["comfortable","comparable","considerable","controllable"], correct:0, explain:"comfortable — qulay. Misol: These shoes are very comfortable.", diff:2 },
+  { q:"'Dangerous' nimani anglatadi?", options:["xavfli","g'alati","tez","og'ir"], correct:0, explain:"Dangerous — xavfli. Misol: Driving fast is dangerous.", diff:1 },
+  { q:"Children are naturally ___ about the world.", options:["curious","serious","furious","various"], correct:0, explain:"curious — qiziquvchan. Misol: Children are naturally curious.", diff:2 },
+  { q:"'Foydali' inglizcha:", options:["useless","useful","user","usual"], correct:1, explain:"useful — foydali. Misol: This app is really useful.", diff:1 },
+  { q:"The library is a very ___ place to study.", options:["quiet","quite","quit","quick"], correct:0, explain:"quiet — tinch, jim. Misol: The library is a quiet place.", diff:2 },
+  { q:"'Mashhur' inglizcha:", options:["famous","fabulous","furious","familiar"], correct:0, explain:"famous — mashhur. Misol: She became famous very quickly.", diff:1 },
 
   // ===== Fe'llar =====
-  { q:"'Achieve' nimani anglatadi?", options:["erishmoq","yo'qotmoq","boshlamoq","tugatmoq"], correct:0, explain:"Achieve — erishmoq. Misol: He achieved his goal." },
-  { q:"I want to ___ my English this year.", options:["improve","approve","prove","move"], correct:0, explain:"improve — yaxshilamoq. Misol: I want to improve my English." },
-  { q:"'Qaror qilmoq' inglizcha:", options:["divide","decide","describe","deliver"], correct:1, explain:"decide — qaror qilmoq. Misol: We need to decide today." },
-  { q:"I can't ___ his name.", options:["remember","remind","remain","remove"], correct:0, explain:"remember — eslamoq. Misol: I can't remember his name." },
-  { q:"He ___ a completely different plan.", options:["suggested","suffered","supported","supplied"], correct:0, explain:"suggest — taklif qilmoq. Misol: He suggested a different plan." },
-  { q:"'Tayyorlamoq' inglizcha:", options:["prepare","repair","prefer","present"], correct:0, explain:"prepare — tayyorlamoq. Misol: She prepared dinner for everyone." },
-  { q:"Can I ___ your pen for a minute?", options:["borrow","lend","give","take"], correct:0, explain:"borrow — qarz olmoq. Misol: Can I borrow your pen?" },
-  { q:"They ___ us to their wedding.", options:["invited","invented","involved","invested"], correct:0, explain:"invite — taklif etmoq. Misol: They invited us to the wedding." },
+  { q:"'Achieve' nimani anglatadi?", options:["erishmoq","yo'qotmoq","boshlamoq","tugatmoq"], correct:0, explain:"Achieve — erishmoq. Misol: He achieved his goal.", diff:1 },
+  { q:"I want to ___ my English this year.", options:["improve","approve","prove","move"], correct:0, explain:"improve — yaxshilamoq. Misol: I want to improve my English.", diff:2 },
+  { q:"'Qaror qilmoq' inglizcha:", options:["divide","decide","describe","deliver"], correct:1, explain:"decide — qaror qilmoq. Misol: We need to decide today.", diff:1 },
+  { q:"I can't ___ his name.", options:["remember","remind","remain","remove"], correct:0, explain:"remember — eslamoq. Misol: I can't remember his name.", diff:2 },
+  { q:"He ___ a completely different plan.", options:["suggested","suffered","supported","supplied"], correct:0, explain:"suggest — taklif qilmoq. Misol: He suggested a different plan.", diff:2 },
+  { q:"'Tayyorlamoq' inglizcha:", options:["prepare","repair","prefer","present"], correct:0, explain:"prepare — tayyorlamoq. Misol: She prepared dinner for everyone.", diff:1 },
+  { q:"Can I ___ your pen for a minute?", options:["borrow","lend","give","take"], correct:0, explain:"borrow — qarz olmoq. Misol: Can I borrow your pen?", diff:2 },
+  { q:"They ___ us to their wedding.", options:["invited","invented","involved","invested"], correct:0, explain:"invite — taklif etmoq. Misol: They invited us to the wedding.", diff:2 },
 
   // ===== Iboralar =====
-  { q:"'However' nimani anglatadi?", options:["shuning uchun","biroq, ammo","masalan","chunki"], correct:1, explain:"However — biroq, ammo. Misol: However, he decided to stay." },
-  { q:"Call me ___ you arrive.", options:["as soon as","as long as","as far as","as well as"], correct:0, explain:"as soon as — ...dan so'ng darhol. Misol: Call me as soon as you arrive." },
-  { q:"I ___ seeing you next week.", options:["look forward to","look after","look for","look up"], correct:0, explain:"look forward to — intiqlik bilan kutmoq. Misol: I look forward to seeing you." },
-  { q:"She ___ the English competition last year.", options:["took part in","took care of","took off","took over"], correct:0, explain:"take part in — qatnashmoq. Misol: She took part in the contest." },
-  { q:"Never ___ on your dreams.", options:["give up","give in","give away","give out"], correct:0, explain:"give up — voz kechmoq. Misol: Never give up on your dreams." },
-  { q:"I need to ___ the truth about this.", options:["find out","find in","find up","find off"], correct:0, explain:"find out — bilib olmoq. Misol: I need to find out the truth." },
-  { q:"Drink water ___ soda.", options:["instead of","in spite of","in front of","in case of"], correct:0, explain:"instead of — ...o'rniga. Misol: Drink water instead of soda." },
-  { q:"Read ___ ten pages every day.", options:["at least","at last","at once","at first"], correct:0, explain:"at least — hech bo'lmaganda. Misol: Read at least ten pages a day." }
+  { q:"'However' nimani anglatadi?", options:["shuning uchun","biroq, ammo","masalan","chunki"], correct:1, explain:"However — biroq, ammo. Misol: However, he decided to stay.", diff:1 },
+  { q:"Call me ___ you arrive.", options:["as soon as","as long as","as far as","as well as"], correct:0, explain:"as soon as — ...dan so'ng darhol. Misol: Call me as soon as you arrive.", diff:2 },
+  { q:"I ___ seeing you next week.", options:["look forward to","look after","look for","look up"], correct:0, explain:"look forward to — intiqlik bilan kutmoq. Misol: I look forward to seeing you.", diff:2 },
+  { q:"She ___ the English competition last year.", options:["took part in","took care of","took off","took over"], correct:0, explain:"take part in — qatnashmoq. Misol: She took part in the contest.", diff:2 },
+  { q:"Never ___ on your dreams.", options:["give up","give in","give away","give out"], correct:0, explain:"give up — voz kechmoq. Misol: Never give up on your dreams.", diff:2 },
+  { q:"I need to ___ the truth about this.", options:["find out","find in","find up","find off"], correct:0, explain:"find out — bilib olmoq. Misol: I need to find out the truth.", diff:2 },
+  { q:"Drink water ___ soda.", options:["instead of","in spite of","in front of","in case of"], correct:0, explain:"instead of — ...o'rniga. Misol: Drink water instead of soda.", diff:2 },
+  { q:"Read ___ ten pages every day.", options:["at least","at last","at once","at first"], correct:0, explain:"at least — hech bo'lmaganda. Misol: Read at least ten pages a day.", diff:2 }
 ];
+
+/* Qo'shimcha lug'at savollari — kontekst, sinonim, antonim va kollokatsiyalar
+   diff: 1 = oddiy, 2 = o'rta, 3 = murakkab */
+const VOCAB_EXTRA = [
+
+// ===== ODDIY (diff 1) =====
+{ q:"'Ertalab' inglizcha:", options:["evening","morning","afternoon","night"], correct:1, diff:1, explain:"morning — ertalab. Misol: I wake up early every morning." },
+{ q:"'Kitob' inglizcha:", options:["book","look","cook","hook"], correct:0, diff:1, explain:"book — kitob. Misol: I read a book every night." },
+{ q:"'Do'stona' inglizcha:", options:["friendly","friend","friendship","friendless"], correct:0, diff:1, explain:"friendly — do'stona (sifat). Misol: Our new teacher is very friendly." },
+{ q:"'Tog'' inglizcha:", options:["mountain","valley","river","forest"], correct:0, diff:1, explain:"mountain — tog'. Misol: They climbed the highest mountain." },
+{ q:"'Dars' inglizcha:", options:["lesson","lecture","class room","subject"], correct:0, diff:1, explain:"lesson — dars. Misol: Today's lesson was very useful." },
+{ q:"'Sayohat qilmoq' inglizcha:", options:["travel","trouble","tunnel","trace"], correct:0, diff:1, explain:"travel — sayohat qilmoq. Misol: They travel to Europe every summer." },
+{ q:"'Ob-havo' bugun yaxshi. The ___ is nice today.", options:["weather","water","whether","winter"], correct:0, diff:1, explain:"weather — ob-havo. Misol: The weather is nice today." },
+{ q:"'Kompyuter' inglizcha:", options:["computer","commuter","compute","computing"], correct:0, diff:1, explain:"computer — kompyuter. Misol: He fixed my computer yesterday." },
+{ q:"'Xursand' inglizcha:", options:["sad","happy","angry","tired"], correct:1, diff:1, explain:"happy — baxtli, xursand. Misol: She feels happy today." },
+{ q:"'Kasalxona' inglizcha:", options:["hotel","hospital","hostel","house"], correct:1, diff:1, explain:"hospital — kasalxona. Misol: The hospital is near our school." },
+{ q:"'Fasl' inglizcha:", options:["season","reason","seasoning","serious"], correct:0, diff:1, explain:"season — fasl. Misol: Autumn is my favourite season." },
+{ q:"'Yig'ilish' inglizcha:", options:["meeting","meaning","melting","morning"], correct:0, diff:1, explain:"meeting — yig'ilish. Misol: The meeting was moved to Friday." },
+{ q:"'O'rmon' inglizcha:", options:["forest","desert","field","garden"], correct:0, diff:1, explain:"forest — o'rmon. Misol: The forest is full of birds." },
+{ q:"'Charchagan' inglizcha:", options:["tired","tied","tiny","tidy"], correct:0, diff:1, explain:"tired — charchagan. Misol: I feel tired after a long day." },
+{ q:"'Ekran' inglizcha:", options:["screen","scream","stream","street"], correct:0, diff:1, explain:"screen — ekran. Misol: Don't look at the screen too long." },
+
+// ===== O'RTA (diff 2) =====
+{ q:"Choose the synonym for 'famous'.", options:["unknown","well-known","strange","quiet"], correct:1, diff:2, explain:"famous = well-known — mashhur, tanilgan." },
+{ q:"Choose the opposite of 'expensive'.", options:["costly","cheap","valuable","rich"], correct:1, diff:2, explain:"expensive (qimmat) ↔ cheap (arzon)." },
+{ q:"Choose the synonym for 'begin'.", options:["end","start","stop","finish"], correct:1, diff:2, explain:"begin = start — boshlamoq." },
+{ q:"Choose the opposite of 'ancient'.", options:["old","modern","historic","antique"], correct:1, diff:2, explain:"ancient (qadimiy) ↔ modern (zamonaviy)." },
+{ q:"Choose the synonym for 'clever'.", options:["lazy","smart","slow","weak"], correct:1, diff:2, explain:"clever = smart — aqlli." },
+{ q:"He is ___ for organising the whole event.", options:["responsible","reasonable","respectful","reliable"], correct:0, diff:2, explain:"responsible for — biror narsa uchun mas'ul." },
+{ q:"The teacher asked us to ___ our answers carefully.", options:["check","chase","cheat","chew"], correct:0, diff:2, explain:"check — tekshirmoq. Javoblarni tekshirib chiqish." },
+{ q:"She has a lot of ___ in teaching young children.", options:["experiment","experience","expert","expense"], correct:1, diff:2, explain:"experience — tajriba (sanalmaydigan ot)." },
+{ q:"They ___ a lot of money on the new house.", options:["spent","paid","cost","bought"], correct:0, diff:2, explain:"spend money on — pul sarflamoq." },
+{ q:"This shirt doesn't ___ me, it's too small.", options:["fit","match","suit up","wear"], correct:0, diff:2, explain:"fit — o'lchami mos kelmoq." },
+{ q:"Could you ___ me a favour?", options:["do","make","take","give"], correct:0, diff:2, explain:"do somebody a favour — yaxshilik qilmoq (kollokatsiya)." },
+{ q:"He ___ a mistake in the calculation.", options:["did","made","took","had"], correct:1, diff:2, explain:"make a mistake — xato qilmoq (kollokatsiya)." },
+{ q:"She ___ a decision very quickly.", options:["did","made","took","gave"], correct:1, diff:2, explain:"make a decision — qaror qabul qilmoq." },
+{ q:"Please ___ attention to the instructions.", options:["pay","give","do","make"], correct:0, diff:2, explain:"pay attention — e'tibor bermoq (kollokatsiya)." },
+{ q:"They ___ part in the competition last year.", options:["took","made","did","gave"], correct:0, diff:2, explain:"take part in — qatnashmoq." },
+{ q:"The company decided to ___ new staff.", options:["hire","higher","hurry","hide"], correct:0, diff:2, explain:"hire — ishga olmoq." },
+{ q:"Our flight was ___ because of the storm.", options:["delayed","delighted","deleted","divided"], correct:0, diff:2, explain:"delay — kechiktirmoq. Reys kechiktirildi." },
+{ q:"She is very ___ about learning new languages.", options:["passionate","passive","patient","past"], correct:0, diff:2, explain:"passionate about — biror narsaga qattiq qiziquvchi." },
+{ q:"The doctor ___ him to rest for a week.", options:["advised","advice","adviced","advising"], correct:0, diff:2, explain:"advise — maslahat bermoq (fe'l); advice — maslahat (ot)." },
+{ q:"Choose the synonym for 'difficult'.", options:["easy","simple","challenging","clear"], correct:2, diff:2, explain:"difficult = challenging — qiyin, murakkab." },
+
+// ===== MURAKKAB (diff 3) =====
+{ q:"The new policy will ___ into force next month.", options:["come","go","take","get"], correct:0, diff:3, explain:"come into force — kuchga kirmoq (rasmiy ibora)." },
+{ q:"He tends to ___ conclusions too quickly.", options:["jump to","jump on","jump in","jump over"], correct:0, diff:3, explain:"jump to conclusions — shoshib xulosa chiqarmoq." },
+{ q:"Let's ___ the issue at the next meeting.", options:["bring up","bring on","bring in","bring down"], correct:0, diff:3, explain:"bring up — mavzuni ko'tarmoq, tilga olmoq." },
+{ q:"She ___ up with a brilliant idea.", options:["came","went","got","took"], correct:0, diff:3, explain:"come up with — g'oya o'ylab topmoq." },
+{ q:"The meeting was ___ off due to bad weather.", options:["called","taken","made","put"], correct:0, diff:3, explain:"call off — bekor qilmoq." },
+{ q:"I can't ___ up with this noise any longer.", options:["put","give","take","set"], correct:0, diff:3, explain:"put up with — chidamoq, toqat qilmoq." },
+{ q:"His explanation didn't ___ sense to me.", options:["make","do","take","give"], correct:0, diff:3, explain:"make sense — mantiqiy bo'lmoq, tushunarli bo'lmoq." },
+{ q:"Choose the word closest in meaning to 'inevitable'.", options:["avoidable","unavoidable","unusual","invisible"], correct:1, diff:3, explain:"inevitable = unavoidable — muqarrar, qochib bo'lmaydigan." },
+{ q:"Choose the word closest in meaning to 'reluctant'.", options:["eager","unwilling","ready","curious"], correct:1, diff:3, explain:"reluctant = unwilling — istamaydigan, xohishsiz." },
+{ q:"Choose the word closest in meaning to 'abundant'.", options:["scarce","plentiful","tiny","rare"], correct:1, diff:3, explain:"abundant = plentiful — mo'l-ko'l, ko'p." },
+{ q:"The evidence was not ___ enough to prove his guilt.", options:["conclusive","confusing","conscious","constant"], correct:0, diff:3, explain:"conclusive evidence — qat'iy, ishonchli dalil." },
+{ q:"She made a ___ effort to finish on time.", options:["deliberate","delicate","delicious","delightful"], correct:0, diff:3, explain:"deliberate effort — ataylab, ongli ravishda qilingan harakat." },
+{ q:"The two theories are mutually ___.", options:["exclusive","excluding","exclusion","excluded"], correct:0, diff:3, explain:"mutually exclusive — bir-birini istisno qiluvchi." },
+{ q:"His performance ___ all our expectations.", options:["exceeded","excused","excited","executed"], correct:0, diff:3, explain:"exceed expectations — kutilganidan oshib ketmoq." },
+{ q:"They reached a ___ after long negotiations.", options:["compromise","complaint","compliment","component"], correct:0, diff:3, explain:"reach a compromise — kelishuvga erishmoq." },
+{ q:"The results were ___ with our earlier findings.", options:["consistent","constant","content","concise"], correct:0, diff:3, explain:"consistent with — mos, muvofiq." },
+{ q:"He is ___ to criticism and gets upset easily.", options:["sensitive","sensible","senseless","sentimental"], correct:0, diff:3, explain:"sensitive to — ta'sirchan; sensible esa 'oqilona' degani." },
+{ q:"The government introduced ___ measures to reduce pollution.", options:["strict","strong","stiff","straight"], correct:0, diff:3, explain:"strict measures — qat'iy choralar (kollokatsiya)." },
+{ q:"Choose the word closest in meaning to 'diminish'.", options:["increase","decrease","remain","expand"], correct:1, diff:3, explain:"diminish = decrease — kamaymoq, pasaymoq." },
+{ q:"Her argument was quite ___ and convinced everyone.", options:["persuasive","pursuing","persistent","perceptive"], correct:0, diff:3, explain:"persuasive — ishontiruvchi, ta'sirli." }
+];
+
+/* Qo'shimcha murakkab darajadagi lug'at savollari */
+const VOCAB_EXTRA2 = [
+{ q:"Choose the word closest in meaning to 'accurate'.", options:["precise","approximate","vague","rough"], correct:0, diff:3, explain:"accurate = precise — aniq, xatosiz." },
+{ q:"Choose the word closest in meaning to 'essential'.", options:["optional","necessary","extra","rare"], correct:1, diff:3, explain:"essential = necessary — zarur, muhim." },
+{ q:"Choose the word closest in meaning to 'generous'.", options:["selfish","giving","greedy","strict"], correct:1, diff:3, explain:"generous = giving — saxiy, ochiqko'ngil." },
+{ q:"Choose the word closest in meaning to 'fragile'.", options:["strong","delicate","heavy","solid"], correct:1, diff:3, explain:"fragile = delicate — mo'rt, sinuvchan." },
+{ q:"Choose the word closest in meaning to 'sufficient'.", options:["enough","lacking","excessive","empty"], correct:0, diff:3, explain:"sufficient = enough — yetarli." },
+{ q:"Choose the opposite of 'temporary'.", options:["brief","permanent","short","passing"], correct:1, diff:3, explain:"temporary (vaqtinchalik) ↔ permanent (doimiy)." },
+{ q:"Choose the opposite of 'generous'.", options:["kind","stingy","warm","open"], correct:1, diff:3, explain:"generous (saxiy) ↔ stingy (xasis)." },
+{ q:"Choose the opposite of 'increase'.", options:["grow","reduce","rise","expand"], correct:1, diff:3, explain:"increase (oshmoq) ↔ reduce (kamaytirmoq)." },
+{ q:"Choose the opposite of 'confident'.", options:["sure","insecure","certain","bold"], correct:1, diff:3, explain:"confident (ishonchli) ↔ insecure (o'ziga ishonchsiz)." },
+{ q:"Choose the opposite of 'complicated'.", options:["complex","straightforward","difficult","confusing"], correct:1, diff:3, explain:"complicated (murakkab) ↔ straightforward (oddiy, tushunarli)." },
+{ q:"The scientist made a remarkable ___ about the virus.", options:["discovery","discover","discovering","discovered"], correct:0, diff:3, explain:"discovery — kashfiyot (ot shakli)." },
+{ q:"There is a strong ___ between exercise and health.", options:["connection","connecting","connect","connected"], correct:0, diff:3, explain:"connection between — ikki narsa orasidagi bog'liqlik." },
+{ q:"The teacher gave a detailed ___ of the topic.", options:["explanation","explaining","explain","explanatory"], correct:0, diff:3, explain:"explanation — tushuntirish (ot shakli)." },
+{ q:"His ___ to the project was highly valued.", options:["contribution","contributing","contribute","contributor"], correct:0, diff:3, explain:"contribution — hissa (ot shakli)." },
+{ q:"She showed great ___ in difficult times.", options:["patience","patient","patiently","patients"], correct:0, diff:3, explain:"patience — sabr (ot); patient — bemor yoki sabrli (sifat)." },
+{ q:"The company's ___ improved after the new manager arrived.", options:["performance","perform","performing","performer"], correct:0, diff:3, explain:"performance — natijadorlik, faoliyat sifati." },
+{ q:"We must take ___ action to solve this.", options:["immediate","immediately","immediacy","imminent"], correct:0, diff:3, explain:"immediate action — zudlik bilan chora (sifat + ot)." },
+{ q:"His behaviour was completely ___.", options:["acceptable","accept","accepting","acceptance"], correct:0, diff:3, explain:"acceptable — maqbul, qabul qilsa bo'ladigan (sifat)." },
+{ q:"The results were ___ different from what we expected.", options:["significantly","significant","significance","signify"], correct:0, diff:3, explain:"significantly — sezilarli darajada (ravish, sifatni kuchaytiradi)." },
+{ q:"They finally reached an ___ on the price.", options:["agreement","agree","agreeing","agreeable"], correct:0, diff:3, explain:"reach an agreement — kelishuvga erishmoq." },
+{ q:"He ran ___ of money before the end of the trip.", options:["out","off","away","down"], correct:0, diff:3, explain:"run out of — tugab qolmoq." },
+{ q:"The teacher asked us to ___ over the notes before the test.", options:["go","get","take","put"], correct:0, diff:3, explain:"go over — ko'rib chiqmoq, takrorlamoq." },
+{ q:"She ___ after her mother — they look identical.", options:["takes","gets","looks","comes"], correct:0, diff:3, explain:"take after — birovga o'xshamoq (odatda qarindoshga)." },
+{ q:"I need to ___ up on my English before the exam.", options:["brush","clean","wash","wipe"], correct:0, diff:3, explain:"brush up on — bilimni yangilamoq, takrorlamoq." },
+{ q:"The plane will ___ off in ten minutes.", options:["take","get","go","put"], correct:0, diff:3, explain:"take off — uchib ketmoq (samolyot)." },
+{ q:"Don't ___ out on this opportunity.", options:["miss","lose","fail","drop"], correct:0, diff:3, explain:"miss out on — imkoniyatni qo'ldan boy bermoq." },
+{ q:"He ___ down the job offer because of the low salary.", options:["turned","put","got","went"], correct:0, diff:3, explain:"turn down — rad etmoq." },
+{ q:"The noise ___ me from concentrating.", options:["prevented","protected","provided","promoted"], correct:0, diff:3, explain:"prevent somebody from — biror ishni qilishga to'sqinlik qilmoq." },
+{ q:"She succeeded ___ passing the exam.", options:["in","to","on","at"], correct:0, diff:3, explain:"succeed in + -ing — biror ishda muvaffaqiyat qozonmoq." },
+{ q:"They insisted ___ paying for dinner.", options:["on","in","to","for"], correct:0, diff:3, explain:"insist on + -ing — qat'iy turib talab qilmoq." },
+{ q:"He is capable ___ solving complex problems.", options:["of","to","for","in"], correct:0, diff:3, explain:"be capable of + -ing — qodir bo'lmoq." },
+{ q:"The town is famous ___ its ancient architecture.", options:["for","of","with","by"], correct:0, diff:3, explain:"famous for — biror narsa bilan mashhur." }
+];
+
+
+/* ---------- 4b) BANKLARNI BIRLASHTIRISH VA VARIANTLARGA BO'LISH ---------- */
+const GRAMMAR_BANK = [...TENSE_QUESTIONS, ...GRAMMAR_EXTRA];
+const VOCAB_BANK   = [...VOCAB_QUESTIONS, ...VOCAB_EXTRA, ...VOCAB_EXTRA2];
+
+/* Bankdan variantlar tuzadi: har bir variant 10 oddiy + 10 o'rta + 10 murakkab */
+function buildVariants(bank, count, perLevel){
+  const byDiff = { 1: [], 2: [], 3: [] };
+  bank.forEach(q => { if(byDiff[q.diff]) byDiff[q.diff].push(q); });
+
+  // barqaror aralashtirish — har safar bir xil natija chiqsin
+  function shuffleStable(arr, seed){
+    const a = arr.slice();
+    let s = seed;
+    for(let i = a.length - 1; i > 0; i--){
+      s = (s * 1103515245 + 12345) % 2147483648;
+      const j = s % (i + 1);
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  const pools = {
+    1: shuffleStable(byDiff[1], 12345),
+    2: shuffleStable(byDiff[2], 67890),
+    3: shuffleStable(byDiff[3], 24680)
+  };
+
+  const variants = [];
+  for(let v = 0; v < count; v++){
+    const qs = [];
+    [1, 2, 3].forEach(d => {
+      const pool = pools[d];
+      for(let k = 0; k < perLevel; k++){
+        const idx = (v * perLevel + k) % pool.length;
+        qs.push(pool[idx]);
+      }
+    });
+    variants.push(qs);
+  }
+  return variants;
+}
+
+const GRAMMAR_VARIANTS = buildVariants(GRAMMAR_BANK, 5, 10);
+const VOCAB_VARIANTS   = buildVariants(VOCAB_BANK, 5, 10);
 
 /* ---------- 5) TEST TO'PLAMLARI ---------- */
 const QUIZ_SETS = [
-  {
-    id: "tenses",
-    icon: "⏰",
-    title: "Zamonlar (Tenses)",
-    desc: "Present, Past, Perfect — to'liq to'plam",
-    questions: TENSE_QUESTIONS
-  },
-  {
-    id: "vocabulary",
-    icon: "📕",
-    title: "Lug'at testi",
-    desc: "Barcha mavzulardagi so'zlar bo'yicha",
-    questions: VOCAB_QUESTIONS
-  },
+  ...GRAMMAR_VARIANTS.map((qs, i) => ({
+    id: "grammar-" + (i+1),
+    icon: "\ud83d\udcd8",
+    title: "Grammatika \u2014 " + (i+1) + "-variant",
+    desc: "30 savol \u00b7 10 oddiy, 10 o'rta, 10 murakkab",
+    group: "grammar",
+    questions: qs
+  })),
+  ...VOCAB_VARIANTS.map((qs, i) => ({
+    id: "vocab-" + (i+1),
+    icon: "\ud83d\udcd5",
+    title: "Lug'at \u2014 " + (i+1) + "-variant",
+    desc: "30 savol \u00b7 10 oddiy, 10 o'rta, 10 murakkab",
+    group: "vocab",
+    questions: qs
+  })),
   {
     id: "olympiad",
-    icon: "🏅",
+    icon: "\ud83c\udfc5",
     title: "Olimpiada",
     desc: "Natijalar faqat sizga va o'qituvchiga ko'rinadi",
+    group: "special",
     olympiad: true,
     questions: []
   },
   {
     id: "tkt",
-    icon: "🎓",
+    icon: "\ud83c\udf93",
     title: "TKT",
     desc: "Teaching Knowledge Test materiallari",
+    group: "special",
     questions: []
   }
 ];
@@ -1378,9 +1878,17 @@ let currentIndex = 0;
 let score = 0;
 let streak = 0;
 let vocabFilter = "all";
-let activeSet = null;          // tanlangan test to'plami
-let userAnswers = [];          // har bir savolga berilgan javob (null = javobsiz)
+let activeSet = null;
+let userAnswers = [];
 let quizFinished = false;
+let quizMode = 'untimed';      // 'timed' yoki 'untimed'
+let quizStartTime = 0;
+let quizElapsedSec = 0;
+let timerInterval = null;
+let questionDeadline = 0;
+const SECONDS_PER_QUESTION = 45;
+let pendingSet = null;         // boshlash oynasida tanlangan to'plam
+let lastMistakes = [];         // oxirgi testdagi xatolar
 
 const screens = {
   home: document.getElementById('screen-home'),
@@ -1389,6 +1897,8 @@ const screens = {
   vocab: document.getElementById('screen-vocab'),
   quiz: document.getElementById('screen-quiz'),
   result: document.getElementById('screen-result'),
+  mistakes: document.getElementById('screen-mistakes'),
+  trainer: document.getElementById('screen-trainer'),
   leaderboard: document.getElementById('screen-leaderboard'),
   info: document.getElementById('screen-info'),
   profile: document.getElementById('screen-profile'),
@@ -1647,9 +2157,153 @@ function getTotalSeconds(){ return parseInt(localStorage.getItem('totalSeconds')
 
 function logTestResult(entry){
   const log = loadJSON('testLog', []);
-  log.push({ ts: entry.ts, score: entry.score, total: entry.total, percent: entry.percent });
-  if(log.length > 100) log.shift();
+  log.push({
+    ts: entry.ts, score: entry.score, total: entry.total, percent: entry.percent,
+    setId: entry.setId, set: entry.set, durationSec: entry.durationSec
+  });
+  if(log.length > 200) log.shift();
   saveJSON('testLog', log);
+}
+
+/* ============== KUNLIK MAQSAD ============== */
+const DAILY_GOAL = 20;   // kuniga nechta savol
+
+function todayKey(){ return new Date().toDateString(); }
+function getDailyProgress(){
+  const d = loadJSON('dailyProgress', {});
+  return (d.day === todayKey()) ? (d.count || 0) : 0;
+}
+function addDailyProgress(n){
+  const before = getDailyProgress();
+  const after = before + n;
+  saveJSON('dailyProgress', { day: todayKey(), count: after });
+  // maqsadga endi yetgan bo'lsa — tabriklaymiz
+  if(before < DAILY_GOAL && after >= DAILY_GOAL){
+    bumpCounter('goalDays');
+    addXP(25);
+    showToast('🎯 Bugungi maqsad bajarildi! +25 XP');
+    setTimeout(() => {
+      confettiBurst(window.innerWidth/2, window.innerHeight/3);
+      mascotReact('happy', 'Maqsad bajarildi! 🎯');
+    }, 400);
+  }
+}
+function renderDailyGoal(){
+  const done = getDailyProgress();
+  const pct = Math.min(100, Math.round((done / DAILY_GOAL) * 100));
+  const circumference = 2 * Math.PI * 26;
+  const ring = document.getElementById('goalRingFg');
+  ring.style.strokeDasharray = circumference;
+  ring.style.strokeDashoffset = circumference * (1 - pct/100);
+  document.getElementById('goalRingTxt').textContent = pct + '%';
+  const card = document.getElementById('goalCard');
+  if(done >= DAILY_GOAL){
+    card.classList.add('done');
+    document.getElementById('goalTitle').textContent = '🎉 Bugungi maqsad bajarildi!';
+    document.getElementById('goalSub').textContent = `${done} ta savol yechdingiz. Zo'r ish!`;
+  } else {
+    card.classList.remove('done');
+    document.getElementById('goalTitle').textContent = 'Bugungi maqsad';
+    document.getElementById('goalSub').textContent = `${done} / ${DAILY_GOAL} savol · yana ${DAILY_GOAL - done} ta qoldi`;
+  }
+}
+
+/* ============== SO'Z MASHQI (FLASHCARD TRENAJYOR) ============== */
+let trainerDeck = [];
+let trainerIndex = 0;
+let trainerRevealed = false;
+
+/* Bilmagan so'zlar ko'proq takrorlanadi */
+function getWordWeights(){ return loadJSON('wordWeights', {}); }
+function bumpWordWeight(en, delta){
+  const w = getWordWeights();
+  w[en] = Math.max(1, Math.min(10, (w[en] || 3) + delta));
+  saveJSON('wordWeights', w);
+}
+
+function buildTrainerDeck(size){
+  const weights = getWordWeights();
+  // og'irligi katta so'zlar tez-tez tushadi
+  const pool = [];
+  VOCAB.forEach(w => {
+    const weight = weights[w.en] || 3;
+    for(let i=0;i<weight;i++) pool.push(w);
+  });
+  const deck = [];
+  const used = new Set();
+  let guard = 0;
+  while(deck.length < size && guard < 500){
+    guard++;
+    const cand = pool[Math.floor(Math.random()*pool.length)];
+    if(!used.has(cand.en)){ used.add(cand.en); deck.push(cand); }
+  }
+  return deck;
+}
+
+function startTrainer(){
+  trainerDeck = buildTrainerDeck(10);
+  trainerIndex = 0;
+  showScreen('trainer');
+  renderTrainerCard();
+}
+
+function renderTrainerCard(){
+  if(trainerIndex >= trainerDeck.length){ finishTrainer(); return; }
+  trainerRevealed = false;
+  const w = trainerDeck[trainerIndex];
+  document.getElementById('trainerProgress').textContent = `${trainerIndex+1} / ${trainerDeck.length}`;
+  document.getElementById('trainerCard').innerHTML = `
+    <div class="trainer-emoji">${w.emoji || '📘'}</div>
+    <div class="trainer-word">${w.en}</div>
+    <div class="trainer-hint">Tarjimasini ko'rish uchun kartani bosing</div>
+  `;
+}
+
+function revealTrainerCard(){
+  if(trainerRevealed) return;
+  trainerRevealed = true;
+  const w = trainerDeck[trainerIndex];
+  document.getElementById('trainerCard').innerHTML = `
+    <div class="trainer-emoji">${w.emoji || '📘'}</div>
+    <div class="trainer-word">${w.en}</div>
+    <div class="trainer-uz">${w.uz}</div>
+    <div class="trainer-ex">${w.example}</div>
+  `;
+  speakWord(w.en);
+}
+
+document.getElementById('trainerCard').addEventListener('click', revealTrainerCard);
+document.getElementById('trainerKnowBtn').addEventListener('click', () => answerTrainer(true));
+document.getElementById('trainerDontBtn').addEventListener('click', () => answerTrainer(false));
+document.getElementById('trainerBackBtn').addEventListener('click', () => { showScreen('home'); renderHome(); });
+document.getElementById('homeTrainerBtn').addEventListener('click', startTrainer);
+
+function answerTrainer(known){
+  const w = trainerDeck[trainerIndex];
+  if(!w) return;
+  if(known){
+    bumpWordWeight(w.en, -1);
+    markWordSeen(w.en);
+    addXP(3);
+  } else {
+    bumpWordWeight(w.en, +2);
+    if(!trainerRevealed){ revealTrainerCard(); return; }  // avval tarjimani ko'rsatamiz
+  }
+  trainerIndex++;
+  renderTrainerCard();
+}
+
+function finishTrainer(){
+  bumpCounter('trainerDone');
+  syncUserProfileToFirebase();
+  document.getElementById('trainerProgress').textContent = 'Tugadi!';
+  document.getElementById('trainerCard').innerHTML = `
+    <div class="trainer-emoji">🎉</div>
+    <div class="trainer-word">Ajoyib!</div>
+    <div class="trainer-ex">${trainerDeck.length} ta so'z ustida ishladingiz.<br>Bilmagan so'zlaringiz keyingi safar ko'proq takrorlanadi.</div>
+  `;
+  confettiBurst(window.innerWidth/2, window.innerHeight/3);
+  mascotReact('happy', 'Mashq tugadi! 🎴');
 }
 function getTestLog(){ return loadJSON('testLog', []); }
 
@@ -1696,19 +2350,145 @@ setInterval(() => {
 }, 15000);
 
 /* =========================================================
+   QO'SHIMCHA KUZATUV HISOBLAGICHLARI
+   ========================================================= */
+function getCounter(key){ return parseInt(localStorage.getItem('c_'+key) || '0', 10); }
+function bumpCounter(key, n){
+  try{ localStorage.setItem('c_'+key, String(getCounter(key) + (n||1))); }catch(e){}
+}
+function setMaxCounter(key, val){
+  if(val > getCounter(key)){
+    try{ localStorage.setItem('c_'+key, String(val)); }catch(e){}
+  }
+}
+function getCompletedSets(){ return loadJSON('completedSets', []); }
+function markSetCompleted(setId){
+  if(!setId) return;
+  const list = getCompletedSets();
+  if(!list.includes(setId)){ list.push(setId); saveJSON('completedSets', list); }
+}
+function countCompletedByPrefix(prefix){
+  return getCompletedSets().filter(id => id.startsWith(prefix) && !id.endsWith('-retry')).length;
+}
+function getTotalCorrect(){
+  return getTestLog().reduce((s,t) => s + (t.score || 0), 0);
+}
+
+/* =========================================================
    YUTUQLAR (ACHIEVEMENTS)
+   Har bir nishonda: nomi, belgisi, shartni tekshiruvchi funksiya,
+   qisqa tavsif va "qanday olish mumkin" bo'yicha ko'rsatma
    ========================================================= */
 const ACHIEVEMENTS = [
-  { id:'bilimdon', icon:'📖', title:'Bilimdon', check: () => ({ done: getSeenWordsCount() >= VOCAB.length, cur: getSeenWordsCount(), goal: VOCAB.length }), desc:"Lug'atdagi barcha so'zlarni ko'rish" },
-  { id:'grammatika', icon:'🎓', title:'Grammatika ustasi', check: () => ({ done: getOpenedGrammarCount() >= GRAMMAR.length, cur: getOpenedGrammarCount(), goal: GRAMMAR.length }), desc:"Barcha grammatika mavzularini ochish" },
-  { id:'benuqson', icon:'✅', title:"Benuqson", check: () => { const has = getTestLog().some(t => t.percent === 100); return { done: has, cur: has?1:0, goal:1 }; }, desc:"100% natija bilan test topshirish" },
-  { id:'tungiboyqush', icon:'🦉', title:'Tungi boyqush', check: () => { const has = getTestLog().some(t => { const h = new Date(t.ts).getHours(); return h>=0 && h<5; }); return { done: has, cur: has?1:0, goal:1 }; }, desc:"00:00–05:00 orasida test ishlash" },
-  { id:'ertaqush', icon:'🌅', title:'Erta qush', check: () => { const has = getTestLog().some(t => { const h = new Date(t.ts).getHours(); return h>=5 && h<8; }); return { done: has, cur: has?1:0, goal:1 }; }, desc:"05:00–08:00 orasida test ishlash" },
-  { id:'alanga', icon:'🔥', title:'Alanga', check: () => { const s = getCurrentStreakDays(); return { done: s>=3, cur:Math.min(s,3), goal:3 }; }, desc:"3 kun ketma-ket faol bo'lish" },
-  { id:'marafon', icon:'🏃', title:'Marafon', check: () => { const m = Math.floor(getTotalSeconds()/60); return { done: m>=60, cur:Math.min(m,60), goal:60 }; }, desc:"Ilovada jami 1 soat vaqt o'tkazish" },
-  { id:'elchi', icon:'📮', title:'Elchi', check: () => { const n = getTestLog().length; return { done:n>=10, cur:Math.min(n,10), goal:10 }; }, desc:"10 marta test ishlash" },
-  { id:'sadoqat', icon:'💛', title:'Sadoqat', check: () => { const d = getActiveDaysCount(); return { done:d>=7, cur:Math.min(d,7), goal:7 }; }, desc:"7 xil kunda ilovaga kirish" },
+  // --- O'rganish ---
+  { id:'bilimdon', icon:'📖', title:'Bilimdon',
+    check: () => ({ done: getSeenWordsCount() >= VOCAB.length, cur: Math.min(getSeenWordsCount(), VOCAB.length), goal: VOCAB.length }),
+    desc:"Lug'atdagi barcha so'zlarni ko'rib chiqish",
+    how:"Lug'at bo'limiga kiring va har bir so'z kartasini bosib, tarjimasini ochib chiqing. Barcha so'zlarni ko'rganingizda nishon ochiladi." },
+
+  { id:'grammatika', icon:'🎓', title:'Grammatika ustasi',
+    check: () => ({ done: getOpenedGrammarCount() >= GRAMMAR.length, cur: Math.min(getOpenedGrammarCount(), GRAMMAR.length), goal: GRAMMAR.length }),
+    desc:"Barcha grammatika mavzularini o'qib chiqish",
+    how:"Qoidalar bo'limiga kiring va har bir mavzu sarlavhasini bosib, tushuntirishini ochib o'qing." },
+
+  { id:'yuzlik', icon:'💯', title:'Yuzlik',
+    check: () => { const n = getTotalCorrect(); return { done:n>=100, cur:Math.min(n,100), goal:100 }; },
+    desc:"Jami 100 ta savolga to'g'ri javob berish",
+    how:"Testlarni ishlayvering — barcha testlardagi to'g'ri javoblaringiz qo'shilib boradi. 100 taga yetganda nishon ochiladi." },
+
+  // --- Mahorat ---
+  { id:'benuqson', icon:'✅', title:"Benuqson",
+    check: () => { const has = getTestLog().some(t => t.percent === 100); return { done: has, cur: has?1:0, goal:1 }; },
+    desc:"100% natija bilan test topshirish",
+    how:"Istalgan testni bitta ham xatosiz yakunlang. Avval oson variantdan boshlab ko'ring." },
+
+  { id:'snayper', icon:'🎯', title:'Snayper',
+    check: () => { const n = getTestLog().filter(t => t.percent >= 90).length; return { done:n>=5, cur:Math.min(n,5), goal:5 }; },
+    desc:"5 ta testda 90% va undan yuqori natija",
+    how:"Testlarni diqqat bilan ishlang. 90% dan yuqori natija olgan har bir test hisobga olinadi." },
+
+  { id:'onlik', icon:'🔟', title:'Mukammal o\'nlik',
+    check: () => { const s = getCounter('maxStreak'); return { done:s>=10, cur:Math.min(s,10), goal:10 }; },
+    desc:"Ketma-ket 10 ta savolga to'g'ri javob",
+    how:"Bitta test ichida 10 ta savolga ketma-ket to'g'ri javob bering. Bitta xato qilsangiz, hisob noldan boshlanadi." },
+
+  { id:'vaqtustasi', icon:'⏱️', title:'Vaqt ustasi',
+    check: () => { const n = getCounter('timedGood'); return { done:n>=3, cur:Math.min(n,3), goal:3 }; },
+    desc:"Vaqtli rejimda 3 marta 90%+ natija",
+    how:"Testni boshlashda \"Vaqtli\" rejimni tanlang va 90% dan yuqori natija oling. Har savolga 45 soniya beriladi." },
+
+  { id:'chaqmoq', icon:'⚡', title:'Chaqmoq',
+    check: () => { const n = getCounter('fastFinish'); return { done:n>=1, cur:Math.min(n,1), goal:1 }; },
+    desc:"30 savolli testni 6 daqiqadan tez tugatish",
+    how:"Katta testni (30 savol) 6 daqiqadan kam vaqtda, kamida 70% natija bilan yakunlang." },
+
+  // --- Qat'iyat ---
+  { id:'chuqqi', icon:'🧗', title:'Cho\'qqi',
+    check: () => { const n = countCompletedByPrefix('grammar-'); return { done:n>=5, cur:Math.min(n,5), goal:5 }; },
+    desc:"Barcha 5 ta grammatika variantini yakunlash",
+    how:"Testlar bo'limidagi 5 ta grammatika variantining har birini kamida bir marta oxirigacha ishlang." },
+
+  { id:'kollektsioner', icon:'📚', title:'Kollektsioner',
+    check: () => { const n = countCompletedByPrefix('vocab-'); return { done:n>=5, cur:Math.min(n,5), goal:5 }; },
+    desc:"Barcha 5 ta lug'at variantini yakunlash",
+    how:"Testlar bo'limidagi 5 ta lug'at variantining har birini kamida bir marta oxirigacha ishlang." },
+
+  { id:'elchi', icon:'📮', title:'Faol o\'quvchi',
+    check: () => { const n = getTestLog().length; return { done:n>=10, cur:Math.min(n,10), goal:10 }; },
+    desc:"10 marta test ishlash",
+    how:"Istalgan testlarni jami 10 marta yakunlang." },
+
+  { id:'xatolardan', icon:'🔁', title:'Xatolardan o\'rganuvchi',
+    check: () => { const n = getCounter('mistakeRetry'); return { done:n>=3, cur:Math.min(n,3), goal:3 }; },
+    desc:"3 marta xatolar ustida ishlash",
+    how:"Test tugagach \"Xatolarimni ko'rish\" → \"Faqat xatolarni qayta ishlash\" tugmasini bosing va o'sha testni yakunlang." },
+
+  // --- Odat ---
+  { id:'alanga', icon:'🔥', title:'Alanga',
+    check: () => { const s = getCurrentStreakDays(); return { done: s>=3, cur:Math.min(s,3), goal:3 }; },
+    desc:"3 kun ketma-ket ilovaga kirish",
+    how:"Har kuni ilovani oching. Bir kun tashlab ketsangiz, hisob qaytadan boshlanadi." },
+
+  { id:'sadoqat', icon:'💛', title:'Sadoqat',
+    check: () => { const d = getActiveDaysCount(); return { done:d>=7, cur:Math.min(d,7), goal:7 }; },
+    desc:"7 xil kunda ilovaga kirish",
+    how:"Ketma-ket bo'lishi shart emas — jami 7 ta turli kunda ilovani ochsangiz kifoya." },
+
+  { id:'maqsadchi', icon:'🎯', title:'Maqsadchi',
+    check: () => { const n = getCounter('goalDays'); return { done:n>=5, cur:Math.min(n,5), goal:5 }; },
+    desc:"5 marta kunlik maqsadni bajarish",
+    how:"Bir kunda 20 ta savol yeching — bu kunlik maqsad. Buni 5 xil kunda takrorlang." },
+
+  { id:'mashqchi', icon:'🎴', title:'Mashqchi',
+    check: () => { const n = getCounter('trainerDone'); return { done:n>=5, cur:Math.min(n,5), goal:5 }; },
+    desc:"So'z mashqini 5 marta tugatish",
+    how:"Bosh sahifadagi \"Kunlik so'z mashqi\" tugmasini bosib, 10 ta so'zni oxirigacha ko'rib chiqing." },
+
+  { id:'marafon', icon:'🏃', title:'Marafon',
+    check: () => { const m = Math.floor(getTotalSeconds()/60); return { done: m>=60, cur:Math.min(m,60), goal:60 }; },
+    desc:"Ilovada jami 1 soat vaqt o'tkazish",
+    how:"Ilovadan muntazam foydalaning — o'tkazgan vaqtingiz avtomatik hisoblanadi." },
+
+  { id:'yulduz', icon:'🌟', title:'Yulduz',
+    check: () => { const xp = getXP(); return { done: xp>=500, cur:Math.min(xp,500), goal:500 }; },
+    desc:"500 XP to'plash",
+    how:"Har to'g'ri javob +10 XP, 100% natija +30 XP, kunlik maqsad +25 XP beradi." },
+
+  // --- Maxsus vaqt ---
+  { id:'tungiboyqush', icon:'🦉', title:'Tungi boyqush',
+    check: () => { const has = getTestLog().some(t => { const h = new Date(t.ts).getHours(); return h>=0 && h<5; }); return { done: has, cur: has?1:0, goal:1 }; },
+    desc:"Kechasi 00:00–05:00 orasida test ishlash",
+    how:"Yarim tundan keyin, soat 5 gacha bo'lgan vaqtda bitta testni yakunlang." },
+
+  { id:'ertaqush', icon:'🌅', title:'Erta qush',
+    check: () => { const has = getTestLog().some(t => { const h = new Date(t.ts).getHours(); return h>=5 && h<8; }); return { done: has, cur: has?1:0, goal:1 }; },
+    desc:"Ertalab 05:00–08:00 orasida test ishlash",
+    how:"Erta tongda, soat 5 dan 8 gacha bo'lgan vaqtda bitta testni yakunlang." },
 ];
+
+function getUnlockedAchievements(){
+  return ACHIEVEMENTS.filter(a => a.check().done).map(a => a.id);
+}
 
 function renderAchievements(){
   const grid = document.getElementById('achGrid');
@@ -1724,11 +2504,32 @@ function renderAchievements(){
       <div class="ach-name">${a.title}</div>
       <div class="ach-progress">${res.cur}/${res.goal}</div>
     `;
-    div.title = a.desc;
+    div.addEventListener('click', () => openAchievementInfo(a, res));
     grid.appendChild(div);
   });
   document.getElementById('achCount').textContent = `${unlockedCount}/${ACHIEVEMENTS.length}`;
 }
+
+/* Nishon ustiga bosilganda ma'lumot oynasi */
+function openAchievementInfo(a, res){
+  const pct = Math.min(100, Math.round((res.cur / res.goal) * 100));
+  document.getElementById('achInfoIcon').textContent = a.icon;
+  document.getElementById('achInfoIcon').className = 'achinfo-icon' + (res.done ? ' unlocked' : '');
+  document.getElementById('achInfoTitle').textContent = a.title;
+  document.getElementById('achInfoStatus').textContent = res.done ? '✓ Qo\'lga kiritildi' : 'Hali ochilmagan';
+  document.getElementById('achInfoStatus').className = 'achinfo-status' + (res.done ? ' done' : '');
+  document.getElementById('achInfoDesc').textContent = a.desc;
+  document.getElementById('achInfoHow').textContent = a.how;
+  document.getElementById('achInfoBarFill').style.width = pct + '%';
+  document.getElementById('achInfoBarTxt').textContent = `${res.cur} / ${res.goal}`;
+  document.getElementById('achInfoModal').classList.add('show');
+}
+document.getElementById('achInfoClose').addEventListener('click', () => {
+  document.getElementById('achInfoModal').classList.remove('show');
+});
+document.getElementById('achInfoModal').addEventListener('click', (e) => {
+  if(e.target.id === 'achInfoModal') e.currentTarget.classList.remove('show');
+});
 
 /* =========================================================
    PROFIL
@@ -1806,6 +2607,45 @@ document.getElementById('photoViewerClose').addEventListener('click', closePhoto
 photoViewer.addEventListener('click', (e) => {
   if(e.target === photoViewer || e.target.id === 'photoViewerImg') closePhoto();
 });
+
+/* =========================================================
+   FOYDALANUVCHI PROFILINI FIREBASE'GA SAQLASH
+   (o'qituvchi paneli uchun — ro'yxat, statistika, yutuqlar)
+   ========================================================= */
+async function syncUserProfileToFirebase(){
+  if(!db || !currentUser) return;
+  try{
+    const log = getTestLog();
+    const avg = log.length ? Math.round(log.reduce((s,t)=>s+t.percent,0)/log.length) : 0;
+    const profile = {
+      name: currentUser,
+      xp: getXP(),
+      level: levelFromXP(getXP()),
+      tests: log.length,
+      avgPercent: avg,
+      totalCorrect: getTotalCorrect(),
+      minutes: Math.floor(getTotalSeconds()/60),
+      streakDays: getCurrentStreakDays(),
+      activeDays: getActiveDaysCount(),
+      wordsSeen: getSeenWordsCount(),
+      achievements: getUnlockedAchievements(),
+      lastSeen: Date.now()
+    };
+    const key = safeUserKey(currentUser);
+    const ref = db.ref('users/' + key);
+    const snap = await ref.child('firstSeen').once('value');
+    if(!snap.exists()) profile.firstSeen = Date.now();
+    await ref.update(profile);
+  }catch(e){ console.error('profile sync failed', e); }
+}
+
+async function getAllUsers(){
+  if(!db) return [];
+  try{
+    const snap = await db.ref('users').once('value');
+    return Object.values(snap.val() || {});
+  }catch(e){ console.error('users fetch failed', e); return []; }
+}
 
 function safeUserKey(name){
   return name.replace(/[.#$\[\]\/]/g, '_');
@@ -1920,6 +2760,7 @@ function enterApp(name){
   renderHome();
   showScreen('home');
   syncAvatarToFirebase();
+  syncUserProfileToFirebase();
 }
 
 document.getElementById('startBtn').addEventListener('click', () => {
@@ -2046,57 +2887,149 @@ document.getElementById('teacherBackBtn').addEventListener('click', () => {
 });
 document.getElementById('teacherRefreshBtn').addEventListener('click', () => renderTeacherPanel());
 
+let teacherTab = 'students';
+let teacherUsersCache = [];
+let teacherAvatarsCache = {};
+
+document.querySelectorAll('.teacher-tab').forEach(btn => {
+  btn.addEventListener('click', () => {
+    teacherTab = btn.dataset.ttab;
+    document.querySelectorAll('.teacher-tab').forEach(b => b.classList.toggle('active', b === btn));
+    document.getElementById('teacherStudents').style.display = (teacherTab === 'students') ? '' : 'none';
+    document.getElementById('teacherList').style.display = (teacherTab === 'olympiad') ? '' : 'none';
+  });
+});
+
+document.getElementById('studentModalClose').addEventListener('click', () => {
+  document.getElementById('studentModal').classList.remove('show');
+});
+document.getElementById('studentModal').addEventListener('click', (e) => {
+  if(e.target.id === 'studentModal') e.currentTarget.classList.remove('show');
+});
+
 async function renderTeacherPanel(){
+  const studentsEl = document.getElementById('teacherStudents');
   const listEl = document.getElementById('teacherList');
   const summaryEl = document.getElementById('teacherSummary');
-  listEl.innerHTML = '<div class="loading">Yuklanmoqda...</div>';
+  studentsEl.innerHTML = '<div class="loading">Yuklanmoqda...</div>';
+  listEl.innerHTML = '';
   summaryEl.innerHTML = '';
 
-  const [results, avatars] = await Promise.all([getOlympiadScores(), loadAllAvatars()]);
+  const [users, results, avatars] = await Promise.all([
+    getAllUsers(), getOlympiadScores(), loadAllAvatars()
+  ]);
+  teacherUsersCache = users;
+  teacherAvatarsCache = avatars;
 
-  if(results.length === 0){
-    summaryEl.innerHTML = '';
-    listEl.innerHTML = '<div class="empty">Hozircha olimpiada natijalari yo\'q.<br>O\'quvchilar test ishlagach shu yerda ko\'rinadi.</div>';
-    return;
-  }
-
-  // umumiy ko'rsatkichlar
-  const students = new Set(results.map(r => r.name));
-  const avgPercent = Math.round(results.reduce((s,r)=>s+r.percent,0) / results.length);
+  // --- umumiy ko'rsatkichlar ---
+  const totalTests = users.reduce((s,u) => s + (u.tests||0), 0);
+  const avgAll = users.length
+    ? Math.round(users.filter(u=>u.tests>0).reduce((s,u)=>s+(u.avgPercent||0),0) / Math.max(1, users.filter(u=>u.tests>0).length))
+    : 0;
+  const activeToday = users.filter(u => u.lastSeen && (Date.now() - u.lastSeen) < 86400000).length;
   summaryEl.innerHTML = `
-    <div class="teacher-stat"><div class="teacher-stat-val">${students.size}</div><div class="teacher-stat-lbl">o'quvchi</div></div>
-    <div class="teacher-stat"><div class="teacher-stat-val">${results.length}</div><div class="teacher-stat-lbl">urinish</div></div>
-    <div class="teacher-stat"><div class="teacher-stat-val">${avgPercent}%</div><div class="teacher-stat-lbl">o'rtacha</div></div>
+    <div class="teacher-stat"><div class="teacher-stat-val">${users.length}</div><div class="teacher-stat-lbl">ro'yxatdan o'tgan</div></div>
+    <div class="teacher-stat"><div class="teacher-stat-val">${totalTests}</div><div class="teacher-stat-lbl">jami test</div></div>
+    <div class="teacher-stat"><div class="teacher-stat-val">${avgAll}%</div><div class="teacher-stat-lbl">o'rtacha</div></div>
+    <div class="teacher-stat"><div class="teacher-stat-val">${activeToday}</div><div class="teacher-stat-lbl">bugun faol</div></div>
   `;
 
-  // eng yangi natija tepada
-  results.sort((a,b) => b.ts - a.ts);
+  // --- o'quvchilar ro'yxati ---
+  if(users.length === 0){
+    studentsEl.innerHTML = '<div class="empty">Hozircha hech kim ro\'yxatdan o\'tmagan.</div>';
+  } else {
+    users.sort((a,b) => (b.xp||0) - (a.xp||0));
+    studentsEl.innerHTML = '';
+    users.forEach(u => {
+      const src = avatars[safeUserKey(u.name || '')];
+      const av = src
+        ? `<div class="lb-avatar"><img src="${src}" alt=""></div>`
+        : `<div class="lb-avatar">${firstChar(u.name)}</div>`;
+      const lastSeen = u.lastSeen ? new Date(u.lastSeen).toLocaleDateString('uz-UZ') : '—';
+      const achCount = (u.achievements || []).length;
+      const row = document.createElement('div');
+      row.className = 'activity-row';
+      row.style.cursor = 'pointer';
+      row.innerHTML = `
+        ${av}
+        <div class="activity-body">
+          <div class="activity-title">${u.name || '—'}</div>
+          <div class="activity-time">${u.tests||0} test · ${u.avgPercent||0}% · 🏅${achCount} · ${lastSeen}</div>
+        </div>
+        <div class="teacher-score ${(u.avgPercent||0)>=80?'good':((u.avgPercent||0)>=50?'mid':'low')}">
+          LVL ${u.level||1}<br><span>${u.xp||0} XP</span>
+        </div>
+      `;
+      row.addEventListener('click', () => openStudentModal(u));
+      studentsEl.appendChild(row);
+    });
+  }
 
-  listEl.innerHTML = '';
-  results.slice(0, 100).forEach(r => {
-    const d = new Date(r.ts);
-    const timeStr = d.toLocaleDateString('uz-UZ') + ' · ' + d.toLocaleTimeString('uz-UZ', {hour:'2-digit', minute:'2-digit'});
-    const src = avatars[safeUserKey(r.name)];
-    const avatar = src
-      ? `<div class="lb-avatar"><img src="${src}" alt=""></div>`
-      : `<div class="lb-avatar">${(r.name||'?').trim().charAt(0).toUpperCase()}</div>`;
-    const colorClass = r.percent >= 80 ? 'good' : (r.percent >= 50 ? 'mid' : 'low');
-    const row = document.createElement('div');
-    row.className = 'activity-row';
-    row.innerHTML = `
-      ${avatar}
-      <div class="activity-body">
-        <div class="activity-title">${r.name}</div>
-        <div class="activity-time">${r.set || 'Olimpiada'} · ${timeStr}</div>
-      </div>
-      <div class="teacher-score ${colorClass}">${r.score}/${r.total}<br><span>${r.percent}%</span></div>
-    `;
-    listEl.appendChild(row);
-  });
+  // --- olimpiada natijalari ---
+  if(results.length === 0){
+    listEl.innerHTML = '<div class="empty">Hozircha olimpiada natijalari yo\'q.<br>O\'quvchilar test ishlagach shu yerda ko\'rinadi.</div>';
+  } else {
+    results.sort((a,b) => b.ts - a.ts);
+    listEl.innerHTML = '';
+    results.slice(0, 100).forEach(r => {
+      const d = new Date(r.ts);
+      const timeStr = d.toLocaleDateString('uz-UZ') + ' · ' + d.toLocaleTimeString('uz-UZ', {hour:'2-digit', minute:'2-digit'});
+      const src = avatars[safeUserKey(r.name)];
+      const avatar = src
+        ? `<div class="lb-avatar"><img src="${src}" alt=""></div>`
+        : `<div class="lb-avatar">${firstChar(r.name)}</div>`;
+      const colorClass = r.percent >= 80 ? 'good' : (r.percent >= 50 ? 'mid' : 'low');
+      const row = document.createElement('div');
+      row.className = 'activity-row';
+      row.innerHTML = `
+        ${avatar}
+        <div class="activity-body">
+          <div class="activity-title">${r.name}</div>
+          <div class="activity-time">${r.set || 'Olimpiada'} · ${timeStr}</div>
+        </div>
+        <div class="teacher-score ${colorClass}">${r.score}/${r.total}<br><span>${r.percent}%</span></div>
+      `;
+      listEl.appendChild(row);
+    });
+  }
+}
+
+/* O'quvchi tafsilotlari */
+function openStudentModal(u){
+  const src = teacherAvatarsCache[safeUserKey(u.name || '')];
+  const avEl = document.getElementById('studentModalAvatar');
+  avEl.innerHTML = src ? `<img src="${src}" alt="">` : firstChar(u.name);
+
+  document.getElementById('studentModalName').textContent = u.name || '—';
+  const first = u.firstSeen ? new Date(u.firstSeen).toLocaleDateString('uz-UZ') : '—';
+  const last = u.lastSeen ? new Date(u.lastSeen).toLocaleDateString('uz-UZ') : '—';
+  document.getElementById('studentModalMeta').textContent = `Qo'shilgan: ${first} · Oxirgi faollik: ${last}`;
+
+  document.getElementById('studentModalStats').innerHTML = `
+    <div class="student-stat"><b>${u.tests||0}</b><span>test</span></div>
+    <div class="student-stat"><b>${u.avgPercent||0}%</b><span>o'rtacha</span></div>
+    <div class="student-stat"><b>${u.totalCorrect||0}</b><span>to'g'ri javob</span></div>
+    <div class="student-stat"><b>${u.minutes||0} daq</b><span>ilovada</span></div>
+    <div class="student-stat"><b>${u.activeDays||0}</b><span>faol kun</span></div>
+    <div class="student-stat"><b>${u.wordsSeen||0}</b><span>so'z ko'rgan</span></div>
+  `;
+
+  const owned = u.achievements || [];
+  const badgesEl = document.getElementById('studentModalBadges');
+  if(owned.length === 0){
+    badgesEl.innerHTML = '<div style="font-size:12.5px; color:rgba(247,244,236,0.45);">Hali nishon yo\'q</div>';
+  } else {
+    badgesEl.innerHTML = owned.map(id => {
+      const a = ACHIEVEMENTS.find(x => x.id === id);
+      return a ? `<div class="student-badge" title="${a.title}">${a.icon}<span>${a.title}</span></div>` : '';
+    }).join('');
+  }
+  document.getElementById('studentModal').classList.add('show');
 }
 /* ============== BOSH SAHIFA ============== */
 async function renderHome(){
   document.getElementById('homeGreeting').textContent = `Salom, ${currentUser || 'do\'stim'}!`;
+  renderDailyGoal();
 
   const log = getTestLog();
   const attempts = log.length;
@@ -2137,24 +3070,120 @@ document.getElementById('homeStartBtn').addEventListener('click', () => {
 function renderQuizSets(){
   const wrap = document.getElementById('quizSetList');
   wrap.innerHTML = '';
-  QUIZ_SETS.forEach(set => {
-    const empty = !set.questions || set.questions.length === 0;
-    const div = document.createElement('div');
-    div.className = 'quizset-card' + (empty ? ' locked' : '');
-    div.innerHTML = `
-      <div class="quizset-icon">${set.icon}</div>
-      <div class="quizset-body">
-        <div class="quizset-title">${set.title}</div>
-        <div class="quizset-desc">${set.desc}</div>
-      </div>
-      <div class="quizset-count">${empty ? 'Tez orada' : set.questions.length + ' savol'}</div>
-    `;
-    div.addEventListener('click', () => {
-      if(empty){ showToast('Bu bo\'lim tez orada to\'ldiriladi'); return; }
-      startQuiz(set);
+  const groups = [
+    { key:'grammar', label:'📘 Grammatika variantlari' },
+    { key:'vocab',   label:"📕 Lug'at variantlari" },
+    { key:'special', label:'🏅 Maxsus bo\'limlar' }
+  ];
+  groups.forEach(g => {
+    const sets = QUIZ_SETS.filter(s => s.group === g.key);
+    if(sets.length === 0) return;
+    const label = document.createElement('div');
+    label.className = 'section-label';
+    label.style.marginTop = '6px';
+    label.innerHTML = `<span>${g.label}</span>`;
+    wrap.appendChild(label);
+
+    sets.forEach(set => {
+      const empty = !set.questions || set.questions.length === 0;
+      const best = getBestForSet(set.id);
+      const div = document.createElement('div');
+      div.className = 'quizset-card' + (empty ? ' locked' : '');
+      div.innerHTML = `
+        <div class="quizset-icon">${set.icon}</div>
+        <div class="quizset-body">
+          <div class="quizset-title">${set.title}</div>
+          <div class="quizset-desc">${set.desc}${best ? ` · <span style="color:var(--mint);">eng yaxshi: ${best}%</span>` : ''}</div>
+        </div>
+        <div class="quizset-count">${empty ? 'Tez orada' : set.questions.length + ' savol'}</div>
+      `;
+      div.addEventListener('click', () => {
+        if(empty){ showToast('Bu bo\'lim tez orada to\'ldiriladi'); return; }
+        askQuizMode(set);
+      });
+      wrap.appendChild(div);
     });
-    wrap.appendChild(div);
   });
+}
+
+/* Shu to'plam bo'yicha eng yaxshi natijani qaytaradi */
+function getBestForSet(setId){
+  const log = getTestLog().filter(t => t.setId === setId);
+  if(log.length === 0) return null;
+  return Math.max(...log.map(t => t.percent));
+}
+
+/* ============== TEST BOSHLASH OYNASI ============== */
+const startModal = document.getElementById('startModal');
+document.querySelectorAll('.mode-option').forEach(opt => {
+  opt.addEventListener('click', () => {
+    document.querySelectorAll('.mode-option').forEach(o => o.classList.remove('selected'));
+    opt.classList.add('selected');
+    quizMode = opt.dataset.mode;
+  });
+});
+document.getElementById('startModalCancel').addEventListener('click', () => {
+  startModal.classList.remove('show');
+  pendingSet = null;
+});
+document.getElementById('startModalGo').addEventListener('click', () => {
+  startModal.classList.remove('show');
+  if(pendingSet){ startQuiz(pendingSet); pendingSet = null; }
+});
+
+function askQuizMode(set){
+  pendingSet = set;
+  document.getElementById('startModalTitle').textContent = set.title;
+  document.getElementById('startModalDesc').textContent = `${set.questions.length} ta savol · rejimni tanlang`;
+  startModal.classList.add('show');
+}
+
+/* ============== TAYMER ============== */
+function fmtTime(sec){
+  const m = Math.floor(sec / 60);
+  const s = sec % 60;
+  return `${m}:${String(s).padStart(2,'0')}`;
+}
+function startTimer(){
+  stopTimer();
+  quizStartTime = Date.now();
+  const chip = document.getElementById('timerChip');
+  chip.style.display = 'flex';
+  if(quizMode === 'timed'){ questionDeadline = Date.now() + SECONDS_PER_QUESTION * 1000; }
+  timerInterval = setInterval(tickTimer, 250);
+  tickTimer();
+}
+function stopTimer(){
+  if(timerInterval){ clearInterval(timerInterval); timerInterval = null; }
+}
+function tickTimer(){
+  const chip = document.getElementById('timerChip');
+  const valueEl = document.getElementById('timerValue');
+  quizElapsedSec = Math.floor((Date.now() - quizStartTime) / 1000);
+
+  if(quizMode === 'timed'){
+    const left = Math.max(0, Math.ceil((questionDeadline - Date.now()) / 1000));
+    valueEl.textContent = fmtTime(left);
+    chip.classList.toggle('warn', left <= 10);
+    if(left === 0){
+      // vaqt tugadi — javobsiz keyingi savolga o'tamiz
+      const total = activeSet.questions.length;
+      if(currentIndex < total - 1){
+        currentIndex++;
+        renderQuestion();
+        questionDeadline = Date.now() + SECONDS_PER_QUESTION * 1000;
+        showToast("⏱ Vaqt tugadi — keyingi savol");
+      } else {
+        finishQuiz();
+      }
+    }
+  } else {
+    valueEl.textContent = fmtTime(quizElapsedSec);
+    chip.classList.remove('warn');
+  }
+}
+function resetQuestionDeadline(){
+  if(quizMode === 'timed'){ questionDeadline = Date.now() + SECONDS_PER_QUESTION * 1000; }
 }
 
 /* ============== QUIZ ============== */
@@ -2164,11 +3193,13 @@ function startQuiz(set){
   score = 0;
   streak = 0;
   quizFinished = false;
+  quizElapsedSec = 0;
   userAnswers = new Array(set.questions.length).fill(null);
   document.getElementById('quizSetTitle').textContent = set.title;
   showScreen('quiz');
   renderQuestion();
   updateClimb();
+  startTimer();
 }
 
 function renderQuestion(){
@@ -2209,6 +3240,7 @@ function selectAnswer(i){
   if(prev === null){
     if(isCorrect){
       score++; streak++;
+      setMaxCounter('maxStreak', streak);
       addXP(10);
       const el = allOpts[i];
       const rect = el.getBoundingClientRect();
@@ -2243,7 +3275,7 @@ function selectAnswer(i){
 
   // to'g'ri javobda avtomatik keyingi savolga, xatoda esa o'quvchi o'zi o'tadi
   if(isCorrect && currentIndex < total - 1){
-    setTimeout(() => { currentIndex++; renderQuestion(); }, 650);
+    setTimeout(() => { currentIndex++; renderQuestion(); resetQuestionDeadline(); }, 650);
   }
 }
 
@@ -2281,6 +3313,7 @@ function openQGrid(){
     cell.addEventListener('click', () => {
       currentIndex = i;
       renderQuestion();
+      resetQuestionDeadline();
       closeQGrid();
     });
     wrap.appendChild(cell);
@@ -2295,14 +3328,16 @@ qgridOverlay.addEventListener('click', (e) => { if(e.target === qgridOverlay) cl
 document.getElementById('qgridFinishBtn').addEventListener('click', () => { closeQGrid(); finishQuiz(); });
 
 document.getElementById('quizBackBtn').addEventListener('click', () => {
+  stopTimer();
+  document.getElementById('timerChip').style.display = 'none';
   showScreen('quizlist');
   renderQuizSets();
 });
 document.getElementById('prevQBtn').addEventListener('click', () => {
-  if(currentIndex > 0){ currentIndex--; renderQuestion(); }
+  if(currentIndex > 0){ currentIndex--; renderQuestion(); resetQuestionDeadline(); }
 });
 document.getElementById('nextQBtn').addEventListener('click', () => {
-  if(currentIndex < activeSet.questions.length - 1){ currentIndex++; renderQuestion(); }
+  if(currentIndex < activeSet.questions.length - 1){ currentIndex++; renderQuestion(); resetQuestionDeadline(); }
 });
 document.getElementById('finishQuizBtn').addEventListener('click', () => finishQuiz());
 
@@ -2315,10 +3350,20 @@ async function finishQuiz(){
     if(!ok) return;
   }
   quizFinished = true;
+  stopTimer();
+  document.getElementById('timerChip').style.display = 'none';
 
   const correctCount = activeSet.questions.reduce((acc, q, idx) => acc + (userAnswers[idx] === q.correct ? 1 : 0), 0);
   score = correctCount;
   const percent = Math.round((score / total) * 100);
+
+  // xatolar ro'yxatini yig'amiz
+  lastMistakes = [];
+  activeSet.questions.forEach((q, idx) => {
+    if(userAnswers[idx] !== q.correct){
+      lastMistakes.push({ q, given: userAnswers[idx] });
+    }
+  });
 
   document.getElementById('progressFill').style.width = '100%';
   document.getElementById('resultScore').textContent = score;
@@ -2326,12 +3371,29 @@ async function finishQuiz(){
   document.getElementById('statCorrect').textContent = score;
   document.getElementById('statWrong').textContent = total - score;
   document.getElementById('statPercent').textContent = `${percent}%`;
+  document.getElementById('statDuration').textContent = fmtTime(quizElapsedSec);
+  document.getElementById('timeStatRow').style.display = 'flex';
+
+  // xatolar tugmasi faqat xato bo'lsa ko'rinadi
+  document.getElementById('reviewMistakesBtn').style.display = lastMistakes.length ? '' : 'none';
 
   const isOlympiad = !!activeSet.olympiad;
-  const entry = { name: currentUser, score, total, percent, ts: Date.now(), set: activeSet.title };
+  const entry = {
+    name: currentUser, score, total, percent, ts: Date.now(),
+    set: activeSet.title, setId: activeSet.id,
+    durationSec: quizElapsedSec, mode: quizMode
+  };
   if(isOlympiad) entry.olympiad = true;
   await saveScoreToFirebase(entry);
   logTestResult(entry);
+  addDailyProgress(answeredCount);
+
+  // --- yutuq hisoblagichlari ---
+  markSetCompleted(activeSet.id);
+  if(activeSet.id && activeSet.id.endsWith('-retry')) bumpCounter('mistakeRetry');
+  if(quizMode === 'timed' && percent >= 90) bumpCounter('timedGood');
+  if(total >= 30 && quizElapsedSec > 0 && quizElapsedSec < 360 && percent >= 70) bumpCounter('fastFinish');
+  syncUserProfileToFirebase();
 
   if(percent === 100){ addXP(30); showToast("🏆 Ajoyib! 100% natija uchun bonus +30 XP"); }
 
@@ -2339,7 +3401,6 @@ async function finishQuiz(){
   const rankLabel = document.querySelector('#screen-result .rank-label');
   const viewLbBtn = document.getElementById('viewLbFromResult');
   if(isOlympiad){
-    // Olimpiada natijasi umumiy reytingga qo'shilmaydi
     rankBadge.textContent = '🏅';
     rankLabel.textContent = "Olimpiada natijasi — faqat sizga va o'qituvchingizga ko'rinadi";
     viewLbBtn.style.display = 'none';
@@ -2351,6 +3412,55 @@ async function finishQuiz(){
   }
   showScreen('result');
 }
+
+/* ============== XATOLAR USTIDA ISHLASH ============== */
+document.getElementById('reviewMistakesBtn').addEventListener('click', () => {
+  renderMistakes();
+  showScreen('mistakes');
+});
+document.getElementById('mistakesBackBtn').addEventListener('click', () => showScreen('result'));
+
+function renderMistakes(){
+  const list = document.getElementById('mistakesList');
+  list.innerHTML = '';
+  if(lastMistakes.length === 0){
+    list.innerHTML = '<div class="empty">Ajoyib! Bu testda xato yo\'q. 🎉</div>';
+    document.getElementById('retryMistakesBtn').style.display = 'none';
+    return;
+  }
+  document.getElementById('retryMistakesBtn').style.display = '';
+  const head = document.createElement('div');
+  head.className = 'sub';
+  head.style.marginBottom = '14px';
+  head.textContent = `${lastMistakes.length} ta savolda xato qildingiz. Ularni ko'rib chiqing:`;
+  list.appendChild(head);
+
+  lastMistakes.forEach((m, i) => {
+    const given = m.given === null ? "javob berilmagan" : m.q.options[m.given];
+    const div = document.createElement('div');
+    div.className = 'mistake-card';
+    div.innerHTML = `
+      <div class="mistake-q">${i+1}. ${m.q.q}</div>
+      <div class="mistake-line mistake-wrong">✕ Sizning javobingiz: ${given}</div>
+      <div class="mistake-line mistake-right">✓ To'g'ri javob: ${m.q.options[m.q.correct]}</div>
+      ${m.q.explain ? `<div class="mistake-expl">💡 ${m.q.explain}</div>` : ''}
+    `;
+    list.appendChild(div);
+  });
+}
+
+document.getElementById('retryMistakesBtn').addEventListener('click', () => {
+  if(lastMistakes.length === 0) return;
+  const retrySet = {
+    id: (activeSet ? activeSet.id : 'mistakes') + '-retry',
+    icon: '🔁',
+    title: 'Xatolar ustida ishlash',
+    desc: 'Faqat xato qilgan savollaringiz',
+    group: 'special',
+    questions: lastMistakes.map(m => m.q)
+  };
+  startQuiz(retrySet);
+});
 
 async function saveScoreToFirebase(entry){
   if(!db) return;
@@ -2377,14 +3487,53 @@ async function getAllScores(){
     return Object.values(val);
   }catch(e){ console.error('leaderboard fetch failed', e); return []; }
 }
+/* Har bir o'quvchi bo'yicha jamlangan natija:
+   - ball = har bir variantdagi ENG YAXSHI to'g'ri javoblar yig'indisi
+   - test soni = nechta xil variant ishlangani
+   - vaqt = o'sha eng yaxshi urinishlarga sarflangan umumiy vaqt
+   Saralash: ball ko'p bo'lgan tepada; ball teng bo'lsa — vaqti kam bo'lgan tepada */
 function bestScoresList(all){
-  const best = {};
-  all.forEach(e => { if(!best[e.name] || e.percent > best[e.name].percent) best[e.name] = e; });
-  return Object.values(best).sort((a,b) => b.percent - a.percent || a.ts - b.ts);
+  const byUser = {};
+  all.forEach(e => {
+    if(!e || !e.name) return;
+    const u = byUser[e.name] || (byUser[e.name] = { name: e.name, sets: {} });
+    const key = e.setId || e.set || 'default';
+    const prev = u.sets[key];
+    if(!prev || e.score > prev.score || (e.score === prev.score && (e.durationSec||0) < (prev.durationSec||0))){
+      u.sets[key] = e;
+    }
+  });
+
+  return Object.values(byUser).map(u => {
+    const entries = Object.values(u.sets);
+    const points = entries.reduce((s,e) => s + (e.score || 0), 0);
+    const totalQ = entries.reduce((s,e) => s + (e.total || 0), 0);
+    const timeSec = entries.reduce((s,e) => s + (e.durationSec || 0), 0);
+    const percent = totalQ ? Math.round((points / totalQ) * 100) : 0;
+    return {
+      name: u.name,
+      points,
+      testCount: entries.length,
+      timeSec,
+      percent,
+      score: points,
+      total: totalQ
+    };
+  }).sort((a,b) => b.points - a.points || a.timeSec - b.timeSec);
 }
+
+function fmtDuration(sec){
+  if(!sec) return '0 daq';
+  const h = Math.floor(sec/3600);
+  const m = Math.floor((sec%3600)/60);
+  if(h > 0) return `${h} s ${m} daq`;
+  if(m > 0) return `${m} daq`;
+  return `${sec} son`;
+}
+
 async function computeRank(myEntry){
   const list = bestScoresList(await getAllScores());
-  const idx = list.findIndex(e => e.name === myEntry.name && e.ts === myEntry.ts);
+  const idx = list.findIndex(e => e.name === myEntry.name);
   return idx >= 0 ? idx + 1 : list.length;
 }
 
@@ -2433,8 +3582,10 @@ async function renderLeaderboard(){
       <div class="me-row">
         <div class="me-pos">${myIdx+1}</div>
         ${avatarHtml(me.name, 'lb-avatar')}
-        <div class="me-name">${me.name}<span class="me-chip">SIZ</span></div>
-        <div class="me-score">${me.score}/${me.total} · ${me.percent}%</div>
+        <div class="me-name">${me.name}<span class="me-chip">SIZ</span>
+          <div class="lb-sub">${me.testCount} test · ${fmtDuration(me.timeSec)}</div>
+        </div>
+        <div class="me-score">${me.points}<div class="lb-ball">ball</div></div>
       </div>
     `;
   }
@@ -2460,7 +3611,8 @@ async function renderLeaderboard(){
           ${crowns[i] ? `<span class="podium-crown">${crowns[i]}</span>` : ''}
           <div class="podium-avatar${clickable}">${inner}</div>
           <div class="podium-name">${p.name}</div>
-          <div class="podium-score">${p.percent}%</div>
+          <div class="podium-score">${p.points} ball</div>
+          <div class="podium-sub">${p.testCount} test · ${fmtDuration(p.timeSec)}</div>
           <div class="podium-ribbon">${ribbons[i]}</div>
           <div class="podium-bar"></div>
         </div>
@@ -2477,8 +3629,10 @@ async function renderLeaderboard(){
     row.innerHTML = `
       <div class="lb-pos">${i+4}</div>
       ${avatarHtml(e.name, 'lb-avatar')}
-      <div class="lb-name">${e.name}</div>
-      <div class="lb-score">${e.score}/${e.total} · ${e.percent}%</div>
+      <div class="lb-name">${e.name}
+        <div class="lb-sub">${e.testCount} test · ${fmtDuration(e.timeSec)}</div>
+      </div>
+      <div class="lb-score">${e.points}<div class="lb-ball">ball</div></div>
     `;
     lbList.appendChild(row);
   });
