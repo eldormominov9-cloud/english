@@ -349,17 +349,7 @@
     width:34px; height:34px; border-radius:10px; background: var(--ink-soft); border:1px solid var(--line);
     color: var(--paper); font-size:15px; display:flex; align-items:center; justify-content:center; flex-shrink:0;
   }
-  .quiz-title{
-    flex:1; min-width:0; font-family:'Space Grotesk','Inter',sans-serif; font-size:15px; font-weight:600; text-align:center;
-    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
-  }
-  .quiz-finish-top{
-    height:34px; padding:0 11px; border-radius:10px; flex-shrink:0;
-    background: rgba(255,210,63,0.14); border:1px solid rgba(255,210,63,0.45); color: var(--gold);
-    font-family:inherit; font-size:11.5px; font-weight:700; letter-spacing:0.01em; white-space:nowrap;
-    display:flex; align-items:center; justify-content:center;
-  }
-  .quiz-finish-top:active{ background: rgba(255,210,63,0.24); }
+  .quiz-title{ flex:1; font-family:'Space Grotesk','Inter',sans-serif; font-size:15px; font-weight:600; text-align:center; }
   .quiz-nav{ display:flex; gap:8px; margin-top:16px; }
   .quiz-nav-btn{ flex:1; }
   .quiz-nav-btn:disabled{ opacity:0.35; }
@@ -684,19 +674,6 @@
   .mistake-right{ color: var(--mint); }
   .mistake-expl{ font-size:12px; color: rgba(247,244,236,0.65); margin-top:8px; line-height:1.5; font-style:italic; }
 
-  /* --- to'liq tahlil: to'g'ri javob kartochkasi --- */
-  .mistake-card.ok{ border-color: rgba(61,220,151,0.4); }
-  .mistake-card.ok .mistake-num{
-    background: rgba(61,220,151,0.18); border-color: rgba(61,220,151,0.45); color: var(--mint);
-  }
-  .mistake-line.mistake-picked{ color: var(--mint); }
-  .review-tabs{ display:flex; gap:8px; margin-bottom:14px; }
-  .review-tab{
-    flex:1; padding:9px 6px; border-radius:11px; font-size:12px; font-weight:600; font-family:inherit;
-    background: var(--ink-soft); border:1px solid var(--line); color: rgba(247,244,236,0.6);
-  }
-  .review-tab.active{ background: var(--gold); color: var(--ink); border-color: var(--gold); }
-
   /* ============ KUNLIK MAQSAD ============ */
   .goal-card{
     display:flex; align-items:center; gap:16px; background: var(--ink-soft);
@@ -777,17 +754,6 @@
     font-size:8.5px; font-weight:700; background: rgba(255,255,255,0.12);
     color: rgba(247,244,236,0.6); border-radius:99px; padding:2px 7px; margin-left:5px;
     vertical-align:middle; letter-spacing:0.03em;
-  }
-  .tg-link{
-    display:inline-flex; align-items:center; gap:4px; margin-top:4px;
-    font-family:'IBM Plex Mono', monospace; font-size:10.5px; font-weight:600; color:#54a9eb;
-    text-decoration:none;
-  }
-  .tg-link svg{ width:10px; height:10px; flex-shrink:0; }
-  .tg-link:active{ opacity:0.65; }
-  .tg-noinfo{
-    display:block; font-size:9.5px; color: rgba(247,244,236,0.32); margin-top:4px;
-    font-family:'IBM Plex Mono', monospace;
   }
   .podium-avatar img{ width:100%; height:100%; object-fit:cover; border-radius:50%; }
   .podium-avatar{ overflow:hidden; }
@@ -1045,17 +1011,12 @@
     <div class="quiz-topbar">
       <button class="quiz-back" id="quizBackBtn">&#8592;</button>
       <div class="quiz-title" id="quizSetTitle">Test</div>
+      <div class="timer-chip" id="timerChip" style="display:none;">⏱ <span id="timerValue">00:00</span></div>
       <button class="quiz-grid-btn" id="quizGridBtn">&#9638;</button>
-      <button class="quiz-finish-top" id="finishQuizBtn">Yakunlash</button>
     </div>
     <div class="progress-row">
       <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
-      <div class="timer-chip" id="timerChip" style="display:none;">⏱ <span id="timerValue">00:00</span></div>
       <div class="progress-num" id="progressNum">1/10</div>
-    </div>
-    <div class="section-box" id="sectionBox" style="display:none;">
-      <div class="section-label" id="sectionLabel"></div>
-      <div class="section-task" id="sectionTask"></div>
     </div>
     <div class="passage-box" id="passageBox" style="display:none;">
       <div class="passage-label">📖 Matnni o'qing</div>
@@ -1072,6 +1033,7 @@
       <button class="btn-secondary quiz-nav-btn" id="prevQBtn" style="margin-top:0;">&#8592; Oldingi</button>
       <button class="btn-secondary quiz-nav-btn" id="nextQBtn" style="margin-top:0;">Keyingi &#8594;</button>
     </div>
+    <button class="btn-primary" id="finishQuizBtn" style="margin-top:12px;">Testni tugatish</button>
 
     <!-- Tog'ga chiqish yo'lakchasi -->
     <div class="climb-track" id="climbTrack">
@@ -1107,7 +1069,6 @@
         <div>
           <div style="font-family:'Space Grotesk',sans-serif; font-size:17px; font-weight:700;" id="studentModalName"></div>
           <div style="font-size:11.5px; color:rgba(247,244,236,0.5);" id="studentModalMeta"></div>
-          <div id="studentModalTg"></div>
         </div>
       </div>
       <div class="student-grid" id="studentModalStats"></div>
@@ -1153,13 +1114,8 @@
   <div class="screen" id="screen-mistakes">
     <div class="quiz-topbar">
       <button class="quiz-back" id="mistakesBackBtn">&#8592;</button>
-      <div class="quiz-title" id="mistakesTitle">Javoblar tahlili</div>
+      <div class="quiz-title">Xatolar ustida ishlash</div>
       <div style="width:34px;"></div>
-    </div>
-    <div class="review-tabs" id="reviewTabs" style="display:none;">
-      <button class="review-tab active" data-rtab="all">Barchasi</button>
-      <button class="review-tab" data-rtab="wrong">Xatolar</button>
-      <button class="review-tab" data-rtab="right">To'g'ri</button>
     </div>
     <div id="mistakesList"></div>
     <button class="btn-primary" id="retryMistakesBtn" style="margin-top:16px;">🔁 Faqat xatolarni qayta ishlash</button>
@@ -2535,793 +2491,6 @@ const OLYMPIAD_2025_11 = [
 { q:"What is another long-term benefit of creating recovery gardens?", options:["They protect natural habitats by welcoming various species.","They remove the need for hospitals to use expensive medicines.","They stop patients from needing any further medical treatment.","They replace the function of laboratories in large hospitals."], correct:0, passage:P25_11_GARDENS, explain:"Matnda: bu bog'lar qushlar, kapalaklar va asalarilarni jalb qilib, biologik xilma-xillikni qo'llab-quvvatlaydi." }
 ];
 
-/* ---------- 4h) ATTESTATSIYA ---------- */
-const P_ATT_READING = "Reading regularly offers a wide range of benefits for the mind and body. Not only does it improve vocabulary and comprehension skills, but it also enhances focus and concentration. Studies have shown that reading stimulates the brain, keeping it active and engaged, which can help prevent cognitive decline as we age. Moreover, reading can serve as a relaxing activity, reducing stress levels and promoting better sleep.";
-
-const P_ATT_EXERCISE = "Exercise is essential for maintaining good health. Regular physical activity can help reduce the risk of chronic diseases such as heart disease, diabetes, and obesity. It also strengthens muscles and bones, improving overall physical fitness. In addition, exercise releases endorphins, the body's natural mood boosters, which can help reduce symptoms of depression and anxiety. Even simple activities like walking or cycling can have significant health benefits.";
-
-const P_ATT_HELPING = "The tendency to help others begins quite early. Many children become sensitive to other people's emotional states at a very young age. As they grow older, children's efforts at helping become more elaborate. Their helping behaviors often follow the examples set by those around them and are usually supported and encouraged by the norms communicated through the child's reference groups. In our culture, these norms result in praise and other rewards for helpfulness and scolding for selfishness. ___.";
-
-const ATTESTATION_2 = [
-{ q:"Find the homophones.", options:["by — bye","bar — bar","good — God","see — saw"], correct:0,
-  explain:"Homophone — yozilishi har xil, lekin talaffuzi bir xil so'zlar. \"by\" va \"bye\" ikkalasi ham /baɪ/ deb o'qiladi. ✗ B) \"bar — bar\" bir xil so'zning takrori (homonim), homophone emas. ✗ C) \"good\" /ɡʊd/ va \"God\" /ɡɒd/ — unli tovushlari boshqacha. ✗ D) \"see\" va \"saw\" — bir fe'lning turli shakllari, talaffuzi butunlay boshqa." },
-
-{ q:"In narrow phonetic transcription, which of the following would indicate that a vowel is lengthened?", options:["A colon (:)","A tilde (~)","A vertical line (|)","A superscript number (1, 2, 3)"], correct:0,
-  explain:"IPA'da unli cho'ziqligi ikki nuqtaga o'xshash [ː] belgisi bilan ko'rsatiladi: /iː/, /ɑː/, /uː/. ✗ B) tilda (~) unlining burun tovushiga aylanishini bildiradi (nasalization). ✗ C) vertikal chiziq (|) gapdagi pauzani (intonatsiya chegarasini) bildiradi. ✗ D) yuqoriga yozilgan raqamlar ohang (ton) tillarida ohangni ko'rsatadi." },
-
-{ q:"Which of the following would be an appropriate transcription of the English word \"purchased\" in IPA?", options:["/ˈpɜːʧəsd/","/ˈpɜːʧɪzd/","/ˈpɜːʧɪd/","/ˈpɜːtʃɪzd/"], correct:1,
-  explain:"Rasmiy javob kaliti bo'yicha — B. ⚠️ ESLATMA: bu savolda kamchilik bor. Birinchidan, B va D variantlari aslida bir xil (ʧ va tʃ — bitta tovushning ikki xil yozilishi). Ikkinchidan, \"purchased\" so'zining to'g'ri talaffuzi /ˈpɜːtʃəst/ — jarangsiz /s/ dan keyin -ed qo'shimchasi /t/ bo'lib o'qiladi, /d/ emas. ✗ C) /ˈpɜːʧɪd/ da /s/ tovushi umuman tushib qolgan." },
-
-{ q:"Which sentence correctly uses the past perfect continuous tense?", options:["I have been working here for ten years.","She had been waiting for an hour before the train arrived.","By the time we arrived, they had been working for hours.","They will have been working on the project for three months by then."], correct:1,
-  explain:"Past Perfect Continuous = had been + V-ing: o'tmishdagi biror nuqtagacha davom etgan harakat. B — \"had been waiting\" ✓. ⚠️ ESLATMA: C variant (\"had been working\") ham grammatik jihatdan aynan shu zamon — savolda ikkita to'g'ri javob bor. ✗ A) \"have been working\" — Present Perfect Continuous. ✗ D) \"will have been working\" — Future Perfect Continuous." },
-
-{ q:"In which sentence is the present perfect tense used incorrectly?", options:["She has lived in London for five years.","I have seen him yesterday.","We have finished the project.","They have already left the building."], correct:1,
-  explain:"Present Perfect aniq o'tgan vaqt ko'rsatkichi (yesterday, last week, in 2010) bilan ishlatilmaydi — to'g'risi \"I saw him yesterday\" (Past Simple). ✓ A) \"for five years\" — davomiylik, Present Perfect uchun to'g'ri. ✓ C) natijasi hozir muhim bo'lgan tugallangan ish. ✓ D) \"already\" — Present Perfect bilan keladigan tipik so'z." },
-
-{ q:"Which of the following sentences correctly uses the future perfect tense?", options:["By next year, I will have completed my degree.","By next year, I will complete my degree.","By next year, I will be completing my degree.","By next year, I will have been completing my degree."], correct:0,
-  explain:"Future Perfect = will have + V3: kelajakdagi biror vaqtgacha tugaydigan ish. \"By next year\" shu zamonni talab qiladi. ✗ B) \"will complete\" — oddiy Future Simple. ✗ C) \"will be completing\" — Future Continuous. ✗ D) \"will have been completing\" — Future Perfect Continuous, bu yerda mantiqan mos emas, chunki \"degree\" tugallanadigan natija." },
-
-{ q:"Which of the following sentences is grammatically correct?", options:["She insisted on to pay the bill.","She insisted to pay the bill.","She insisted on paying the bill.","She insisted paying the bill."], correct:2,
-  explain:"insist on + V-ing — barqaror birikma (predlogdan keyin doim gerundiy keladi). ✗ A) predlogdan keyin \"to pay\" (infinitiv) kelmaydi. ✗ B) \"insist\" to'g'ridan-to'g'ri infinitiv olmaydi. ✗ D) \"on\" predlogi tushib qolgan." },
-
-{ q:"Which verb is typically followed by the infinitive, not the gerund?", options:["Recommend","Stop","Promise","Avoid"], correct:2,
-  explain:"promise to do — bu fe'l infinitiv talab qiladi (He promised to help). ✗ A) recommend doing/that... — gerundiy bilan keladi. ✗ B) stop doing (ishni to'xtatmoq) — gerundiy; \"stop to do\" boshqa ma'no beradi (biror ish qilish uchun to'xtamoq). ✗ D) avoid doing — faqat gerundiy." },
-
-{ q:"Choose the correct sentence: \"I look forward to...\"", options:["meet you soon.","meeting you soon.","meet you tomorrow.","to meeting you soon."], correct:1,
-  explain:"look forward to iborasidagi \"to\" — infinitiv belgisi emas, balki predlog, shuning uchun undan keyin gerundiy (-ing) keladi. ✗ A va C) \"meet\" — infinitiv shakl, mos emas. ✗ D) \"to\" ikki marta takrorlangan." },
-
-{ q:"Which of the following words contains a prefix that means \"opposite of\"?", options:["Unhappy","Misunderstand","Irregular","All of the above"], correct:3,
-  explain:"Rasmiy javob — D. un- (unhappy) va ir- (irregular) aniq inkor/qarama-qarshilik bildiradi. ⚠️ ESLATMA: qat'iy aytganda mis- \"noto'g'ri, xato qilib\" degan ma'noni beradi (misunderstand = noto'g'ri tushunmoq), \"qarama-qarshi\" emas — shuning uchun bu savol munozarali, lekin kalitda D deb belgilangan." },
-
-{ q:"Which suffix is added to the verb \"imagine\" to form a noun?", options:["-ment","-able","-ity","-ness"], correct:0,
-  explain:"⚠️ DIQQAT: bu savolda kalitdagi javob (A, -ment) noto'g'ri — \"imaginement\" degan so'z ingliz tilida yo'q. \"Imagine\" fe'lidan ot yasovchi haqiqiy qo'shimcha — -ation: imagine → imagination. ✗ B) -able sifat yasaydi (imaginable). ✗ C) -ity odatda sifatdan ot yasaydi. ✗ D) -ness ham sifatdan ot yasaydi (happiness). Savol variantlarida to'g'ri javob umuman keltirilmagan." },
-
-{ q:"The word \"subterranean\" contains which prefix?", options:["Sub-","Subter-","Inter-","Pre-"], correct:0,
-  explain:"sub- = \"ost, pastda\" (lotincha sub + terra \"yer\") → subterranean = yer ostidagi. ✗ B) \"subter-\" alohida prefiks sifatida qaralmaydi. ✗ C) inter- = orasida (international). ✗ D) pre- = oldin (preview)." },
-
-{ q:"Which of the following is the synonym of \"incredible\"?", options:["Ordinary","Unbelievable","Predictable","Insignificant"], correct:1,
-  explain:"incredible = ishonib bo'lmaydigan, hayratlanarli = unbelievable. ✗ A) ordinary = oddiy — aksincha ma'no. ✗ C) predictable = oldindan aytsa bo'ladigan. ✗ D) insignificant = ahamiyatsiz." },
-
-{ q:"Which idiom means \"to do something at the last possible moment\"?", options:["To kill two birds with one stone","To bite the bullet","To burn the midnight oil","To leave it until the 11th hour"], correct:3,
-  explain:"at the 11th hour = eng oxirgi daqiqada. ✗ A) bir o'q bilan ikki quyon otmoq (bir ishda ikki maqsadga erishmoq). ✗ B) tishni tishga bosib, og'ir ishga chidamoq. ✗ C) tunda kech qolib ishlamoq yoki dars qilmoq." },
-
-{ q:"Which of the following idioms refers to a difficult or impossible task?", options:["A piece of cake","A tall order","A bed of roses","A walk in the park"], correct:1,
-  explain:"a tall order = bajarish juda qiyin (deyarli imkonsiz) vazifa. ✗ A) piece of cake = juda oson ish. ✗ C) bed of roses = farovon, muammosiz hayot. ✗ D) walk in the park = oson ish. Qolgan uchtasi ham \"oson/qulay\" ma'nosida — savolga qarama-qarshi." },
-
-{ q:"Which American slang term means \"to misunderstand or misinterpret something\"?", options:["To miss the boat","To drop the ball","To spill the beans","To put your foot in it"], correct:0,
-  explain:"Rasmiy javob — A. \"Miss the boat\" ko'pincha \"imkoniyatni boy bermoq\", ba'zan esa \"gapning mag'zini tushunmaslik\" ma'nosida ishlatiladi. ⚠️ ESLATMA: \"noto'g'ri tushunmoq\" ma'nosining aniq idiomasi — \"to get the wrong end of the stick\", u variantlar orasida yo'q. ✗ B) drop the ball = xato qilib ishni buzmoq. ✗ C) spill the beans = sirni oshkor qilmoq. ✗ D) put your foot in it = noo'rin gap aytib qo'ymoq." },
-
-{ q:"Which of the following is a British slang term meaning \"an easy task\"?", options:["Cakewalk","Walk in the park","Piece of pie","Piece of cake"], correct:1,
-  explain:"Rasmiy javob — B (walk in the park). ⚠️ ESLATMA: bu savol munozarali. \"Piece of cake\" (D) aynan britan kelib chiqishiga ega (Qirollik havo kuchlari jargonidan) va \"oson ish\" ma'nosidagi eng mashhur britan idiomasi hisoblanadi; \"walk in the park\" esa ko'proq amerikacha. ✗ A) cakewalk — amerikacha. ✗ C) \"piece of pie\" — mavjud bo'lmagan, o'ylab topilgan ibora." },
-
-{ q:"Which pragmatic marker would you most likely use in a conversation to show agreement or acknowledgment?", options:["Well","Hm","So","Anyway"], correct:1,
-  explain:"\"Hm\" (mhm) — suhbatdoshni tinglayotganingizni va rozi ekaningizni bildiruvchi qisqa signal (backchannel). ✗ A) \"Well\" — ikkilanish yoki e'tirozdan oldin ishlatiladi. ✗ C) \"So\" — xulosa yoki mavzuni boshlash uchun. ✗ D) \"Anyway\" — mavzuni o'zgartirish yoki qaytish uchun." },
-
-{ q:"Which of the following is an example of a \"commissive\" speech act?", options:["\"I promise I will finish the report by tomorrow.\"","\"Can you pass me the salt?\"","\"That is a great idea!\"","\"I apologize for being late.\""], correct:0,
-  explain:"Commissive — so'zlovchi o'zini kelajakdagi ishga majbur qiladigan nutqiy akt (va'da, qasam, taklif). \"I promise...\" ✓. ✗ B) directive — tinglovchini biror ishga undash. ✗ C) expressive — baho, his-tuyg'u bildirish. ✗ D) expressive — kechirim so'rash." },
-
-{ q:"Which sentence uses indirect speech to make a polite request?", options:["\"Give me that document.\"","\"Can you please give me that document?\"","\"I need that document now.\"","\"Would you mind giving me that document?\""], correct:3,
-  explain:"\"Would you mind + V-ing\" — eng bilvosita va eng xushmuomala so'rov shakli. ✗ A) buyruq gap — to'g'ridan-to'g'ri. ✗ B) muloyim, lekin baribir to'g'ridan-to'g'ri savol shakli. ✗ C) o'z ehtiyojini bildirish, so'rov emas." },
-
-{ q:"Which of the following utterances is an example of \"face-threatening\" behavior in politeness theory?", options:["\"Could you open the window?\"","\"Give me that now.\"","\"I would like to kindly ask if you could open the window.\"","\"I'm sorry, could you please open the window?\""], correct:1,
-  explain:"Face-threatening act — suhbatdoshning \"yuzi\"ga (obro'si, erkinligiga) tahdid soladigan qo'pol, to'g'ridan-to'g'ri buyruq. \"Give me that now\" ✓. ✗ A, C, D) barchasida yumshatuvchi vositalar bor (could, would like to, I'm sorry) — bular aksincha yuzni saqlash strategiyasi." },
-
-{ q:"In computational linguistics, what does \"lemmatization\" refer to?", options:["The process of identifying a word's base or root form","The creation of algorithms to detect errors in syntax","The translation of idiomatic phrases into machine-readable format","The process of converting spoken language into text"], correct:0,
-  explain:"Lemmatization — so'zning lug'aviy asosiy shaklini (lemma) aniqlash: running → run, better → good. ✗ B) sintaktik tahlil/tekshiruv boshqa jarayon. ✗ C) mashina tarjimasi sohasi. ✗ D) nutqni matnga aylantirish — speech recognition." },
-
-{ q:"Which of the following technologies is used in language processing to automatically identify emotions in a piece of text?", options:["Natural language processing (NLP)","Sentiment analysis","Part-of-speech tagging","Machine translation"], correct:1,
-  explain:"Sentiment analysis — matndagi hissiy bo'yoqni (ijobiy/salbiy/neytral) avtomatik aniqlash. ✗ A) NLP — bu butun sohaning umumiy nomi, aniq vazifa emas. ✗ C) so'z turkumlarini belgilash. ✗ D) tillar orasida tarjima qilish." },
-
-{ q:"Which of the following is a British English term for what Americans call a \"flashlight\"?", options:["Torch","Lantern","Beacon","Bulb"], correct:0,
-  explain:"Britaniyada qo'l fonari — torch, Amerikada — flashlight. ✗ B) lantern = chiroq (fonus, osma chiroq). ✗ C) beacon = mayoq, signal chirog'i. ✗ D) bulb = lampochka." },
-
-{ q:"Which of the following words is used differently in British and American English?", options:["Biscuit","Computer","Book","Television"], correct:0,
-  explain:"Biscuit: Britaniyada — quruq pechenye, Amerikada — yumshoq non-bulochka (AQShda pechenye \"cookie\" deyiladi). ✗ B, C, D) computer, book, television ikkala variantda ham bir xil ma'noda ishlatiladi." },
-
-{ q:"Which of the following sentences would be considered the most formal?", options:["\"I hope you're doing well.\"","\"I trust you are doing well.\"","\"I'm doing well, thanks!\"","\"Hope you're good.\"" ], correct:1,
-  explain:"\"I trust you are doing well\" — rasmiy yozishmalarda ishlatiladigan eng rasmiy shakl (qisqartmasiz, \"trust\" fe'li bilan). ✗ A) neytral, o'rtacha rasmiylik. ✗ C) javob gapi, norasmiy. ✗ D) ega tushirilgan, qisqartmali — eng norasmiy." },
-
-{ q:"Which of the following sentences is an example of informal writing?", options:["\"Please feel free to contact me at your earliest convenience.\"","\"Let me know if you need any help with this.\"","\"I look forward to your response.\"","\"Kindly confirm receipt of this email.\""], correct:1,
-  explain:"\"Let me know...\" — sodda, kundalik so'zlashuvga yaqin, norasmiy uslub. ✗ A) \"at your earliest convenience\" — rasmiy klishe. ✗ C) xat yakunidagi rasmiy ibora. ✗ D) \"Kindly confirm receipt\" — ish yuritishdagi rasmiy til." },
-
-{ q:"Cynthia: I'm in Professor Quinn's political science class. She told us that she'd put some articles on reserve for her class.\nTom: Yes, those would be at the reserve desk.\nCynthia: ____\nTom: Just a student ID is okay with them, I think.", options:["What are they about?","I'm a little bit confused about the articles.","Do I need a library card to look at them?","I think I'd better study on the computer."], correct:2,
-  explain:"Tomning javobi (\"Talaba guvohnomasi yetarli\") aynan hujjat talabi haqidagi savolga mos keladi. ✗ A) maqolalar mazmuni haqidagi savolga bunday javob berilmaydi. ✗ B) bu savol emas, umumiy shikoyat. ✗ D) kompyuterda o'qish haqidagi fikr — javob bilan bog'lanmaydi." },
-
-{ q:"Make up the story.\n1. It is situated on a high hill.\n2. The Castle is made of stone.\n3. Nowadays the Castle serves as a museum.\n4. Its people were brave and fought against invaders.\n5. Hiffer Castle is in the Netherlands.", options:["5, 1, 2, 4, 3","1, 2, 4, 3, 5","2, 1, 5, 4, 3","5, 3, 2, 1, 4"], correct:0,
-  explain:"Matn mantiqiy tartibda: avval ob'ekt tanishtiriladi (5 — qal'a qayerda), keyin joylashuvi (1 — tepalikda), tuzilishi (2 — toshdan), tarixi (4 — o'tmishda jasur xalq), oxirida bugungi holati (3 — hozir muzey). ✗ B) 5-gap (tanishtiruv) oxirida qolgan. ✗ C) \"It\" olmoshi nimaga tegishli ekani hali ma'lum emas. ✗ D) hozirgi holat tarixdan oldin kelgan." },
-
-{ q:"Choose the irrelevant sentence.\n(I) To an outsider, Istanbul may at first seem like a Western city. (II) The Western dress, the many new buildings, the traffic problems all make the city seem very modern. (III) But there is another side to this great city, its rich past as the capital of the Ottoman Empire. (IV) In the narrow back streets, the bazaars, and the mosques, this past seems very near and real. (V) The Blue Mosque is one of the best examples of Islamic architecture in Istanbul.", options:["I","II","III","IV","V"], correct:4,
-  explain:"Matnning asosiy g'oyasi — Istanbulning zamonaviy ko'rinishi va tarixiy o'tmishi o'rtasidagi qarama-qarshilik. V gap esa bitta masjid haqidagi alohida fakt bo'lib, bu qarama-qarshilikka hissa qo'shmaydi. ✗ I va II) shahar zamonaviy ko'rinishini ochib beradi. ✗ III) qarama-qarshilikni kiritadi. ✗ IV) o'tmishning qayerda seziladi — III ni to'ldiradi. Diqqat: bu savolda 5 ta variant bor." },
-
-{ q:"Continue the text.", passage:P_ATT_HELPING, options:["Thus, an adult's tendency to help others appears related to numerous characteristics","Psychologists thought it unlikely that everyone in the neighborhood was helpful","The clarity of someone's need for help has a major impact on whether others provide help","Eventually, just as they internalize, or adopt, other social norms, most children come to believe that it is good to be helpful"], correct:3,
-  explain:"Matn bolalarning yordam berish odati ijtimoiy me'yorlar orqali shakllanishini bosqichma-bosqich tushuntiradi; D shu fikrning mantiqiy yakuni (bolalar bu me'yorni ichdan qabul qiladi). ✗ A) kattalar haqida — matn bolalar haqida. ✗ B) mutlaqo boshqa tadqiqot mavzusi. ✗ C) yordam berish qarorining boshqa omili haqida, matn oqimiga ulanmaydi." },
-
-{ q:"What is one benefit of reading regularly mentioned in the passage?", passage:P_ATT_READING, options:["It improves physical strength.","It enhances focus and concentration.","It increases social media engagement.","It decreases mental engagement."], correct:1,
-  explain:"Matnda aniq aytilgan: o'qish diqqat va konsentratsiyani kuchaytiradi. ✗ A) jismoniy kuch haqida matnda gap yo'q. ✗ C) ijtimoiy tarmoq umuman tilga olinmagan. ✗ D) matn aksincha — miya faolligini oshirishini aytadi." },
-
-{ q:"According to the passage, how does reading affect stress levels?", passage:P_ATT_READING, options:["It increases stress.","It has no effect on stress.","It reduces stress.","It causes anxiety."], correct:2,
-  explain:"Matnning oxirgi jumlasi: o'qish stress darajasini pasaytiradi va uyquni yaxshilaydi. ✗ A va D) matnda aytilganning teskarisi. ✗ B) matn ta'sir borligini aniq bildiradi." },
-
-{ q:"What is one health benefit of exercise mentioned in the passage?", passage:P_ATT_EXERCISE, options:["It can increase the risk of chronic diseases.","It improves flexibility only.","It strengthens muscles and bones.","It has no effect on mental health."], correct:2,
-  explain:"Matnda: mashq mushak va suyaklarni mustahkamlaydi. ✗ A) aksincha — surunkali kasalliklar xavfini kamaytiradi. ✗ B) \"faqat egiluvchanlik\" — matnda bir nechta foyda sanalgan, \"only\" so'zi uni noto'g'ri qiladi. ✗ D) matn endorfinlar orqali ruhiy holatga ta'sirini alohida ta'kidlaydi." },
-
-{ q:"How does exercise affect mood, according to the passage?", passage:P_ATT_EXERCISE, options:["It makes people feel more anxious.","It reduces symptoms of depression and anxiety.","It has no impact on mood.","It causes mood swings."], correct:1,
-  explain:"Matnda: mashq endorfin ajratib, depressiya va xavotir alomatlarini kamaytiradi. ✗ A va D) matndagi fikrga teskari. ✗ C) matn kayfiyatga ta'sir borligini aniq aytadi." },
-
-{ q:"PT ta'lim maqsadini aniqlang.", options:["Mikro maqsadlarga aylantirish","Mavzu bo'yicha tashhislanuvchan tarzda o'rnatishni","Mavzu bo'yicha umumiy belgilashda taqozo etadi","Rivojlantiruvchi va shakllantiruvchi"], correct:3,
-  explain:"Rasmiy javob kaliti bo'yicha — D. ⚠️ ESLATMA: ko'pchilik pedagogika manbalarida pedagogik texnologiyaning asosiy talabi sifatida maqsadning tashxislanuvchan (diagnostik) qo'yilishi ko'rsatiladi — bu B variantga mos keladi. Savol matni noaniq tuzilgan, shuning uchun kalitni tekshirib ko'rishni tavsiya qilaman." },
-
-{ q:"Didaktik jarayon strukturasi ...", options:["Motiv bosqich, o'quv-bilim faoliyati va boshqaruvdan iborat","o'quvchi va o'qituvchining birgalikdagi faoliyatidan iborat","o'quvchining xususiy-o'rganuvchanlik faoliyatidan iborat","Ta'lim va tarbiya berish"], correct:0,
-  explain:"Didaktik jarayon uch komponentdan iborat: motivatsion bosqich, o'quv-bilish faoliyati va boshqaruv. ✗ B) bu didaktik jarayonning ta'rifi emas, ishtirokchilari. ✗ C) faqat bitta tomonning faoliyati — jarayon to'liq emas. ✗ D) juda umumiy, struktura emas." },
-
-{ q:"O'quvchining o'quv-bilim faoliyati tuzilmasi.", options:["To'g'ri va teskari aloqadan iborat","Mo'ljalli, boshqaruvchi, tekshiruvchi, kuzatuvchi harakatlar bosqichidan iborat","Boshqarishning ob'ekt va sub'ektlaridan tashkil topgan","Muloqotmandlik va tashkilotchilik"], correct:1,
-  explain:"O'quv-bilish faoliyati mo'ljal olish, boshqarish, tekshirish va kuzatish harakatlaridan tashkil topadi. ✗ A) to'g'ri va teskari aloqa — boshqaruv tizimiga oid tushuncha. ✗ C) boshqaruv tuzilmasi haqida. ✗ D) o'qituvchining kasbiy sifatlari." },
-
-{ q:"Test — bu", options:["Topshiriq","Sinov","Topshiriq va etalon","Nazorat"], correct:3,
-  explain:"Rasmiy javob kaliti bo'yicha — D (nazorat). ⚠️ DIQQAT: pedagogika adabiyotlarida keng tarqalgan klassik ta'rif (V. Bespalko) — \"Test — bu topshiriq va uning etaloni\", ya'ni C varianti. Kalitdagi javob shu ta'rifga zid, uni qayta tekshirishni tavsiya qilaman." },
-
-{ q:"O'qitish jarayonini tashkil etishda bir muncha keng tarqalgan yondashuvlarni belgilang.", options:["Individual, guruhli, frontal","Izohli-tasvirli, texnologik, ijodiy","Stapionar, erkin-eksternat","Nazariy va amaliy"], correct:0,
-  explain:"O'quv jarayonini tashkil etishning asosiy shakllari — individual, guruhli va frontal ish. ✗ B) bular o'qitish metodlari tasnifi. ✗ C) ta'lim olish shakllari (statsionar, eksternat). ✗ D) bilimning turlari haqida." },
-
-{ q:"Pedagogik texnologiyaning didaktik maqsadlari bu — ...", options:["Talaba, ta'lim, tarbiya, maqsadi, ta'lim, tarbiya mazmuni","Talaba, o'qituvchi, o'quv materiallari","Kommunikativ vositalar","Rivojlantiruvchi maqsad"], correct:3,
-  explain:"Kalit bo'yicha — D. Didaktik maqsadlar qatorida rivojlantiruvchi maqsad alohida ajratiladi (ta'limiy va tarbiyaviy maqsadlar bilan bir qatorda). ✗ A va B) bular maqsad emas, ta'lim jarayonining tarkibiy qismlari. ✗ C) kommunikativ vositalar — maqsad emas, vosita." },
-
-{ q:"O'quv faoliyatini boshqarish haqidagi sohalar quyidagi javoblarning qaysi birida to'g'ri ko'rsatilgan?", options:["o'qitish nazariyasi","o'qitish texnologiyasi","o'qitish texnikasi","Barcha javoblar to'g'ri"], correct:3,
-  explain:"O'quv faoliyatini boshqarish masalasi uchala soha — nazariya, texnologiya va texnika doirasida o'rganiladi, shuning uchun D to'g'ri. ✗ A, B, C) har biri alohida olinganda javob to'liq bo'lmaydi." },
-
-{ q:"Muloqotning interaktiv jihati —", options:["Muloqotga kirishuvchilarning hatti-harakatlari orqali ta'sir o'tkazish jarayoni","Muloqotga kirishuvchilarning o'zaro bir-birlarini idrok qilish jarayoni","Muloqotga kirishuvchilarning axborot ayriboshlash jarayoni","Shaxslararo munosabatlarning mexanizmlari"], correct:0,
-  explain:"Muloqotning interaktiv tomoni — ishtirokchilarning harakatlar orqali bir-biriga ta'sir ko'rsatishi va o'zaro hamkorligi. ✗ B) bu perseptiv jihat (idrok etish). ✗ C) bu kommunikativ jihat (axborot almashish). ✗ D) umumiy psixologik tushuncha, muloqotning jihati emas." },
-
-{ q:"Pedagogik mahorat bu —", options:["Pedagogik jarayonning barcha shakllarini eng qulay va samarali holatda tashkil etish, ularni shaxs kamolati maqsadlari tomon yo'naltirish","Tarbiyalanuvchilarda dunyoqarash, qobiliyatni shakllantirish","Tarbiyalanuvchilarda jamiyat uchun zarur bo'lgan faoliyatga moyillik uyg'otish","Barcha javoblar to'g'ri"], correct:3,
-  explain:"Pedagogik mahorat keng tushuncha bo'lib, sanab o'tilgan uchala jihatni ham qamrab oladi, shuning uchun D. ✗ A, B, C) har biri pedagogik mahoratning faqat bir qirrasini ifodalaydi." },
-
-{ q:"O'qituvchining o'quvchilar bilan muloqot jarayonida paydo bo'ladigan turli ziddiyatli vaziyatlarni bartaraf etish uchun...", options:["o'zi ishlayotgan o'quv muassasi rahbariyatiga yordam so'rab murojaat qilish kerak","avvalo o'z iqtidoriga, pedagogik va psixologik mahoratiga tayanish lozim","darhol tartibsiz o'quvchiga nisbatan tarbiyaviy jazo metodini qo'llash kerak","ota-onasini o'quv muassasasiga chaqirtirishi va suhbat o'tkazib ogohlantirish kerak"], correct:1,
-  explain:"Nizoli vaziyatda o'qituvchi birinchi navbatda o'zining pedagogik va psixologik mahoratiga tayanadi. ✗ A) rahbariyatga murojaat — oxirgi chora. ✗ C) darhol jazolash nizoni yanada chuqurlashtiradi. ✗ D) ota-onani chaqirish ham keyingi bosqichdagi chora." },
-
-{ q:"Pedagogik ta'sir ko'rsatishning asosiy usullari.", options:["Rag'batlantirish, jazolash","Talab, istiqbol, rag'batlantirish va jazolash, jamoatchilik fikri","Pedagogik tajriba","Ishontirish va maqullash"], correct:1,
-  explain:"Pedagogik ta'sir usullari majmuasi: talab qo'yish, istiqbol ko'rsatish, rag'batlantirish va jazolash, jamoatchilik fikridan foydalanish. ✗ A) ro'yxatning faqat bir qismi. ✗ C) tajriba — usul emas, tadqiqot metodi. ✗ D) ham to'liq emas." },
-
-{ q:"Pedagogik muammolar muvaffaqiyatini ta'minlovchi asosiy omillar.", options:["O'qituvchining talabchanligi va prinsipialligi","Pedagogik qobiliyatning mavjudligi va pedagogik nazokat","O'qituvchining notiqlik san'ati"], correct:1,
-  explain:"Asosiy omil — pedagogik qobiliyat va pedagogik nazokat (takt) uyg'unligi. ✗ A) talabchanlik muhim, lekin o'zi yetarli emas. ✗ C) notiqlik — foydali ko'nikma, ammo hal qiluvchi omil emas. Diqqat: asl testda bu savolda faqat 3 ta variant berilgan (D varianti yo'q)." },
-
-{ q:"Pedagogik texnologiyaning eng asosiy xususiyati nimadan iborat?", options:["O'quv maqsadlarini belgilaydi","Interfaol usullardan foydalanishni nazarda tutadi","Ta'lim samaradorligini oshiradi","O'quv maqsadlariga erishishni kafolatlaydigan o'quv jarayonini loyihalashni nazarda tutadi"], correct:3,
-  explain:"Pedagogik texnologiyani boshqa yondashuvlardan ajratib turadigan xususiyat — natijani kafolatlaydigan jarayonni oldindan loyihalash. ✗ A) maqsad belgilash — har qanday darsda bo'ladi. ✗ B) interfaol usullar — texnologiyaning bir vositasi. ✗ C) samaradorlik oshishi — natija, xususiyat emas." },
-
-{ q:"Pedagogika fanlar tizimiga kirmaydigan fan qaysi qatorda keltirilgan?", options:["Falsafa","Pedagogika tarixi","Maktabgacha pedagogika","Pedagogik texnologiya"], correct:0,
-  explain:"Falsafa — mustaqil fan, u pedagogikaning metodologik asosi bo'lsa ham, pedagogika fanlari tizimiga kirmaydi. ✗ B, C, D) uchalasi ham pedagogikaning bevosita tarmoqlari." },
-
-{ q:"Ta'lim va tarbiya jarayonini yaxlitlikda o'rganadigan fan sohasi — ushbu ta'rif qaysi fanga nisbatan qo'llanilgan?", options:["Mantiq","Pedagogika","Falsafa","Tarbiya"], correct:1,
-  explain:"Ta'lim va tarbiyani yaxlit tizim sifatida o'rganuvchi fan — pedagogika. ✗ A) mantiq — tafakkur qonuniyatlari haqidagi fan. ✗ C) falsafa — borliqning umumiy qonuniyatlari. ✗ D) tarbiya — fan emas, jarayonning o'zi." }
-];
-
-/* ---------- 4i) ATTESTATSIYA — MOCK 8 ---------- */
-const P_ATT8_TERROR = "The great wave of international terrorism that first reached a climax in 1972 showed no signs of abating in 1975. Strictly speaking, the phenomenon was not new; what was new was its rapid growth in the 1970s, made possible by increasingly sophisticated technology. Some of this new technology consists of specialized equipment, such as miniaturized or remote-control detonating devices, hand-held rocket launchers, and the like, which make terrorism more lethal, more effective, and less risky for terrorists. But even improvements in generally available technology are important. For example, self-dialling international telephone communications and jet travel facilitate conspiracies across national boundaries and the perpetration of political crimes by nationals of one country in another. The growth of television has contributed to the easy dissemination of terrorist techniques, such as the hijacking of aircraft and the kidnapping of diplomats or businessmen for ransom.";
-
-const P_ATT8_ENERGY = "Life, like all other processes that go on in material bodies, requires energy. It differs from some such processes in the way in which its energy is obtained and from all of them in the way in which its energy is directed. The energy of the process which goes on in a boiling kettle is imparted to it continually from without by the fire. The energy of the process which goes on in a clock is stored in it but has been imparted to it by mechanical action from without, in the winding of the spring. But life differs from the other processes, and all processes that go on in lifeless things, in that its energy is liberated in such a way as to tend to the preservation and increase of the living being.";
-
-const P_ATT8_NIGERIA = "Nigeria is heavily dependent on the export of crude oil to finance industrial development. 90% of Nigeria's exports by value are crude oil. At current production rates, known reserves are only sufficient until the end of the century. Industrialization was boosted after 1973 following the fourfold increase in oil prices. In the early 1980s prices fell, and Nigeria lost important income. Oil production peaked in 1974 when output reached 112 million tonnes.";
-
-const ATTESTATION_8 = [
-{ q:"Bat — Which is the correct symbol for the underlined letter?", options:["/ɑː/","/ɔː/","/æ/","/ʊ/"], correct:2,
-  explain:"\"Bat\" so'zidagi \"a\" harfi qisqa, ochiq old unli /æ/ tovushini beradi (cat, man, hat kabi). ✗ A) /ɑː/ — cho'ziq orqa unli (car, father). ✗ B) /ɔː/ — lablangan cho'ziq unli (law, more). ✗ D) /ʊ/ — qisqa lablangan orqa unli (book, put)." },
-
-{ q:"______ vowel is presented in the word 'ghost'.", options:["/eɪ/","/ʊə/","/aʊ/","/əʊ/"], correct:3,
-  explain:"\"Ghost\" /ɡəʊst/ deb o'qiladi — bu yerda /əʊ/ diftongi bor (go, home, boat kabi). ✗ A) /eɪ/ — day, make. ✗ B) /ʊə/ — tour, poor. ✗ C) /aʊ/ — house, now." },
-
-{ q:"/j/ is used in which word?", options:["yellow","jug","jam","zebra"], correct:0,
-  explain:"IPA'da /j/ belgisi \"y\" tovushini bildiradi (yes, you, yellow). ✗ B) jug va ✗ C) jam — /dʒ/ tovushi bilan boshlanadi. ✗ D) zebra — /z/ tovushi. Diqqat: IPA'dagi /j/ ingliz alifbosidagi \"j\" harfiga to'g'ri kelmaydi." },
-
-{ q:"Which is unvoiced sound among following?", options:["/ʒ/","/ð/","/θ/","/dʒ/"], correct:2,
-  explain:"/θ/ — jarangsiz (unvoiced) tovush: think, bath. Talaffuzda ovoz paychalari tebranmaydi. ✗ A) /ʒ/ jarangli (vision). ✗ B) /ð/ jarangli (this, mother) — /θ/ ning jarangli jufti. ✗ D) /dʒ/ jarangli (job)." },
-
-{ q:"When Tom entered the room, his mum _______ him because he ______ hair and a beard. He looked totally different.", options:["wasn't recognizing / was growing","hadn't recognized / grew","didn't recognize / had grown","didn't recognize / had been growing"], correct:2,
-  explain:"Asosiy voqea Past Simple'da (didn't recognize), undan oldin sodir bo'lgan va natijasi ko'rinib turgan harakat Past Perfect'da (had grown). ✗ A) \"recognize\" holat fe'li, Continuous shaklda ishlatilmaydi. ✗ B) zamonlar teskari qo'yilgan. ✗ D) grammatik jihatdan mumkin, lekin bu yerda natija (soqol o'sib bo'lgani) muhim, jarayon emas — shuning uchun Perfect afzal." },
-
-{ q:"\"The police ______ the New York bomber\" _______ the headline of the newspaper.", options:["is catching / is","catch / was","catches / was","has caught / is"], correct:1,
-  explain:"\"Police\" ingliz tilida doim ko'plik fe'l oladi (the police catch, the police are). Sarlavha o'tmishda chiqqani uchun \"was\". ✗ A) \"is\" — police bilan mos emas. ✗ C) \"catches\" birlik shakl. ✗ D) \"has caught\" emas, \"have caught\" bo'lishi kerak edi." },
-
-{ q:"It seems that somebody ______ to my father before the meeting, complaining that I _____ late for school four times last week.", options:["wrote / would be","has written / have been","writes / was","wrote / was"], correct:3,
-  explain:"\"Before the meeting\" va \"last week\" — aniq o'tgan vaqt, ikkala fe'l ham Past Simple: wrote / was. ✗ A) \"would be\" kelasi zamon (o'tmishdagi) — mos emas. ✗ B) \"last week\" bilan Present Perfect ishlatilmaydi. ✗ C) \"writes\" hozirgi zamon, o'tgan voqeaga to'g'ri kelmaydi." },
-
-{ q:"Around 40,000 children are ______ malnourished ______ they face the prospect of death in the months ahead.", options:["such / that","so / that","more / than","as / as"], correct:0,
-  explain:"⚠️ DIQQAT: kalitda A (such/that) ko'rsatilgan, lekin grammatik qoidaga ko'ra to'g'ri javob B (so/that) bo'lishi kerak. Qoida: \"so + sifat + that\" (so malnourished that...), \"such + ot + that\" (such a problem that...). \"Malnourished\" — sifat, shuning uchun \"so\" talab qilinadi. ✗ C) more/than va ✗ D) as/as — qiyoslash uchun, bu yerda oqibat bildirilmoqda." },
-
-{ q:"I think it's extremely unlikely, but if we do come across ______ wild animals at all, we must be prepared to kill them.", options:["some","however","any","whatever"], correct:2,
-  explain:"Shart gapida va \"at all\" iborasi bilan \"any\" ishlatiladi. ✗ A) \"some\" tasdiq gaplarda, ehtimoli yuqori holatlarda. ✗ B) \"however\" — bog'lovchi ravish, ot oldidan kelmaydi. ✗ D) \"whatever\" bu tuzilishga mos emas." },
-
-{ q:"Priscilla: Why are you late?\nJohn: ______\nPriscilla: Why not? Was she at work?\nJohn: Yes and she couldn't change her shift.", options:["There was heavy traffic and I was stuck just in the middle of it.","Well, you know my car. It broke down again.","Why are you asking? It's none of your business.","I couldn't get my wife to take the children to school."], correct:3,
-  explain:"Priscillaning \"Why not?\" savoli inkor gapga javob bo'ladi, \"she\" olmoshi esa ayol kishini talab qiladi — D da ikkalasi ham bor (couldn't + my wife). ✗ A va B) inkor gap emas va ayol kishi tilga olinmagan. ✗ C) qo'pol javob, keyingi dialog bilan bog'lanmaydi." },
-
-{ q:"One of your friends wants you to give him a suggestion about where to go for his summer holiday. You spent your last summer enjoying yourself in Alanya. So you said to him:", options:["Would you like to go somewhere crowded or peaceful?","I think you are going to have a marvellous time in Alanya.","I'm not the kind of person that can give you a good suggestion about this because the only place I have seen except my hometown is Ankara.","Go to the airport and board the first plane you can find."], correct:1,
-  explain:"Vaziyat: siz Alanyada yaxshi dam olgansiz va do'stingizga tavsiya bermoqchisiz — B aynan shuni ifodalaydi. ✗ A) tavsiya emas, savol. ✗ C) vaziyatga zid (siz Alanyada bo'lgansiz). ✗ D) jiddiy tavsiya emas, hazil ohangdagi javob." },
-
-{ q:"What's ______ name of ______ player who scored _____ last goal?", options:["the / – / a","the / the / the","– / the / an","an / – / the"], correct:1,
-  explain:"Uchala joyda ham \"the\" kerak: \"the name\" (egalik bilan aniqlangan), \"the player\" (keyingi ergash gap bilan aniqlangan), \"the last goal\" (\"last\" tartib bildiruvchi sifat doim \"the\" oladi). ✗ A, C, D) artikl tushirilgan yoki noaniq artikl (a/an) qo'yilgan — aniqlangan otlar uchun noto'g'ri." },
-
-{ q:"There are some specific characteristics that make \"the Wimbledon Tennis Championships\" unique. Wimbledon is the only major tennis tournament ______ on grass.", options:["to play","played","playing","to be playing"], correct:1,
-  explain:"\"Played on grass\" — qisqartirilgan majhul sifatdosh (= which is played on grass). Turnirning o'zi o'ynaladi, shuning uchun majhul shakl kerak. ✗ A) \"to play\" aniq nisbat. ✗ C) \"playing\" aniq nisbatdagi sifatdosh — turnir o'ynamaydi. ✗ D) \"to be playing\" bu tuzilishga mos emas." },
-
-{ q:"In a formal email, which closing phrase is most suitable?", options:["Cheers!","Take care,","Best regards,","Catch you later!"], correct:2,
-  explain:"\"Best regards\" — ish yozishmalarida qabul qilingan standart rasmiy yakun. ✗ A) \"Cheers!\" — do'stona, norasmiy (ayniqsa Britaniyada). ✗ B) \"Take care\" — samimiy, yaqin kishilarga. ✗ D) \"Catch you later!\" — juda norasmiy jargon." },
-
-{ q:"When writing an informal email to a friend, which of the following would be acceptable to include?", options:["I hope this message finds you well.","Just wanted to check in and see how you're doing!","Please find attached the document you requested.","I look forward to your prompt response."], correct:1,
-  explain:"B — ega tushirilgan, qisqartmali, do'stona uslub, norasmiy xat uchun mos. ✗ A) rasmiy xatlarning klishesi. ✗ C) ish yozishmalarining standart iborasi. ✗ D) rasmiy, javob talab qiluvchi yakun." },
-
-{ q:"Which of the following is an example of a pragmatic marker?", options:["\"Running\" in \"She is running.\"","\"Well\" in \"Well, I suppose we should start.\"","\"And\" in \"I want apples and oranges.\"","\"Quickly\" in \"He runs quickly.\""], correct:1,
-  explain:"Pragmatik marker — gapning mazmuniga emas, so'zlovchining munosabatiga yoki nutq oqimiga ishora qiluvchi so'z. \"Well\" shunday vazifani bajaradi. ✗ A) \"running\" — asosiy fe'l. ✗ C) \"and\" — oddiy bog'lovchi. ✗ D) \"quickly\" — ravish, harakat tarzini bildiradi." },
-
-{ q:"Which of the following is an example of a positive politeness strategy?", options:["\"Could you please pass the salt?\"","\"I don't mean to bother you, but…\"","\"You're really great at this!\"","\"I need you to do this now.\""], correct:2,
-  explain:"Positive politeness — suhbatdoshning o'ziga bo'lgan ijobiy tasavvurini qo'llab-quvvatlash: maqtov, yaqinlik bildirish. ✗ A va B) negative politeness — suhbatdoshni bezovta qilmaslikka urinish. ✗ D) to'g'ridan-to'g'ri talab, umuman xushmuomalalik strategiyasi emas." },
-
-{ q:"Which of the following is an example of a politeness strategy used to mitigate a face-threatening act?", options:["\"You need to fix your report by tomorrow.\"","\"Could you please take a look at your report and make any necessary changes by tomorrow?\"","\"Your report is terrible; fix it!\"","\"I don't care about your report, but it needs work.\""], correct:1,
-  explain:"B da yumshatuvchi vositalar bor: \"could you please\", \"take a look\", \"any necessary changes\" — tanqid bilvosita yetkazilgan. ✗ A) to'g'ridan-to'g'ri talab. ✗ C) ochiq haqorat. ✗ D) befarqlik bildirib, yanada og'ir tuyuladi." },
-
-{ q:"Which of the following is an example of an expressive speech act?", options:["\"I promise to call you.\"","\"I regret not attending the meeting.\"","\"Please close the window.\"","\"The earth revolves around the sun.\""], correct:1,
-  explain:"Expressive — so'zlovchining ruhiy holati, his-tuyg'usini ifodalovchi nutqiy akt (afsus, minnatdorchilik, uzr). ✗ A) commissive — va'da. ✗ C) directive — buyruq/iltimos. ✗ D) representative — fakt bayoni." },
-
-{ q:"When our commander gives an order, he expects it to be _____ seriously and punctually.", options:["carried out","looked into","put aside","let down"], correct:0,
-  explain:"carry out an order — buyruqni bajarmoq. ✗ B) look into = tekshirib ko'rmoq, o'rganmoq. ✗ C) put aside = chetga surib qo'ymoq — ma'noga zid. ✗ D) let down = umidini puchga chiqarmoq." },
-
-{ q:"It was an enormous, heavy, old, wooden door and it used to ______ loudly when anyone opened it.", options:["rumble","creak","whistle","rustle"], correct:1,
-  explain:"creak — eshik yoki yog'och narsaning g'ijirlashi. ✗ A) rumble — momaqaldiroq yoki yuk mashinasining guldirashi. ✗ C) whistle — hushtak ovozi, shamol uvillashi. ✗ D) rustle — barg yoki qog'ozning shitirlashi." },
-
-{ q:"K-12 stands for…", options:["Kindergarten through 12th Grade","Kitchen number 12","Kindergarten 12","Kind to You"], correct:0,
-  explain:"K-12 — AQSh va bir qator davlatlarda bog'chadan (kindergarten) 12-sinfgacha bo'lgan umumiy ta'lim tizimini bildiradi. ✗ B, C, D) qisqartmaning haqiqiy ma'nosiga aloqasi yo'q, chalg'ituvchi variantlar." },
-
-{ q:"_________ we listened for the news on the radio over the next few hours, we realized we had been lucky in our house.", options:["Before","If","Whether","As"], correct:3,
-  explain:"As — \"...ganimiz sari, ...ganda\" ma'nosida ikki harakatning bir vaqtda kechishini bildiradi. ✗ A) \"Before\" mantiqan mos emas — anglash tinglash jarayonida sodir bo'lgan. ✗ B) \"If\" shart bildiradi, bu yerda shart yo'q. ✗ C) \"Whether\" — \"...mi\" ma'nosidagi bog'lovchi, gap boshida bunday ishlatilmaydi." },
-
-{ q:"Cosmology is the scientific inquiry into what the universe is like. By making assumptions that are not contradicted by the behaviour of the observable universe, scientists build models, or theories, that attempt to describe the universe as a whole, including its origin and its future. _______. Then the model must be modified or discarded.", options:["In this way, they can examine the background of the events","These theories explain us how or when we came into being","They use each model until something is found that contradicts it","They can speculate on our future by using several equipments during the observation"], correct:2,
-  explain:"Keyingi jumla \"Then the model must be modified or discarded\" (keyin model o'zgartiriladi yoki tashlab yuboriladi) — bu faqat modelga zid dalil topilgani haqidagi C gapidan keyin mantiqiy davom etadi. ✗ A, B, D) modelning rad etilishi sababini tushuntirmaydi, shuning uchun keyingi jumla bilan bog'lanmaydi." },
-
-{ q:"While it can be argued that the early Victorians invented Christmas, reinvented would be a more accurate expression. ______. In fact, the idea that Christmas should be a time for feasting and merrymaking can be traced back to pagan festivals like the Roman Saturnalia, predating Christianity itself…", options:["Because many of the features of the modern Christmas are much older","In the Victorian period Christmas was celebrated just in the family and nobody else was invited","Therefore like Christmas — Carols were also first invented in this age","Christmas tree and Santa Claus are all imported from Germany"], correct:0,
-  explain:"\"Reinvented\" (qayta ixtiro qilingan) so'zining sababi kerak, keyingi \"In fact...\" jumlasi esa bayramning ancha qadimiy ildizlarini dalil sifatida keltiradi — A shu bog'lanishni ta'minlaydi. ✗ B) mavzudan chetga chiqadi. ✗ C) \"Therefore\" xulosa bog'lovchisi, bu yerda sabab kerak. ✗ D) alohida fakt, umumiy fikrni izohlamaydi." },
-
-{ q:"Find the irrelevant sentence.\n(I) Bathrooms can be high-risk areas because of the slippery surfaces and often small rooms. (II) Many people fall when holding onto a towel bar or pushing on the sink in order to stand from the toilet. (III) Generally a short bar vertical on the wall as you enter the tub and, ideally, a right angle grab bar on the far wall is recommended. (IV) This obviously is not safe to do. (V) Instead, professionally installed grab bars will make negotiating your bathroom much easier and safer.", options:["I","II","III","IV","V"], correct:2,
-  explain:"Matn mantiqi: xavf (I) → odamlar sochiq ilgichiga suyanib yiqiladi (II) → bu xavfli (IV) → buning o'rniga maxsus tutqichlar kerak (V). III gap esa tutqichni qayerga o'rnatish bo'yicha texnik tafsilot bo'lib, II va IV o'rtasidagi bog'lanishni uzib qo'yadi. Diqqat: bu savolda 5 ta variant bor." },
-
-{ q:"Find the irrelevant sentence.\n(I) A lorry driver is trapped in the cab of his burning vehicle after an accident. (II) The police, firefighters and ambulance service are at the scene, but it is clear he will burn to death before he can be freed. (III) He begs the policeman, who happens to be armed, to shoot him rather than let him burn. (IV) It is difficult to imagine anyone, however religious, condemning the policeman's conduct as wicked. (V) This choice — between killing someone and leaving them to die in unbearable pain — is known as the \"policeman's dilemma\".", options:["I","II","III","IV","V"], correct:3,
-  explain:"I, II, III gaplari vaziyatni ketma-ket bayon qiladi, V esa unga nom beradi (\"policeman's dilemma\"). IV gap axloqiy baho bo'lib, tavsifdan xulosaga o'tishni uzadi. Diqqat: bu savolda 5 ta variant bor." },
-
-{ q:"It is argued that ______.", passage:P_ATT8_TERROR, options:["governments have not taken adequate measures to protect diplomats and businessmen","owing to technological innovations terrorism has been on the decline since early 1970","among the methods resorted to by terrorists, kidnapping and hijacking are the most common","the manufacture of sophisticated technological equipment should be under strict governmental control","various advances in technology have contributed to the increase in terrorism throughout the world"], correct:4,
-  explain:"Matnning asosiy fikri: terrorizmning 1970-yillardagi tez o'sishiga texnologiya rivoji imkon bergan. ✗ A va D) hukumat choralari haqida matnda hech narsa aytilmagan. ✗ B) matnga teskari — terrorizm kamaymagan, o'sgan. ✗ C) matn bu usullarni misol sifatida keltiradi, lekin \"eng keng tarqalgan\" demaydi." },
-
-{ q:"Among the terrorist activities mentioned in the passage is ______.", passage:P_ATT8_TERROR, options:["drug-trafficking","smuggling","the taking of hostages","propaganda","infiltration"], correct:2,
-  explain:"Matnda diplomat va tadbirkorlarni tovon evaziga o'g'irlash (kidnapping for ransom) tilga olingan — bu garovga olish. ✗ A, B, D, E) giyohvand moddalar savdosi, kontrabanda, targ'ibot va kirib olish matnda umuman eslatilmagan." },
-
-{ q:"It is pointed out in the passage that _______.", passage:P_ATT8_TERROR, options:["political crimes make up only a small part of terrorism","today terrorism is no longer confined to one country alone","because of more lethal weapons, terrorists find themselves in greater danger","prior to the 1970s terrorism was unknown","improved communications have led to the capture of more terrorists"], correct:1,
-  explain:"Matnda xalqaro telefon aloqasi va reaktiv parvozlar davlat chegaralaridan oshib ketuvchi fitnalarni osonlashtirgani aytiladi — ya'ni terrorizm bitta davlat doirasidan chiqqan. ✗ A) bunday taqqoslash yo'q. ✗ C) matnga zid — yangi texnika terrorchilar uchun xavfni kamaytirgan. ✗ D) matn terrorizm yangi hodisa emasligini ta'kidlaydi. ✗ E) qo'lga olish haqida gap yo'q." },
-
-{ q:"The writer points out that all processes, living or lifeless, _______.", passage:P_ATT8_ENERGY, options:["need energy","impart energy","depend on mechanical action","are waste of energy","have the same pattern"], correct:0,
-  explain:"Matnning birinchi jumlasi: hayot ham, moddiy jismlardagi boshqa barcha jarayonlar ham energiya talab qiladi. ✗ B) jarayonlar energiya beradi emas, oladi. ✗ C) mexanik ta'sir faqat soat misolida. ✗ D) matnda bunday baho yo'q. ✗ E) matn aynan farqlar haqida." },
-
-{ q:"It is pointed out that every living process ______.", passage:P_ATT8_ENERGY, options:["uses the same amount of energy","is directed towards the maintenance of life","is aided by an outside source of energy","is capable of storing energy","resembles processes in lifeless things"], correct:1,
-  explain:"Matnning oxirgi jumlasi: tirik jarayonda energiya tirik mavjudotni saqlash va o'stirishga yo'naltiriladi. ✗ A) energiya miqdori taqqoslanmagan. ✗ C) bu chaynak va soat (jonsiz) misollariga tegishli. ✗ D) energiya saqlash — soat misoli. ✗ E) matn aynan farqni ta'kidlaydi." },
-
-{ q:"The most distinctive feature of mechanical energy, as opposed to life energy, is that it ______.", passage:P_ATT8_ENERGY, options:["is always directed to the preservation of life","can be controlled","cannot be stored","is supplied from outside","is obtained from the same source"], correct:3,
-  explain:"Chaynak ham, soat ham energiyani tashqaridan oladi (olov yoki prujinani burash) — bu jonsiz jarayonlarning asosiy belgisi. ✗ A) bu aksincha, hayot energiyasining xususiyati. ✗ B) boshqarish haqida matnda gap yo'q. ✗ C) soat misoli energiya saqlanishi mumkinligini ko'rsatadi. ✗ E) manbalar har xil." },
-
-{ q:"It is pointed out in the passage that the sharp rise in oil prices in 1973 ______.", passage:P_ATT8_NIGERIA, options:["had less effect on Nigeria's economy than might have been expected","contributed greatly to industrial development in Nigeria","coincided with a considerable fall in oil production","provided Nigeria with a high revenue well into the late 1980s","put a great deal of pressure on Nigeria's oil reserves"], correct:1,
-  explain:"Matnda: 1973-yilda neft narxi to'rt baravar oshgach, sanoatlashtirish jadallashgan. ✗ A) matnga zid — ta'sir katta bo'lgan. ✗ C) aksincha, ishlab chiqarish 1974-yilda cho'qqiga chiqqan. ✗ D) 1980-yillar boshida narx tushib, daromad kamaygan. ✗ E) zaxiralarga bosim haqida bu o'rinda gap yo'q." },
-
-{ q:"It is understood from the passage that only a fraction of Nigeria's exports ______.", passage:P_ATT8_NIGERIA, options:["are goods other than crude oil","would be needed to support industrial development","were affected by the fall in oil prices in the 1980s","were oil-related","have benefited from price increases"], correct:0,
-  explain:"Eksportning 90% i xom neft bo'lsa, qolgan atigi 10% — boshqa mahsulotlar, ya'ni kichik ulush. ✗ B) matnda bunday hisob yo'q. ✗ C) narx tushishi asosiy (neft) eksportga ta'sir qilgan. ✗ D) aksincha — aynan katta qismi neftga bog'liq. ✗ E) narx o'sishidan neft eksporti yutgan, kichik qism emas." },
-
-{ q:"O'qituvchi o'quvchining mustaqil faoliyati darajasini oshirmoqchi. Buning uchun u o'qitish usullari ketma-ketligini qanday tanlashi lozim?\n1. Reproduktiv usul\n2. Axborot to'plash (reseptiv) usul\n3. Muammoli ta'lim usuli\n4. Tadqiqot usuli", options:["3, 1, 2, 4","1, 4, 2, 3","2, 1, 3, 4","2, 1, 4, 3"], correct:2,
-  explain:"Mustaqillik darajasi bosqichma-bosqich oshib boradi: avval tayyor axborotni qabul qilish (2), so'ng namuna bo'yicha takrorlash (1), keyin muammoni hal qilishda qatnashish (3), nihoyat mustaqil tadqiqot (4). ✗ A) tadqiqotdan oldin muammoli usul turgani bilan boshi noto'g'ri — reseptiv bosqich oxirga tushib qolgan. ✗ B) tadqiqot ikkinchi o'rinda — juda erta. ✗ D) oxirgi ikki bosqich o'rin almashgan: tadqiqot eng yuqori daraja bo'lgani uchun oxirida turishi kerak." },
-
-{ q:"O'quvchilar Konstitutsiya kuniga bag'ishlangan tadbir uyushtirmoqchi bo'ldilar va boshqa sinf o'quvchilarini ham jalb etmoqchi ekanliklarini o'qituvchiga ma'lum qildilar. O'qituvchi bu vazifani ular mustaqil bajarishlari uchun barcha shart-sharoitlarni yaratib berdi. O'qituvchi tarbiyaviy faoliyatning qaysi yo'nalishlarini amalga oshirgan hisoblanadi?\n1. O'quvchilarning o'zini o'zi boshqarish organlari faoliyatini tashkil qilishda yordam berish va qo'llab-quvvatlash\n2. O'quvchilarga zamonaviy ommaviy axborot vositalari dunyosida xavfsiz ishlashga yordam berish\n3. O'quvchilarda kognitiv faollik, mustaqillik, tashabbuskorlik, fuqarolik pozitsiyasi madaniyatini rivojlantirish\n4. O'quvchilarda fuqarolik kompetensiyalari va media savodxonligini shakllantirish", options:["1, 3","2, 4","1, 2","4, 3"], correct:0,
-  explain:"Vaziyatda ikki narsa aniq ko'rinadi: o'quvchilarning o'zini o'zi boshqarish tashabbusini qo'llab-quvvatlash (1) va mustaqillik, tashabbuskorlik, fuqarolik pozitsiyasini rivojlantirish (3). ✗ 2 va 4 bandlar OAV va media savodxonligiga oid — bu vaziyatda ommaviy axborot vositalari bilan ishlash umuman tilga olinmagan." },
-
-{ q:"Bir guruh o'quvchilar loyiha ishi ustida juda ko'p mehnat qildilar va darsda sinfdoshlari oldida taqdimot o'tkazdilar. O'qituvchi loyihada ba'zi kamchiliklar bo'lsa-da, vazifa yaxshi bajarilgani va dolzarbligi haqida gapirib, guruh a'zolarini maqtab qo'ydi. U nima uchun bunday qildi?", options:["o'quvchilarning yutuqlarini baholash orqali, ularni o'qishni davom ettirishga qiziqtirish uchun","o'quvchilarning erishgan yutuqlari natijalarini tahlil qilish uchun","o'quvchilar ta'lim jarayonida to'qnashgan qiyinchiliklarini qayd etish uchun","o'quvchilarning yutuqlarini baholash va bahoni asoslab berish uchun"], correct:0,
-  explain:"O'qituvchi kamchiliklarga urg'u bermay, yutuqni ta'kidlagan — bu rag'batlantirish orqali o'quv motivatsiyasini saqlash. ✗ B) tahlil qilish uchun kamchiliklar ham batafsil muhokama qilinardi. ✗ C) qiyinchiliklarni qayd etish maqsadi bu vaziyatda ko'rinmaydi. ✗ D) baho asoslanmagan, faqat maqtov aytilgan." },
-
-{ q:"Berilganlardan qaysi biri o'quvchilarning ta'limiy yutuqlarini baholashning mezonlarga asoslangan tizimiga bog'liq emas?", options:["o'quvchining o'zlashtirishini ta'minlovchi yaxlit yondashuvni shakllantirishga yo'naltiriladi","har bir sinf va fan bo'yicha o'quv mazmuni dasturidan kelib chiqqan holda baholashning turli usullari qo'llaniladi","ta'lim berish, o'rganish va baholash orasidagi o'zaro bog'liqlikka asoslanadi","tarbiya berish tamoyillariga, nisbiy baholash mezonlariga, har bir sinfning o'zlashtirish darajasiga asoslanadi"], correct:3,
-  explain:"Mezonli baholashning mohiyati — oldindan belgilangan aniq va barcha uchun bir xil mezonlar. D da esa \"nisbiy baholash\" va sinfning umumiy darajasiga moslash aytilgan, bu mezonli tizimga zid (o'quvchilarni bir-biriga qiyoslash). ✗ A, B, C) uchalasi ham mezonli baholashning haqiqiy tamoyillari." },
-
-{ q:"Ta'lim samaradorligini oshirish uchun o'qituvchi darsda ko'rgazmali qurollardan foydalanishni rejalashtirdi. Qo'l ostida ko'rgazmali va tarqatma materiallar juda ko'p edi. O'qituvchi tomonidan to'g'ri tanlangan tarqatma materiallar qatorini belgilang.", options:["Turli yo'nalishlardagi grafik va animatsion taqdimotlar","o'quvchilarning faqat qiziqishlariga mos keladigan tarqatma materiallar","Turli mavzularni qamrab oluvchi tarqatma materiallar","Dars mavzusiga mos keladigan namoyish va tarqatma materiallar"], correct:3,
-  explain:"Ko'rgazmalilik tamoyilining asosiy talabi — material aynan dars mavzusi va maqsadiga xizmat qilishi. ✗ A) turli yo'nalishdagi materiallar diqqatni chalg'itadi. ✗ B) faqat qiziqishga tayanish o'quv maqsadini chetga suradi. ✗ C) turli mavzularni qamrash dars maqsadiga zid." },
-
-{ q:"Kasbiy faoliyat turlari va mehnat vazifalarini moslashtiring.\n1) O'z-o'zini rivojlantirish va kasbiy o'sish\n2) Tarbiyaviy faoliyatni tashkil etish\n3) Hamkasblar va ta'lim oluvchilarning ota-onalari bilan hamkorlik\n4) Ta'lim samaradorligini ta'minlash\n\nA) O'zaro darslarda qatnashish, ularni tahlil qilish, undan o'z kasbiy faoliyatida foydalanish\nB) Ziddiyatlarni hal qilish, sinfda va undan tashqarida muloqot qilish uchun ijobiy muhit yaratish\nC) Tarbiyaviy muammolarni hal qilishda va o'quvchilarni hayotga tayyorlashda boshqa pedagog xodimlar va mutaxassislarni maktab hayotiga jalb qilish\nD) O'quvchilarning jamoaviy va hamkorlikdagi loyihaviy ishlarini tashkil etish\nE) Darsdan tashqari turli madaniy tadbirlarda ishtirok etish", options:["1-E 2-D 3-A 4-B","1-C 2-B 3-E 4-A","1-D 2-A 3-E 4-C","1-A 2-B 3-C 4-D"], correct:3,
-  explain:"1-A: hamkasblar darsini kuzatib, tahlil qilish — o'z ustida ishlash va kasbiy o'sish. 2-B: ijobiy muhit yaratish va ziddiyatlarni hal qilish — tarbiyaviy faoliyat. 3-C: boshqa mutaxassislar va ota-onalarni jalb qilish — hamkorlik. 4-D: loyihaviy ishlarni tashkil etish — ta'lim samaradorligi. ✗ Qolgan variantlarda juftliklar aralashib ketgan, masalan kasbiy o'sish tarbiyaviy tadbirlar bilan almashtirilgan." },
-
-{ q:"Siz darsni endi boshladingiz, barcha o'quvchilar tinchlanishdi, jimlik cho'kdi va birdan sinfda kimdir baland ovozda kulib yubordi. Siz hech narsa deyishga ulgurmay, kulayotgan o'quvchiga savol va hayrat bilan qaraganingizda, u ko'zingizga tik qarab: \"Menga har doim sizga qarash kulguli tuyuladi va siz dars boshlaganingizda kulgim keladi\" — dedi. O'qituvchi \"Kayfiyating yaxshi ekanidan xursandman\" deb javob berdi va darsni davom ettirdi. Bunda o'qituvchi muloqotning modellashtirish bosqichida nimalarga e'tibor bergan?", options:["Ta'lim-tarbiya jarayonida uchrashi mumkin bo'lgan qiyinchiliklar dinamikasini oldindan ko'ra olish va bartaraf etish","o'quvchilar tashabbusini qo'llab-quvvatlash, sinf jamoasining rasmiy va norasmiy liderlari bilan adolatli muloqot","O'qituvchining o'z faoliyatiga xolisona baho berish va kamchiliklarni inobatga olish","o'quvchilarga tashkilotchi va ijrochi rollarida bo'lishga imkoniyat yaratish"], correct:0,
-  explain:"Modellashtirish — muloqotning oldindan rejalashtirish bosqichi: bo'lishi mumkin bo'lgan ziddiyatni oldindan ko'ra olib, uni keskinlashtirmasdan bartaraf etish. O'qituvchi provokatsiyaga berilmay, vaziyatni yumshatgan. ✗ B) liderlar bilan ishlash — boshqa yo'nalish. ✗ C) o'z faoliyatini baholash — refleksiya bosqichi. ✗ D) rollar taqsimoti — faoliyatni tashkil etishga oid." },
-
-{ q:"O'quvchilar o'zlarini juda yomon tutmoqdalar: baland ovozda gaplashmoqda, urishmoqda, bir-birlariga qog'oz uchoqchalar otmoqda va o'qituvchiga nisbatan bilvosita beodoblik qilmoqdalar. Bunday vaziyatda o'qituvchi nima qilishi kerak?\n1. O'quvchilar diqqatini qiziqarli ma'lumotlar bilan jalb etish kerak\n2. Darsni shu holatda davom ettirish kerak\n3. Ko'proq qiziqarli o'yinlar o'tkazish orqali o'quvchilarning diqqatini darsga qaratish zarur\n4. O'quvchilarga tartib-intizom va o'quvchining majburiyatlari haqida talab qo'yishi mumkin", options:["3, 4","1, 2, 3","1, 3","1, 3, 4"], correct:3,
-  explain:"Samarali yo'l — diqqatni jalb qilish (1), qiziqarli faoliyat orqali darsga qaytarish (3) va shu bilan birga tartib-intizom talabini aniq qo'yish (4). ✗ 2-band (darsni shu holatda davom ettirish) noto'g'ri: intizomsizlikka e'tibor bermaslik vaziyatni yanada yomonlashtiradi — shuning uchun B varianti to'g'ri emas. ✗ A va C) foydali choralardan biri tushib qolgan." },
-
-{ q:"Ona sinfdoshlari uning farzandi ustidan kulishlarini aytib, o'qituvchilar xonasida janjal ko'tardi. Sinf rahbari yosh bo'lishiga qaramay, bu ona bilan xushmuomala bo'ldi va uni tinchlantira oldi. O'qituvchi qo'llagan og'zaki ta'sir qilishning XUSHMUOMALALIK MEZONLARI to'g'ri ko'rsatilgan qatorni aniqlang.\n1. Shirinsuxanlik va insoniylik tuyg'ularini namoyish etish\n2. Suhbatning barcha bosqichlarida hissiy osoyishtalikning namoyon bo'lishi\n3. O'zaro fikr almashishga doir sifatlar, ko'nikmalar va malakalarning mavjudligi\n4. Ta'lim va bilim olishga bo'lgan ishtiyoqini kuchaytirish\n5. Mustaqil fikr yuritish, o'z fikrini erkin bayon eta olish, insoniy qadr-qimmat tuyg'usini shakllantirish", options:["1, 2, 3, 4","1, 2, 3, 5","1, 2, 4, 5","1, 3, 4, 5"], correct:1,
-  explain:"Xushmuomalalik mezonlari — shirinsuxanlik va insoniylik (1), hissiy osoyishtalik (2), muloqot ko'nikmalari (3) hamda qadr-qimmatni hurmat qilib, erkin fikr almashish (5). ✗ 4-band (bilim olishga ishtiyoqni kuchaytirish) — o'quv motivatsiyasiga oid, muloqot madaniyati mezoni emas; shuning uchun uni o'z ichiga olgan variantlar noto'g'ri." },
-
-{ q:"Pedagogik ta'sir ko'rsatishning asosiy usullari.", options:["Rag'batlantirish, jazolash","Talab, istiqbol, rag'batlantirish va jazolash, jamoatchilik fikri","Pedagogik tajriba","Ishontirish va ma'qullash"], correct:1,
-  explain:"Pedagogik ta'sir usullari to'liq majmuasi: talab qo'yish, istiqbol ko'rsatish, rag'batlantirish va jazolash, jamoatchilik fikridan foydalanish. ✗ A) ro'yxatning faqat bir qismi. ✗ C) pedagogik tajriba — ilmiy tadqiqot metodi. ✗ D) ham to'liq emas." },
-
-{ q:"O'qituvchilarning kasbiy pedagogik tayyorgarligi shartli ravishda qanday yo'nalishlarda olib boriladi?\n1) o'qituvchining shaxsiy fazilatlari\n2) o'qituvchining ruhiy-psixologik tayyorgarligi\n3) o'qituvchining tashqi imiji\n4) o'qituvchining ijtimoiy-pedagogik va ilmiy-nazariy jihatdan tayyorgarligi\n5) o'qituvchining maxsus va ixtisoslikka oid uslubiy bilimlarni egallab borishi", options:["1, 2, 3, 5","2, 3, 4","1, 2, 4, 5","1, 4, 5"], correct:2,
-  explain:"Kasbiy tayyorgarlik shaxsiy fazilatlar (1), ruhiy-psixologik tayyorgarlik (2), ijtimoiy-pedagogik va ilmiy-nazariy tayyorgarlik (4) hamda uslubiy-ixtisoslik bilimlari (5) yo'nalishlarini qamrab oladi. ✗ 3-band (tashqi imij) — kasbiy tayyorgarlik yo'nalishi emas; uni o'z ichiga olgan A va B variantlari shu sababli noto'g'ri. ✗ D) muhim bo'lgan ruhiy-psixologik tayyorgarlik tushib qolgan." },
-
-{ q:"Qadimda qaysi kasb egalari qonuniyatlarga amal qilgan holda \"tinglovchilarga halovat bag'ishlash\" orqali odamlarni ezgulikka, adolatparvarlikka, vatan oldidagi burchlariga sadoqatli bo'lishga chorlar edilar?", options:["Notiqlar","Musiqachilar","Shoirlar","O'qituvchilar"], correct:0,
-  explain:"Notiqlik san'ati (ritorika) qadimda aynan tinglovchilarga ta'sir o'tkazish, ularni ezgulik va adolatga chorlash vositasi bo'lgan. ✗ B) musiqachilar so'z orqali targ'ib qilmagan. ✗ C) shoirlar ta'sir ko'rsatgan, lekin savolda notiqlik qonuniyatlariga amal qilish ta'kidlangan. ✗ D) o'qituvchilik alohida kasb sifatida bu ta'rifga to'g'ridan-to'g'ri mos kelmaydi." },
-
-{ q:"Musiqa darsida o'qituvchi darsga oid tushunchalarni emas, balki bolalarga erkin zamonaviy, estrada qo'shiqlarini xohlaganlaricha kuylashlariga imkon yaratmoqda. Ushbu vaziyatda pedagogik odobning qaysi shakli buzilmoqda?", options:["Pedagogik takt","Pedagogik nazokat","Pedagogik antipatiya","Pedagogik burch"], correct:3,
-  explain:"O'qituvchi dastur bo'yicha bilim berish majburiyatini bajarmayapti — bu pedagogik burchning buzilishi. ✗ A va B) takt va nazokat muloqotdagi o'lchov hissiga oid, bu yerda muloqot muammosi yo'q. ✗ C) antipatiya — yoqtirmaslik hissi, vaziyatga aloqasi yo'q." },
-
-{ q:"O'qituvchi seminar mashg'ulotini o'tmoqchi. Seminarga tayyorgarlik ko'rish uchun u o'quvchilarning qobiliyati, qiziqishi, ijodkorlik va o'zlashtirish darajasiga qarab vazifalarni taqsimlab berdi. Ushbu jarayonda pedagogik muloqotning qaysi shakli namoyon bo'lmoqda?", options:["Demokratik","Liberal","Avtoritar","Liberal-demokratik"], correct:0,
-  explain:"O'quvchilarning individual xususiyatlarini hisobga olib, vazifani adolatli taqsimlash — demokratik uslubning asosiy belgisi. ✗ B) liberal uslubda o'qituvchi jarayonni umuman boshqarmaydi. ✗ C) avtoritar uslubda vazifalar o'quvchi fikri va imkoniyati inobatga olinmay yuklanadi. ✗ D) bunday aralash uslub bu tasnifda alohida shakl sifatida qaralmaydi." },
-
-{ q:"Quyida ko'rsatilgan tadbirlarning qay biri mustaqil kasbiy rivojlanishga omil bo'la oladi?\n1. Onlayn kurslarda o'qish\n2. Hamkasblarning darslarini kuzatish\n3. Fanga oid maqolalar bilan tanishish\n4. Turli seminar, trening, konferensiyalarda ishtirok etish\n5. Hamkasblar bilan hordiq chiqarish\n6. Xayriya tadbirlarida ishtirok etish", options:["2, 3, 5, 6","1, 2, 3, 4","1, 3, 4, 5","1, 2, 5, 6"], correct:1,
-  explain:"Kasbiy rivojlanishga bevosita xizmat qiladiganlar: onlayn kurslar (1), hamkasblar tajribasini kuzatish (2), ilmiy-metodik maqolalar o'qish (3) va seminar-treninglarda qatnashish (4). ✗ 5-band (birga hordiq chiqarish) va ✗ 6-band (xayriya tadbirlari) ijtimoiy faoliyat bo'lib, kasbiy malakani oshirmaydi." }
-];
-
-/* ---------- 4j) ATTESTATSIYA — MOCK 4 ---------- */
-const P_ATT4_SURGERY = "The need for a surgical operation, especially an emergency operation, almost always comes as a severe shock to the patient and his family. Despite modern advances, most people still have an irrational fear of hospitals and anaesthetics. Patients often do not believe they really need surgery — cutting into a part of the body as opposed to treatment with drugs. In the early years of this century, there was little specialization in surgery. A good surgeon was capable of performing almost every operation that had been devised up to that time. Today, the situation is different. Operations are now being carried out that weren't even dreamed of fifty years ago. The heart can be safely opened and its valves repaired. Clogged blood vessels can be cleaned out, and broken ones mended or replaced. A lung, the whole stomach, or even part of the brain can be removed and still permit the patient to live a comfortable and satisfactory life. However, not every surgeon wants to or is qualified to carry out every type of modern operation.";
-
-const ATTESTATION_4 = [
-{ q:"Which word has the same number of syllables as \"ELEPHANT\"?", options:["Cheetah","Hippopotamus","Kangaroo","Dog"], correct:2,
-  explain:"ELEPHANT — 3 bo'g'in (el-e-phant), KANGAROO ham 3 bo'g'in (kan-ga-roo). ✗ A) chee-tah — 2 bo'g'in. ✗ B) hip-po-pot-a-mus — 5 bo'g'in. ✗ D) dog — 1 bo'g'in." },
-
-{ q:"We use _____ to separate the different things in a list.", options:["Colons","Commas","Full stop"], correct:1,
-  explain:"Ro'yxatdagi elementlar vergul (comma) bilan ajratiladi: apples, bananas and oranges. ✗ A) ikki nuqta (colon) ro'yxatni boshlash uchun ishlatiladi, uning ichini ajratmaydi. ✗ C) nuqta gapni tugatadi. Diqqat: bu savolda 3 ta variant bor." },
-
-{ q:"\"JOKING APART\" means you _____.", options:["are trying to make people laugh","are not united","are serious"], correct:2,
-  explain:"Joking apart (yoki joking aside) — \"hazilni bir chetga qo'yib, jiddiy gapirsak\" degan ma'noni bildiradi. ✗ A) aksincha — hazilni to'xtatish haqida. ✗ B) \"apart\" so'zining \"ajralgan\" ma'nosiga aldanib qolmaslik kerak, bu idioma yaxlit ma'noga ega." },
-
-{ q:"What is the acronym of \"FYI\"?", options:["For you inform","For year insight","For your information","For your introduction"], correct:2,
-  explain:"FYI = For Your Information — \"ma'lumot uchun\", xat va xabarlarda keng qo'llaniladi. ✗ A, B, D) mavjud bo'lmagan, o'ylab topilgan variantlar." },
-
-{ q:"His parents were very RELIGIOUS and the boy had to sing at church services. (Find the antonym of the word.)", options:["Competent","Reluctant","Devoted","Atheistic"], correct:3,
-  explain:"Religious (dindor) so'ziga qarama-qarshi ma'no — atheistic (xudoga ishonmaydigan). ✗ A) competent = layoqatli, malakali — boshqa soha. ✗ B) reluctant = istamaydigan. ✗ C) devoted = sadoqatli, bag'ishlangan — bu sinonimga yaqin, antonim emas." },
-
-{ q:"How many diphthongs are there in English IPA?", options:["12","8","20","10"], correct:1,
-  explain:"Standart ingliz talaffuzida (RP) 8 ta diftong bor: /eɪ, aɪ, ɔɪ, aʊ, əʊ, ɪə, eə, ʊə/. ✗ A) 12 — sof unlilar (monoftonglar) soni. ✗ C) 20 — barcha unli tovushlar soni. ✗ D) 10 — hech bir tasnifga to'g'ri kelmaydi." },
-
-{ q:"Find the medieval pronunciation of the word \"ME\".", options:["mi","ma","me"], correct:1,
-  explain:"Rasmiy javob kaliti bo'yicha — B. ⚠️ ESLATMA: bu savol munozarali. O'rta ingliz tilida \"me\" /meː/ tarzida, ya'ni bugungi \"may\" so'ziga yaqin talaffuz qilingan; hozirgi /miː/ talaffuzi Buyuk unli siljishi (Great Vowel Shift) natijasida keyinroq shakllangan. Shu mantiqqa ko'ra C varianti ko'proq mos keladi. Savol variantlari IPA'da emas, oddiy harflar bilan berilgani ham chalkashlik tug'diradi. Diqqat: bu savolda 3 ta variant bor." },
-
-{ q:"______ observed when the state authorities promote the language usage, increase, support and extend the language functions.", options:["Destructive language policy","Constructive language policy","Language planning"], correct:0,
-  explain:"⚠️ DIQQAT: kalitda A (Destructive) ko'rsatilgan, lekin savol mazmuniga ko'ra to'g'ri javob B (Constructive language policy) bo'lishi kerak. Savolda davlat tilni qo'llab-quvvatlashi, uning vazifalarini kengaytirishi aytilgan — bu aynan konstruktiv (quruvchi) til siyosati. Destruktiv siyosat esa, aksincha, tilning qo'llanish doirasini toraytiradi. ✗ C) Language planning — til siyosatini amalga oshirish mexanizmi, uning natijasi emas. Diqqat: bu savolda 3 ta variant bor." },
-
-{ q:"_____ languages function as a means of communication in two or more countries of the world.", options:["Endemic","Non-related languages","Related languages","Pandemic"], correct:3,
-  explain:"Pandemik tillar — ikki yoki undan ortiq davlatda muloqot vositasi sifatida xizmat qiladigan tillar (ingliz, arab, ispan kabi). ✗ A) endemik tillar faqat bitta hududda yoki davlatda qo'llaniladi. ✗ B va C) qarindosh/qarindosh bo'lmagan tillar — bu tillarning kelib chiqishiga oid tasnif, tarqalish doirasiga emas." },
-
-{ q:"We don't have _____ to visit the museum.", options:["enough time","time enough","many time","some time"], correct:0,
-  explain:"enough otdan oldin keladi: enough time, enough money. ✗ B) \"time enough\" — eskirgan, she'riy shakl, zamonaviy tilda ishlatilmaydi. ✗ C) \"many\" sanaladigan otlar bilan keladi, \"time\" bu yerda sanalmaydi. ✗ D) inkor gapda \"some\" emas, \"any\" yoki \"enough\" ishlatiladi." },
-
-{ q:"What type of politeness strategy is demonstrated in the following situation: \"John accidentally spills his drink at a friend's house. He quickly apologizes and offers to clean up the mess.\"", options:["Politeness through modesty","Positive politeness strategy","Negative politeness strategy","Off-record strategy"], correct:1,
-  explain:"Rasmiy javob — B: John do'sti bilan yaxshi munosabatni saqlash uchun faol harakat qiladi (uzr so'rash + yordam taklif qilish), bu esa ijobiy xushmuomalalik. ⚠️ ESLATMA: Brown va Levinson nazariyasida uzr so'rash odatda negative politeness strategiyalari qatoriga kiritiladi, shuning uchun C ni ham asoslash mumkin. ✗ A) kamtarlik namoyishi bu yerda asosiy emas. ✗ D) off-record — fikrni bilvosita, ishora bilan bildirish, John esa ochiq gapiryapti." },
-
-{ q:"A number of students in the class ______ fifteen.", options:["is","are","being","about"], correct:1,
-  explain:"\"A number of + ko'plik ot\" birikmasi ko'plik fe'l oladi (a number of students are...). ✗ A) \"is\" faqat \"the number of students is...\" tuzilmasida to'g'ri bo'lardi. ✗ C) \"being\" mustaqil kesim bo'la olmaydi. ✗ D) \"about\" — ravish, kesim emas." },
-
-{ q:"I had not the least thought of committing suicide _____ I knew the object of my existence there.", options:["Even","Now that","If","Nonetheless"], correct:1,
-  explain:"Now that — \"endi ... ekan, chunki endi bilaman\" ma'nosida sabab bildiradi va gap mantiqiga mos keladi. ✗ A) \"Even\" yolg'iz holda bog'lovchi bo'la olmaydi. ✗ C) \"If\" shart bildiradi, bu yerda shart emas, sabab bor. ✗ D) \"Nonetheless\" — qarama-qarshilik ravishi, ergash gapni bog'lamaydi." },
-
-{ q:"He is very clever and hardworking ______ he can't pass his exams.", options:["Both","Nevertheless","Provided that","Despite"], correct:1,
-  explain:"Nevertheless — \"shunga qaramay\" ma'nosidagi qarama-qarshilik ravishi, ikki qismni bog'laydi. ✗ A) \"Both\" juftlikni bildiradi (both...and). ✗ C) \"Provided that\" shart bildiradi. ✗ D) \"Despite\" predlog bo'lib, undan keyin ot yoki -ing keladi, to'liq gap emas (\"despite the fact that\" bo'lishi kerak edi)." },
-
-{ q:"Find the synonym of the word \"FLING\".", options:["hurl","hold","seize","let in"], correct:0,
-  explain:"fling = kuch bilan uloqtirmoq = hurl. ✗ B) hold = ushlab turmoq — aksincha ma'no. ✗ C) seize = tutib olmoq, changallamoq. ✗ D) let in = ichkariga kiritmoq." },
-
-{ q:"Which phrase best exemplifies informal writing?", options:["\"I would like to express my gratitude for your assistance\"","\"Thanks for your help!\"","\"It has come to my attention that…\"","\"We are pleased to inform you\""], correct:1,
-  explain:"\"Thanks for your help!\" — qisqa, sodda, undov bilan — norasmiy uslub. ✗ A) \"express my gratitude\" — rasmiy klishe. ✗ C) rasmiy xatlarda muammoni bayon qilish iborasi. ✗ D) rasmiy xabar berish shakli." },
-
-{ q:"We should use formal writing for _____.", options:["posting on social media","applying for a job","sending an invitation to friends","texting your family"], correct:1,
-  explain:"Ishga ariza berish — rasmiy vaziyat, rasmiy uslub talab qiladi. ✗ A, C, D) ijtimoiy tarmoq, do'stlarga taklifnoma va oila a'zolariga xabar — barchasi norasmiy muloqot." },
-
-{ q:"Our pediatrician said we should always ______ her if the little boy's temperature continued for more than 24 hours.", options:["come across","get in touch with","look forward to","make up to"], correct:1,
-  explain:"get in touch with somebody — kimdir bilan bog'lanmoq. ✗ A) come across = tasodifan duch kelmoq. ✗ C) look forward to = intiqlik bilan kutmoq. ✗ D) make up to = xushomad qilmoq." },
-
-{ q:"If Julie ______ herself like that while we were away, she ______ from anorexia nervosa today.", options:["hasn't starved / wouldn't suffer","didn't starve / isn't suffering","hadn't starved / wouldn't be suffering","wouldn't starve / won't be suffering"], correct:2,
-  explain:"Aralash shart gap (mixed conditional): shart o'tmishga oid (had + V3), natija esa bugungi kunga tegishli (would be + V-ing). ✗ A) \"hasn't starved\" — shart gapda Present Perfect ishlatilmaydi. ✗ B) shart gap shakli buzilgan. ✗ D) \"if\" dan keyin \"would\" qo'yilmaydi." },
-
-{ q:"Health Watch, which, initially at least, ______ by pharmaceutical companies, _______ an aggressive campaign against natural medicines.", options:["was financed / is waging","had finished / was waging","has been financed / had waged","was being financed / had been waging"], correct:0,
-  explain:"Boshida moliyalashtirilgan (o'tmish, majhul — was financed), hozir esa kampaniya olib bormoqda (hozirgi davomli — is waging). ✗ B) \"had finished\" aniq nisbat va ma'no jihatdan mos emas. ✗ C va D) zamonlar ketma-ketligi buzilgan: o'tmishdagi holat hozirgi harakatdan keyin qo'yilgan." },
-
-{ q:"It would be foolish of them not ______ genetic advice as their first child was abnormal.", options:["to seek","having sought","to have sought","seeking"], correct:3,
-  explain:"⚠️ DIQQAT: kalitda D (seeking) ko'rsatilgan, lekin bu shakl grammatik jihatdan noto'g'ri — \"foolish of them not seeking\" deb aytilmaydi. \"It would be foolish of somebody (not) to do\" tuzilmasi infinitiv talab qiladi. Birinchi farzand nogiron tug'ilgani o'tmishga ishora qilgani uchun eng mos javob C (to have sought), oddiy holatda esa A (to seek). Kalitni qayta tekshirishni tavsiya qilaman. ✗ B) \"having sought\" ham bu tuzilmaga mos emas." },
-
-{ q:"Depression could be one of the fastest-growing ailments of the 21st century, young and unmarried people most ______ risk.", options:["about / in","through / of","of / on","with / at"], correct:3,
-  explain:"\"with young and unmarried people most at risk\" — mustaqil ergash tuzilma (absolute construction), \"at risk\" esa barqaror birikma (xavf ostida). ✗ A, B, C) \"in risk\", \"of risk\", \"on risk\" — ingliz tilida bunday birikmalar yo'q." },
-
-{ q:"Many of my colleagues work with radiation, but they don't seem to have been adversely affected by it, and ____.", options:["neither do I","I have too","neither was I","nor was I"], correct:0,
-  explain:"Oldingi gap inkor va \"seem\" fe'li hozirgi zamonda, shuning uchun \"neither do I\" (men ham yo'q). ✗ B) \"I have too\" — tasdiq shakl, inkor gapga qo'shilmaydi. ✗ C va D) \"was\" o'tgan zamon — asosiy gapdagi hozirgi zamon bilan mos kelmaydi." },
-
-{ q:"Paragraph summarizing. If Jane is willing to organize the picnic I should let her. The last picnic she organized was a great success. Just now, too, she has plenty of spare time, which most of us don't have. I don't think we'll find anyone as good as her.", options:["Everybody can organize a picnic as efficiently as Jane can.","Most of us don't want Jane to organize the picnic.","Jane has so much free time that she wants to organize a picnic.","Jane seems to be the best person to organize the picnic."], correct:3,
-  explain:"Matnning umumiy xulosasi: Jane bu ishga eng mos odam (tajribasi, vaqti bor, undan yaxshirog'i topilmaydi). ✗ A) matnga zid — hech kim u kabi uddalay olmaydi deyilgan. ✗ B) aksincha, muallif rozi. ✗ C) bo'sh vaqt — sabablardan biri, lekin asosiy xulosa emas." },
-
-{ q:"Paragraph summarizing. I know all the arguments about how important it is to advertise. I admit that the costs of advertising are quickly recovered in better sales. Yet I still think advertising is harmful because of the bad effect it has on children.", options:["Advertising helps sales, but children are badly affected by it.","I am in favor of advertisements because children are fond of them.","It is important to advertise although children hate advertisements.","A lot of people argue about whether advertising really helps sales."], correct:0,
-  explain:"Muallif ikki fikrni qo'shib beradi: reklama savdoni oshiradi, ammo bolalarga salbiy ta'sir qiladi — A shu ikkalasini aks ettiradi. ✗ B) muallif reklama tarafdori emas. ✗ C) bolalar reklamani yomon ko'rishi haqida matnda gap yo'q — salbiy ta'sir haqida gapirilgan. ✗ D) bahs mavzusi emas, muallifning shaxsiy xulosasi muhim." },
-
-{ q:"Nobody expected them to part so suddenly. They loved each other and they were to get married. One day he told her he was going to Italy on business. He stayed 2 years there. Meanwhile she completely forgot him and married Mr. Black, a rich man. (Find the appropriate proverb.)", options:["A bad wound is cured, not a bad name.","No news good news.","As is the workman so is the work.","Out of sight — out of mind."], correct:3,
-  explain:"\"Out of sight — out of mind\" (ko'zdan yiroq — ko'ngildan yiroq) hikoyaning mohiyatini aynan ifodalaydi: yigit uzoqda bo'lgani uchun qiz uni unutdi. ✗ A) yomon nom haqida — mavzuga aloqasi yo'q. ✗ B) xabar yo'qligi haqida, ayriliq sababi emas. ✗ C) usta va uning ishi haqidagi maqol." },
-
-{ q:"Mother gave Ann some money. The girl wanted to go to the cinema very much, at the same time she wanted to buy a book, but there was not enough money for both. \"I will buy the book and go to the cinema next time when I have money,\" she said.", options:["A man can die but once.","A cat in gloves catches no mice.","You cannot eat your cake and have it.","He laughs best who laughs last."], correct:2,
-  explain:"\"You cannot eat your cake and have it\" — bir vaqtning o'zida ikkala narsaga ega bo'lib bo'lmaydi; Ann ham ikkisidan birini tanlashga majbur bo'ldi. ✗ A) o'lim haqidagi maqol. ✗ B) ehtiyotkorlik bilan ish bitmaydi degani. ✗ D) oxirida kulgan yaxshi kuladi — natija haqida." },
-
-{ q:"T: Please, don't tell anyone.\nB: ______.\nT: Do you promise?\nB: _______.", options:["Don't worry, I won't / Yes, I do","Yes, I was / I can't","I can't / Thank you","We are late / I'm afraid"], correct:0,
-  explain:"Birinchi bo'sh joyga tinchlantiruvchi javob (\"aytmayman\"), ikkinchisiga \"Do you promise?\" savoliga mos qisqa javob (\"Yes, I do\") kerak. ✗ B) \"Yes, I was\" savol bilan zamon jihatdan mos emas. ✗ C) \"Thank you\" va'da so'raganga javob bo'lmaydi. ✗ D) dialog mazmuniga umuman aloqasi yo'q." },
-
-{ q:"Mother: You can't go out skiing today, Bob. It's warm again and there is no snow.\nBob: _______.\nMother: Don't worry. Today is not the last day of the winter. You'll have a chance to ski.", options:["I'm very glad.","Well, that's a pity. I wanted to go skiing so much.","I don't like to ski.","It is a nice day."], correct:1,
-  explain:"Onaning \"Xavotir olma\" deb tasalli berishi Bobning xafa bo'lganini ko'rsatadi — B shunga mos. ✗ A) xursandlik bildirsa, tasalli kerak bo'lmasdi. ✗ C) chang'i yoqmasa ham tasalli o'rinsiz. ✗ D) ob-havo haqida fikr, hissiy javob emas." },
-
-{ q:"Put the sentences in the correct order.\nI. We didn't know English and couldn't respond to his question.\nII. We took a trolley-bus to the Central Department Store.\nIII. For the first time in my life I really regretted not having learned English at school properly.\nIV. My friend and I decided to go shopping.\nV. In the trolley-bus a foreigner addressed us in good English.", options:["II, V, VI, III, I","V, I, III, VI, II","IV, III, I, II, V","IV, II, V, I, III"], correct:3,
-  explain:"Voqealar tartibi: xarid qilishga qaror qildik (IV) → trolleybusga chiqdik (II) → chet ellik murojaat qildi (V) → javob bera olmadik (I) → ingliz tilini yaxshi o'rganmaganimdan afsuslandim (III). ⚠️ ESLATMA: asl testda D varianti \"IV, II, V, I, II\" deb chop etilgan — oxirgi raqam matn terishda xato ketgan, u III bo'lishi kerak. Shu sababli bu yerda tuzatib berildi. ✗ A va B) mavjud bo'lmagan VI raqami ishlatilgan. ✗ C) afsuslanish suhbatdan oldin qo'yilgan — mantiqan noto'g'ri." },
-
-{ q:"Put the sentences in the correct order.\n1. As it was almost a holiday event for the family we were in our best frocks.\n2. You guessed right, the holiday was spoiled.\n3. The day on which took us to the Zoo was a very bright and lovely Sunday.\n4. Suddenly a car pushed past us, splashing us with dirty sprays of water from the nearest pool.\n5. The zoo being close to our house we walked there.\n6. We had been looking forward to go there for the whole week.", options:["6, 3, 5, 1, 2, 4","5, 6, 4, 3, 2, 1","4, 6, 5, 3, 1, 2","3, 6, 1, 5, 4, 2"], correct:3,
-  explain:"Hikoya tartibi: kun tavsifi (3) → bir hafta kutgandik (6) → eng chiroyli kiyimda edik (1) → piyoda bordik (5) → mashina loyga belab ketdi (4) → bayram buzildi (2). ✗ A) yakuniy xulosa (2) hodisadan (4) oldin kelgan. ✗ B) voqealar boshi va oxiri butunlay aralashgan. ✗ C) hikoya kutilmagan hodisadan boshlanib qolgan." },
-
-{ q:"Find the irrelevant sentence.\n(I) In a general sense, sociology can be considered a science. (II) Like other scientific disciplines, it engages in an organized, systematic study of phenomena in order to enhance understanding. (III) All scientists, whether studying mushrooms or murderers, attempt to collect precise information through methods of study which are objective. (IV) They rely on a careful recording of observations and accumulation of data. (V) Of course, there is a great difference between psychology and astronomy.", options:["I","II","III","IV","V"], correct:4,
-  explain:"Matnning mavzusi — sotsiologiyaning fan sifatidagi o'rni va barcha fanlarga xos umumiy usullar. V gap esa psixologiya va astronomiya orasidagi farq haqida bo'lib, na sotsiologiyaga, na umumiylik g'oyasiga bog'lanadi. ✗ I–IV) barchasi bir-birini izchil to'ldiradi. Diqqat: bu savolda 5 ta variant bor." },
-
-{ q:"Shopping malls have produced a revolution in United States shopping and living habits in just 45 years… Shops and services which were once spread over several city blocks are now in one place at the mall. _________. Busy householders can save time by doing their shopping at the mall.", options:["Thus, such handicaps as transportation and location of the malls have limited the number of people who go to the malls","And these factors make the explanation why there are not so many people as there were in the past preferring shopping malls","Hence, you can always find any department you like in a mall","In a way, shopping malls have changed United States culture"], correct:2,
-  explain:"Oldingi jumla \"hammasi bir joyda\" deydi, keyingisi \"vaqt tejaladi\" deydi — C ikkalasini bog'laydi (istalgan bo'limni topa olasiz). ✗ A va B) savdo markazlariga borish kamayganini aytadi, bu matnning umumiy ijobiy ohangiga zid. ✗ D) juda umumiy xulosa, keyingi aniq jumla bilan ulanmaydi." },
-
-{ q:"Anthropologists used to believe that romantic love was invented by Europeans in the Middle Ages… ______. Others thought that it may have existed in some other cultures but only among the rich and privileged.", options:["'Romeo and Juliet' is an unusual example of this","However, it has never taken place in history","Therefore, romance can be regarded as unnecessary as a literary type","Some anthropologists believed that this kind of love spread from the west to other cultures only recently"], correct:3,
-  explain:"Keyingi jumla \"Others thought...\" (boshqalari esa ... deb o'ylashardi) bilan boshlanadi, demak undan oldin \"Some...\" bilan boshlanadigan birinchi qarash turishi kerak — D aynan shunday. ✗ A) adabiy misol, olimlar qarashi emas. ✗ B) matnning yakuniy xulosasiga zid. ✗ C) adabiyot turi haqida, mavzudan chetda." },
-
-{ q:"According to the passage, open heart surgery has been probable _______.", passage:P_ATT4_SURGERY, options:["since the invention of valves","since the beginning of this century","only in the last fifty years","for ages","since the invention of clogged blood vessels"], correct:2,
-  explain:"Matnda: bugun 50 yil oldin tasavvur ham qilinmagan operatsiyalar bajarilmoqda, jumladan yurakni ochish va klapanlarni tuzatish. ✗ A) klapanlar ixtiro qilinmaydi, ular tananing qismi. ✗ B) asr boshida jarrohlikda ixtisoslashuv deyarli yo'q edi. ✗ D) \"azaldan\" — matnga zid. ✗ E) mantiqsiz: tomirlarning tiqilishi ixtiro qilinmaydi." },
-
-{ q:"O'qituvchining nutq qobiliyati —", options:["Nutq yordamida o'z fikr va tuyg'ularini aniq ifodalash qobiliyati","To'g'ri muloqot maromlarini egallash qobiliyati","Verbal qobiliyat","Paralingvistik ta'sir o'tkazish qobiliyati"], correct:0,
-  explain:"Nutq qobiliyati — fikr va tuyg'ularni nutq orqali aniq, tushunarli ifodalay olish. ✗ B) muloqot maromlari — muloqot madaniyatiga oid kengroq tushuncha. ✗ C) \"verbal qobiliyat\" umumiy atama, ta'rif emas. ✗ D) paralingvistik vositalar — ohang, imo-ishora, ya'ni nutqdan tashqari vositalar." },
-
-{ q:"O'qituvchining tashkilotchilik qobiliyati —", options:["Hamkorlikdagi faoliyatni tashkil etish qobiliyati","Bolalarga yaqinlasha olish qobiliyati","O'quvchilar jamoasini uyushtirish, jipslashtirish, muhim vazifalarni hal etishga ruhlantirish qobiliyati","Guruhiy faoliyatni shakllantirish qobiliyati"], correct:2,
-  explain:"Tashkilotchilik qobiliyati jamoani uyushtirish, jipslashtirish va muhim vazifalarga safarbar etishni o'z ichiga oladi — C eng to'liq ta'rif. ✗ A va D) tashkilotchilikning ayrim qirralari, lekin ruhlantirish jihati tushib qolgan. ✗ B) bu kommunikativ qobiliyatga oid." },
-
-{ q:"O'qituvchining kuzatuvchanlik qobiliyati —", options:["O'quvchining ichki dunyosiga kira bilish, o'quvchi shaxsini va uning ruhiy holatini tushuna bilish bilan bog'liq bo'lgan psixologik kuzatuvchanlik qobiliyati","Guruhiy faoliyatni shakllantirish qobiliyati","Hamkorlikdagi faoliyatni tashkil etish qobiliyati","Bolalarga yaqinlasha olish qobiliyati"], correct:0,
-  explain:"Kuzatuvchanlik (perseptiv) qobiliyati — o'quvchining ruhiy holatini, kayfiyatini tashqi belgilardan payqab, ichki dunyosini tushuna olish. ✗ B va C) tashkilotchilik qobiliyatiga oid. ✗ D) kommunikativ qobiliyat." },
-
-{ q:"Muloqot bu —", options:["Odamning birgalikdagi faoliyat ehtiyojlaridan kelib chiqadigan turli faolliklari mobaynida bir-birlari bilan o'zaro munosabatga kirishish jarayoni","Shaxslararo munosabatlar tizimi","Muloqot o'zaro axborot ayirboshlash jarayoni","Hamkorlikdagi faoliyat samarasini belgilovchi munosabat jarayoni"], correct:0,
-  explain:"Muloqotning to'liq ta'rifi birgalikdagi faoliyat ehtiyojidan kelib chiqishini va o'zaro munosabatga kirishishni qamrab oladi. ✗ B) natijasi, jarayonning o'zi emas. ✗ C) faqat kommunikativ tomonini ko'rsatadi — muloqot bundan kengroq. ✗ D) muloqotning vazifasi haqida, ta'rif emas." },
-
-{ q:"Muomalada verbal ta'sir?", options:["So'z orqali ta'sir etish","Nutqsiz ta'sir etish","Xatti-harakatlar orqali ta'sir etish","Ko'z qarashlari va hissiy ifoda"], correct:0,
-  explain:"Verbal (lotincha verbum — so'z) ta'sir — aynan so'z, nutq orqali ta'sir ko'rsatish. ✗ B, C, D) nutqsiz ta'sir, imo-ishora, ko'z qarashi — bularning barchasi noverbal (verbal bo'lmagan) ta'sir turlari." },
-
-{ q:"Pedagogik texnologiyaning asosiy maqsadi nimalardan iborat?", options:["o'quvchiga qo'yib borilgan baholarni predmet bo'yicha umumiy bahoga birlashtirish qoidalaridan","o'quv jarayonini uzluksiz, uzoq vaqt muttasil kuzatish va uni boshqarishdan","takomillashtirish yoki o'quvchilarning bilish faoliyatini rivojlantirishdan","o'quvchilarning bilish faoliyatini rivojlantirishdan"], correct:2,
-  explain:"Pedagogik texnologiyaning maqsadi — o'quv jarayonini takomillashtirish va shu orqali o'quvchining bilish faoliyatini rivojlantirish; C ikkala jihatni ham qamrab oladi. ✗ D) faqat bir qismini aytadi. ✗ A) baholarni birlashtirish — baholash tizimiga oid texnik masala. ✗ B) kuzatish va boshqarish — monitoring vazifasi." },
-
-{ q:"Pedagogik texnologiyaning asosiy vazifalari nimalardan iborat?", options:["o'quv jarayonini mazmunli amalga oshirish va rivojlantirish","o'quv jarayonini mazmunli rivojlantirish","o'quv jarayonini vaqt doirasida olib borish","o'quv jarayonini mazmunli amalga oshirish"], correct:3,
-  explain:"Kalit bo'yicha — D: pedagogik texnologiyaning bevosita vazifasi o'quv jarayonini mazmunli, maqsadga muvofiq amalga oshirishdir. ✗ B) faqat rivojlantirish — vazifa emas, natija. ✗ C) vaqt doirasida olib borish — tashkiliy shart, asosiy vazifa emas. ✗ A) rivojlantirishni ham qo'shgani bilan vazifa doirasidan chiqadi." },
-
-{ q:"Pedagogik texnologiyaning bugungi kundagi ahamiyati qanday?", options:["pedagogikada monitoringda","ta'limning baholash shkalasida","o'quv jarayonining uzluksizligida","sohadagi nazariy va amaliy izlanishlarni birlashtirish doirasidagi faoliyatni aks ettiradi"], correct:3,
-  explain:"Pedagogik texnologiyaning bugungi qiymati — nazariy izlanishlar bilan amaliy tajribani bir tizimga birlashtirishida. ✗ A, B, C) monitoring, baholash shkalasi va uzluksizlik — texnologiyaning ayrim elementlari, umumiy ahamiyati emas." },
-
-{ q:"Pedagogik texnologiyada axborot texnologiyalarining o'rni qanday?", options:["ijodiy yondashuvda","o'zaro ta'sirlarda","pedagogikada monitoringda","boshqarish imkoniyati tug'iladi va u o'qituvchining yaqin ko'makdoshiga aylanadi hamda uning funksiyalarini qisman o'z zimmasiga oladi"], correct:3,
-  explain:"Axborot texnologiyalari o'quv jarayonini boshqarish imkonini beradi va o'qituvchining ayrim vazifalarini yengillashtiradi — D shu rolni to'liq ifodalaydi. ✗ A, B, C) alohida tushunchalar bo'lib, axborot texnologiyalarining o'rnini tavsiflamaydi." },
-
-{ q:"An'anaviy yondashuvning asosiy xususiyati nimada?", options:["ijodiy yondashuv","nazorat turlari (joriy, oraliq, yakuniy)","gapirib berish, tushuntirish, talaba esa bu axborotni xotirada saqlaydi","o'zaro ta'sirlar"], correct:2,
-  explain:"An'anaviy (izohli-tushuntiruvchi) yondashuvda o'qituvchi tayyor bilimni bayon qiladi, o'quvchi esa uni eslab qoladi — bilim bir tomonlama uzatiladi. ✗ A va D) ijodiy yondashuv va o'zaro ta'sir — zamonaviy, interaktiv ta'limning belgilari. ✗ B) nazorat turlari har qanday yondashuvda mavjud." },
-
-{ q:"\"Tizim\" so'zining ma'nosi ko'rsatilgan qatorni belgilang.", options:["gaplarni yozib, saqlab olish","ijodiy yondashuv","qismlardan tuzilgan, birikkan yaxlit narsa yoki hodisa","o'quvchilarning bilish faoliyatini rivojlantirish"], correct:2,
-  explain:"Tizim (sistema) — o'zaro bog'langan qismlardan tashkil topgan yaxlitlik. ✗ A) yozib olish — qayd etish jarayoni. ✗ B va D) pedagogikaga oid alohida tushunchalar, \"tizim\" so'zining ta'rifi emas." },
-
-{ q:"Pedagogik tizim nimalardan iborat?", options:["o'quvchilarning bilish faoliyatini rivojlantirish","pedagogik jarayonning ob'ektlari va sub'ektlari, shakl-usullari, ular o'rtasidagi munosabatlar, o'zaro ta'sirlar hamda ularni boshqarishdan","gaplarni yozib, saqlab olish, ijodiy yondashuv, bilim berishdan","tanqidiy-ijodiy yondashuv, o'zaro ta'sirlar"], correct:1,
-  explain:"Pedagogik tizim ishtirokchilar (ob'ekt va sub'ektlar), shakl-usullar, ular orasidagi munosabatlar va boshqaruvni o'z ichiga oladi — B to'liq ta'rif. ✗ A) tizimning maqsadi. ✗ C va D) tizim tarkibiga kirmaydigan tasodifiy tushunchalar to'plami." },
-
-{ q:"Reproduktiv daraja uchun pedagogik texnologiya usulida ta'lim qanday jarayon sifatida tashkil etiladi?", options:["takror ishlab chiqiladigan konveyerli jarayon","harakatning yangi usullarini topish jarayoni","mustaqil o'zlashtirish jarayoni","ijodiy yondashuv jarayoni"], correct:0,
-  explain:"Reproduktiv daraja — namuna bo'yicha takrorlash, shuning uchun jarayon aniq bosqichlar bilan takrorlanadigan (konveyerli) tarzda tashkil etiladi. ✗ B, C, D) yangi usullar topish, mustaqil o'zlashtirish va ijodkorlik — bular produktiv va ijodiy darajalarga xos." },
-
-{ q:"Tanqidiy-ijodiy yondashuv mohiyatini ko'rsating.", options:["mustaqil o'zlashtirish, harakatning yangi usullarini topish, shaxsan tashabbus ko'rsatishni ko'zda tutadi","harakatlar, ovozlar va gaplarni yozib, saqlab olish","shakllar va chizuvlar, matnli belgi, ovozli belgi","harakatning yangi usullarini topish, gaplarni yozib, saqlab olish"], correct:0,
-  explain:"Tanqidiy-ijodiy yondashuvning uch belgisi: mustaqil o'zlashtirish, yangi usullar izlash va shaxsiy tashabbus. ✗ B va C) axborotni qayd etish vositalari haqida. ✗ D) ijodiy element bor, lekin \"yozib saqlash\" qo'shilgani ta'rifni buzadi." },
-
-{ q:"Qaysi tushuncha ehtiyoj, intilish, qiziqish kabi ma'nolarni anglatadi?", options:["maqsad","baholash","mazmun","Motiv"], correct:3,
-  explain:"Motiv — insonni faoliyatga undovchi ichki turtki: ehtiyoj, intilish, qiziqish. ✗ A) maqsad — erishmoqchi bo'lgan natija, undov emas. ✗ B) baholash — natijani o'lchash. ✗ C) mazmun — o'rganiladigan material." }
-];
-
-/* ---------- 4k) TKT — MODULE 1 (namunaviy variant) ----------
-   Cambridge sillabusi va topshiriq formatlariga mos original mashq savollari. */
-
-const T1_P1 = "Questions 1–7\nMatch the underlined words in the sentences with the parts of speech listed A–D.\nMark the correct letter (A, B, C or D).\n\nA — adverb\nB — adjective\nC — preposition\nD — conjunction";
-const T1_P2 = "Questions 8–13\nMatch the examples with the types of vocabulary item listed A–D.\nMark the correct letter (A, B, C or D).\n\nA — collocation\nB — compound noun\nC — idiom\nD — phrasal verb";
-const T1_P3 = "Questions 14–19\nMatch the examples with the phonology terms listed A–D.\nMark the correct letter (A, B, C or D).\n\nA — minimal pair\nB — silent letter\nC — word stress\nD — diphthong";
-const T1_P4 = "Questions 20–26\nMatch what the speakers say with the language functions listed A–D.\nMark the correct letter (A, B, C or D).\n\nA — making a suggestion\nB — apologising\nC — offering help\nD — complaining";
-const T1_P5 = "Questions 27–33\nMatch the activities with the reading subskills listed A–D.\nMark the correct letter (A, B, C or D).\n\nA — skimming\nB — scanning\nC — reading for detail\nD — deducing meaning from context";
-const T1_P6 = "Questions 34–40\nFor questions 34–40, choose the best option (A, B, C or D).";
-
-const TKT_MODULE_1 = [
-/* ----- Part 1: Parts of speech (1–7) ----- */
-{ q:"He drove carefully along the narrow mountain road.", task:T1_P1, taskLabel:"📋 Part 1 · Questions 1–7", options:["adverb","adjective","preposition","conjunction"], correct:0,
-  explain:"\"Carefully\" — fe'lni (drove) izohlab, harakat qanday bajarilganini bildiryapti, demak ravish (adverb). Ko'pincha -ly qo'shimchasi ravish belgisi bo'ladi. ✗ B) sifat otni izohlaydi, bu yerda ot yo'q. ✗ C va D) predlog va bog'lovchi so'zlarni bog'laydi, tarzni bildirmaydi." },
-{ q:"The final exam was difficult for most of the students.", task:T1_P1, taskLabel:"📋 Part 1 · Questions 1–7", options:["adverb","adjective","preposition","conjunction"], correct:1,
-  explain:"\"Difficult\" — \"exam\" otining belgisini bildiryapti (qanday imtihon?), demak sifat (adjective). ✗ A) ravish fe'l yoki sifatni izohlardi. ✗ C va D) bu so'z hech narsani bog'lamayapti, belgi bildiryapti." },
-{ q:"We waited in the car until the rain stopped.", task:T1_P1, taskLabel:"📋 Part 1 · Questions 1–7", options:["adverb","adjective","preposition","conjunction"], correct:3,
-  explain:"\"Until\" bu yerda ikkita gapni (we waited + the rain stopped) bog'layapti, demak bog'lovchi (conjunction). ✗ C) agar undan keyin ot kelsa (until Monday), predlog bo'lardi — bu yerda esa to'liq gap kelgan. ✗ A va B) hech narsani izohlamayapti." },
-{ q:"Your dictionary is on the top shelf.", task:T1_P1, taskLabel:"📋 Part 1 · Questions 1–7", options:["adverb","adjective","preposition","conjunction"], correct:2,
-  explain:"\"On\" ot birikmasi (the top shelf) oldidan kelib, o'rin munosabatini ko'rsatyapti — predlog (preposition). ✗ D) bog'lovchi ikki gapni bog'lardi. ✗ A va B) so'z turkumi jihatidan mos emas." },
-{ q:"She gave a brilliant presentation at the conference.", task:T1_P1, taskLabel:"📋 Part 1 · Questions 1–7", options:["adverb","adjective","preposition","conjunction"], correct:1,
-  explain:"\"Brilliant\" — \"presentation\" otidan oldin kelib, uning belgisini bildiryapti: sifat. ✗ A) ravish bo'lganida \"brilliantly\" shaklida va fe'l yonida kelardi." },
-{ q:"They left early because the traffic was getting heavy.", task:T1_P1, taskLabel:"📋 Part 1 · Questions 1–7", options:["adverb","adjective","preposition","conjunction"], correct:3,
-  explain:"\"Because\" sabab ergash gapini bosh gapga bog'layapti — bog'lovchi. ✗ C) \"because of\" shakli predlog bo'lardi va undan keyin ot kelardi. ✗ A) shu gapdagi \"early\" ravish, lekin savolda \"because\" so'ralgan." },
-{ q:"The cat jumped over the garden fence.", task:T1_P1, taskLabel:"📋 Part 1 · Questions 1–7", options:["adverb","adjective","preposition","conjunction"], correct:2,
-  explain:"\"Over\" ot birikmasi oldidan kelib harakat yo'nalishini ko'rsatyapti — predlog. ✗ A) \"over\" ba'zan ravish bo'ladi (the game is over), lekin bu yerda undan keyin ot bor." },
-
-/* ----- Part 2: Lexis (8–13) ----- */
-{ q:"make a decision", task:T1_P2, taskLabel:"📋 Part 2 · Questions 8–13", options:["collocation","compound noun","idiom","phrasal verb"], correct:0,
-  explain:"Kollokatsiya — odatda birga ishlatiladigan so'zlar juftligi. \"Make a decision\" shunday (\"do a decision\" deyilmaydi), lekin ma'nosi so'zlaridan kelib chiqadi. ✗ C) idioma bo'lsa ma'no yashirin bo'lardi. ✗ D) fe'l + predlog emas." },
-{ q:"swimming pool", task:T1_P2, taskLabel:"📋 Part 2 · Questions 8–13", options:["collocation","compound noun","idiom","phrasal verb"], correct:1,
-  explain:"Ikki so'z qo'shilib bitta yangi ot yasagan — qo'shma ot (compound noun). ✗ A) kollokatsiya so'zlar birikuvi bo'lsa-da, bu yerda yaxlit bir tushuncha (basseyn) yasalgan. ✗ D) fe'l emas, ot." },
-{ q:"give up smoking", task:T1_P2, taskLabel:"📋 Part 2 · Questions 8–13", options:["collocation","compound noun","idiom","phrasal verb"], correct:3,
-  explain:"Fe'l + ergash so'z (give + up) yangi ma'no beryapti — bu frazeologik fe'l (phrasal verb). ✗ C) idioma odatda uzunroq va butunlay ko'chma bo'ladi. ✗ B) ot emas." },
-{ q:"once in a blue moon", task:T1_P2, taskLabel:"📋 Part 2 · Questions 8–13", options:["collocation","compound noun","idiom","phrasal verb"], correct:2,
-  explain:"Ma'nosini alohida so'zlardan chiqarib bo'lmaydigan barqaror ibora — idioma (juda kamdan-kam degani). ✗ A) oddiy kollokatsiyada ma'no so'zlardan tushunilardi. ✗ D) fe'l yo'q." },
-{ q:"heavy rain", task:T1_P2, taskLabel:"📋 Part 2 · Questions 8–13", options:["collocation","compound noun","idiom","phrasal verb"], correct:0,
-  explain:"Ingliz tilida yomg'ir uchun aynan \"heavy\" ishlatiladi (\"strong rain\" emas) — bu kollokatsiya. Ma'no tushunarli, ko'chma emas. ✗ B) yangi yaxlit ot yasalmagan. ✗ C) ma'no yashirin emas." },
-{ q:"traffic lights", task:T1_P2, taskLabel:"📋 Part 2 · Questions 8–13", options:["collocation","compound noun","idiom","phrasal verb"], correct:1,
-  explain:"Ikki ot qo'shilib bitta predmet nomini bergan (svetofor) — qo'shma ot. ✗ A) bu shunchaki tez-tez uchraydigan juftlik emas, balki mustaqil leksik birlik. ✗ C) ko'chma ma'no yo'q." },
-
-/* ----- Part 3: Phonology (14–19) ----- */
-{ q:"ship  /  sheep", task:T1_P3, taskLabel:"📋 Part 3 · Questions 14–19", options:["minimal pair","silent letter","word stress","diphthong"], correct:0,
-  explain:"Faqat bitta tovushi bilan farq qiladigan ikki so'z — minimal juftlik (/ɪ/ va /iː/). Bunday juftliklar talaffuzni mashq qilishda ishlatiladi. ✗ B) o'qilmaydigan harf yo'q. ✗ D) /ɪ/ va /iː/ — sof unlilar, diftong emas." },
-{ q:"the letter 'k' in the word KNEE", task:T1_P3, taskLabel:"📋 Part 3 · Questions 14–19", options:["minimal pair","silent letter","word stress","diphthong"], correct:1,
-  explain:"\"Knee\" /niː/ deb o'qiladi — \"k\" yozilsa ham talaffuz qilinmaydi, ya'ni o'qilmaydigan harf. ✗ A) bu yerda taqqoslanadigan ikkinchi so'z yo'q. ✗ C) urg'u haqida gap ketmayapti." },
-{ q:"PHOtograph  →  phoTOgrapher", task:T1_P3, taskLabel:"📋 Part 3 · Questions 14–19", options:["minimal pair","silent letter","word stress","diphthong"], correct:2,
-  explain:"So'z shakli o'zgarganda urg'u boshqa bo'g'inga ko'chgan — bu so'z urg'usi (word stress). ✗ A) so'zlar bir tovush bilan emas, butun shakl bilan farq qiladi. ✗ B) o'qilmaydigan harf masalasi emas." },
-{ q:"the vowel sound /eɪ/ in the word DAY", task:T1_P3, taskLabel:"📋 Part 3 · Questions 14–19", options:["minimal pair","silent letter","word stress","diphthong"], correct:3,
-  explain:"/eɪ/ — bitta bo'g'in ichida bir unlidan ikkinchisiga siljiydigan tovush, ya'ni diftong. ✗ A) juftlik keltirilmagan. ✗ C) urg'u emas, tovush sifati haqida." },
-{ q:"bat  /  pat", task:T1_P3, taskLabel:"📋 Part 3 · Questions 14–19", options:["minimal pair","silent letter","word stress","diphthong"], correct:0,
-  explain:"Faqat birinchi undosh bilan farq qiladi (/b/ va /p/) — minimal juftlik. ✗ D) unli /æ/ ikkalasida bir xil va u diftong emas. ✗ B) barcha harflar o'qiladi." },
-{ q:"the letter 'b' in the word CLIMB", task:T1_P3, taskLabel:"📋 Part 3 · Questions 14–19", options:["minimal pair","silent letter","word stress","diphthong"], correct:1,
-  explain:"\"Climb\" /klaɪm/ — oxiridagi \"b\" talaffuz qilinmaydi (comb, thumb kabi). ✗ D) so'zdagi /aɪ/ diftong, lekin savolda \"b\" harfi haqida so'ralgan. ✗ A) taqqoslash uchun juftlik yo'q." },
-
-/* ----- Part 4: Functions (20–26) ----- */
-{ q:"\"Shall I carry that heavy bag for you?\"", task:T1_P4, taskLabel:"📋 Part 4 · Questions 20–26", options:["making a suggestion","apologising","offering help","complaining"], correct:2,
-  explain:"So'zlovchi o'z yordamini taklif qilyapti — \"Shall I...?\" aynan yordam taklif qilish shakli. ✗ A) taklif bo'lganida birgalikda qilinadigan ish aytilardi (\"Shall we...?\"). ✗ B va D) uzr ham, norozilik ham yo'q." },
-{ q:"\"I'm terribly sorry I'm late — the bus broke down.\"", task:T1_P4, taskLabel:"📋 Part 4 · Questions 20–26", options:["making a suggestion","apologising","offering help","complaining"], correct:1,
-  explain:"\"I'm terribly sorry\" — kechirim so'rashning aniq ifodasi. ✗ D) avtobus haqida gapirsa ham, bu shikoyat emas, kechikish sababi. ✗ C) yordam taklif qilinmayapti." },
-{ q:"\"Why don't we meet on Friday instead?\"", task:T1_P4, taskLabel:"📋 Part 4 · Questions 20–26", options:["making a suggestion","apologising","offering help","complaining"], correct:0,
-  explain:"\"Why don't we...?\" — birgalikda biror ishni qilishni taklif qilish shakli. ✗ C) so'zlovchi o'z yordamini emas, umumiy rejani taklif qilyapti. ✗ B) uzr so'ralmayapti." },
-{ q:"\"This soup is completely cold. I'd like to speak to the manager.\"", task:T1_P4, taskLabel:"📋 Part 4 · Questions 20–26", options:["making a suggestion","apologising","offering help","complaining"], correct:3,
-  explain:"Mijoz xizmatdan norozi va rahbar bilan gaplashmoqchi — bu shikoyat qilish. ✗ A) taklif emas, e'tiroz. ✗ B) uzr so'rayotgan tomon emas, aksincha." },
-{ q:"\"Would you like me to check your essay before you hand it in?\"", task:T1_P4, taskLabel:"📋 Part 4 · Questions 20–26", options:["making a suggestion","apologising","offering help","complaining"], correct:2,
-  explain:"\"Would you like me to...?\" — o'z xizmatini muloyim taklif qilish shakli, ya'ni yordam taklifi. ✗ A) taklif bo'lganida \"Why don't you...?\" kabi shakl ishlatilardi." },
-{ q:"\"How about taking the bus instead of walking?\"", task:T1_P4, taskLabel:"📋 Part 4 · Questions 20–26", options:["making a suggestion","apologising","offering help","complaining"], correct:0,
-  explain:"\"How about + V-ing\" — taklif berishning tipik shakli. ✗ C) so'zlovchi o'zi biror ish qilishni va'da qilmayapti. ✗ D) norozilik ohangida emas." },
-{ q:"\"I've been waiting here for over an hour and nobody has come to help me.\"", task:T1_P4, taskLabel:"📋 Part 4 · Questions 20–26", options:["making a suggestion","apologising","offering help","complaining"], correct:3,
-  explain:"So'zlovchi yomon xizmatdan noroziligini bildiryapti — shikoyat. ✗ C) yordam so'rayapti, taklif qilmayapti. ✗ B) uzr so'rash yo'q." },
-
-/* ----- Part 5: Reading subskills (27–33) ----- */
-{ q:"A learner looks quickly through a newspaper article to find out what it is generally about.", task:T1_P5, taskLabel:"📋 Part 5 · Questions 27–33", options:["skimming","scanning","reading for detail","deducing meaning from context"], correct:0,
-  explain:"Matnni tez ko'z yugurtirib, umumiy mazmunini tushunish — skimming. ✗ B) scanning aniq bir ma'lumotni qidirishda ishlatiladi. ✗ C) reading for detail sekin va batafsil o'qishni talab qiladi." },
-{ q:"A learner looks through a train timetable to find the departure time of one particular train.", task:T1_P5, taskLabel:"📋 Part 5 · Questions 27–33", options:["skimming","scanning","reading for detail","deducing meaning from context"], correct:1,
-  explain:"Matndan bitta aniq ma'lumotni (vaqtni) topish uchun qidirish — scanning. ✗ A) skimming umumiy mazmun uchun. ✗ C) butun jadvalni batafsil o'qish shart emas." },
-{ q:"A learner reads the instructions on a medicine bottle to understand exactly how much to take.", task:T1_P5, taskLabel:"📋 Part 5 · Questions 27–33", options:["skimming","scanning","reading for detail","deducing meaning from context"], correct:2,
-  explain:"Har bir so'z muhim bo'lgani uchun matn diqqat bilan, to'liq o'qiladi — reading for detail. ✗ A va B) yuzaki yoki tanlab o'qish bu yerda xavfli bo'lardi." },
-{ q:"A learner works out what an unknown word means by looking at the rest of the sentence.", task:T1_P5, taskLabel:"📋 Part 5 · Questions 27–33", options:["skimming","scanning","reading for detail","deducing meaning from context"], correct:3,
-  explain:"Notanish so'z ma'nosini atrofdagi matndan taxmin qilish — deducing meaning from context. ✗ C) bu butun matnni tushunish emas, bitta so'z ustida ish. ✗ B) qidirish emas, taxmin qilish." },
-{ q:"A learner glances at a restaurant menu to get an idea of the kind of food served there.", task:T1_P5, taskLabel:"📋 Part 5 · Questions 27–33", options:["skimming","scanning","reading for detail","deducing meaning from context"], correct:0,
-  explain:"Umumiy tasavvur hosil qilish uchun tez ko'z yugurtirish — skimming. ✗ B) aniq bir taom yoki narx qidirilganda scanning bo'lardi." },
-{ q:"A learner searches through a history text to find all the dates mentioned in it.", task:T1_P5, taskLabel:"📋 Part 5 · Questions 27–33", options:["skimming","scanning","reading for detail","deducing meaning from context"], correct:1,
-  explain:"Aniq turdagi ma'lumotni (sanalarni) topish uchun matn bo'ylab qidirish — scanning. ✗ C) matnning mazmunini to'liq tushunish talab qilinmayapti." },
-{ q:"A learner guesses that 'famished' means 'very hungry' because the character in the story has not eaten all day.", task:T1_P5, taskLabel:"📋 Part 5 · Questions 27–33", options:["skimming","scanning","reading for detail","deducing meaning from context"], correct:3,
-  explain:"So'z ma'nosi hikoya mazmunidan kelib chiqib taxmin qilinyapti — deducing meaning from context. ✗ B) lug'atdan yoki matndan qidirib topilgani yo'q, mantiqan chiqarilgan." },
-
-/* ----- Part 6: Background to learning and teaching (34–40) ----- */
-{ q:"A learner writes: \"Yesterday I goed to the cinema.\" What kind of error is this most likely to be?", task:T1_P6, taskLabel:"📋 Part 6 · Questions 34–40", options:["a slip","a developmental error","a fossilised error","a spelling error"], correct:1,
-  explain:"O'quvchi qoidani (-ed qo'shish) o'rganib, uni noto'g'ri fe'lga ham qo'llayapti — bu til o'rganish jarayonining tabiiy bosqichi, ya'ni developmental error (overgeneralisation). ✗ A) slip — bilgan holda beixtiyor qilingan xato, o'quvchi o'zi tuzatadi. ✗ C) fossilised error uzoq yillar qotib qolgan xatoga aytiladi. ✗ D) imlo emas, grammatika xatosi." },
-{ q:"An Uzbek learner says: \"I am agree with you.\" What is the most likely cause of this error?", task:T1_P6, taskLabel:"📋 Part 6 · Questions 34–40", options:["carelessness","L1 interference","lack of vocabulary","poor pronunciation"], correct:1,
-  explain:"O'zbek (yoki rus) tilida bu ibora ot-kesim tuzilishiga ega bo'lgani uchun o'quvchi \"am\" ni qo'shib yuboryapti — ona tili ta'siri (L1 interference/transfer). ✗ A) e'tiborsizlik tasodifiy bo'lardi, bu esa muntazam takrorlanadi. ✗ C) so'z bilinadi, tuzilma noto'g'ri. ✗ D) talaffuz bilan bog'liq emas." },
-{ q:"A learner understands new material best when it is presented in diagrams, pictures and mind maps. This learner is likely to be:", task:T1_P6, taskLabel:"📋 Part 6 · Questions 34–40", options:["an auditory learner","a kinaesthetic learner","a visual learner","an analytic learner"], correct:2,
-  explain:"Ko'rish orqali — rasm, sxema, diagramma yordamida yaxshi o'zlashtiruvchi o'quvchi vizual (visual) turga kiradi. ✗ A) auditory — eshitish orqali o'rganadi. ✗ B) kinaesthetic — harakat va amaliy faoliyat orqali. ✗ D) analytic — qoidalarni bo'lib tahlil qilishni yoqtiradi, bu boshqa tasnif." },
-{ q:"A student studies English simply because she enjoys the language and finds it interesting. This is an example of:", task:T1_P6, taskLabel:"📋 Part 6 · Questions 34–40", options:["extrinsic motivation","intrinsic motivation","integrative testing","learner autonomy"], correct:1,
-  explain:"Motivatsiya ichki qiziqishdan kelib chiqyapti — intrinsic motivation. ✗ A) extrinsic bo'lganida sabab tashqi bo'lardi (imtihon, ish, mukofot). ✗ C) bu baholash turi. ✗ D) o'quvchining mustaqilligi — boshqa tushuncha." },
-{ q:"Before a new course begins, a teacher gives all the new students a test in order to decide which class each of them should join. This kind of test is called:", task:T1_P6, taskLabel:"📋 Part 6 · Questions 34–40", options:["a placement test","an achievement test","a proficiency test","a progress test"], correct:0,
-  explain:"Maqsad — o'quvchilarni darajasiga qarab guruhlarga taqsimlash, bu placement test. ✗ B) achievement test o'tilgan dastur bo'yicha o'zlashtirishni tekshiradi. ✗ C) proficiency test umumiy til darajasini (IELTS kabi) belgilaydi, guruhga taqsimlash uchun emas. ✗ D) progress test kurs davomidagi oraliq nazorat." },
-{ q:"During a speaking activity the teacher notes down learners' mistakes but says nothing at the time, and goes through them with the class after the activity has finished. This technique is known as:", task:T1_P6, taskLabel:"📋 Part 6 · Questions 34–40", options:["peer correction","delayed correction","self-correction","echo correction"], correct:1,
-  explain:"Xatolar darhol emas, mashq tugagandan keyin muhokama qilinyapti — delayed correction. Bu ravonlikni (fluency) buzmaslik uchun qo'llaniladi. ✗ A) peer correction — o'quvchilar bir-birini tuzatadi. ✗ C) self-correction — o'quvchi o'zi tuzatadi. ✗ D) echo correction — o'qituvchi xatoli qismni so'roq ohangida takrorlaydi." },
-{ q:"Learners work in pairs. Student A has a timetable with some times missing and Student B has the same timetable with different times missing. They must ask each other questions to complete it. This type of task is called:", task:T1_P6, taskLabel:"📋 Part 6 · Questions 34–40", options:["a drill","an information gap activity","a dictation","a jigsaw reading"], correct:1,
-  explain:"Har bir o'quvchida boshqasida yo'q ma'lumot bor va uni to'ldirish uchun muloqot qilishi shart — information gap activity. ✗ A) drill — mexanik takrorlash mashqi. ✗ C) diktant — eshitib yozish. ✗ D) jigsaw reading da har kim matnning turli qismini o'qiydi, bu yerda esa jadval to'ldiriladi." }
-];
-
-/* ---------- 4l) TKT — MODULE 2 (namunaviy variant) ----------
-   Lesson planning and use of resources for language teaching.
-   Cambridge sillabusi va topshiriq formatlariga mos original mashq savollari. */
-
-const T2_P1 = "Questions 1–7\nMatch the classroom activities with the main aims listed A–D.\nMark the correct letter (A, B, C or D).\n\nA — to practise listening for gist\nB — to practise reading for specific information\nC — to practise fluency in speaking\nD — to practise accuracy in grammar";
-const T2_P2 = "Questions 8–13\nMatch the extracts from a teacher's notes with the parts of a lesson plan listed A–D.\nMark the correct letter (A, B, C or D).\n\nA — aims\nB — anticipated problems\nC — procedure\nD — timing";
-const T2_P3 = "Questions 14–20\nMatch the activities with the stages of a lesson listed A–D.\nMark the correct letter (A, B, C or D).\n\nA — lead-in\nB — presentation\nC — controlled practice\nD — freer practice";
-const T2_P4 = "Questions 21–26\nMatch the teachers' needs with the most useful reference resources listed A–D.\nMark the correct letter (A, B, C or D).\n\nA — a learner's dictionary\nB — a grammar reference book\nC — the teacher's book of the coursebook\nD — a phonemic chart";
-const T2_P5 = "Questions 27–33\nMatch the classroom situations with the teaching aids listed A–D.\nMark the correct letter (A, B, C or D).\n\nA — realia\nB — flashcards\nC — an audio recording\nD — a printed worksheet";
-const T2_P6 = "Questions 34–40\nFor questions 34–40, choose the best option (A, B, C or D).";
-
-const TKT_MODULE_2 = [
-/* ----- Part 1: Activities and their aims (1–7) ----- */
-{ q:"Learners listen to a short radio programme once and choose the best title for it from three options.", task:T2_P1, taskLabel:"📋 Part 1 · Questions 1–7", options:["to practise listening for gist","to practise reading for specific information","to practise fluency in speaking","to practise accuracy in grammar"], correct:0,
-  explain:"Sarlavha tanlash matnning umumiy mazmunini tushunishni talab qiladi — bu listening for gist. ✗ B) o'qish emas, tinglash mashqi. ✗ C) o'quvchilar gapirmayapti. ✗ D) grammatik shakl ustida ish olib borilmayapti." },
-{ q:"Learners read a hotel website in order to find out what time check-in begins.", task:T2_P1, taskLabel:"📋 Part 1 · Questions 1–7", options:["to practise listening for gist","to practise reading for specific information","to practise fluency in speaking","to practise accuracy in grammar"], correct:1,
-  explain:"Bitta aniq ma'lumot (vaqt) qidirilyapti — reading for specific information (scanning). ✗ A) tinglash emas, o'qish. ✗ C) og'zaki nutq talab qilinmayapti." },
-{ q:"Learners complete ten gapped sentences with the correct past simple form of the verbs in brackets.", task:T2_P1, taskLabel:"📋 Part 1 · Questions 1–7", options:["to practise listening for gist","to practise reading for specific information","to practise fluency in speaking","to practise accuracy in grammar"], correct:3,
-  explain:"Faqat bitta to'g'ri shakl bor va diqqat grammatik aniqlikka qaratilgan — accuracy in grammar. ✗ C) ravonlik mashqida o'quvchilar erkin gapiradi, bu yerda esa shakl nazorat qilinadi. ✗ B) matndan ma'lumot qidirilmayapti." },
-{ q:"In groups, learners discuss which of five inventions has been the most important for humanity and explain why.", task:T2_P1, taskLabel:"📋 Part 1 · Questions 1–7", options:["to practise listening for gist","to practise reading for specific information","to practise fluency in speaking","to practise accuracy in grammar"], correct:2,
-  explain:"O'quvchilar o'z fikrini erkin bayon qilyapti, diqqat ravonlikda — fluency in speaking. ✗ D) aniq grammatik shakl talab qilinmayapti. ✗ A) tinglash ham bor, lekin asosiy maqsad gapirish." },
-{ q:"Learners listen to two people talking and decide whether the speakers are agreeing or arguing.", task:T2_P1, taskLabel:"📋 Part 1 · Questions 1–7", options:["to practise listening for gist","to practise reading for specific information","to practise fluency in speaking","to practise accuracy in grammar"], correct:0,
-  explain:"Suhbatning umumiy ohangi va mazmunini tushunish talab qilinyapti, har bir so'zni emas — listening for gist. ✗ B) o'qish emas. ✗ D) grammatika ustida ish yo'q." },
-{ q:"Learners act out a role-play at a travel agency; the teacher does not interrupt to correct mistakes.", task:T2_P1, taskLabel:"📋 Part 1 · Questions 1–7", options:["to practise listening for gist","to practise reading for specific information","to practise fluency in speaking","to practise accuracy in grammar"], correct:2,
-  explain:"O'qituvchining to'xtatmasligi aynan ravonlikka (fluency) qaratilganini ko'rsatadi. ✗ D) aniqlik maqsad bo'lganida xatolar darhol tuzatilardi." },
-{ q:"Learners rewrite ten active sentences in the passive voice.", task:T2_P1, taskLabel:"📋 Part 1 · Questions 1–7", options:["to practise listening for gist","to practise reading for specific information","to practise fluency in speaking","to practise accuracy in grammar"], correct:3,
-  explain:"Mashq faqat grammatik tuzilma (majhul nisbat) ustida va bitta to'g'ri javobga ega — accuracy in grammar. ✗ C) erkin nutq yo'q, gaplar berilgan." },
-
-/* ----- Part 2: Parts of a lesson plan (8–13) ----- */
-{ q:"\"By the end of the lesson, learners will be able to give simple street directions using imperatives.\"", task:T2_P2, taskLabel:"📋 Part 2 · Questions 8–13", options:["aims","anticipated problems","procedure","timing"], correct:0,
-  explain:"Dars oxirida o'quvchilar nima qila olishi yozilgan — bu darsning maqsadi (aim). ✗ C) procedure bosqichma-bosqich nima qilinishini tasvirlaydi. ✗ B) qiyinchilik haqida gap yo'q." },
-{ q:"\"Learners may confuse 'take the first left' with 'turn left first'.\"", task:T2_P2, taskLabel:"📋 Part 2 · Questions 8–13", options:["aims","anticipated problems","procedure","timing"], correct:1,
-  explain:"O'qituvchi darsda yuzaga kelishi mumkin bo'lgan qiyinchilikni oldindan qayd etyapti — anticipated problems. ✗ A) bu maqsad emas, to'siq. ✗ C) hech qanday harakat rejasi berilmagan." },
-{ q:"\"Lead-in 5 minutes / presentation 10 minutes / practice 15 minutes / feedback 5 minutes.\"", task:T2_P2, taskLabel:"📋 Part 2 · Questions 8–13", options:["aims","anticipated problems","procedure","timing"], correct:3,
-  explain:"Har bir bosqichga ajratilgan daqiqalar ko'rsatilgan — timing. ✗ C) procedure bosqichlarda nima qilinishini tushuntiradi, bu yerda esa faqat vaqt bor." },
-{ q:"\"Put learners in pairs. Give Map A to Student A and Map B to Student B. Ask them to give each other directions.\"", task:T2_P2, taskLabel:"📋 Part 2 · Questions 8–13", options:["aims","anticipated problems","procedure","timing"], correct:2,
-  explain:"O'qituvchining qadamma-qadam harakatlari bayon qilingan — procedure. ✗ D) vaqt ko'rsatilmagan. ✗ A) natija emas, jarayon tasvirlangan." },
-{ q:"\"Learners will practise listening for specific information in short announcements.\"", task:T2_P2, taskLabel:"📋 Part 2 · Questions 8–13", options:["aims","anticipated problems","procedure","timing"], correct:0,
-  explain:"Darsda nima mashq qilinishi — ko'nikma maqsadi (skills aim). ✗ C) qanday tashkil etilishi aytilmagan. ✗ B) muammo emas, maqsad." },
-{ q:"\"Some pairs may finish the map task very quickly, so three extra questions are prepared for them.\"", task:T2_P2, taskLabel:"📋 Part 2 · Questions 8–13", options:["aims","anticipated problems","procedure","timing"], correct:1,
-  explain:"O'qituvchi ehtimoliy qiyinchilikni (tez tugatuvchilar) oldindan ko'rib, yechimini tayyorlab qo'ygan — anticipated problems. ✗ C) bu asosiy jarayon emas, zaxira reja." },
-
-/* ----- Part 3: Lesson stages (14–20) ----- */
-{ q:"Before introducing the topic, the teacher shows a photo of a beach and asks learners about their last holiday.", task:T2_P3, taskLabel:"📋 Part 3 · Questions 14–20", options:["lead-in","presentation","controlled practice","freer practice"], correct:0,
-  explain:"Mavzuga qiziqish uyg'otish va mavjud bilimni faollashtirish uchun qilingan kirish bosqichi — lead-in. ✗ B) hali yangi til birligi tushuntirilmagan. ✗ C) mashq berilmagan." },
-{ q:"The teacher draws a timeline on the board to show when the present perfect is used.", task:T2_P3, taskLabel:"📋 Part 3 · Questions 14–20", options:["lead-in","presentation","controlled practice","freer practice"], correct:1,
-  explain:"Yangi grammatik shaklning ma'nosi tushuntirilyapti — presentation bosqichi. ✗ C) o'quvchilar hali mashq qilmayapti. ✗ A) kirish emas, yangi material berilyapti." },
-{ q:"Learners complete a gap-fill exercise using 'have been' or 'has been'.", task:T2_P3, taskLabel:"📋 Part 3 · Questions 14–20", options:["lead-in","presentation","controlled practice","freer practice"], correct:2,
-  explain:"Mashq qat'iy nazorat ostida, bitta to'g'ri javob bilan — controlled practice. ✗ D) erkin mashqda o'quvchilar o'z gaplarini tuzardi. ✗ B) tushuntirish emas, mustahkamlash." },
-{ q:"Learners interview each other about places they have visited and then report to the class in their own words.", task:T2_P3, taskLabel:"📋 Part 3 · Questions 14–20", options:["lead-in","presentation","controlled practice","freer practice"], correct:3,
-  explain:"O'quvchilar o'rgangan tilni o'z mazmunlari bilan erkin ishlatyapti — freer practice. ✗ C) nazorat qilinadigan mashqda gaplar tayyor beriladi." },
-{ q:"The teacher plays a short song connected to the topic to get learners interested at the start of the lesson.", task:T2_P3, taskLabel:"📋 Part 3 · Questions 14–20", options:["lead-in","presentation","controlled practice","freer practice"], correct:0,
-  explain:"Dars boshida qiziqish uyg'otish maqsadida qilingan — lead-in. ✗ B) yangi til birligi tushuntirilmayapti. ✗ D) o'quvchilar hali til ishlab chiqarmayapti." },
-{ q:"Learners repeat model sentences after the teacher, paying attention to the correct form and pronunciation.", task:T2_P3, taskLabel:"📋 Part 3 · Questions 14–20", options:["lead-in","presentation","controlled practice","freer practice"], correct:2,
-  explain:"Takrorlash mashqi (drill) — to'liq nazorat ostidagi mustahkamlash, ya'ni controlled practice. ✗ B) presentation da o'qituvchi tushuntiradi, o'quvchi takrorlamaydi. ✗ D) erkinlik yo'q." },
-{ q:"In groups, learners write and perform their own dialogue, choosing freely which of the phrases from the lesson to use.", task:T2_P3, taskLabel:"📋 Part 3 · Questions 14–20", options:["lead-in","presentation","controlled practice","freer practice"], correct:3,
-  explain:"O'quvchilar til birligini o'zlari tanlab, ijodiy ishlatyapti — freer practice. ✗ C) nazoratli mashqda tanlov erkinligi bo'lmaydi." },
-
-/* ----- Part 4: Reference resources (21–26) ----- */
-{ q:"A teacher wants to check the difference between 'used to' and 'would' for past habits before teaching them.", task:T2_P4, taskLabel:"📋 Part 4 · Questions 21–26", options:["a learner's dictionary","a grammar reference book","the teacher's book of the coursebook","a phonemic chart"], correct:1,
-  explain:"Grammatik qoidalar orasidagi nozik farqni tushuntiruvchi manba — grammar reference book. ✗ A) lug'at so'z ma'nosini beradi, qoidalarni qiyoslamaydi. ✗ C) o'qituvchi kitobi shu darslikdagi mashqlarga oid ko'rsatma beradi." },
-{ q:"A teacher wants to find the answer key and the suggested timing for Exercise 4 in Unit 6 of the coursebook.", task:T2_P4, taskLabel:"📋 Part 4 · Questions 21–26", options:["a learner's dictionary","a grammar reference book","the teacher's book of the coursebook","a phonemic chart"], correct:2,
-  explain:"Javoblar kaliti va tavsiya etilgan vaqt aynan o'qituvchi kitobida (teacher's book) beriladi. ✗ B) grammatika ma'lumotnomasida ma'lum bir darslik mashqlari bo'lmaydi." },
-{ q:"A teacher wants to check how the word 'comfortable' is pronounced and which syllable is stressed.", task:T2_P4, taskLabel:"📋 Part 4 · Questions 21–26", options:["a learner's dictionary","a grammar reference book","the teacher's book of the coursebook","a phonemic chart"], correct:3,
-  explain:"Tovushlar va ularning belgilarini ko'rsatuvchi manba — phonemic chart; u talaffuzni tahlil qilishda ishlatiladi. ✗ A) lug'at ham transkripsiya beradi, lekin savolda tovush va urg'u ustida ish nazarda tutilgan. ✗ B) grammatika bilan bog'liq emas." },
-{ q:"A teacher wants a simple definition and an example sentence for the word 'reluctant' to give to intermediate learners.", task:T2_P4, taskLabel:"📋 Part 4 · Questions 21–26", options:["a learner's dictionary","a grammar reference book","the teacher's book of the coursebook","a phonemic chart"], correct:0,
-  explain:"O'quvchilar lug'ati (learner's dictionary) aynan sodda ta'rif va namunali gaplar beradi. ✗ B) so'z ma'nosi grammatika kitobida bo'lmaydi. ✗ D) faqat tovushlarni ko'rsatadi." },
-{ q:"A teacher wants to know what extra activity the coursebook authors suggest for learners who finish early.", task:T2_P4, taskLabel:"📋 Part 4 · Questions 21–26", options:["a learner's dictionary","a grammar reference book","the teacher's book of the coursebook","a phonemic chart"], correct:2,
-  explain:"Qo'shimcha va zaxira topshiriqlar bo'yicha tavsiyalar o'qituvchi kitobida beriladi. ✗ A va B) bunday metodik tavsiyalarni o'z ichiga olmaydi." },
-{ q:"A teacher wants to check whether the noun 'advice' is countable or uncountable before presenting it.", task:T2_P4, taskLabel:"📋 Part 4 · Questions 21–26", options:["a learner's dictionary","a grammar reference book","the teacher's book of the coursebook","a phonemic chart"], correct:0,
-  explain:"O'quvchilar lug'atida har bir ot yonida [C] yoki [U] belgisi turadi, shuning uchun eng tez va aniq manba shu. ✗ B) grammatika kitobi umumiy qoidani beradi, ayrim so'z haqida ma'lumot bermaydi. ✗ D) talaffuz bilan bog'liq." },
-
-/* ----- Part 5: Teaching aids (27–33) ----- */
-{ q:"To teach the names of fruit and vegetables, the teacher brings real apples, carrots and onions into the classroom.", task:T2_P5, taskLabel:"📋 Part 5 · Questions 27–33", options:["realia","flashcards","an audio recording","a printed worksheet"], correct:0,
-  explain:"Haqiqiy, kundalik hayotdan olingan buyumlar sinfga olib kirilgan — bu realia. ✗ B) flashcard — rasm yoki so'z yozilgan kartochka, haqiqiy narsa emas. ✗ D) qog'ozdagi topshiriq emas." },
-{ q:"The teacher holds up cards with pictures of animals one after another and learners say the words quickly.", task:T2_P5, taskLabel:"📋 Part 5 · Questions 27–33", options:["realia","flashcards","an audio recording","a printed worksheet"], correct:1,
-  explain:"Rasmli kartochkalar tez so'roq va takrorlash uchun ishlatilyapti — flashcards. ✗ A) hayvonlarning o'zi emas, tasviri. ✗ C) ovoz ishlatilmayapti." },
-{ q:"Learners hear a dialogue in which speakers with different accents book a hotel room.", task:T2_P5, taskLabel:"📋 Part 5 · Questions 27–33", options:["realia","flashcards","an audio recording","a printed worksheet"], correct:2,
-  explain:"Turli talaffuzdagi nutqni eshittirish uchun audio yozuv ishlatiladi. ✗ B) kartochka ovoz bermaydi. ✗ D) matn o'qish emas, tinglash." },
-{ q:"Each learner receives a printed page with a gap-fill exercise to complete individually.", task:T2_P5, taskLabel:"📋 Part 5 · Questions 27–33", options:["realia","flashcards","an audio recording","a printed worksheet"], correct:3,
-  explain:"Bosma topshiriq varaqasi tarqatilgan — worksheet (tarqatma material). ✗ B) kartochkalar odatda butun sinfga ko'rsatiladi, individual to'ldirilmaydi." },
-{ q:"For a role-play at a station, the teacher brings real train tickets and a real timetable.", task:T2_P5, taskLabel:"📋 Part 5 · Questions 27–33", options:["realia","flashcards","an audio recording","a printed worksheet"], correct:0,
-  explain:"Haqiqiy hayotdan olingan chipta va jadval — realia; ular mashqni hayotiyroq qiladi. ✗ D) bu o'qituvchi tayyorlagan mashq varaqasi emas, haqiqiy hujjat." },
-{ q:"The teacher uses cards with a word on one side and a picture on the other for a vocabulary revision game.", task:T2_P5, taskLabel:"📋 Part 5 · Questions 27–33", options:["realia","flashcards","an audio recording","a printed worksheet"], correct:1,
-  explain:"So'z va rasm tushirilgan kartochkalar — flashcards, lug'atni takrorlashda keng ishlatiladi. ✗ A) haqiqiy buyum emas." },
-{ q:"Learners listen to a model sentence several times and repeat it, copying the intonation pattern.", task:T2_P5, taskLabel:"📋 Part 5 · Questions 27–33", options:["realia","flashcards","an audio recording","a printed worksheet"], correct:2,
-  explain:"Ohangni (intonatsiyani) namunadan olish uchun audio yozuv kerak bo'ladi. ✗ B va D) ular ohangni ko'rsata olmaydi." },
-
-/* ----- Part 6: Planning and materials (34–40) ----- */
-{ q:"A teacher finds that a reading text in the coursebook is too difficult for her class. What is the most appropriate way to adapt it?", task:T2_P6, taskLabel:"📋 Part 6 · Questions 34–40", options:["Leave the text out and move on to the next unit.","Simplify some of the vocabulary and add a short glossary.","Translate the whole text into the learners' first language.","Ask learners to memorise the text at home."], correct:1,
-  explain:"Materialni moslashtirish (adapting materials) — matnni o'quvchilar darajasiga yaqinlashtirish, masalan qiyin so'zlarni soddalashtirish va lug'atcha berish. ✗ A) matnni tashlab ketish o'quvchilarni foydali mashqdan mahrum qiladi. ✗ C) tarjima o'qish ko'nikmasini rivojlantirmaydi. ✗ D) yodlash tushunishni ta'minlamaydi." },
-{ q:"Why do teachers usually include a lead-in stage at the beginning of a lesson?", task:T2_P6, taskLabel:"📋 Part 6 · Questions 34–40", options:["To generate interest and activate what learners already know about the topic","To correct the grammatical errors learners made in the previous lesson","To give learners a mark for their homework","To set the written homework for the next lesson"], correct:0,
-  explain:"Lead-in mavzuga qiziqish uyg'otadi va o'quvchilarning mavjud bilimini faollashtiradi, shu bilan keyingi bosqichlarni osonlashtiradi. ✗ B) xatolar ustida ish odatda alohida bosqichda bo'ladi. ✗ C va D) baholash va uyga vazifa lead-in vazifasi emas." },
-{ q:"Which of the following is written most effectively as a lesson aim?", task:T2_P6, taskLabel:"📋 Part 6 · Questions 34–40", options:["To do Exercise 3 on page 24 of the coursebook","To teach the present perfect to the class","By the end of the lesson, learners will be able to describe past experiences using the present perfect","To keep the learners busy and interested for 45 minutes"], correct:2,
-  explain:"Yaxshi maqsad o'quvchi nuqtai nazaridan, aniq va o'lchanadigan qilib yoziladi: dars oxirida ular nima qila oladi. ✗ A) bu maqsad emas, mashq nomi. ✗ B) o'qituvchi nima qilishini aytadi, natijani emas. ✗ D) o'quv natijasi bilan bog'liq emas." },
-{ q:"During a lesson a teacher monitors pair work, notes what learners can and cannot do, and uses this to plan the next lesson. No marks are given. This is an example of:", task:T2_P6, taskLabel:"📋 Part 6 · Questions 34–40", options:["summative assessment","formative assessment","a proficiency test","a placement test"], correct:1,
-  explain:"Baholash o'quv jarayoni davomida, keyingi qadamni rejalashtirish uchun olib borilyapti — formative assessment. ✗ A) summative baholash kurs oxirida yakuniy natijani chiqaradi. ✗ C va D) bular rasmiy test turlari, kundalik kuzatuv emas." },
-{ q:"What is the main advantage of using supplementary materials alongside the coursebook?", task:T2_P6, taskLabel:"📋 Part 6 · Questions 34–40", options:["They always take less time to prepare than coursebook tasks","They remove the need for the teacher to plan the lesson","They are always easier than the tasks in the coursebook","They can be chosen to match the particular needs and interests of the class"], correct:3,
-  explain:"Qo'shimcha materiallarning asosiy afzalligi — ularni aynan shu sinfning ehtiyoji va qiziqishiga qarab tanlash mumkinligi. ✗ A) ko'pincha aksincha, tayyorlash ko'proq vaqt oladi. ✗ B) reja baribir kerak. ✗ C) qiyinligi turlicha bo'lishi mumkin." },
-{ q:"Which of the following is an example of authentic material?", task:T2_P6, taskLabel:"📋 Part 6 · Questions 34–40", options:["A graded reader written specially for A2 learners","A dialogue recorded for a coursebook listening task","A real menu taken from a local restaurant","A grammar exercise from a workbook"], correct:2,
-  explain:"Autentik material — til o'rganuvchilar uchun emas, ona tilida so'zlashuvchilar uchun yaratilgan haqiqiy material; restoran menyusi shunday. ✗ A, B, D) uchalasi ham o'quv maqsadida maxsus tayyorlangan." },
-{ q:"When planning a sequence of lessons, why is it useful to recycle language from earlier lessons?", task:T2_P6, taskLabel:"📋 Part 6 · Questions 34–40", options:["It fills the time when the teacher has not prepared new material","It helps learners remember the language and use it more confidently","It means the teacher does not need to introduce any new language","It allows the teacher to give the class a formal test every lesson"], correct:1,
-  explain:"Til birliklarini takroran, turli kontekstlarda qaytarish (recycling) ularni uzoq muddatli xotiraga o'tkazadi va ishonch bilan qo'llashga yordam beradi. ✗ A) bu tayyorgarlik ko'rmaslikni oqlash. ✗ C) takrorlash yangi materialni istisno qilmaydi. ✗ D) takrorlash test bilan bir xil narsa emas." }
-];
-
-/* ---------- 4m) TKT — MODULE 3 (namunaviy variant) ----------
-   Managing the teaching and learning process.
-   Cambridge sillabusi va topshiriq formatlariga mos original mashq savollari. */
-
-const T3_P1 = "Questions 1–7\nMatch what the teacher says with the classroom functions listed A–D.\nMark the correct letter (A, B, C or D).\n\nA — giving instructions\nB — checking understanding\nC — praising learners\nD — eliciting language";
-const T3_P2 = "Questions 8–13\nMatch the learners' mistakes with the types of mistake listed A–D.\nMark the correct letter (A, B, C or D).\n\nA — a grammatical mistake\nB — a lexical mistake\nC — a pronunciation mistake\nD — a spelling mistake";
-const T3_P3 = "Questions 14–20\nMatch what the teacher does with the teacher roles listed A–D.\nMark the correct letter (A, B, C or D).\n\nA — monitor\nB — resource\nC — assessor\nD — organiser";
-const T3_P4 = "Questions 21–26\nMatch the classroom situations with the interaction patterns listed A–D.\nMark the correct letter (A, B, C or D).\n\nA — individual work\nB — pair work\nC — group work\nD — whole-class work";
-const T3_P5 = "Questions 27–33\nMatch the classroom situations with the correction techniques listed A–D.\nMark the correct letter (A, B, C or D).\n\nA — self-correction\nB — peer correction\nC — correction using gestures\nD — reformulation";
-const T3_P6 = "Questions 34–40\nFor questions 34–40, choose the best option (A, B, C or D).";
-
-const TKT_MODULE_3 = [
-/* ----- Part 1: Teacher's classroom language (1–7) ----- */
-{ q:"\"Work in pairs. Look at the photos on page 12. You have five minutes.\"", task:T3_P1, taskLabel:"📋 Part 1 · Questions 1–7", options:["giving instructions","checking understanding","praising learners","eliciting language"], correct:0,
-  explain:"O'qituvchi o'quvchilarga nima qilish kerakligini aniq aytyapti — ko'rsatma berish (giving instructions). ✗ B) tushunilganini tekshirish savol shaklida bo'lardi. ✗ D) eliciting da o'qituvchi javobni o'quvchidan chiqarishga harakat qiladi." },
-{ q:"\"So, I finished it yesterday. Is the action finished now — yes or no? And can we say 'yesterday' with this tense?\"", task:T3_P1, taskLabel:"📋 Part 1 · Questions 1–7", options:["giving instructions","checking understanding","praising learners","eliciting language"], correct:1,
-  explain:"Bu concept checking questions (CCQ) — o'quvchilar grammatik ma'noni to'g'ri tushunganini tekshiryapti. ✗ D) yangi so'z chiqarish emas, mavjud tushunchani tekshirish. ✗ A) topshiriq berilmayapti." },
-{ q:"\"Well done, Dilnoza — that's a really well-structured sentence.\"", task:T3_P1, taskLabel:"📋 Part 1 · Questions 1–7", options:["giving instructions","checking understanding","praising learners","eliciting language"], correct:2,
-  explain:"O'qituvchi o'quvchining ishini ijobiy baholab, rag'batlantiryapti — praising. ✗ B) hech narsa tekshirilmayapti. ✗ C variantdan boshqasi bu yerda maqtov ohangiga mos kelmaydi." },
-{ q:"\"Look at this picture. What do we call the person who flies a plane?\"", task:T3_P1, taskLabel:"📋 Part 1 · Questions 1–7", options:["giving instructions","checking understanding","praising learners","eliciting language"], correct:3,
-  explain:"O'qituvchi so'zni o'zi aytmay, o'quvchilardan chiqarishga harakat qilyapti — eliciting. ✗ B) bu allaqachon o'rganilgan tushunchani tekshirish emas, yangi so'zni chiqarish. ✗ A) topshiriq emas, savol." },
-{ q:"\"Don't write anything yet. Just listen the first time. Then we'll listen again.\"", task:T3_P1, taskLabel:"📋 Part 1 · Questions 1–7", options:["giving instructions","checking understanding","praising learners","eliciting language"], correct:0,
-  explain:"O'quvchilarga mashq qanday bajarilishi bosqichma-bosqich aytilyapti — ko'rsatma berish. ✗ B) tekshirish savoli emas, buyruq shakli." },
-{ q:"\"Are you going to write your answers or say them? Say them, that's right. And are you working alone or with a partner?\"", task:T3_P1, taskLabel:"📋 Part 1 · Questions 1–7", options:["giving instructions","checking understanding","praising learners","eliciting language"], correct:1,
-  explain:"Bu ICQ (instruction checking questions) — ko'rsatma tushunilganini tekshirish. ✗ A) ko'rsatmaning o'zi allaqachon berilgan, endi u tekshirilyapti. ✗ D) til birligi chiqarilmayapti." },
-{ q:"\"Excellent effort from everyone today — that was much better than last week.\"", task:T3_P1, taskLabel:"📋 Part 1 · Questions 1–7", options:["giving instructions","checking understanding","praising learners","eliciting language"], correct:2,
-  explain:"Butun sinfning harakati ijobiy baholanyapti — praising, bu motivatsiyani oshiradi. ✗ B) savol yo'q. ✗ A) keyingi qadam aytilmayapti." },
-
-/* ----- Part 2: Categorising learners' mistakes (8–13) ----- */
-{ q:"A learner says: \"She don't like coffee.\"", task:T3_P2, taskLabel:"📋 Part 2 · Questions 8–13", options:["a grammatical mistake","a lexical mistake","a pronunciation mistake","a spelling mistake"], correct:0,
-  explain:"Ega (she) bilan yordamchi fe'l mos kelmagan — \"doesn't\" bo'lishi kerak edi. Bu grammatik xato. ✗ B) so'zlar to'g'ri tanlangan. ✗ D) yozma emas, og'zaki nutq." },
-{ q:"A learner says: \"I did a mistake in the test.\"", task:T3_P2, taskLabel:"📋 Part 2 · Questions 8–13", options:["a grammatical mistake","a lexical mistake","a pronunciation mistake","a spelling mistake"], correct:1,
-  explain:"Grammatika to'g'ri, lekin noto'g'ri so'z tanlangan: ingliz tilida \"make a mistake\" deyiladi. Bu leksik (kollokatsiya) xatosi. ✗ A) gap tuzilishida grammatik nuqson yo'q. ✗ C) talaffuz bilan bog'liq emas." },
-{ q:"A learner writes: \"I hope to recieve your letter soon.\"", task:T3_P2, taskLabel:"📋 Part 2 · Questions 8–13", options:["a grammatical mistake","a lexical mistake","a pronunciation mistake","a spelling mistake"], correct:3,
-  explain:"So'z noto'g'ri yozilgan — to'g'risi \"receive\" (i harfidan oldin e). Bu imlo xatosi. ✗ B) so'z to'g'ri tanlangan, faqat yozilishi xato. ✗ A) grammatik tuzilma to'g'ri." },
-{ q:"A learner says /sɪŋk/ when they want to say the word 'think'.", task:T3_P2, taskLabel:"📋 Part 2 · Questions 8–13", options:["a grammatical mistake","a lexical mistake","a pronunciation mistake","a spelling mistake"], correct:2,
-  explain:"O'quvchi /θ/ tovushini /s/ bilan almashtiryapti — talaffuz xatosi (ko'p tillarda /θ/ tovushi yo'q). ✗ B) so'z to'g'ri tanlangan. ✗ D) og'zaki nutqda imlo xatosi bo'lmaydi." },
-{ q:"A learner says: \"There are many informations on this website.\"", task:T3_P2, taskLabel:"📋 Part 2 · Questions 8–13", options:["a grammatical mistake","a lexical mistake","a pronunciation mistake","a spelling mistake"], correct:0,
-  explain:"\"Information\" sanalmaydigan ot, ko'plik qo'shimchasi olmaydi va \"many\" bilan kelmaydi — grammatik xato. ✗ B) so'zning o'zi to'g'ri tanlangan, faqat shakli xato." },
-{ q:"A learner says: \"I made my homework yesterday evening.\"", task:T3_P2, taskLabel:"📋 Part 2 · Questions 8–13", options:["a grammatical mistake","a lexical mistake","a pronunciation mistake","a spelling mistake"], correct:1,
-  explain:"Zamon va tuzilma to'g'ri, lekin fe'l noto'g'ri tanlangan: \"do homework\" deyiladi. Bu leksik xato. ✗ A) Past Simple to'g'ri qo'llangan." },
-
-/* ----- Part 3: Teacher roles (14–20) ----- */
-{ q:"While learners are doing a pair-work task, the teacher walks quietly round the class listening and noting down errors.", task:T3_P3, taskLabel:"📋 Part 3 · Questions 14–20", options:["monitor","resource","assessor","organiser"], correct:0,
-  explain:"O'qituvchi mashq davomida kuzatib, ma'lumot to'playapti — monitor roli. ✗ D) organiser mashqni boshlashdan oldin tashkil qiladi. ✗ C) baho qo'yilmayapti." },
-{ q:"The teacher tells learners how to form groups, hands out the materials and sets a ten-minute time limit.", task:T3_P3, taskLabel:"📋 Part 3 · Questions 14–20", options:["monitor","resource","assessor","organiser"], correct:3,
-  explain:"O'quv faoliyatini tashkil qilish, guruhlarga bo'lish, material tarqatish va vaqt belgilash — organiser roli. ✗ A) kuzatish keyinroq boshlanadi. ✗ B) til bo'yicha yordam so'ralmayapti." },
-{ q:"The teacher reads learners' essays at home, corrects them and gives each one a grade.", task:T3_P3, taskLabel:"📋 Part 3 · Questions 14–20", options:["monitor","resource","assessor","organiser"], correct:2,
-  explain:"Ishlar baholanib, baho qo'yilyapti — assessor roli. ✗ A) monitor kuzatadi, lekin baho qo'ymaydi. ✗ D) tashkiliy ish emas." },
-{ q:"A learner asks \"How do you say 'shifokor' in English?\" and the teacher supplies the word and an example sentence.", task:T3_P3, taskLabel:"📋 Part 3 · Questions 14–20", options:["monitor","resource","assessor","organiser"], correct:1,
-  explain:"O'qituvchi bilim manbai sifatida kerakli til birligini beryapti — resource roli. ✗ C) baholash yo'q. ✗ A) kuzatish emas, bevosita yordam." },
-{ q:"The teacher stands back and listens while groups discuss a topic, deliberately not interrupting them.", task:T3_P3, taskLabel:"📋 Part 3 · Questions 14–20", options:["monitor","resource","assessor","organiser"], correct:0,
-  explain:"Aralashmasdan kuzatish va tinglash — monitor roli; bu ravonlik mashqlarida ayniqsa muhim. ✗ B) yordam so'ralmagunicha resource roli boshlanmaydi." },
-{ q:"Before a role-play the teacher explains the task, rearranges the chairs and allocates a role to each learner.", task:T3_P3, taskLabel:"📋 Part 3 · Questions 14–20", options:["monitor","resource","assessor","organiser"], correct:3,
-  explain:"Mashqni tashkil etish, sinfni joylashtirish va rollarni taqsimlash — organiser roli. ✗ A) kuzatish mashq boshlangach boshlanadi." },
-{ q:"The teacher gives back the progress test papers and explains what each learner needs to work on.", task:T3_P3, taskLabel:"📋 Part 3 · Questions 14–20", options:["monitor","resource","assessor","organiser"], correct:2,
-  explain:"Natijalarni baholab, o'zlashtirish darajasi haqida fikr bildiryapti — assessor roli. ✗ B) yangi til birligi berilmayapti." },
-
-/* ----- Part 4: Interaction patterns (21–26) ----- */
-{ q:"Learners read a text quietly and answer the comprehension questions on their own.", task:T3_P4, taskLabel:"📋 Part 4 · Questions 21–26", options:["individual work","pair work","group work","whole-class work"], correct:0,
-  explain:"Har bir o'quvchi mustaqil, boshqalar bilan aloqasiz ishlayapti — individual work. ✗ B va C) hamkorlik yo'q. ✗ D) o'qituvchi butun sinf bilan ishlamayapti." },
-{ q:"Student A and Student B each have half of a timetable and ask each other questions to complete it.", task:T3_P4, taskLabel:"📋 Part 4 · Questions 21–26", options:["individual work","pair work","group work","whole-class work"], correct:1,
-  explain:"Ikki o'quvchi birga ishlab, ma'lumot almashyapti — pair work (information gap). ✗ C) guruh uch va undan ortiq kishidan iborat bo'ladi. ✗ A) mustaqil bajarib bo'lmaydi." },
-{ q:"The teacher explains the rules for forming comparative adjectives to everyone at the same time.", task:T3_P4, taskLabel:"📋 Part 4 · Questions 21–26", options:["individual work","pair work","group work","whole-class work"], correct:3,
-  explain:"O'qituvchi butun sinfga bir vaqtda murojaat qilyapti — whole-class (lockstep) ish shakli. ✗ A) o'quvchilar mustaqil ishlamayapti. ✗ C) guruhlarga bo'linish yo'q." },
-{ q:"Four learners work together to prepare a short presentation about their town.", task:T3_P4, taskLabel:"📋 Part 4 · Questions 21–26", options:["individual work","pair work","group work","whole-class work"], correct:2,
-  explain:"To'rt kishilik jamoa birgalikda vazifa bajaryapti — group work. ✗ B) juftlik ikki kishidan iborat bo'ladi. ✗ D) butun sinf emas, kichik guruh." },
-{ q:"Each learner writes a short paragraph about their weekend in silence.", task:T3_P4, taskLabel:"📋 Part 4 · Questions 21–26", options:["individual work","pair work","group work","whole-class work"], correct:0,
-  explain:"Yozma ish mustaqil, jimlikda bajarilyapti — individual work. Bu o'quvchiga o'z sur'atida ishlash imkonini beradi. ✗ B va C) hamkorlik ko'zda tutilmagan." },
-{ q:"The teacher asks questions about the reading text and nominates different learners to answer in front of the class.", task:T3_P4, taskLabel:"📋 Part 4 · Questions 21–26", options:["individual work","pair work","group work","whole-class work"], correct:3,
-  explain:"O'qituvchi butun sinf bilan savol-javob olib boryapti, alohida o'quvchilarni chaqiryapti — whole-class work. ✗ A) o'quvchilar mustaqil ishlamayapti, o'qituvchi jarayonni boshqaryapti." },
-
-/* ----- Part 5: Correction techniques (27–33) ----- */
-{ q:"A learner says \"He go to school by bus.\" The teacher replies naturally: \"Ah, he goes to school by bus — and how long does it take?\"", task:T3_P5, taskLabel:"📋 Part 5 · Questions 27–33", options:["self-correction","peer correction","correction using gestures","reformulation"], correct:3,
-  explain:"O'qituvchi xatoni ochiq ko'rsatmasdan, to'g'ri shaklda qaytarib aytyapti va suhbatni davom ettiryapti — reformulation (recast). ✗ A) o'quvchi o'zi tuzatmadi. ✗ B) sinfdoshlar aralashmadi." },
-{ q:"A learner says \"I have went there.\" The teacher says nothing but raises her eyebrows and waits; the learner then says \"I have gone there.\"", task:T3_P5, taskLabel:"📋 Part 5 · Questions 27–33", options:["self-correction","peer correction","correction using gestures","reformulation"], correct:0,
-  explain:"O'qituvchi faqat imkon berdi, xatoni o'quvchining o'zi tuzatdi — self-correction. Bu eng samarali usullardan biri, chunki o'quvchi bilimini faol ishlatadi. ✗ D) o'qituvchi to'g'ri shaklni aytmadi." },
-{ q:"After a learner makes a mistake, the teacher asks: \"Can anyone help Aziz with this sentence?\"", task:T3_P5, taskLabel:"📋 Part 5 · Questions 27–33", options:["self-correction","peer correction","correction using gestures","reformulation"], correct:1,
-  explain:"Xatoni sinfdoshlar tuzatishi so'ralyapti — peer correction. Bu butun sinfni jarayonga jalb qiladi. ✗ A) o'quvchining o'zi tuzatmayapti. ✗ C) imo-ishora ishlatilmagan." },
-{ q:"The teacher holds up three fingers, one for each word, and points to the second finger to show that a word is missing there.", task:T3_P5, taskLabel:"📋 Part 5 · Questions 27–33", options:["self-correction","peer correction","correction using gestures","reformulation"], correct:2,
-  explain:"Barmoqlar yordamida xato joyi ko'rsatilyapti (finger correction) — imo-ishora orqali tuzatish. ✗ D) to'g'ri shakl aytilmayapti, faqat ishora qilinyapti." },
-{ q:"The teacher underlines the mistakes in a learner's essay and returns it so that the learner can correct them.", task:T3_P5, taskLabel:"📋 Part 5 · Questions 27–33", options:["self-correction","peer correction","correction using gestures","reformulation"], correct:0,
-  explain:"O'qituvchi faqat xato joyini belgilaydi, tuzatishni o'quvchining o'ziga qoldiradi — self-correction. ✗ B) sinfdosh emas, o'quvchining o'zi tuzatadi." },
-{ q:"Learners swap their written work with a partner and mark each other's mistakes using a correction code.", task:T3_P5, taskLabel:"📋 Part 5 · Questions 27–33", options:["self-correction","peer correction","correction using gestures","reformulation"], correct:1,
-  explain:"O'quvchilar bir-birining ishini tekshiryapti — peer correction. Bu tanqidiy ko'z bilan qarash ko'nikmasini ham rivojlantiradi. ✗ A) o'z ishini emas, sherigining ishini tuzatyapti." },
-{ q:"To show that a vowel sound should be longer, the teacher stretches her hands apart while the learner repeats the word.", task:T3_P5, taskLabel:"📋 Part 5 · Questions 27–33", options:["self-correction","peer correction","correction using gestures","reformulation"], correct:2,
-  explain:"Tovush cho'ziqligi qo'l harakati bilan ko'rsatilyapti — imo-ishora orqali tuzatish, talaffuz mashqlarida keng qo'llaniladi. ✗ D) og'zaki to'g'ri shakl berilmayapti." },
-
-/* ----- Part 6: Managing the classroom (34–40) ----- */
-{ q:"Why do teachers use ICQs (instruction checking questions) before an activity begins?", task:T3_P6, taskLabel:"📋 Part 6 · Questions 34–40", options:["To find out how much grammar the learners already know","To make sure learners understand exactly what they have to do","To give learners a mark for listening carefully","To increase the amount of teacher talking time"], correct:1,
-  explain:"ICQ ko'rsatma tushunilganini tekshiradi, shu bilan mashq davomidagi chalkashlik va vaqt yo'qotishning oldini oladi. ✗ A) grammatik bilimni tekshirish uchun CCQ ishlatiladi. ✗ C) baholash vositasi emas. ✗ D) aksincha, keyinchalik ortiqcha tushuntirishni kamaytiradi." },
-{ q:"What is the main disadvantage of excessive TTT (teacher talking time)?", task:T3_P6, taskLabel:"📋 Part 6 · Questions 34–40", options:["It reduces the opportunities learners have to use English themselves","It makes the lesson plan harder for the teacher to follow","It always means the teacher's own English is inaccurate","It prevents the teacher from monitoring learners' written work"], correct:0,
-  explain:"O'qituvchi ko'p gapirsa, o'quvchilarga gapirish uchun qolgan vaqt (STT) qisqaradi — asosiy kamchilik shu. ✗ B) reja bilan bog'liq emas. ✗ C) o'qituvchi nutqi to'g'ri bo'lishi ham mumkin, masala miqdorda. ✗ D) yozma ishni kuzatish alohida masala." },
-{ q:"During a fluency activity, a learner makes a small grammatical mistake but the message is completely clear. What is usually the most appropriate action?", task:T3_P6, taskLabel:"📋 Part 6 · Questions 34–40", options:["Stop the learner immediately and drill the correct form","Ask the learner to repeat the whole sentence three times","Note the mistake and deal with it in feedback after the activity","Ask another learner to explain the grammar rule at once"], correct:2,
-  explain:"Ravonlik mashqida asosiy maqsad — muloqot, shuning uchun xato qayd etilib, mashq oxirida (delayed correction) muhokama qilinadi. ✗ A, B, D) darhol to'xtatish nutq oqimini uzadi va o'quvchining ishonchini pasaytiradi." },
-{ q:"What is one advantage of putting stronger and weaker learners in the same group?", task:T3_P6, taskLabel:"📋 Part 6 · Questions 34–40", options:["It guarantees that all learners will get the same test score","Stronger learners can support weaker ones and explain in their own words","It removes the need for the teacher to monitor the groups","It ensures that weaker learners do not have to speak at all"], correct:1,
-  explain:"Aralash darajali guruhda kuchli o'quvchilar tushuntirish orqali o'zlari ham mustahkamlaydi, kuchsizlar esa qo'llab-quvvatlanadi. ✗ A) bir xil baho kafolatlanmaydi. ✗ C) kuzatish baribir zarur. ✗ D) maqsad — kuchsizlarni jim qoldirish emas, aksincha jalb qilish." },
-{ q:"What is the main purpose of giving feedback at the end of a classroom activity?", task:T3_P6, taskLabel:"📋 Part 6 · Questions 34–40", options:["To fill in the last few minutes of the lesson","To compare the class with other classes in the school","To let learners know how well they did and what to improve","To decide which learners should be moved to another level"], correct:2,
-  explain:"Fikr-mulohaza (feedback) o'quvchiga nima yaxshi chiqqani va nimani yaxshilash kerakligini ko'rsatadi — bu o'rganishning ajralmas qismi. ✗ A) vaqt to'ldirish uchun emas. ✗ B va D) sinflarni qiyoslash yoki daraja o'zgartirish feedbackning maqsadi emas." },
-{ q:"A teacher wants to give clear instructions for a pair-work task. Which approach is most effective?", task:T3_P6, taskLabel:"📋 Part 6 · Questions 34–40", options:["Give all the instructions at once in long, detailed sentences","Use short, simple sentences, demonstrate the task, then check with ICQs","Write the instructions on the board in the learners' first language","Let learners start and explain the task while they are working"], correct:1,
-  explain:"Samarali ko'rsatma qisqa va sodda bo'ladi, namoyish (demonstration) bilan mustahkamlanadi va ICQ orqali tekshiriladi. ✗ A) uzun ko'rsatmalar esda qolmaydi. ✗ C) ona tilidan doimiy foydalanish ingliz tili muhitini kamaytiradi. ✗ D) mashq boshlangach tushuntirish chalkashlik keltiradi." },
-{ q:"A class has become noisy and several learners have stopped doing the task. What is usually the most effective first step?", task:T3_P6, taskLabel:"📋 Part 6 · Questions 34–40", options:["Get the class's attention with a clear signal, then restate the task and the time limit","Raise your voice and continue talking over the noise","Give the whole class extra written homework as a punishment","Ignore it and wait until the learners become quiet by themselves"], correct:0,
-  explain:"Avval e'tiborni jamlash (aniq signal bilan), so'ng topshiriq va vaqt chegarasini qayta eslatish — bu tinch va samarali sinf boshqaruvi usuli. ✗ B) ovozni ko'tarish shovqinni yanada kuchaytiradi. ✗ C) jamoaviy jazo motivatsiyani pasaytiradi. ✗ D) e'tiborsizlik intizomsizlikni mustahkamlaydi." }
-];
-
 /* ---------- 4b) BANKLARNI BIRLASHTIRISH VA VARIANTLARGA BO'LISH ---------- */
 const GRAMMAR_BANK = [...TENSE_QUESTIONS, ...GRAMMAR_EXTRA];
 const VOCAB_BANK   = [...VOCAB_QUESTIONS, ...VOCAB_EXTRA, ...VOCAB_EXTRA2];
@@ -3536,63 +2705,16 @@ const QUIZ_SETS = [
     questions: OLYMPIAD_2025_11
   },
   {
-    id: "tkt-module-1",
+    id: "tkt",
     icon: "\ud83c\udf93",
-    title: "TKT — Module 1",
-    desc: "40 savol · 40 daqiqa · 6 bo'lim (rasmiy format bo'yicha)",
+    title: "TKT",
+    desc: "Teaching Knowledge Test materiallari",
     group: "special",
-    olympiad: true,
-    totalTimeSec: 2400,
-    questions: TKT_MODULE_1
-  },
-  {
-    id: "tkt-module-2",
-    icon: "\ud83c\udf93",
-    title: "TKT — Module 2",
-    desc: "40 savol · 40 daqiqa · 6 bo'lim (rasmiy format bo'yicha)",
-    group: "special",
-    olympiad: true,
-    totalTimeSec: 2400,
-    questions: TKT_MODULE_2
-  },
-  {
-    id: "tkt-module-3",
-    icon: "\ud83c\udf93",
-    title: "TKT — Module 3",
-    desc: "40 savol · 40 daqiqa · 6 bo'lim (rasmiy format bo'yicha)",
-    group: "special",
-    olympiad: true,
-    totalTimeSec: 2400,
-    questions: TKT_MODULE_3
-  },
-  {
-    id: "attestatsiya",
-    icon: "\ud83d\udcdc",
-    title: "Attestatsiya — Test 1",
-    desc: "50 savol · fonetika, grammatika, leksika, o'qish va pedagogika",
-    group: "special",
-    questions: ATTESTATION_2
-  },
-  {
-    id: "attestatsiya-4",
-    icon: "\ud83d\udcdc",
-    title: "Attestatsiya — Test 2",
-    desc: "50 savol · leksika, grammatika, matn tahlili va pedagogika",
-    group: "special",
-    questions: ATTESTATION_4
-  },
-  {
-    id: "attestatsiya-8",
-    icon: "\ud83d\udcdc",
-    title: "Attestatsiya — Test 3",
-    desc: "50 savol · fonetika, grammatika, o'qish tushunish va pedagogika",
-    group: "special",
-    questions: ATTESTATION_8
+    questions: []
   }
 ];
 
 let currentUser = "";
-let tgProfileData = null;   // Mini App orqali kirgan bo'lsa, Telegramdan olingan ma'lumot (id, username va h.k.)
 let currentIndex = 0;
 let score = 0;
 let streak = 0;
@@ -3608,8 +2730,6 @@ let questionDeadline = 0;
 const SECONDS_PER_QUESTION = 45;
 let pendingSet = null;         // boshlash oynasida tanlangan to'plam
 let lastMistakes = [];         // oxirgi testdagi xatolar
-let lastReview = [];           // oxirgi testdagi barcha savollar (to'liq tahlil uchun)
-let reviewFilter = 'all';      // 'all' | 'wrong' | 'right'
 
 const screens = {
   home: document.getElementById('screen-home'),
@@ -3664,32 +2784,22 @@ try{
     if(tgUser){
       const fullName = [tgUser.first_name, tgUser.last_name].filter(Boolean).join(' ');
       if(fullName) document.getElementById('nameInput').value = fullName;
-      tgProfileData = {
-        id: tgUser.id || null,
-        username: tgUser.username || null,
-        firstName: tgUser.first_name || '',
-        lastName: tgUser.last_name || ''
-      };
     }
   }
 }catch(e){}
-
-// ---- Telegram havolasini ochish (kanal, o'quvchi profili va h.k.) ----
-function openTgUrl(url){
-  try{
-    if(window.Telegram && window.Telegram.WebApp && Telegram.WebApp.openTelegramLink){
-      Telegram.WebApp.openTelegramLink(url);
-    } else {
-      window.open(url, '_blank');
-    }
-  }catch(err){ window.open(url, '_blank'); }
-}
 
 // ---- Muallif Telegram kanali havolasi ----
 document.querySelectorAll('.creator-tg').forEach(el => {
   el.addEventListener('click', (e) => {
     e.preventDefault();
-    openTgUrl(el.getAttribute('href'));
+    const url = el.getAttribute('href');
+    try{
+      if(window.Telegram && window.Telegram.WebApp && Telegram.WebApp.openTelegramLink){
+        Telegram.WebApp.openTelegramLink(url);
+      } else {
+        window.open(url, '_blank');
+      }
+    }catch(err){ window.open(url, '_blank'); }
   });
 });
 
@@ -4377,12 +3487,6 @@ async function syncUserProfileToFirebase(){
       achievements: getUnlockedAchievements(),
       lastSeen: Date.now()
     };
-    if(tgProfileData){
-      profile.tgId = tgProfileData.id;
-      profile.tgUsername = tgProfileData.username;
-      profile.tgFirstName = tgProfileData.firstName;
-      profile.tgLastName = tgProfileData.lastName;
-    }
     const key = safeUserKey(currentUser);
     const ref = db.ref('users/' + key);
     const snap = await ref.child('firstSeen').once('value');
@@ -4401,31 +3505,6 @@ async function getAllUsers(){
 
 function safeUserKey(name){
   return name.replace(/[.#$\[\]\/]/g, '_');
-}
-
-/* O'quvchining Telegram akkaunt belgisini (mavjud bo'lsa) chizadi */
-function tgBadgeHtml(u){
-  if(u.tgUsername){
-    return `<a href="https://t.me/${u.tgUsername}" class="tg-link" data-tgurl="https://t.me/${u.tgUsername}">
-      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.94 4.5c.24-1.1-.86-1.97-1.87-1.54L2.4 10.4c-1.03.44-1.02 1.92.02 2.34l4.5 1.8 1.7 5.6c.24.8 1.24 1.03 1.8.4l2.53-2.83 4.6 3.4c.85.63 2.07.17 2.3-.87l3.1-15.74zM8.7 13.4l9.2-6.2c.3-.2.6.18.35.4l-7.6 7.05c-.3.28-.5.66-.55 1.07l-.2 1.8-1.2-4.12z"/></svg>
-      @${u.tgUsername}
-    </a>`;
-  }
-  if(u.tgId){
-    return `<span class="tg-noinfo">Telegram: username o'rnatilmagan (ID: ${u.tgId})</span>`;
-  }
-  return '';
-}
-/* Dinamik chizilgan Telegram havolasiga bosilganda to'g'ri ochish uchun */
-function bindTgLink(container){
-  const el = container.querySelector('.tg-link');
-  if(el){
-    el.addEventListener('click', (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      openTgUrl(el.dataset.tgurl);
-    });
-  }
 }
 
 /* Ism boshidagi belgini to'g'ri oladi (emoji va maxsus belgilar bilan ham) */
@@ -4752,13 +3831,11 @@ async function renderTeacherPanel(){
     ? Math.round(withTests.reduce((s,u)=>s+(u.avgPercent||0),0) / withTests.length)
     : 0;
   const activeToday = users.filter(u => u.lastSeen && (Date.now() - u.lastSeen) < 86400000).length;
-  const tgLinked = users.filter(u => u.tgUsername || u.tgId).length;
   summaryEl.innerHTML = `
     <div class="teacher-stat"><div class="teacher-stat-val">${users.length}</div><div class="teacher-stat-lbl">jami o'quvchi</div></div>
     <div class="teacher-stat"><div class="teacher-stat-val">${totalTests}</div><div class="teacher-stat-lbl">jami test</div></div>
     <div class="teacher-stat"><div class="teacher-stat-val">${avgAll}%</div><div class="teacher-stat-lbl">o'rtacha</div></div>
     <div class="teacher-stat"><div class="teacher-stat-val">${activeToday}</div><div class="teacher-stat-lbl">bugun faol</div></div>
-    <div class="teacher-stat"><div class="teacher-stat-val">${tgLinked}</div><div class="teacher-stat-lbl">Telegram orqali</div></div>
   `;
 
   // --- o'quvchilar ro'yxati ---
@@ -4785,11 +3862,9 @@ async function renderTeacherPanel(){
         <div class="activity-body">
           <div class="activity-title">${u.name || '—'}${u.hasProfile ? '' : ' <span class="old-badge">eski</span>'}</div>
           <div class="activity-time">${u.tests||0} test · ${u.avgPercent||0}% · 🏅${achCount} · ${lastSeen}</div>
-          ${tgBadgeHtml(u)}
         </div>
         <div class="teacher-score ${(u.avgPercent||0)>=80?'good':((u.avgPercent||0)>=50?'mid':'low')}">${right}</div>
       `;
-      bindTgLink(row);
       row.addEventListener('click', () => openStudentModal(u));
       studentsEl.appendChild(row);
     });
@@ -4834,9 +3909,6 @@ function openStudentModal(u){
   const first = u.firstSeen ? new Date(u.firstSeen).toLocaleDateString('uz-UZ') : '—';
   const last = u.lastSeen ? new Date(u.lastSeen).toLocaleDateString('uz-UZ') : '—';
   document.getElementById('studentModalMeta').textContent = `Qo'shilgan: ${first} · Oxirgi faollik: ${last}`;
-  const tgWrap = document.getElementById('studentModalTg');
-  tgWrap.innerHTML = tgBadgeHtml(u);
-  bindTgLink(tgWrap);
 
   document.getElementById('studentModalStats').innerHTML = `
     <div class="student-stat"><b>${u.tests||0}</b><span>test</span></div>
@@ -4913,15 +3985,13 @@ const QUIZ_FOLDERS = [
   { key:'grammar',  icon:'📘', title:'Grammatika', desc:'Zamonlar, modal fe\'llar, artikllar va boshqalar' },
   { key:'vocab',    icon:'📕', title:"Lug'at",     desc:'So\'z boyligi, sinonim va iboralar' },
   { key:'olympiad', icon:'🏅', title:'Olimpiada',  desc:'Tuman bosqichi savollari, yillar bo\'yicha' },
-  { key:'other',    icon:'🎓', title:'TKT',        desc:'Teaching Knowledge Test — Module 1, 2, 3' },
-  { key:'attestation', icon:'📜', title:'Attestatsiya', desc:'O\'qituvchilar attestatsiyasi uchun savollar' }
+  { key:'other',    icon:'🎓', title:'TKT',        desc:'Teaching Knowledge Test materiallari' }
 ];
 
 function folderOf(set){
   if(set.group === 'grammar') return 'grammar';
   if(set.group === 'vocab') return 'vocab';
   if(set.id && set.id.indexOf('olympiad') === 0) return 'olympiad';
-  if(set.id && set.id.indexOf('attestatsiya') === 0) return 'attestation';
   return 'other';
 }
 
@@ -4948,23 +4018,17 @@ function renderQuizSets(){
     const totalQ = ready.reduce((n,s) => n + s.questions.length, 0);
     const div = document.createElement('div');
     div.className = 'folder-card' + (ready.length === 0 ? ' locked' : '');
-    /* Bitta bo'sh to'plamdan iborat papka ochilmaydi, lekin bir nechta
-       bo'lim bo'lsa (masalan TKT modullari) tuzilmani ko'rish uchun ochiladi */
-    const canOpen = ready.length > 0 || sets.length > 1;
-    const metaText = ready.length
-      ? `${ready.length} ta test · ${totalQ} savol`
-      : `${sets.length} ta bo'lim · tez orada`;
     div.innerHTML = `
       <div class="folder-icon">${f.icon}</div>
       <div class="folder-body">
         <div class="folder-title">${f.title}</div>
         <div class="folder-desc">${f.desc}</div>
-        <div class="folder-meta">${metaText}</div>
+        <div class="folder-meta">${ready.length ? `${ready.length} ta test · ${totalQ} savol` : 'Tez orada'}</div>
       </div>
       <div class="folder-arrow">&#8250;</div>
     `;
     div.addEventListener('click', () => {
-      if(!canOpen){ showToast('Bu bo\'lim tez orada to\'ldiriladi'); return; }
+      if(ready.length === 0){ showToast('Bu bo\'lim tez orada to\'ldiriladi'); return; }
       currentFolder = f.key;
       quizView = 'list';
       renderFolderContents(f.key);
@@ -5155,16 +4219,10 @@ function renderQuestion(){
   document.getElementById('explainBox').classList.remove('show');
   const q = activeSet.questions[currentIndex];
 
-  // reading matni yoki topshiriq ko'rsatmasi (agar bor bo'lsa)
+  // reading matni (agar bor bo'lsa)
   const pBox = document.getElementById('passageBox');
-  const pLabel = pBox.querySelector('.passage-label');
-  if(q.task){
-    document.getElementById('passageText').textContent = q.task;
-    pLabel.textContent = q.taskLabel || '📋 Topshiriq';
-    pBox.style.display = '';
-  } else if(q.passage){
+  if(q.passage){
     document.getElementById('passageText').textContent = q.passage;
-    pLabel.textContent = "📖 Matnni o'qing";
     pBox.style.display = '';
   } else {
     pBox.style.display = 'none';
@@ -5339,13 +4397,9 @@ async function finishQuiz(forced){
 
   // xatolar ro'yxatini yig'amiz
   lastMistakes = [];
-  lastReview = [];
   activeSet.questions.forEach((q, idx) => {
-    const given = userAnswers[idx];
-    const isRight = given === q.correct;
-    lastReview.push({ q, given, num: idx + 1, isRight });
-    if(!isRight){
-      lastMistakes.push({ q, given, num: idx + 1 });
+    if(userAnswers[idx] !== q.correct){
+      lastMistakes.push({ q, given: userAnswers[idx], num: idx + 1 });
     }
   });
 
@@ -5358,12 +4412,11 @@ async function finishQuiz(forced){
   document.getElementById('statDuration').textContent = fmtTime(quizElapsedSec);
   document.getElementById('timeStatRow').style.display = 'flex';
 
-  // tahlil tugmasi: olimpiada/attestatsiyada doim, boshqa testlarda faqat xato bo'lsa
+  // xatolar tugmasi faqat xato bo'lsa ko'rinadi
   const revBtn = document.getElementById('reviewMistakesBtn');
-  const fullReviewSet = isOlympiadSet() || (activeSet.id && activeSet.id.indexOf('attestatsiya') === 0);
-  revBtn.style.display = (fullReviewSet || lastMistakes.length) ? '' : 'none';
-  revBtn.textContent = fullReviewSet
-    ? `📋 To'liq tahlil (${total} savol · ${lastMistakes.length} xato)`
+  revBtn.style.display = lastMistakes.length ? '' : 'none';
+  revBtn.textContent = isOlympiadSet()
+    ? `📋 Javoblar tahlili (${lastMistakes.length} ta xato)`
     : '📋 Xatolarimni ko\'rish';
 
   const isOlympiad = !!activeSet.olympiad;
@@ -5391,8 +4444,7 @@ async function finishQuiz(forced){
   const viewLbBtn = document.getElementById('viewLbFromResult');
   if(isOlympiad){
     rankBadge.textContent = '🏅';
-    const examName = (activeSet.id && activeSet.id.indexOf('tkt') === 0) ? 'TKT mashq testi' : 'Olimpiada natijasi';
-    rankLabel.textContent = `${examName} — faqat sizga va o'qituvchingizga ko'rinadi`;
+    rankLabel.textContent = "Olimpiada natijasi — faqat sizga va o'qituvchingizga ko'rinadi";
     viewLbBtn.style.display = 'none';
   } else {
     rankLabel.textContent = "Umumiy reytingdagi o'rningiz";
@@ -5403,84 +4455,40 @@ async function finishQuiz(forced){
   showScreen('result');
 }
 
-/* ============== JAVOBLAR TAHLILI ============== */
+/* ============== XATOLAR USTIDA ISHLASH ============== */
 document.getElementById('reviewMistakesBtn').addEventListener('click', () => {
-  reviewFilter = 'all';
-  document.querySelectorAll('.review-tab').forEach(b => b.classList.toggle('active', b.dataset.rtab === 'all'));
   renderMistakes();
   showScreen('mistakes');
 });
 document.getElementById('mistakesBackBtn').addEventListener('click', () => showScreen('result'));
 
-document.querySelectorAll('.review-tab').forEach(btn => {
-  btn.addEventListener('click', () => {
-    reviewFilter = btn.dataset.rtab;
-    document.querySelectorAll('.review-tab').forEach(b => b.classList.toggle('active', b === btn));
-    renderMistakes();
-  });
-});
-
 function renderMistakes(){
   const list = document.getElementById('mistakesList');
-  const tabs = document.getElementById('reviewTabs');
-  const titleEl = document.getElementById('mistakesTitle');
   list.innerHTML = '';
-
-  /* To'liq tahlil olimpiada va attestatsiya testlarida ko'rsatiladi:
-     o'quvchi tasodifan to'g'ri belgilagan bo'lishi ham mumkin. */
-  const fullReview = isOlympiadSet() || (activeSet && activeSet.id && activeSet.id.indexOf('attestatsiya') === 0);
-  const source = fullReview ? lastReview : lastMistakes.map(m => ({ ...m, isRight:false }));
-
-  titleEl.textContent = fullReview ? 'Javoblar tahlili' : 'Xatolar ustida ishlash';
-  tabs.style.display = fullReview ? 'flex' : 'none';
-  document.getElementById('retryMistakesBtn').style.display = lastMistakes.length ? '' : 'none';
-
-  if(source.length === 0){
+  if(lastMistakes.length === 0){
     list.innerHTML = '<div class="empty">Ajoyib! Bu testda xato yo\'q. 🎉</div>';
+    document.getElementById('retryMistakesBtn').style.display = 'none';
     return;
   }
-
-  let items = source;
-  if(fullReview){
-    if(reviewFilter === 'wrong') items = source.filter(r => !r.isRight);
-    if(reviewFilter === 'right') items = source.filter(r => r.isRight);
-  }
-
+  document.getElementById('retryMistakesBtn').style.display = '';
   const head = document.createElement('div');
   head.className = 'sub';
   head.style.marginBottom = '14px';
-  if(fullReview){
-    const rightCount = source.filter(r => r.isRight).length;
-    const wrongCount = source.length - rightCount;
-    if(reviewFilter === 'all'){
-      head.textContent = `${source.length} ta savol · ${rightCount} to'g'ri, ${wrongCount} xato. Har bir savol izohini o'qib chiqing.`;
-    } else if(reviewFilter === 'wrong'){
-      head.textContent = wrongCount ? `${wrongCount} ta savolda xato qildingiz:` : 'Bu testda xato yo\'q. 🎉';
-    } else {
-      head.textContent = `${rightCount} ta to'g'ri javob. Nega to'g'ri ekanini tekshirib oling:`;
-    }
-  } else {
-    head.textContent = `${source.length} ta savolda xato qildingiz. Ularni ko'rib chiqing:`;
-  }
+  head.textContent = `${lastMistakes.length} ta savolda xato qildingiz. Ularni ko'rib chiqing:`;
   list.appendChild(head);
 
-  if(items.length === 0) return;
-
   const letters = ['A','B','C','D','E','F'];
-  items.forEach(m => {
-    const given = m.given === null || m.given === undefined
+  lastMistakes.forEach(m => {
+    const given = m.given === null
       ? "javob berilmagan"
       : `${letters[m.given]}) ${m.q.options[m.given]}`;
     const right = `${letters[m.q.correct]}) ${m.q.options[m.q.correct]}`;
     const div = document.createElement('div');
-    div.className = 'mistake-card' + (m.isRight ? ' ok' : '');
-    const answerLines = m.isRight
-      ? `<div class="mistake-line mistake-picked">✓ Sizning javobingiz to'g'ri: ${right}</div>`
-      : `<div class="mistake-line mistake-wrong">✕ Sizning javobingiz: ${given}</div>
-         <div class="mistake-line mistake-right">✓ To'g'ri javob: ${right}</div>`;
+    div.className = 'mistake-card';
     div.innerHTML = `
       <div class="mistake-q"><span class="mistake-num">${m.num}</span> ${m.q.q}</div>
-      ${answerLines}
+      <div class="mistake-line mistake-wrong">✕ Sizning javobingiz: ${given}</div>
+      <div class="mistake-line mistake-right">✓ To'g'ri javob: ${right}</div>
       ${m.q.explain ? `<div class="mistake-expl">💡 ${m.q.explain}</div>` : ''}
     `;
     list.appendChild(div);
