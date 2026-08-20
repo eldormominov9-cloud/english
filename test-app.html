@@ -204,6 +204,35 @@
     border-radius:3px; padding:1px 2px; font-weight:600;
   }
 
+  /* --- o'qituvchi paneli: yo'nalishlar va imtihon tafsiloti --- */
+  .cat-row{ display:flex; align-items:center; gap:9px; margin-bottom:8px; }
+  .cat-name{ width:82px; flex-shrink:0; font-size:11.5px; color: rgba(247,244,236,0.7); }
+  .cat-bar{ flex:1; height:6px; background: rgba(247,244,236,0.1); border-radius:99px; overflow:hidden; }
+  .cat-fill{ height:100%; background: var(--gold); border-radius:99px; }
+  .cat-val{ width:74px; flex-shrink:0; text-align:right; font-family:'IBM Plex Mono',monospace; font-size:10.5px; font-weight:700; }
+  .cat-val.good{ color: var(--mint); } .cat-val.mid{ color: var(--gold); } .cat-val.low{ color: var(--coral); }
+  .cat-total{ font-size:11px; color: rgba(247,244,236,0.45); margin-top:8px; font-family:'IBM Plex Mono',monospace; }
+  .cat-head{
+    font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:0.08em; text-transform:uppercase;
+    color: rgba(247,244,236,0.35); margin:14px 0 8px;
+  }
+  .yr-chips{ display:flex; flex-wrap:wrap; gap:5px; margin-top:5px; }
+  .yr-chip{
+    font-family:'IBM Plex Mono',monospace; font-size:9.5px; font-weight:600;
+    background: rgba(255,210,63,0.12); border:1px solid rgba(255,210,63,0.3);
+    color: var(--gold); border-radius:99px; padding:2px 8px;
+  }
+  .exam-student{ margin-bottom:8px; }
+  .exam-detail{ display:none; padding:4px 0 8px 12px; margin-left:16px; border-left:2px solid rgba(255,255,255,0.12); }
+  .exam-detail.show{ display:block; }
+  .exam-line{ display:flex; align-items:center; gap:10px; padding:7px 0; border-bottom:1px dashed rgba(255,255,255,0.08); }
+  .exam-line:last-child{ border-bottom:none; }
+  .exam-line-body{ flex:1; min-width:0; }
+  .exam-line-title{ font-size:12px; font-weight:600; color: rgba(247,244,236,0.85); }
+  .exam-line-time{ font-size:10px; color: rgba(247,244,236,0.4); font-family:'IBM Plex Mono',monospace; margin-top:1px; }
+  .exam-line-score{ flex-shrink:0; font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:700; }
+  .exam-line-score.good{ color: var(--mint); } .exam-line-score.mid{ color: var(--gold); } .exam-line-score.low{ color: var(--coral); }
+
   /* ================= IELTS LISTENING ================= */
   .ls-player{
     display:flex; align-items:center; gap:12px; margin-bottom:16px;
@@ -1235,9 +1264,12 @@
       <button class="quiz-grid-btn" id="teacherRefreshBtn">&#8635;</button>
     </div>
     <div class="teacher-stat-row" id="teacherSummary"></div>
-    <div class="teacher-tabs">
+    <div class="teacher-tabs" style="flex-wrap:wrap;">
       <button class="teacher-tab active" data-ttab="students">👥 O'quvchilar</button>
       <button class="teacher-tab" data-ttab="olympiad">🏅 Olimpiada</button>
+      <button class="teacher-tab" data-ttab="tkt">🎓 TKT</button>
+      <button class="teacher-tab" data-ttab="ielts">🌍 IELTS</button>
+      <button class="teacher-tab" data-ttab="attestation">📜 Attestatsiya</button>
     </div>
     <div id="teacherStudents"></div>
     <div id="teacherList" style="display:none;"></div>
@@ -1256,6 +1288,9 @@
         </div>
       </div>
       <div class="student-grid" id="studentModalStats"></div>
+      <div class="achinfo-how-label" style="margin-top:16px;">Yo'nalishlar bo'yicha</div>
+      <div id="studentModalCats"></div>
+      <div id="studentModalYears"></div>
       <div class="achinfo-how-label" style="margin-top:16px;">Qo'lga kiritgan nishonlari</div>
       <div class="student-badges" id="studentModalBadges"></div>
     </div>
@@ -4983,6 +5018,28 @@ async function getAllUsers(){
   }catch(e){ console.error('users fetch failed', e); return []; }
 }
 
+/* Test qaysi yo'nalishga tegishli ekanini setId bo'yicha aniqlaydi */
+function categoryOf(setId, setTitle){
+  const id = (setId || '').toLowerCase();
+  const t  = (setTitle || '').toLowerCase();
+  if(id.indexOf('olympiad') === 0) return 'olympiad';
+  if(id.indexOf('tkt') === 0) return 'tkt';
+  if(id.indexOf('ielts') === 0) return 'ielts';
+  if(id.indexOf('attestatsiya') === 0) return 'attestation';
+  if(id.indexOf('grammar') === 0 || t.indexOf('grammatika') === 0) return 'grammar';
+  if(id.indexOf('vocab') === 0 || t.indexOf("lug'at") === 0) return 'vocab';
+  return 'other';
+}
+const CAT_LABELS = {
+  grammar:'Grammatika', vocab:"Lug'at", olympiad:'Olimpiada',
+  tkt:'TKT', ielts:'IELTS', attestation:'Attestatsiya', other:'Boshqa'
+};
+/* Olimpiada to'plamidan yilni ajratib oladi: "Olimpiada 9-sinf — 2025" → 2025 */
+function setYear(setId, setTitle){
+  const m = (setId + ' ' + (setTitle||'')).match(/(20\d\d)/);
+  return m ? m[1] : null;
+}
+
 function safeUserKey(name){
   return name.replace(/[.#$\[\]\/]/g, '_');
 }
@@ -5258,7 +5315,8 @@ document.querySelectorAll('.teacher-tab').forEach(btn => {
     teacherTab = btn.dataset.ttab;
     document.querySelectorAll('.teacher-tab').forEach(b => b.classList.toggle('active', b === btn));
     document.getElementById('teacherStudents').style.display = (teacherTab === 'students') ? '' : 'none';
-    document.getElementById('teacherList').style.display = (teacherTab === 'olympiad') ? '' : 'none';
+    document.getElementById('teacherList').style.display = (teacherTab === 'students') ? 'none' : '';
+    if(teacherTab !== 'students') renderExamTab(teacherTab);
   });
 });
 
@@ -5291,19 +5349,50 @@ async function renderTeacherPanel(){
   const derived = {};
   allScores.forEach(s => {
     if(!s || !s.name) return;
-    const d = derived[s.name] || (derived[s.name] = { sets:{}, first:s.ts, last:s.ts, correct:0, attempts:0, sumPct:0 });
+    const d = derived[s.name] || (derived[s.name] = {
+      sets:{}, first:s.ts, last:s.ts, correct:0, attempts:0, sumPct:0,
+      cats:{}, years:{}, olympiadSets:{}
+    });
     const key = s.setId || s.set || 'default';
     if(!d.sets[key] || (s.score||0) > (d.sets[key].score||0)) d.sets[key] = s;
     d.first = Math.min(d.first, s.ts || Date.now());
     d.last  = Math.max(d.last,  s.ts || 0);
     d.attempts++;
     d.sumPct += (s.percent || 0);
+
+    /* yo'nalish bo'yicha hisob (har bir variant bir marta sanaladi) */
+    const cat = categoryOf(s.setId, s.set);
+    const c = d.cats[cat] || (d.cats[cat] = { sets:{}, sumPct:0, n:0 });
+    c.sets[key] = true;
+    c.sumPct += (s.percent || 0);
+    c.n++;
+
+    /* olimpiada uchun yil bo'yicha hisob */
+    if(cat === 'olympiad'){
+      const y = setYear(s.setId, s.set) || '—';
+      const yr = d.years[y] || (d.years[y] = { sets:{}, best:0, last:0 });
+      yr.sets[key] = true;
+      yr.best = Math.max(yr.best, s.percent || 0);
+      yr.last = Math.max(yr.last, s.ts || 0);
+      d.olympiadSets[key] = s;
+    }
   });
 
   Object.keys(derived).forEach(name => {
     const d = derived[name];
     const bestEntries = Object.values(d.sets);
     const correct = bestEntries.reduce((s,e)=>s+(e.score||0),0);
+    /* yo'nalish bo'yicha yakuniy hisob */
+    const catStats = {};
+    Object.keys(d.cats).forEach(k => {
+      const c = d.cats[k];
+      catStats[k] = { tests: Object.keys(c.sets).length, avg: Math.round(c.sumPct / c.n) };
+    });
+    const yearStats = {};
+    Object.keys(d.years).forEach(y => {
+      yearStats[y] = { tests: Object.keys(d.years[y].sets).length, best: d.years[y].best, last: d.years[y].last };
+    });
+
     if(byName[name]){
       // profil bor — faqat yetishmagan joylarni to'ldiramiz
       const p = byName[name];
@@ -5312,6 +5401,8 @@ async function renderTeacherPanel(){
       if(!p.totalCorrect) p.totalCorrect = correct;
       if(!p.firstSeen) p.firstSeen = d.first;
       p.lastSeen = Math.max(p.lastSeen || 0, d.last);
+      p.catStats = catStats;
+      p.yearStats = yearStats;
     } else {
       // profil yo'q — eski o'quvchi
       byName[name] = {
@@ -5322,7 +5413,9 @@ async function renderTeacherPanel(){
         firstSeen: d.first,
         lastSeen: d.last,
         achievements: [],
-        hasProfile: false
+        hasProfile: false,
+        catStats,
+        yearStats
       };
     }
   });
@@ -5380,33 +5473,102 @@ async function renderTeacherPanel(){
     });
   }
 
-  // --- olimpiada natijalari ---
-  if(results.length === 0){
-    listEl.innerHTML = '<div class="empty">Hozircha olimpiada natijalari yo\'q.<br>O\'quvchilar test ishlagach shu yerda ko\'rinadi.</div>';
-  } else {
-    results.sort((a,b) => b.ts - a.ts);
-    listEl.innerHTML = '';
-    results.slice(0, 100).forEach(r => {
-      const d = new Date(r.ts);
-      const timeStr = d.toLocaleDateString('uz-UZ') + ' · ' + d.toLocaleTimeString('uz-UZ', {hour:'2-digit', minute:'2-digit'});
-      const src = avatars[safeUserKey(r.name)];
-      const avatar = src
-        ? `<div class="lb-avatar"><img src="${src}" alt=""></div>`
-        : `<div class="lb-avatar">${firstChar(r.name)}</div>`;
-      const colorClass = r.percent >= 80 ? 'good' : (r.percent >= 50 ? 'mid' : 'low');
-      const row = document.createElement('div');
-      row.className = 'activity-row';
-      row.innerHTML = `
-        ${avatar}
-        <div class="activity-body">
-          <div class="activity-title">${r.name}</div>
-          <div class="activity-time">${r.set || 'Olimpiada'} · ${timeStr}</div>
-        </div>
-        <div class="teacher-score ${colorClass}">${r.score}/${r.total}<br><span>${r.percent}%</span></div>
-      `;
-      listEl.appendChild(row);
-    });
+  // --- imtihon tablari (olimpiada / TKT / IELTS / attestatsiya) ---
+  teacherExamCache = results;
+  if(teacherTab !== 'students') renderExamTab(teacherTab);
+}
+
+/* Imtihon natijalarini o'quvchilar bo'yicha guruhlab chiqaradi.
+   Har bir o'quvchi bitta qatorda — bosilganda qaysi test/yildan qancha ishlagani ochiladi. */
+let teacherExamCache = [];
+function renderExamTab(cat){
+  const listEl = document.getElementById('teacherList');
+  const rows = teacherExamCache.filter(r => categoryOf(r.setId, r.set) === cat);
+
+  if(rows.length === 0){
+    listEl.innerHTML = `<div class="empty">Hozircha ${CAT_LABELS[cat] || ''} natijalari yo'q.<br>O'quvchilar test ishlagach shu yerda ko'rinadi.</div>`;
+    return;
   }
+
+  /* o'quvchilar bo'yicha guruhlaymiz */
+  const byStudent = {};
+  rows.forEach(r => {
+    const st = byStudent[r.name] || (byStudent[r.name] = { name:r.name, attempts:[], sets:{}, last:0, bestSum:0 });
+    st.attempts.push(r);
+    const key = r.setId || r.set;
+    if(!st.sets[key] || (r.percent||0) > (st.sets[key].percent||0)) st.sets[key] = r;
+    st.last = Math.max(st.last, r.ts || 0);
+  });
+
+  const students = Object.values(byStudent).map(st => {
+    const best = Object.values(st.sets);
+    st.testCount = best.length;
+    st.avg = Math.round(best.reduce((s,e)=>s+(e.percent||0),0) / best.length);
+    return st;
+  }).sort((a,b) => b.testCount - a.testCount || b.avg - a.avg);
+
+  listEl.innerHTML = `<div class="sub" style="margin-bottom:12px;">
+    ${students.length} ta o'quvchi · ${rows.length} ta urinish. Tafsilot uchun ustiga bosing.
+  </div>`;
+
+  students.forEach(st => {
+    const src = teacherAvatarsCache[safeUserKey(st.name || '')];
+    const av = src ? `<div class="lb-avatar"><img src="${src}" alt=""></div>`
+                   : `<div class="lb-avatar">${firstChar(st.name)}</div>`;
+    const lastStr = st.last ? new Date(st.last).toLocaleDateString('uz-UZ') : '—';
+    const cls = st.avg >= 80 ? 'good' : (st.avg >= 50 ? 'mid' : 'low');
+
+    /* olimpiadada yillar, boshqalarida test nomlari qisqacha ko'rsatiladi */
+    let chips = '';
+    if(cat === 'olympiad'){
+      const years = {};
+      Object.values(st.sets).forEach(e => {
+        const y = setYear(e.setId, e.set) || '—';
+        years[y] = (years[y] || 0) + 1;
+      });
+      chips = Object.keys(years).sort().map(y =>
+        `<span class="yr-chip">${y} · ${years[y]} ta</span>`).join('');
+    } else {
+      chips = `<span class="yr-chip">${st.testCount} ta test</span>`;
+    }
+
+    const wrap = document.createElement('div');
+    wrap.className = 'exam-student';
+    wrap.innerHTML = `
+      <div class="activity-row" style="cursor:pointer; margin-bottom:0;">
+        ${av}
+        <div class="activity-body">
+          <div class="activity-title">${st.name}</div>
+          <div class="activity-time">${st.testCount} ta test · ${st.attempts.length} urinish · ${lastStr}</div>
+          <div class="yr-chips">${chips}</div>
+        </div>
+        <div class="teacher-score ${cls}">${st.avg}%<br><span>o'rtacha</span></div>
+      </div>
+      <div class="exam-detail"></div>
+    `;
+
+    const detail = wrap.querySelector('.exam-detail');
+    wrap.querySelector('.activity-row').addEventListener('click', () => {
+      if(detail.classList.contains('show')){ detail.classList.remove('show'); return; }
+      if(!detail.innerHTML){
+        const list = st.attempts.slice().sort((a,b) => (b.ts||0) - (a.ts||0));
+        detail.innerHTML = list.map(r => {
+          const d = new Date(r.ts);
+          const when = d.toLocaleDateString('uz-UZ') + ' · ' + d.toLocaleTimeString('uz-UZ',{hour:'2-digit',minute:'2-digit'});
+          const c = (r.percent||0) >= 80 ? 'good' : ((r.percent||0) >= 50 ? 'mid' : 'low');
+          return `<div class="exam-line">
+            <div class="exam-line-body">
+              <div class="exam-line-title">${r.set || r.setId || '—'}</div>
+              <div class="exam-line-time">${when}</div>
+            </div>
+            <div class="exam-line-score ${c}">${r.score}/${r.total} · ${r.percent}%</div>
+          </div>`;
+        }).join('');
+      }
+      detail.classList.add('show');
+    });
+    listEl.appendChild(wrap);
+  });
 }
 
 /* O'quvchi tafsilotlari */
@@ -5431,6 +5593,47 @@ function openStudentModal(u){
     <div class="student-stat"><b>${u.hasProfile ? (u.activeDays||0) : '—'}</b><span>faol kun</span></div>
     <div class="student-stat"><b>${u.hasProfile ? (u.wordsSeen||0) : '—'}</b><span>so'z ko'rgan</span></div>
   `;
+
+  /* --- yo'nalishlar bo'yicha taqsimot --- */
+  const catEl = document.getElementById('studentModalCats');
+  const cs = u.catStats || {};
+  const order = ['grammar','vocab','olympiad','tkt','ielts','attestation','other'];
+  const rows = order.filter(k => cs[k] && cs[k].tests > 0);
+  if(rows.length === 0){
+    catEl.innerHTML = '<div style="font-size:12px; color:rgba(247,244,236,0.4);">Hali test ishlamagan</div>';
+  } else {
+    const totalT = rows.reduce((s,k) => s + cs[k].tests, 0);
+    catEl.innerHTML = rows.map(k => {
+      const c = cs[k];
+      const pct = Math.round(c.tests / totalT * 100);
+      const cls = c.avg >= 80 ? 'good' : (c.avg >= 50 ? 'mid' : 'low');
+      return `<div class="cat-row">
+        <div class="cat-name">${CAT_LABELS[k]}</div>
+        <div class="cat-bar"><div class="cat-fill" style="width:${pct}%"></div></div>
+        <div class="cat-val ${cls}">${c.tests} ta · ${c.avg}%</div>
+      </div>`;
+    }).join('') + `<div class="cat-total">Jami: ${totalT} ta test</div>`;
+  }
+
+  /* --- olimpiada: yillar bo'yicha --- */
+  const yrEl = document.getElementById('studentModalYears');
+  const ys = u.yearStats || {};
+  const yKeys = Object.keys(ys).sort();
+  if(yKeys.length === 0){
+    yrEl.innerHTML = '';
+  } else {
+    yrEl.innerHTML = `<div class="cat-head">🏅 Olimpiada — yillar bo'yicha</div>` +
+      yKeys.map(y => {
+        const v = ys[y];
+        const cls = v.best >= 80 ? 'good' : (v.best >= 50 ? 'mid' : 'low');
+        const when = v.last ? new Date(v.last).toLocaleDateString('uz-UZ') : '—';
+        return `<div class="cat-row">
+          <div class="cat-name">${y}-yil</div>
+          <div class="cat-bar"><div class="cat-fill" style="width:${v.best}%"></div></div>
+          <div class="cat-val ${cls}">${v.tests} ta · ${v.best}%</div>
+        </div>`;
+      }).join('');
+  }
 
   const owned = u.achievements || [];
   const badgesEl = document.getElementById('studentModalBadges');
