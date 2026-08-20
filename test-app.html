@@ -180,6 +180,30 @@
     color: rgba(247,244,236,0.35); margin-bottom:4px; font-family:'IBM Plex Mono', monospace;
   }
 
+  /* --- tahlilda matndan javobni ko'rsatish --- */
+  .mk-src-btn{
+    margin-top:10px; padding:7px 12px; border-radius:9px; font-family:inherit;
+    font-size:11.5px; font-weight:600; background: rgba(84,169,235,0.12);
+    border:1px solid rgba(84,169,235,0.35); color:#54a9eb;
+  }
+  .mk-src-btn:active{ opacity:0.75; }
+  .mk-src{
+    display:none; margin-top:10px; padding:12px; border-radius:10px;
+    background: rgba(255,255,255,0.035); border:1px solid var(--line);
+    max-height:240px; overflow-y:auto;
+  }
+  .mk-src.show{ display:block; }
+  .mk-src-head{
+    font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:0.08em;
+    text-transform:uppercase; color: rgba(247,244,236,0.35); margin-bottom:8px;
+    position:sticky; top:-12px; background:#181820; padding:4px 0;
+  }
+  .mk-src-text{ font-size:11.5px; line-height:1.8; color: rgba(247,244,236,0.5); }
+  .mk-src-text mark{
+    background: rgba(255,210,63,0.26); color: var(--gold);
+    border-radius:3px; padding:1px 2px; font-weight:600;
+  }
+
   /* ================= IELTS LISTENING ================= */
   .ls-player{
     display:flex; align-items:center; gap:12px; margin-bottom:16px;
@@ -242,6 +266,14 @@
   .ls-tr-head{
     font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:0.08em;
     text-transform:uppercase; color: rgba(247,244,236,0.35); margin-bottom:8px;
+  }
+
+  .word-ex-uz{
+    font-size:11.5px; color: rgba(61,220,151,0.75); line-height:1.55; margin-top:6px;
+    padding-top:6px; border-top:1px dashed rgba(255,255,255,0.12);
+  }
+  .trainer-ex-uz{
+    font-size:12.5px; color: rgba(61,220,151,0.75); line-height:1.6; margin-top:8px;
   }
 
   /* ================= WORKSHEET ================= */
@@ -1411,160 +1443,160 @@
 /* ---------- 1) LUG'AT ---------- */
 const VOCAB = [
   // ===== 1. Kundalik hayot =====
-  { en:"morning", uz:"ertalab", topic:"daily", emoji:"🌅", example:"I wake up early every morning." },
-  { en:"breakfast", uz:"nonushta", topic:"daily", emoji:"🍳", example:"She has breakfast at seven." },
-  { en:"neighbour", uz:"qo'shni", topic:"daily", emoji:"🏘️", example:"Our neighbour is very kind." },
-  { en:"routine", uz:"kundalik tartib", topic:"daily", emoji:"🔁", example:"My daily routine never changes." },
-  { en:"schedule", uz:"jadval", topic:"daily", emoji:"🗓️", example:"Check the schedule before you come." },
-  { en:"housework", uz:"uy yumushlari", topic:"daily", emoji:"🧹", example:"We share the housework at home." },
-  { en:"shopping", uz:"xarid qilish", topic:"daily", emoji:"🛒", example:"They go shopping on Saturdays." },
-  { en:"neighbourhood", uz:"mahalla", topic:"daily", emoji:"🏡", example:"I grew up in this neighbourhood." },
-  { en:"weekend", uz:"dam olish kunlari", topic:"daily", emoji:"🎈", example:"What do you do at the weekend?" },
-  { en:"alarm clock", uz:"budilnik", topic:"daily", emoji:"⏰", example:"My alarm clock rings at six." },
+  { en:"morning", uz:"ertalab", topic:"daily", emoji:"🌅", example:"I wake up early every morning.", exampleUz:"Men har kuni ertalab erta uyg'onaman." },
+  { en:"breakfast", uz:"nonushta", topic:"daily", emoji:"🍳", example:"She has breakfast at seven.", exampleUz:"U soat yettida nonushta qiladi." },
+  { en:"neighbour", uz:"qo'shni", topic:"daily", emoji:"🏘️", example:"Our neighbour is very kind.", exampleUz:"Bizning qo'shnimiz juda mehribon." },
+  { en:"routine", uz:"kundalik tartib", topic:"daily", emoji:"🔁", example:"My daily routine never changes.", exampleUz:"Mening kundalik tartibim hech qachon o'zgarmaydi." },
+  { en:"schedule", uz:"jadval", topic:"daily", emoji:"🗓️", example:"Check the schedule before you come.", exampleUz:"Kelishdan oldin jadvalni tekshiring." },
+  { en:"housework", uz:"uy yumushlari", topic:"daily", emoji:"🧹", example:"We share the housework at home.", exampleUz:"Biz uydagi yumushlarni bo'lishib bajaramiz." },
+  { en:"shopping", uz:"xarid qilish", topic:"daily", emoji:"🛒", example:"They go shopping on Saturdays.", exampleUz:"Ular shanba kunlari xarid qilishga borishadi." },
+  { en:"neighbourhood", uz:"mahalla", topic:"daily", emoji:"🏡", example:"I grew up in this neighbourhood.", exampleUz:"Men shu mahallada o'sganman." },
+  { en:"weekend", uz:"dam olish kunlari", topic:"daily", emoji:"🎈", example:"What do you do at the weekend?", exampleUz:"Dam olish kunlari nima qilasiz?" },
+  { en:"alarm clock", uz:"budilnik", topic:"daily", emoji:"⏰", example:"My alarm clock rings at six.", exampleUz:"Budilnigim soat oltida jiringlaydi." },
 
   // ===== 2. Ta'lim =====
-  { en:"knowledge", uz:"bilim", topic:"education", emoji:"🧠", example:"Knowledge opens many doors." },
-  { en:"subject", uz:"fan, predmet", topic:"education", emoji:"📚", example:"English is my favourite subject." },
-  { en:"exam", uz:"imtihon", topic:"education", emoji:"📝", example:"The exam starts at nine." },
-  { en:"homework", uz:"uy vazifasi", topic:"education", emoji:"📔", example:"I finished my homework early." },
-  { en:"library", uz:"kutubxona", topic:"education", emoji:"📖", example:"The library is open until eight." },
-  { en:"pupil", uz:"o'quvchi", topic:"education", emoji:"🎒", example:"Every pupil received a certificate." },
-  { en:"lesson", uz:"dars", topic:"education", emoji:"🍎", example:"Today's lesson was very useful." },
-  { en:"explain", uz:"tushuntirmoq", topic:"education", emoji:"💬", example:"Can you explain this rule again?" },
-  { en:"progress", uz:"taraqqiyot", topic:"education", emoji:"📈", example:"She is making good progress." },
-  { en:"university", uz:"universitet", topic:"education", emoji:"🎓", example:"He studies at a local university." },
+  { en:"knowledge", uz:"bilim", topic:"education", emoji:"🧠", example:"Knowledge opens many doors.", exampleUz:"Bilim ko'plab eshiklarni ochadi." },
+  { en:"subject", uz:"fan, predmet", topic:"education", emoji:"📚", example:"English is my favourite subject.", exampleUz:"Ingliz tili — mening sevimli fanim." },
+  { en:"exam", uz:"imtihon", topic:"education", emoji:"📝", example:"The exam starts at nine.", exampleUz:"Imtihon soat to'qqizda boshlanadi." },
+  { en:"homework", uz:"uy vazifasi", topic:"education", emoji:"📔", example:"I finished my homework early.", exampleUz:"Men uy vazifamni erta tugatdim." },
+  { en:"library", uz:"kutubxona", topic:"education", emoji:"📖", example:"The library is open until eight.", exampleUz:"Kutubxona soat sakkizgacha ochiq." },
+  { en:"pupil", uz:"o'quvchi", topic:"education", emoji:"🎒", example:"Every pupil received a certificate.", exampleUz:"Har bir o'quvchi sertifikat oldi." },
+  { en:"lesson", uz:"dars", topic:"education", emoji:"🍎", example:"Today's lesson was very useful.", exampleUz:"Bugungi dars juda foydali bo'ldi." },
+  { en:"explain", uz:"tushuntirmoq", topic:"education", emoji:"💬", example:"Can you explain this rule again?", exampleUz:"Bu qoidani yana tushuntira olasizmi?" },
+  { en:"progress", uz:"taraqqiyot", topic:"education", emoji:"📈", example:"She is making good progress.", exampleUz:"U yaxshi natijaga erishmoqda." },
+  { en:"university", uz:"universitet", topic:"education", emoji:"🎓", example:"He studies at a local university.", exampleUz:"U mahalliy universitetda o'qiydi." },
 
   // ===== 3. Oila va odamlar =====
-  { en:"parents", uz:"ota-ona", topic:"family", emoji:"👨‍👩‍👧", example:"My parents live in Samarkand." },
-  { en:"relative", uz:"qarindosh", topic:"family", emoji:"👪", example:"A relative visited us yesterday." },
-  { en:"childhood", uz:"bolalik", topic:"family", emoji:"🧸", example:"I had a happy childhood." },
-  { en:"marry", uz:"turmush qurmoq", topic:"family", emoji:"💍", example:"They will marry next spring." },
-  { en:"neighbourly", uz:"qo'shnichilik", topic:"family", emoji:"🤝", example:"They have a neighbourly relationship." },
-  { en:"grandparents", uz:"buvi-bobo", topic:"family", emoji:"👴", example:"We visit our grandparents every month." },
-  { en:"friendship", uz:"do'stlik", topic:"family", emoji:"💛", example:"Their friendship lasted many years." },
-  { en:"guest", uz:"mehmon", topic:"family", emoji:"🚪", example:"We are expecting a guest tonight." },
-  { en:"respect", uz:"hurmat", topic:"family", emoji:"🙏", example:"Children should respect their elders." },
-  { en:"twins", uz:"egizaklar", topic:"family", emoji:"👯", example:"The twins look exactly the same." },
+  { en:"parents", uz:"ota-ona", topic:"family", emoji:"👨‍👩‍👧", example:"My parents live in Samarkand.", exampleUz:"Ota-onam Samarqandda yashaydi." },
+  { en:"relative", uz:"qarindosh", topic:"family", emoji:"👪", example:"A relative visited us yesterday.", exampleUz:"Kecha bir qarindoshimiz keldi." },
+  { en:"childhood", uz:"bolalik", topic:"family", emoji:"🧸", example:"I had a happy childhood.", exampleUz:"Mening bolaligim baxtli o'tgan." },
+  { en:"marry", uz:"turmush qurmoq", topic:"family", emoji:"💍", example:"They will marry next spring.", exampleUz:"Ular kelasi bahorda turmush qurishadi." },
+  { en:"neighbourly", uz:"qo'shnichilik", topic:"family", emoji:"🤝", example:"They have a neighbourly relationship.", exampleUz:"Ular qo'shnichilik munosabatida." },
+  { en:"grandparents", uz:"buvi-bobo", topic:"family", emoji:"👴", example:"We visit our grandparents every month.", exampleUz:"Biz bobo-buvimizni har oy ziyorat qilamiz." },
+  { en:"friendship", uz:"do'stlik", topic:"family", emoji:"💛", example:"Their friendship lasted many years.", exampleUz:"Ularning do'stligi ko'p yillar davom etdi." },
+  { en:"guest", uz:"mehmon", topic:"family", emoji:"🚪", example:"We are expecting a guest tonight.", exampleUz:"Bugun kechqurun mehmon kutyapmiz." },
+  { en:"respect", uz:"hurmat", topic:"family", emoji:"🙏", example:"Children should respect their elders.", exampleUz:"Bolalar kattalarni hurmat qilishi kerak." },
+  { en:"twins", uz:"egizaklar", topic:"family", emoji:"👯", example:"The twins look exactly the same.", exampleUz:"Egizaklar bir-biriga juda o'xshaydi." },
 
   // ===== 4. Ish va kasb =====
-  { en:"job", uz:"ish", topic:"work", emoji:"💼", example:"She found a new job in the city." },
-  { en:"employer", uz:"ish beruvchi", topic:"work", emoji:"🏢", example:"My employer offered me a promotion." },
-  { en:"salary", uz:"maosh", topic:"work", emoji:"💰", example:"His salary increased last year." },
-  { en:"interview", uz:"suhbat (ishga)", topic:"work", emoji:"🗣️", example:"The interview lasted thirty minutes." },
-  { en:"experience", uz:"tajriba", topic:"work", emoji:"⭐", example:"He has ten years of experience." },
-  { en:"colleague", uz:"hamkasb", topic:"work", emoji:"👥", example:"My colleague helped me finish it." },
-  { en:"meeting", uz:"yig'ilish", topic:"work", emoji:"📅", example:"The meeting was moved to Friday." },
-  { en:"responsible", uz:"mas'ul", topic:"work", emoji:"✅", example:"She is responsible for the project." },
-  { en:"skill", uz:"ko'nikma", topic:"work", emoji:"🛠️", example:"Speaking English is a valuable skill." },
-  { en:"career", uz:"martaba", topic:"work", emoji:"🚀", example:"He built a successful career." },
+  { en:"job", uz:"ish", topic:"work", emoji:"💼", example:"She found a new job in the city.", exampleUz:"U shaharda yangi ish topdi." },
+  { en:"employer", uz:"ish beruvchi", topic:"work", emoji:"🏢", example:"My employer offered me a promotion.", exampleUz:"Ish beruvchim menga lavozim taklif qildi." },
+  { en:"salary", uz:"maosh", topic:"work", emoji:"💰", example:"His salary increased last year.", exampleUz:"Uning maoshi o'tgan yili oshdi." },
+  { en:"interview", uz:"suhbat (ishga)", topic:"work", emoji:"🗣️", example:"The interview lasted thirty minutes.", exampleUz:"Suhbat o'ttiz daqiqa davom etdi." },
+  { en:"experience", uz:"tajriba", topic:"work", emoji:"⭐", example:"He has ten years of experience.", exampleUz:"Uning o'n yillik tajribasi bor." },
+  { en:"colleague", uz:"hamkasb", topic:"work", emoji:"👥", example:"My colleague helped me finish it.", exampleUz:"Hamkasbim buni tugatishga yordam berdi." },
+  { en:"meeting", uz:"yig'ilish", topic:"work", emoji:"📅", example:"The meeting was moved to Friday.", exampleUz:"Yig'ilish jumaga ko'chirildi." },
+  { en:"responsible", uz:"mas'ul", topic:"work", emoji:"✅", example:"She is responsible for the project.", exampleUz:"U loyiha uchun mas'ul." },
+  { en:"skill", uz:"ko'nikma", topic:"work", emoji:"🛠️", example:"Speaking English is a valuable skill.", exampleUz:"Ingliz tilida gapirish — qimmatli ko'nikma." },
+  { en:"career", uz:"martaba", topic:"work", emoji:"🚀", example:"He built a successful career.", exampleUz:"U muvaffaqiyatli karyera qurdi." },
 
   // ===== 5. Sayohat =====
-  { en:"journey", uz:"safar", topic:"travel", emoji:"🧳", example:"The journey took eight hours." },
-  { en:"airport", uz:"aeroport", topic:"travel", emoji:"✈️", example:"We arrived at the airport early." },
-  { en:"luggage", uz:"yuk, bagaj", topic:"travel", emoji:"🎒", example:"Don't leave your luggage here." },
-  { en:"passenger", uz:"yo'lovchi", topic:"travel", emoji:"🚌", example:"Every passenger must show a ticket." },
-  { en:"abroad", uz:"chet elda", topic:"travel", emoji:"🌍", example:"She has never travelled abroad." },
-  { en:"accommodation", uz:"turar joy", topic:"travel", emoji:"🏨", example:"The price includes accommodation." },
-  { en:"destination", uz:"manzil", topic:"travel", emoji:"📍", example:"Our destination is still far away." },
-  { en:"souvenir", uz:"esdalik sovg'a", topic:"travel", emoji:"🎁", example:"I bought a souvenir for my sister." },
-  { en:"delay", uz:"kechikish", topic:"travel", emoji:"⏳", example:"There was a two-hour delay." },
-  { en:"guide", uz:"gid, yo'lboshchi", topic:"travel", emoji:"🗺️", example:"Our guide knew the city well." },
+  { en:"journey", uz:"safar", topic:"travel", emoji:"🧳", example:"The journey took eight hours.", exampleUz:"Sayohat sakkiz soat davom etdi." },
+  { en:"airport", uz:"aeroport", topic:"travel", emoji:"✈️", example:"We arrived at the airport early.", exampleUz:"Biz aeroportga erta yetib keldik." },
+  { en:"luggage", uz:"yuk, bagaj", topic:"travel", emoji:"🎒", example:"Don't leave your luggage here.", exampleUz:"Yuklaringizni bu yerda qoldirmang." },
+  { en:"passenger", uz:"yo'lovchi", topic:"travel", emoji:"🚌", example:"Every passenger must show a ticket.", exampleUz:"Har bir yo'lovchi chiptasini ko'rsatishi shart." },
+  { en:"abroad", uz:"chet elda", topic:"travel", emoji:"🌍", example:"She has never travelled abroad.", exampleUz:"U hech qachon chet elga sayohat qilmagan." },
+  { en:"accommodation", uz:"turar joy", topic:"travel", emoji:"🏨", example:"The price includes accommodation.", exampleUz:"Narxga turar joy ham kiradi." },
+  { en:"destination", uz:"manzil", topic:"travel", emoji:"📍", example:"Our destination is still far away.", exampleUz:"Manzilimiz hali ancha uzoq." },
+  { en:"souvenir", uz:"esdalik sovg'a", topic:"travel", emoji:"🎁", example:"I bought a souvenir for my sister.", exampleUz:"Men singlimga sovg'a sotib oldim." },
+  { en:"delay", uz:"kechikish", topic:"travel", emoji:"⏳", example:"There was a two-hour delay.", exampleUz:"Ikki soatlik kechikish bo'ldi." },
+  { en:"guide", uz:"gid, yo'lboshchi", topic:"travel", emoji:"🗺️", example:"Our guide knew the city well.", exampleUz:"Yo'lboshlovchimiz shaharni yaxshi bilardi." },
 
   // ===== 6. Ovqat =====
-  { en:"delicious", uz:"mazali", topic:"food", emoji:"😋", example:"This soup is really delicious." },
-  { en:"recipe", uz:"retsept", topic:"food", emoji:"📜", example:"She shared her family recipe." },
-  { en:"ingredient", uz:"masalliq", topic:"food", emoji:"🥕", example:"Salt is an important ingredient." },
-  { en:"vegetable", uz:"sabzavot", topic:"food", emoji:"🥦", example:"Eat more vegetables every day." },
-  { en:"dessert", uz:"shirinlik", topic:"food", emoji:"🍰", example:"We had ice cream for dessert." },
-  { en:"taste", uz:"ta'm, tatib ko'rmoq", topic:"food", emoji:"👅", example:"Taste it before you add salt." },
-  { en:"hungry", uz:"och", topic:"food", emoji:"🍽️", example:"The children were very hungry." },
-  { en:"boil", uz:"qaynatmoq", topic:"food", emoji:"🍲", example:"Boil the water for five minutes." },
-  { en:"meal", uz:"ovqat, taom", topic:"food", emoji:"🍛", example:"Dinner is my favourite meal." },
-  { en:"fresh", uz:"yangi, toza", topic:"food", emoji:"🥬", example:"We only buy fresh bread." },
+  { en:"delicious", uz:"mazali", topic:"food", emoji:"😋", example:"This soup is really delicious.", exampleUz:"Bu sho'rva juda mazali." },
+  { en:"recipe", uz:"retsept", topic:"food", emoji:"📜", example:"She shared her family recipe.", exampleUz:"U oilaviy retseptini bo'lishdi." },
+  { en:"ingredient", uz:"masalliq", topic:"food", emoji:"🥕", example:"Salt is an important ingredient.", exampleUz:"Tuz — muhim masalliq." },
+  { en:"vegetable", uz:"sabzavot", topic:"food", emoji:"🥦", example:"Eat more vegetables every day.", exampleUz:"Har kuni ko'proq sabzavot yeng." },
+  { en:"dessert", uz:"shirinlik", topic:"food", emoji:"🍰", example:"We had ice cream for dessert.", exampleUz:"Shirinlikka muzqaymoq yedik." },
+  { en:"taste", uz:"ta'm, tatib ko'rmoq", topic:"food", emoji:"👅", example:"Taste it before you add salt.", exampleUz:"Tuz solishdan oldin tatib ko'ring." },
+  { en:"hungry", uz:"och", topic:"food", emoji:"🍽️", example:"The children were very hungry.", exampleUz:"Bolalar juda och edi." },
+  { en:"boil", uz:"qaynatmoq", topic:"food", emoji:"🍲", example:"Boil the water for five minutes.", exampleUz:"Suvni besh daqiqa qaynating." },
+  { en:"meal", uz:"ovqat, taom", topic:"food", emoji:"🍛", example:"Dinner is my favourite meal.", exampleUz:"Kechki ovqat — mening sevimli taomim." },
+  { en:"fresh", uz:"yangi, toza", topic:"food", emoji:"🥬", example:"We only buy fresh bread.", exampleUz:"Biz faqat yangi non sotib olamiz." },
 
   // ===== 7. Sog'liq =====
-  { en:"health", uz:"sog'liq", topic:"health", emoji:"❤️", example:"Health is more important than money." },
-  { en:"medicine", uz:"dori", topic:"health", emoji:"💊", example:"Take this medicine after meals." },
-  { en:"illness", uz:"kasallik", topic:"health", emoji:"🤒", example:"His illness lasted two weeks." },
-  { en:"treatment", uz:"davolash", topic:"health", emoji:"🩺", example:"The treatment was successful." },
-  { en:"exercise", uz:"mashq, jismoniy mashq", topic:"health", emoji:"🏃", example:"Regular exercise keeps you strong." },
-  { en:"pain", uz:"og'riq", topic:"health", emoji:"😣", example:"He felt a sharp pain in his leg." },
-  { en:"recover", uz:"tuzalmoq", topic:"health", emoji:"🌤️", example:"She recovered after a few days." },
-  { en:"hospital", uz:"kasalxona", topic:"health", emoji:"🏥", example:"The hospital is near our school." },
-  { en:"healthy", uz:"sog'lom", topic:"health", emoji:"🥗", example:"A healthy diet is important." },
-  { en:"tired", uz:"charchagan", topic:"health", emoji:"😴", example:"I feel tired after a long day." },
+  { en:"health", uz:"sog'liq", topic:"health", emoji:"❤️", example:"Health is more important than money.", exampleUz:"Sog'liq puldan muhimroq." },
+  { en:"medicine", uz:"dori", topic:"health", emoji:"💊", example:"Take this medicine after meals.", exampleUz:"Bu dorini ovqatdan keyin iching." },
+  { en:"illness", uz:"kasallik", topic:"health", emoji:"🤒", example:"His illness lasted two weeks.", exampleUz:"Uning kasalligi ikki hafta davom etdi." },
+  { en:"treatment", uz:"davolash", topic:"health", emoji:"🩺", example:"The treatment was successful.", exampleUz:"Davolash muvaffaqiyatli o'tdi." },
+  { en:"exercise", uz:"mashq, jismoniy mashq", topic:"health", emoji:"🏃", example:"Regular exercise keeps you strong.", exampleUz:"Muntazam mashq sizni baquvvat qiladi." },
+  { en:"pain", uz:"og'riq", topic:"health", emoji:"😣", example:"He felt a sharp pain in his leg.", exampleUz:"U oyog'ida keskin og'riq sezdi." },
+  { en:"recover", uz:"tuzalmoq", topic:"health", emoji:"🌤️", example:"She recovered after a few days.", exampleUz:"U bir necha kundan keyin sog'aydi." },
+  { en:"hospital", uz:"kasalxona", topic:"health", emoji:"🏥", example:"The hospital is near our school.", exampleUz:"Shifoxona maktabimizga yaqin." },
+  { en:"healthy", uz:"sog'lom", topic:"health", emoji:"🥗", example:"A healthy diet is important.", exampleUz:"Sog'lom ovqatlanish muhim." },
+  { en:"tired", uz:"charchagan", topic:"health", emoji:"😴", example:"I feel tired after a long day.", exampleUz:"Uzoq kundan keyin charchoq sezaman." },
 
   // ===== 8. Tabiat =====
-  { en:"environment", uz:"atrof-muhit", topic:"nature", emoji:"🌍", example:"We must protect the environment." },
-  { en:"weather", uz:"ob-havo", topic:"nature", emoji:"🌤️", example:"The weather is nice today." },
-  { en:"mountain", uz:"tog'", topic:"nature", emoji:"⛰️", example:"They climbed the highest mountain." },
-  { en:"forest", uz:"o'rmon", topic:"nature", emoji:"🌲", example:"The forest is full of birds." },
-  { en:"pollution", uz:"ifloslanish", topic:"nature", emoji:"🏭", example:"Air pollution is a serious problem." },
-  { en:"river", uz:"daryo", topic:"nature", emoji:"🏞️", example:"The river flows through the city." },
-  { en:"climate", uz:"iqlim", topic:"nature", emoji:"🌡️", example:"The climate here is very dry." },
-  { en:"animal", uz:"hayvon", topic:"nature", emoji:"🦁", example:"Every animal needs clean water." },
-  { en:"plant", uz:"o'simlik, ekmoq", topic:"nature", emoji:"🌱", example:"Let's plant a tree together." },
-  { en:"season", uz:"fasl", topic:"nature", emoji:"🍂", example:"Autumn is my favourite season." },
+  { en:"environment", uz:"atrof-muhit", topic:"nature", emoji:"🌍", example:"We must protect the environment.", exampleUz:"Biz atrof-muhitni asrashimiz kerak." },
+  { en:"weather", uz:"ob-havo", topic:"nature", emoji:"🌤️", example:"The weather is nice today.", exampleUz:"Bugun ob-havo yaxshi." },
+  { en:"mountain", uz:"tog'", topic:"nature", emoji:"⛰️", example:"They climbed the highest mountain.", exampleUz:"Ular eng baland toqqa chiqishdi." },
+  { en:"forest", uz:"o'rmon", topic:"nature", emoji:"🌲", example:"The forest is full of birds.", exampleUz:"O'rmon qushlarga to'la." },
+  { en:"pollution", uz:"ifloslanish", topic:"nature", emoji:"🏭", example:"Air pollution is a serious problem.", exampleUz:"Havo ifloslanishi — jiddiy muammo." },
+  { en:"river", uz:"daryo", topic:"nature", emoji:"🏞️", example:"The river flows through the city.", exampleUz:"Daryo shahar orqali oqadi." },
+  { en:"climate", uz:"iqlim", topic:"nature", emoji:"🌡️", example:"The climate here is very dry.", exampleUz:"Bu yerning iqlimi juda quruq." },
+  { en:"animal", uz:"hayvon", topic:"nature", emoji:"🦁", example:"Every animal needs clean water.", exampleUz:"Har bir hayvonga toza suv kerak." },
+  { en:"plant", uz:"o'simlik, ekmoq", topic:"nature", emoji:"🌱", example:"Let's plant a tree together.", exampleUz:"Kel, birga daraxt ekaylik." },
+  { en:"season", uz:"fasl", topic:"nature", emoji:"🍂", example:"Autumn is my favourite season.", exampleUz:"Kuz — mening sevimli faslim." },
 
   // ===== 9. Texnologiya =====
-  { en:"computer", uz:"kompyuter", topic:"tech", emoji:"💻", example:"He fixed my computer yesterday." },
-  { en:"internet", uz:"internet", topic:"tech", emoji:"🌐", example:"The internet connection is slow." },
-  { en:"download", uz:"yuklab olmoq", topic:"tech", emoji:"⬇️", example:"You can download the file here." },
-  { en:"device", uz:"qurilma", topic:"tech", emoji:"📱", example:"This device is easy to use." },
-  { en:"software", uz:"dasturiy ta'minot", topic:"tech", emoji:"🧩", example:"The software needs an update." },
-  { en:"screen", uz:"ekran", topic:"tech", emoji:"🖥️", example:"Don't look at the screen too long." },
-  { en:"message", uz:"xabar", topic:"tech", emoji:"✉️", example:"I sent you a message this morning." },
-  { en:"password", uz:"parol", topic:"tech", emoji:"🔒", example:"Never share your password." },
-  { en:"invention", uz:"ixtiro", topic:"tech", emoji:"💡", example:"The wheel was a great invention." },
-  { en:"connect", uz:"ulanmoq", topic:"tech", emoji:"🔌", example:"Connect the cable to the laptop." },
+  { en:"computer", uz:"kompyuter", topic:"tech", emoji:"💻", example:"He fixed my computer yesterday.", exampleUz:"U kecha kompyuterimni tuzatdi." },
+  { en:"internet", uz:"internet", topic:"tech", emoji:"🌐", example:"The internet connection is slow.", exampleUz:"Internet aloqasi sekin." },
+  { en:"download", uz:"yuklab olmoq", topic:"tech", emoji:"⬇️", example:"You can download the file here.", exampleUz:"Faylni shu yerdan yuklab olishingiz mumkin." },
+  { en:"device", uz:"qurilma", topic:"tech", emoji:"📱", example:"This device is easy to use.", exampleUz:"Bu qurilmadan foydalanish oson." },
+  { en:"software", uz:"dasturiy ta'minot", topic:"tech", emoji:"🧩", example:"The software needs an update.", exampleUz:"Dasturni yangilash kerak." },
+  { en:"screen", uz:"ekran", topic:"tech", emoji:"🖥️", example:"Don't look at the screen too long.", exampleUz:"Ekranga uzoq qaramang." },
+  { en:"message", uz:"xabar", topic:"tech", emoji:"✉️", example:"I sent you a message this morning.", exampleUz:"Men sizga bugun ertalab xabar yubordim." },
+  { en:"password", uz:"parol", topic:"tech", emoji:"🔒", example:"Never share your password.", exampleUz:"Parolingizni hech kimga aytmang." },
+  { en:"invention", uz:"ixtiro", topic:"tech", emoji:"💡", example:"The wheel was a great invention.", exampleUz:"G'ildirak — buyuk ixtiro bo'lgan." },
+  { en:"connect", uz:"ulanmoq", topic:"tech", emoji:"🔌", example:"Connect the cable to the laptop.", exampleUz:"Kabelni noutbukka ulang." },
 
   // ===== 10. His-tuyg'ular =====
-  { en:"happy", uz:"baxtli, xursand", topic:"feelings", emoji:"😊", example:"She feels happy today." },
-  { en:"nervous", uz:"asabiy, hayajonli", topic:"feelings", emoji:"😬", example:"I was nervous before the exam." },
-  { en:"proud", uz:"faxrlanuvchi", topic:"feelings", emoji:"🥲", example:"His parents are proud of him." },
-  { en:"afraid", uz:"qo'rqqan", topic:"feelings", emoji:"😨", example:"She is afraid of dogs." },
-  { en:"surprised", uz:"hayron", topic:"feelings", emoji:"😲", example:"We were surprised by the news." },
-  { en:"lonely", uz:"yolg'iz", topic:"feelings", emoji:"🌙", example:"He felt lonely in the new city." },
-  { en:"excited", uz:"hayajonlangan", topic:"feelings", emoji:"🤩", example:"The kids are excited about the trip." },
-  { en:"angry", uz:"jahli chiqqan", topic:"feelings", emoji:"😠", example:"Don't be angry with me." },
-  { en:"calm", uz:"xotirjam", topic:"feelings", emoji:"🧘", example:"Try to stay calm and think." },
-  { en:"grateful", uz:"minnatdor", topic:"feelings", emoji:"🙏", example:"I am grateful for your help." },
+  { en:"happy", uz:"baxtli, xursand", topic:"feelings", emoji:"😊", example:"She feels happy today.", exampleUz:"U bugun o'zini baxtli his qilyapti." },
+  { en:"nervous", uz:"asabiy, hayajonli", topic:"feelings", emoji:"😬", example:"I was nervous before the exam.", exampleUz:"Imtihondan oldin hayajonlangandim." },
+  { en:"proud", uz:"faxrlanuvchi", topic:"feelings", emoji:"🥲", example:"His parents are proud of him.", exampleUz:"Ota-onasi undan faxrlanadi." },
+  { en:"afraid", uz:"qo'rqqan", topic:"feelings", emoji:"😨", example:"She is afraid of dogs.", exampleUz:"U itlardan qo'rqadi." },
+  { en:"surprised", uz:"hayron", topic:"feelings", emoji:"😲", example:"We were surprised by the news.", exampleUz:"Bu xabardan hayron qoldik." },
+  { en:"lonely", uz:"yolg'iz", topic:"feelings", emoji:"🌙", example:"He felt lonely in the new city.", exampleUz:"U yangi shaharda o'zini yolg'iz his qildi." },
+  { en:"excited", uz:"hayajonlangan", topic:"feelings", emoji:"🤩", example:"The kids are excited about the trip.", exampleUz:"Bolalar sayohatdan xursand." },
+  { en:"angry", uz:"jahli chiqqan", topic:"feelings", emoji:"😠", example:"Don't be angry with me.", exampleUz:"Mendan xafa bo'lmang." },
+  { en:"calm", uz:"xotirjam", topic:"feelings", emoji:"🧘", example:"Try to stay calm and think.", exampleUz:"Xotirjam bo'lib, o'ylashga harakat qiling." },
+  { en:"grateful", uz:"minnatdor", topic:"feelings", emoji:"🙏", example:"I am grateful for your help.", exampleUz:"Yordamingiz uchun minnatdorman." },
 
   // ===== 11. Tavsiflash (sifatlar) =====
-  { en:"difficult", uz:"qiyin", topic:"describing", emoji:"😰", example:"This exercise is difficult." },
-  { en:"important", uz:"muhim", topic:"describing", emoji:"❗", example:"This is an important decision." },
-  { en:"expensive", uz:"qimmat", topic:"describing", emoji:"💸", example:"That car is too expensive." },
-  { en:"comfortable", uz:"qulay", topic:"describing", emoji:"🛋️", example:"These shoes are very comfortable." },
-  { en:"dangerous", uz:"xavfli", topic:"describing", emoji:"⚠️", example:"Driving fast is dangerous." },
-  { en:"curious", uz:"qiziquvchan", topic:"describing", emoji:"🤔", example:"Children are naturally curious." },
-  { en:"friendly", uz:"do'stona", topic:"describing", emoji:"🤝", example:"Our new teacher is very friendly." },
-  { en:"quiet", uz:"tinch, jim", topic:"describing", emoji:"🤫", example:"The library is a quiet place." },
-  { en:"useful", uz:"foydali", topic:"describing", emoji:"🔧", example:"This app is really useful." },
-  { en:"famous", uz:"mashhur", topic:"describing", emoji:"🌟", example:"She became famous very quickly." },
+  { en:"difficult", uz:"qiyin", topic:"describing", emoji:"😰", example:"This exercise is difficult.", exampleUz:"Bu mashq qiyin." },
+  { en:"important", uz:"muhim", topic:"describing", emoji:"❗", example:"This is an important decision.", exampleUz:"Bu muhim qaror." },
+  { en:"expensive", uz:"qimmat", topic:"describing", emoji:"💸", example:"That car is too expensive.", exampleUz:"U mashina juda qimmat." },
+  { en:"comfortable", uz:"qulay", topic:"describing", emoji:"🛋️", example:"These shoes are very comfortable.", exampleUz:"Bu tuflilar juda qulay." },
+  { en:"dangerous", uz:"xavfli", topic:"describing", emoji:"⚠️", example:"Driving fast is dangerous.", exampleUz:"Tez haydash xavfli." },
+  { en:"curious", uz:"qiziquvchan", topic:"describing", emoji:"🤔", example:"Children are naturally curious.", exampleUz:"Bolalar tabiatan qiziquvchan." },
+  { en:"friendly", uz:"do'stona", topic:"describing", emoji:"🤝", example:"Our new teacher is very friendly.", exampleUz:"Yangi o'qituvchimiz juda samimiy." },
+  { en:"quiet", uz:"tinch, jim", topic:"describing", emoji:"🤫", example:"The library is a quiet place.", exampleUz:"Kutubxona — tinch joy." },
+  { en:"useful", uz:"foydali", topic:"describing", emoji:"🔧", example:"This app is really useful.", exampleUz:"Bu ilova haqiqatan foydali." },
+  { en:"famous", uz:"mashhur", topic:"describing", emoji:"🌟", example:"She became famous very quickly.", exampleUz:"U juda tez mashhur bo'lib ketdi." },
 
   // ===== 12. Muhim fe'llar =====
-  { en:"achieve", uz:"erishmoq", topic:"verbs", emoji:"🏆", example:"He achieved his goal." },
-  { en:"improve", uz:"yaxshilamoq", topic:"verbs", emoji:"📈", example:"I want to improve my English." },
-  { en:"decide", uz:"qaror qilmoq", topic:"verbs", emoji:"✅", example:"We need to decide today." },
-  { en:"remember", uz:"eslamoq", topic:"verbs", emoji:"🧠", example:"I can't remember his name." },
-  { en:"suggest", uz:"taklif qilmoq", topic:"verbs", emoji:"💡", example:"He suggested a different plan." },
-  { en:"prepare", uz:"tayyorlamoq", topic:"verbs", emoji:"🧑‍🍳", example:"She prepared dinner for everyone." },
-  { en:"describe", uz:"tasvirlamoq", topic:"verbs", emoji:"🖊️", example:"Describe your best friend." },
-  { en:"borrow", uz:"qarz olmoq", topic:"verbs", emoji:"🤲", example:"Can I borrow your pen?" },
-  { en:"invite", uz:"taklif etmoq", topic:"verbs", emoji:"💌", example:"They invited us to the wedding." },
-  { en:"complain", uz:"shikoyat qilmoq", topic:"verbs", emoji:"😤", example:"He complained about the noise." },
+  { en:"achieve", uz:"erishmoq", topic:"verbs", emoji:"🏆", example:"He achieved his goal.", exampleUz:"U o'z maqsadiga erishdi." },
+  { en:"improve", uz:"yaxshilamoq", topic:"verbs", emoji:"📈", example:"I want to improve my English.", exampleUz:"Men ingliz tilimni yaxshilamoqchiman." },
+  { en:"decide", uz:"qaror qilmoq", topic:"verbs", emoji:"✅", example:"We need to decide today.", exampleUz:"Bugun qaror qilishimiz kerak." },
+  { en:"remember", uz:"eslamoq", topic:"verbs", emoji:"🧠", example:"I can't remember his name.", exampleUz:"Uning ismini eslay olmayapman." },
+  { en:"suggest", uz:"taklif qilmoq", topic:"verbs", emoji:"💡", example:"He suggested a different plan.", exampleUz:"U boshqa rejani taklif qildi." },
+  { en:"prepare", uz:"tayyorlamoq", topic:"verbs", emoji:"🧑‍🍳", example:"She prepared dinner for everyone.", exampleUz:"U hammaga kechki ovqat tayyorladi." },
+  { en:"describe", uz:"tasvirlamoq", topic:"verbs", emoji:"🖊️", example:"Describe your best friend.", exampleUz:"Eng yaqin do'stingizni tasvirlab bering." },
+  { en:"borrow", uz:"qarz olmoq", topic:"verbs", emoji:"🤲", example:"Can I borrow your pen?", exampleUz:"Ruchkangizni olib turishim mumkinmi?" },
+  { en:"invite", uz:"taklif etmoq", topic:"verbs", emoji:"💌", example:"They invited us to the wedding.", exampleUz:"Ular bizni to'yga taklif qilishdi." },
+  { en:"complain", uz:"shikoyat qilmoq", topic:"verbs", emoji:"😤", example:"He complained about the noise.", exampleUz:"U shovqindan shikoyat qildi." },
 
   // ===== 13. Iboralar =====
-  { en:"however", uz:"biroq, ammo", topic:"phrases", emoji:"🔄", example:"However, he decided to stay." },
-  { en:"in addition", uz:"qo'shimcha ravishda", topic:"phrases", emoji:"➕", example:"In addition, she speaks French." },
-  { en:"as soon as", uz:"...dan so'ng darhol", topic:"phrases", emoji:"⚡", example:"Call me as soon as you arrive." },
-  { en:"look forward to", uz:"intiqlik bilan kutmoq", topic:"phrases", emoji:"🤞", example:"I look forward to seeing you." },
-  { en:"take part in", uz:"qatnashmoq", topic:"phrases", emoji:"🙋", example:"She took part in the contest." },
-  { en:"give up", uz:"voz kechmoq", topic:"phrases", emoji:"🛑", example:"Never give up on your dreams." },
-  { en:"find out", uz:"bilib olmoq", topic:"phrases", emoji:"🔍", example:"I need to find out the truth." },
-  { en:"get on with", uz:"chiqishmoq", topic:"phrases", emoji:"👫", example:"He gets on well with everyone." },
-  { en:"instead of", uz:"...o'rniga", topic:"phrases", emoji:"↔️", example:"Drink water instead of soda." },
-  { en:"at least", uz:"hech bo'lmaganda", topic:"phrases", emoji:"➗", example:"Read at least ten pages a day." }
+  { en:"however", uz:"biroq, ammo", topic:"phrases", emoji:"🔄", example:"However, he decided to stay.", exampleUz:"Shunga qaramay, u qolishga qaror qildi." },
+  { en:"in addition", uz:"qo'shimcha ravishda", topic:"phrases", emoji:"➕", example:"In addition, she speaks French.", exampleUz:"Bundan tashqari, u fransuzcha ham gapiradi." },
+  { en:"as soon as", uz:"...dan so'ng darhol", topic:"phrases", emoji:"⚡", example:"Call me as soon as you arrive.", exampleUz:"Yetib borishingiz bilanoq menga qo'ng'iroq qiling." },
+  { en:"look forward to", uz:"intiqlik bilan kutmoq", topic:"phrases", emoji:"🤞", example:"I look forward to seeing you.", exampleUz:"Siz bilan uchrashishni intiqlik bilan kutaman." },
+  { en:"take part in", uz:"qatnashmoq", topic:"phrases", emoji:"🙋", example:"She took part in the contest.", exampleUz:"U tanlovda ishtirok etdi." },
+  { en:"give up", uz:"voz kechmoq", topic:"phrases", emoji:"🛑", example:"Never give up on your dreams.", exampleUz:"Orzularingizdan hech qachon voz kechmang." },
+  { en:"find out", uz:"bilib olmoq", topic:"phrases", emoji:"🔍", example:"I need to find out the truth.", exampleUz:"Men haqiqatni bilishim kerak." },
+  { en:"get on with", uz:"chiqishmoq", topic:"phrases", emoji:"👫", example:"He gets on well with everyone.", exampleUz:"U hamma bilan yaxshi chiqishadi." },
+  { en:"instead of", uz:"...o'rniga", topic:"phrases", emoji:"↔️", example:"Drink water instead of soda.", exampleUz:"Gazak o'rniga suv iching." },
+  { en:"at least", uz:"hech bo'lmaganda", topic:"phrases", emoji:"➗", example:"Read at least ten pages a day.", exampleUz:"Kuniga kamida o'n bet o'qing." }
 ];
 
 const VOCAB_TOPICS = {
@@ -1725,6 +1757,167 @@ const WORKSHEETS = {
     { before:"These cars", a:"are made", alt:"are made", after:"in Uzbekistan.", hint:"(make)" }
   ]}
 };
+
+/* ---------- QOLGAN MAVZULAR UCHUN WORKSHEET'LAR ---------- */
+const WORKSHEETS_EXTRA = {
+  1: { svg:WS_SVG.routine, intro:"am, is yoki are — mosini yozing.", items:[
+    { before:"I", a:"am", alt:"am|'m", after:"a teacher.", hint:"(I bilan)" },
+    { before:"She", a:"is", alt:"is|'s", after:"from Bukhara.", hint:"(she bilan)" },
+    { before:"They", a:"are", alt:"are|'re", after:"in the garden.", hint:"(they bilan)" },
+    { before:"We", a:"are", alt:"are|'re", after:"ready now.", hint:"(we bilan)" }
+  ]},
+  2: { svg:WS_SVG.routine, intro:"Savol va inkor shakllarini to'ldiring.", items:[
+    { before:"", a:"Are", alt:"are", after:"you tired?", hint:"(savol)" },
+    { before:"", a:"Is", alt:"is", after:"he your brother?", hint:"(savol)" },
+    { before:"She", a:"isn't", alt:"isn't|is not", after:"at school today.", hint:"(inkor)" },
+    { before:"They", a:"aren't", alt:"aren't|are not", after:"from Italy.", hint:"(inkor)" }
+  ]},
+  3: { svg:WS_SVG.routine, intro:"Present Continuous: am/is/are + fe'l-ing.", items:[
+    { before:"I", a:"am reading", alt:"am reading|'m reading", after:"a book now.", hint:"(read)" },
+    { before:"They", a:"are playing", alt:"are playing|'re playing", after:"football.", hint:"(play)" },
+    { before:"She", a:"isn't sleeping", alt:"isn't sleeping|is not sleeping", after:"at the moment.", hint:"(not / sleep)" },
+    { before:"Look! It", a:"is raining", alt:"is raining|'s raining", after:"outside.", hint:"(rain)" }
+  ]},
+  5: { svg:WS_SVG.routine, intro:"do/does yordamida savol va inkor yasang.", items:[
+    { before:"", a:"Do", alt:"do", after:"you like tea?", hint:"(savol)" },
+    { before:"", a:"Does", alt:"does", after:"she work here?", hint:"(savol)" },
+    { before:"They", a:"don't live", alt:"don't live|do not live", after:"in Nukus.", hint:"(not / live)" },
+    { before:"He", a:"doesn't eat", alt:"doesn't eat|does not eat", after:"meat.", hint:"(not / eat)" }
+  ]},
+  6: { svg:WS_SVG.routine, intro:"Present Simple yoki Present Continuous — to'g'risini tanlang.", items:[
+    { before:"I usually", a:"walk", alt:"walk", after:"to school.", hint:"(walk — odat)" },
+    { before:"Today I", a:"am taking", alt:"am taking|'m taking", after:"a taxi.", hint:"(take — bugun)" },
+    { before:"She", a:"knows", alt:"knows", after:"the answer.", hint:"(know — holat fe'li)" },
+    { before:"Listen! Someone", a:"is singing", alt:"is singing|'s singing", after:".", hint:"(sing — hozir)" }
+  ]},
+  7: { svg:WS_SVG.past, intro:"was yoki were — mosini yozing.", items:[
+    { before:"I", a:"was", alt:"was", after:"at home yesterday.", hint:"(I bilan)" },
+    { before:"They", a:"were", alt:"were", after:"very tired.", hint:"(they bilan)" },
+    { before:"She", a:"wasn't", alt:"wasn't|was not", after:"happy about it.", hint:"(inkor)" },
+    { before:"", a:"Were", alt:"were", after:"you at the party?", hint:"(savol)" }
+  ]},
+  9: { svg:WS_SVG.past, intro:"did yordamida savol va inkor yasang.", items:[
+    { before:"", a:"Did", alt:"did", after:"you see the film?", hint:"(savol)" },
+    { before:"She", a:"didn't come", alt:"didn't come|did not come", after:"to the party.", hint:"(not / come)" },
+    { before:"What", a:"did", alt:"did", after:"he say?", hint:"(savol)" },
+    { before:"They", a:"didn't finish", alt:"didn't finish|did not finish", after:"the work.", hint:"(not / finish)" }
+  ]},
+  10:{ svg:WS_SVG.past, intro:"Past Continuous: was/were + fe'l-ing.", items:[
+    { before:"I", a:"was watching", alt:"was watching", after:"TV at nine.", hint:"(watch)" },
+    { before:"They", a:"were waiting", alt:"were waiting", after:"for the bus.", hint:"(wait)" },
+    { before:"While she", a:"was cooking", alt:"was cooking", after:", the phone rang.", hint:"(cook)" },
+    { before:"We", a:"weren't sleeping", alt:"weren't sleeping|were not sleeping", after:"when you called.", hint:"(not / sleep)" }
+  ]},
+  12:{ svg:WS_SVG.travel, intro:"just, already yoki yet — mosini yozing.", items:[
+    { before:"He has", a:"just", alt:"just", after:"left the office.", hint:"(yaqinda)" },
+    { before:"I have", a:"already", alt:"already", after:"eaten, thank you.", hint:"(allaqachon)" },
+    { before:"Have you finished", a:"yet", alt:"yet", after:"?", hint:"(savolda)" },
+    { before:"She hasn't called me", a:"yet", alt:"yet", after:".", hint:"(inkorda)" }
+  ]},
+  13:{ svg:WS_SVG.travel, intro:"for yoki since — mosini tanlang.", items:[
+    { before:"I have lived here", a:"for", alt:"for", after:"five years.", hint:"(muddat)" },
+    { before:"She has worked here", a:"since", alt:"since", after:"March.", hint:"(boshlanish nuqtasi)" },
+    { before:"We have known each other", a:"since", alt:"since", after:"2015.", hint:"(yil)" },
+    { before:"He has been ill", a:"for", alt:"for", after:"two days.", hint:"(muddat)" }
+  ]},
+  14:{ svg:WS_SVG.travel, intro:"Present Perfect Continuous: have/has been + fe'l-ing.", items:[
+    { before:"I", a:"have been studying", alt:"have been studying|'ve been studying", after:"for three hours.", hint:"(study)" },
+    { before:"It", a:"has been raining", alt:"has been raining|'s been raining", after:"all day.", hint:"(rain)" },
+    { before:"They", a:"have been waiting", alt:"have been waiting|'ve been waiting", after:"since morning.", hint:"(wait)" },
+    { before:"She", a:"has been working", alt:"has been working|'s been working", after:"here since May.", hint:"(work)" }
+  ]},
+  16:{ svg:WS_SVG.past, intro:"Past Perfect: had + fe'lning 3-shakli.", items:[
+    { before:"When I arrived, they", a:"had already left", alt:"had already left", after:".", hint:"(already / leave)" },
+    { before:"She", a:"had never seen", alt:"had never seen", after:"snow before.", hint:"(never / see)" },
+    { before:"He told me he", a:"had finished", alt:"had finished|'d finished", after:"the work.", hint:"(finish)" },
+    { before:"By six o'clock we", a:"had eaten", alt:"had eaten|'d eaten", after:"dinner.", hint:"(eat)" }
+  ]},
+  17:{ svg:WS_SVG.ifclause, intro:"going to shaklini to'g'ri yozing.", items:[
+    { before:"I", a:"am going to buy", alt:"am going to buy|'m going to buy", after:"a new phone.", hint:"(buy)" },
+    { before:"Look at those clouds — it", a:"is going to rain", alt:"is going to rain|'s going to rain", after:".", hint:"(rain)" },
+    { before:"They", a:"are going to visit", alt:"are going to visit|'re going to visit", after:"us tomorrow.", hint:"(visit)" },
+    { before:"She", a:"isn't going to come", alt:"isn't going to come|is not going to come", after:"today.", hint:"(not / come)" }
+  ]},
+  19:{ svg:WS_SVG.modal, intro:"can, could yoki be able to.", items:[
+    { before:"I", a:"can", alt:"can", after:"swim very well.", hint:"(hozirgi qobiliyat)" },
+    { before:"", a:"Could", alt:"could", after:"you help me, please?", hint:"(muloyim so'rov)" },
+    { before:"He will", a:"be able to", alt:"be able to", after:"join us next week.", hint:"(kelasi zamon)" },
+    { before:"She", a:"couldn't", alt:"couldn't|could not", after:"come yesterday.", hint:"(o'tmish inkor)" }
+  ]},
+  21:{ svg:WS_SVG.modal, intro:"may yoki might — ehtimollikni bildiring.", items:[
+    { before:"It", a:"may", alt:"may|might", after:"rain later.", hint:"(ehtimol)" },
+    { before:"She", a:"might", alt:"might|may", after:"not come today.", hint:"(kamroq ishonch)" },
+    { before:"", a:"May", alt:"may", after:"I come in?", hint:"(ruxsat so'rash)" },
+    { before:"He", a:"might", alt:"might|may", after:"be at home, I'm not sure.", hint:"(noaniqlik)" }
+  ]},
+  22:{ svg:WS_SVG.prep, intro:"there is yoki there are.", items:[
+    { before:"", a:"There is", alt:"there is|there's", after:"a book on the table.", hint:"(birlik)" },
+    { before:"", a:"There are", alt:"there are", after:"five students in the class.", hint:"(ko'plik)" },
+    { before:"", a:"Is there", alt:"is there", after:"a bank near here?", hint:"(savol)" },
+    { before:"", a:"There aren't", alt:"there aren't|there are not", after:"any chairs in the room.", hint:"(inkor, ko'plik)" }
+  ]},
+  24:{ svg:WS_SVG.article, intro:"some yoki any.", items:[
+    { before:"I have", a:"some", alt:"some", after:"questions for you.", hint:"(tasdiq)" },
+    { before:"Do you have", a:"any", alt:"any", after:"money?", hint:"(savol)" },
+    { before:"There isn't", a:"any", alt:"any", after:"milk left.", hint:"(inkor)" },
+    { before:"Would you like", a:"some", alt:"some", after:"tea?", hint:"(taklif)" }
+  ]},
+  25:{ svg:WS_SVG.article, intro:"much yoki many — mosini tanlang.", items:[
+    { before:"How", a:"many", alt:"many", after:"books do you have?", hint:"(sanaladigan)" },
+    { before:"How", a:"much", alt:"much", after:"water do you need?", hint:"(sanalmaydigan)" },
+    { before:"There isn't", a:"much", alt:"much", after:"information on this page.", hint:"(sanalmaydigan)" },
+    { before:"She doesn't have", a:"many", alt:"many", after:"friends here.", hint:"(sanaladigan)" }
+  ]},
+  26:{ svg:WS_SVG.article, intro:"Egalik shaklini to'g'ri yozing.", items:[
+    { before:"This is", a:"my", alt:"my", after:"bag.", hint:"(men)" },
+    { before:"That is", a:"Ali's", alt:"ali's", after:"car.", hint:"(Ali)" },
+    { before:"", a:"Their", alt:"their", after:"house is very big.", hint:"(ular)" },
+    { before:"Is this", a:"your", alt:"your", after:"book?", hint:"(sen)" }
+  ]},
+  28:{ svg:WS_SVG.compare, intro:"Orttirma daraja: -est yoki most.", items:[
+    { before:"He is the", a:"tallest", alt:"tallest", after:"boy in the class.", hint:"(tall)" },
+    { before:"This is the", a:"most interesting", alt:"most interesting", after:"book I've read.", hint:"(interesting)" },
+    { before:"It was the", a:"best", alt:"best", after:"day of my life.", hint:"(good)" },
+    { before:"That was the", a:"worst", alt:"worst", after:"film I've seen.", hint:"(bad)" }
+  ]},
+  30:{ svg:WS_SVG.prep, intro:"Joy predlogi: in, on yoki at.", items:[
+    { before:"The keys are", a:"in", alt:"in", after:"my bag.", hint:"(ichida)" },
+    { before:"The book is", a:"on", alt:"on", after:"the shelf.", hint:"(ustida)" },
+    { before:"She is", a:"at", alt:"at", after:"the bus stop.", hint:"(nuqtada)" },
+    { before:"There is a picture", a:"on", alt:"on", after:"the wall.", hint:"(ustida)" }
+  ]},
+  34:{ svg:WS_SVG.article, intro:"O'zga gapga aylantiring — zamon bir pog'ona orqaga suriladi.", items:[
+    { before:"\"I am tired.\" → He said he", a:"was", alt:"was", after:"tired.", hint:"(am → ?)" },
+    { before:"\"I will come.\" → She said she", a:"would", alt:"would", after:"come.", hint:"(will → ?)" },
+    { before:"\"I have finished.\" → He said he", a:"had", alt:"had", after:"finished.", hint:"(have → ?)" },
+    { before:"\"I live here.\" → She said she", a:"lived", alt:"lived", after:"there.", hint:"(live → ?)" }
+  ]},
+  35:{ svg:WS_SVG.article, intro:"who, which yoki that.", items:[
+    { before:"The man", a:"who", alt:"who|that", after:"called you is my uncle.", hint:"(odam)" },
+    { before:"This is the book", a:"which", alt:"which|that", after:"I bought yesterday.", hint:"(narsa)" },
+    { before:"The car", a:"that", alt:"that|which", after:"he drives is very old.", hint:"(narsa)" },
+    { before:"The woman", a:"who", alt:"who|that", after:"lives next door is a doctor.", hint:"(odam)" }
+  ]},
+  36:{ svg:WS_SVG.routine, intro:"Gerundiy (-ing) yoki infinitiv (to + fe'l).", items:[
+    { before:"I enjoy", a:"reading", alt:"reading", after:"books.", hint:"(read)" },
+    { before:"She decided", a:"to leave", alt:"to leave", after:"early.", hint:"(leave)" },
+    { before:"He finished", a:"working", alt:"working", after:"at six.", hint:"(work)" },
+    { before:"They want", a:"to go", alt:"to go", after:"home now.", hint:"(go)" }
+  ]},
+  37:{ svg:WS_SVG.past, intro:"used to — o'tmishdagi odat.", items:[
+    { before:"I", a:"used to", alt:"used to", after:"play football every day.", hint:"(odat)" },
+    { before:"She", a:"used to", alt:"used to", after:"live in Bukhara.", hint:"(odat)" },
+    { before:"", a:"Did", alt:"did", after:"you use to smoke?", hint:"(savol)" },
+    { before:"He didn't", a:"use to", alt:"use to", after:"like coffee.", hint:"(inkor — 'd' tushadi)" }
+  ]},
+  38:{ svg:WS_SVG.modal, intro:"Phrasal verb'ning yetishmayotgan qismini yozing.", items:[
+    { before:"She had to give", a:"up", alt:"up", after:"smoking.", hint:"(voz kechmoq)" },
+    { before:"Can you look", a:"after", alt:"after", after:"my dog this weekend?", hint:"(qaramoq)" },
+    { before:"I need to find", a:"out", alt:"out", after:"the truth.", hint:"(bilib olmoq)" },
+    { before:"They put", a:"off", alt:"off", after:"the meeting until Friday.", hint:"(keyinga qoldirmoq)" }
+  ]}
+};
+Object.assign(WORKSHEETS, WORKSHEETS_EXTRA);
 
 /* ---------- 3) GRAMMATIKA SAVOLLARI BANKI ---------- */
 const TENSE_QUESTIONS = [
@@ -3580,43 +3773,43 @@ const IELTS_R1_TEXT =
 "E  Nevertheless, the direction of travel seems clear. New carriages entering service are designed around the way people actually travel today: single-occupancy pods for solo passengers who do not wish to share, secure luggage space, and power sockets at every berth. Some operators have abandoned the traditional restaurant car, which was rarely profitable, in favour of a small bar. Whether the night train becomes a genuine alternative to flying or remains a comfortable niche will depend on whether governments continue to treat rail as infrastructure worth subsidising.";
 
 const IELTS_READING_1 = [
-{ q:"Why did many overnight rail routes disappear between 2000 and 2015?", passage:IELTS_R1_TEXT,
+{ q:"Why did many overnight rail routes disappear between 2000 and 2015?", mark:["Budget airlines were selling seats for less than the price of a taxi to the airport, and high-speed rail had made many daytime journeys faster than a night in a bunk."], passage:IELTS_R1_TEXT,
   options:["Passengers complained that the carriages were uncomfortable","Cheap flights and faster daytime trains made them uncompetitive","Governments banned trains from crossing borders at night","The carriages could no longer be repaired safely"], correct:1,
   explain:"📍 Javob A paragrafda. Matnda arzon aviachiptalar va tezyurar poyezdlar kunduzgi sayohatni tezroq qilgani aytiladi, shundan keyin marshrutlar yopilgan. ✗ A) noqulaylik haqida gap yo'q. ✗ C) taqiq eslatilmagan. ✗ D) vagonlar sotilgan yoki utilizatsiya qilingan, lekin ta'mirlab bo'lmagani aytilmagan.\n\n💡 Maslahat: \"Between 2000 and 2015\" — sana bo'yicha scanning qiling, javob shu jumla atrofida bo'ladi." },
 
-{ q:"According to paragraph B, what made night trains more competitive again?", passage:IELTS_R1_TEXT,
+{ q:"According to paragraph B, what made night trains more competitive again?", mark:["as governments began to attach a price to those emissions, the gap in ticket costs narrowed"], passage:IELTS_R1_TEXT,
   options:["Airlines increased their ticket prices for all routes","A rise in the number of people afraid of flying","The cost of carbon emissions being reflected in prices","New technology that made trains much faster"], correct:2,
   explain:"📍 Javob B paragrafda. Hukumatlar chiqindilarga narx belgilay boshlagach, chipta narxlaridagi farq qisqargan. ✗ A) aviakompaniyalar o'zi narx oshirgani aytilmagan — sabab boshqa. ✗ B) parvozdan qo'rqish umuman eslatilmagan. ✗ D) tezlik B paragrafda emas, A paragrafda va boshqa kontekstda.\n\n💡 Maslahat: savolda \"paragraph B\" deb aniq ko'rsatilgan — faqat o'sha paragrafdan qidiring." },
 
-{ q:"What is said about the Austrian operator ÖBB?", passage:IELTS_R1_TEXT,
+{ q:"What is said about the Austrian operator ÖBB?", mark:["which had spent a decade buying up the sleeper carriages other railways no longer wanted"], passage:IELTS_R1_TEXT,
   options:["It had been buying carriages that other railways were discarding","It was the first company to invent the sleeper train","It received no support from the Austrian government","It sold its night trains to operators in Paris and Rome"], correct:0,
   explain:"📍 Javob B paragrafda. ÖBB o'n yil davomida boshqa temir yo'llar keraksiz deb hisoblagan vagonlarni sotib olib kelgani aytilgan. ✗ B) ixtiro haqida gap yo'q. ✗ C) hukumat yordami bu o'rinda eslatilmagan. ✗ D) aksincha — sotib olgan, sotmagan.\n\n💡 Maslahat: kompaniya nomi (ÖBB) — matndan tez topiladigan belgi (scanning)." },
 
-{ q:"According to surveys, what is the main reason passengers choose sleeper trains?", passage:IELTS_R1_TEXT,
+{ q:"According to surveys, what is the main reason passengers choose sleeper trains?", mark:["the most common reason given for choosing a sleeper is time: a night on a train replaces both a hotel room and a working day lost to airports"], passage:IELTS_R1_TEXT,
   options:["They are always cheaper than flying","They save time by replacing a hotel and a lost working day","They allow passengers to bring more luggage","They are the only way to reach some cities"], correct:1,
   explain:"📍 Javob C paragrafda. So'rovlarga ko'ra eng ko'p keltirilgan sabab — vaqt: tunni poyezdda o'tkazish ham mehmonxonani, ham yo'qotiladigan ish kunini almashtiradi. ✗ A) narx haqida \"har doim arzonroq\" deyilmagan. ✗ C) yuk masalasi E paragrafda va boshqa kontekstda. ✗ D) yagona yo'l ekani aytilmagan.\n\n💡 Maslahat: \"the most common reason\" iborasini qidiring — savol shunga to'g'ridan-to'g'ri ishora qilyapti." },
 
-{ q:"The example of the traveller going from Berlin to Brussels is used to show that", passage:IELTS_R1_TEXT,
+{ q:"The example of the traveller going from Berlin to Brussels is used to show that", mark:["having slept, eaten and arrived in the city centre rather than at an airport thirty kilometres away"], passage:IELTS_R1_TEXT,
   options:["night trains are usually delayed in the morning","train stations are more comfortable than airports","sleeper trains deliver passengers directly to the city centre","business travellers prefer to travel during the day"], correct:2,
   explain:"📍 Javob C paragrafda. Misolda yo'lovchi uxlab, ovqatlanib, aeroportga emas, shahar markaziga yetib kelishi ta'kidlangan. ✗ A) kechikish bu misolda emas, D paragrafda. ✗ B) vokzallar qulayligi haqida bevosita taqqoslash yo'q. ✗ D) matnga zid — ishbilarmonlar uchun aynan tungi poyezd qulay.\n\n💡 Maslahat: misol keltirilgan joyda savol \"nimani ko'rsatish uchun\" desa, misoldan keyingi yoki oldingi umumiy fikrni qarang." },
 
-{ q:"Which of the following is mentioned as a difficulty for night train operators?", passage:IELTS_R1_TEXT,
+{ q:"Which of the following is mentioned as a difficulty for night train operators?", mark:["which means negotiating with several national infrastructure managers, each charging its own track access fees and applying its own safety rules"], passage:IELTS_R1_TEXT,
   options:["Passengers refusing to share compartments with strangers","Dealing with several national infrastructure managers","A shortage of drivers qualified to work at night","Restrictions on the total length of international trains"], correct:1,
   explain:"📍 Javob D paragrafda. Tungi poyezdlar chegara kesib o'tgani uchun bir nechta milliy infratuzilma boshqaruvchisi bilan kelishish kerak. ✗ A) yakka kupelar E paragrafda yechim sifatida aytilgan, muammo sifatida emas. ✗ C) haydovchilar tanqisligi eslatilmagan. ✗ D) uzunlik cheklovi haqida gap yo'q.\n\n💡 Maslahat: \"The obstacles are considerable\" — bu jumla D paragrafning qiyinchiliklar haqida ekanini bildiradi." },
 
-{ q:"Why do sleeper services need to run almost full to be profitable?", passage:IELTS_R1_TEXT,
+{ q:"Why do sleeper services need to run almost full to be profitable?", mark:["carry far fewer passengers than a seated train of the same length, so the economics only work if the beds are close to full"], passage:IELTS_R1_TEXT,
   options:["Because the tickets are sold at a fixed low price","Because they carry fewer passengers than seated trains of the same length","Because border taxes are charged for every empty bed","Because they can only run a few nights each week"], correct:1,
   explain:"📍 Javob D paragrafda. Yotoq vagonlari qimmatga tushadi va bir xil uzunlikdagi o'rindiqli poyezdga qaraganda ancha kam yo'lovchi tashiydi. ✗ A) chipta narxi qat'iy belgilangani aytilmagan. ✗ C) bo'sh joy uchun soliq eslatilmagan — track access fees boshqa narsa. ✗ D) qatnov chastotasi haqida gap yo'q.\n\n💡 Maslahat: sabab so'ralganda \"so\", \"because\", \"since\" bog'lovchilari atrofiga qarang." },
 
-{ q:"What change have some operators made to the traditional sleeper train?", passage:IELTS_R1_TEXT,
+{ q:"What change have some operators made to the traditional sleeper train?", mark:["Some operators have abandoned the traditional restaurant car, which was rarely profitable, in favour of a small bar."], passage:IELTS_R1_TEXT,
   options:["They have replaced the restaurant car with a small bar","They have removed power sockets to save energy","They have made all compartments shared to fit more people","They have stopped carrying large luggage"], correct:0,
   explain:"📍 Javob E paragrafda. Ba'zi operatorlar kam foyda keltirgan restoran vagonidan voz kechib, kichik bar joriy qilgan. ✗ B) aksincha — har bir yotoqda rozetka bor. ✗ C) aksincha — yakka kupelar qo'shilgan. ✗ D) aksincha — xavfsiz yuk joyi ko'zda tutilgan.\n\n💡 Maslahat: uchta noto'g'ri variant matndagi ma'lumotning teskarisi — IELTS'da bu tez-tez uchraydigan tuzoq." },
 
-{ q:"What does the writer suggest the future of night trains depends on?", passage:IELTS_R1_TEXT,
+{ q:"What does the writer suggest the future of night trains depends on?", mark:["will depend on whether governments continue to treat rail as infrastructure worth subsidising"], passage:IELTS_R1_TEXT,
   options:["Whether airlines reduce the number of short flights","Whether governments continue to fund rail infrastructure","Whether passengers accept higher ticket prices","Whether new carriages can be built more quickly"], correct:1,
   explain:"📍 Javob E paragrafning oxirgi jumlasida. Kelajak hukumatlar temir yo'lni subsidiya qilishga arziydigan infratuzilma deb hisoblashda davom etishiga bog'liq. ✗ A, C, D) matnda muhokama qilingan, lekin ularning hech biri kelajakni belgilovchi shart sifatida ko'rsatilmagan.\n\n💡 Maslahat: \"will depend on\" iborasi javobni aniq belgilaydi — oxirgi jumlani doim diqqat bilan o'qing." },
 
-{ q:"Which title best summarises the whole passage?", passage:IELTS_R1_TEXT,
+{ q:"Which title best summarises the whole passage?", mark:["For most of the twentieth century, the sleeper train was the natural way to cross Europe.","the direction of travel seems clear"], passage:IELTS_R1_TEXT,
   options:["Why air travel will always be cheaper than rail","The rise, fall and return of sleeper trains in Europe","How to design a comfortable railway carriage","The history of the Austrian railway system"], correct:1,
   explain:"📍 Javob butun matndan kelib chiqadi. A paragraf tanazzulni, B–C qaytishni, D–E qiyinchilik va kelajakni ko'rsatadi — sarlavha shu uch bosqichni qamrab olishi kerak. ✗ A) matn aksincha, narx farqi qisqarganini aytadi. ✗ C) vagon dizayni faqat E paragrafda. ✗ D) ÖBB — bitta misol, butun mavzu emas.\n\n💡 Maslahat: sarlavha savolida bitta paragrafga emas, matnning umumiy tuzilishiga qarang." }
 ];
@@ -3625,38 +3818,54 @@ const IELTS_READING_1 = [
 const IELTS_LISTENING_1 = {
   title: "Section 1 · Sports centre membership",
   instr: "Write ONE WORD AND/OR A NUMBER for each answer.",
-  script:
-    "Good afternoon, Riverside Sports Centre, how can I help you? " +
-    "Yes, of course, I can tell you about membership. " +
-    "We're open every day from six in the morning until ten at night, but on Sundays we close earlier, at eight. " +
-    "There are two types of membership. The standard one is thirty pounds a month and gives you the gym and the pool. " +
-    "The full membership is forty-five pounds and includes all the classes as well. " +
-    "Our most popular class is swimming, and it runs on Tuesday and Thursday evenings. " +
-    "If you'd like to join, come to reception and bring some form of identification — a passport is best. " +
-    "And one more thing: parking is free for members, but you'll need to collect a permit from the desk.",
+  /* Haqiqiy IELTS Section 1 kabi ikki kishilik suhbat:
+     W = receptionist (ayol ovozi), M = customer (erkak ovozi) */
+  turns: [
+    { s:"M", t:"Oh, hello. I'm calling about joining the sports centre. Is this the right number?" },
+    { s:"W", t:"Good afternoon, Riverside Sports Centre. Yes, it is. I can help you with that." },
+    { s:"M", t:"Great. First of all, what are your opening hours?" },
+    { s:"W", t:"We're open every day from six in the morning until ten at night. But on Sundays we close earlier, at eight." },
+    { s:"M", t:"At eight, right. And how much does membership cost?" },
+    { s:"W", t:"There are two types. The standard one is thirty pounds a month, and that gives you the gym and the pool." },
+    { s:"M", t:"And the other one?" },
+    { s:"W", t:"The full membership is forty-five pounds, and it includes all the classes as well." },
+    { s:"M", t:"I see. Which class is the most popular?" },
+    { s:"W", t:"Swimming, definitely. It runs on Tuesday and Thursday evenings." },
+    { s:"M", t:"Tuesday and Thursday. Perfect. Do I need to bring anything when I come in?" },
+    { s:"W", t:"Yes, please bring some form of identification. A passport is best." },
+    { s:"M", t:"No problem. Oh, and one last thing — is there anywhere to park?" },
+    { s:"W", t:"Parking is free for members, but you'll need to collect a permit from the desk." },
+    { s:"M", t:"Thank you very much. You've been very helpful." }
+  ],
   scriptHtml:
-    "Good afternoon, Riverside Sports Centre, how can I help you? " +
-    "Yes, of course, I can tell you about membership. " +
-    "We're open every day from six in the morning until ten at night, but on Sundays we close earlier, " +
-    "<mark>at eight</mark>. " +
-    "There are two types of membership. The standard one is <mark>thirty pounds</mark> a month and gives you the gym and the pool. " +
-    "The full membership is forty-five pounds and includes all the classes as well. " +
-    "Our most popular class is <mark>swimming</mark>, and it runs on <mark>Tuesday</mark> and Thursday evenings. " +
-    "If you'd like to join, come to reception and bring some form of identification — a <mark>passport</mark> is best. " +
-    "And one more thing: <mark>parking</mark> is free for members, but you'll need to collect a permit from the desk.",
+    "<b>Customer:</b> Oh, hello. I'm calling about joining the sports centre. Is this the right number?<br>" +
+    "<b>Receptionist:</b> Good afternoon, Riverside Sports Centre. Yes, it is. I can help you with that.<br>" +
+    "<b>Customer:</b> Great. First of all, what are your opening hours?<br>" +
+    "<b>Receptionist:</b> We're open every day from six in the morning until ten at night. But on Sundays we close earlier, <mark>at eight</mark>.<br>" +
+    "<b>Customer:</b> At eight, right. And how much does membership cost?<br>" +
+    "<b>Receptionist:</b> There are two types. The standard one is <mark>thirty pounds</mark> a month, and that gives you the gym and the pool.<br>" +
+    "<b>Customer:</b> And the other one?<br>" +
+    "<b>Receptionist:</b> The full membership is forty-five pounds, and it includes all the classes as well.<br>" +
+    "<b>Customer:</b> I see. Which class is the most popular?<br>" +
+    "<b>Receptionist:</b> <mark>Swimming</mark>, definitely. It runs on <mark>Tuesday</mark> and Thursday evenings.<br>" +
+    "<b>Customer:</b> Tuesday and Thursday. Perfect. Do I need to bring anything when I come in?<br>" +
+    "<b>Receptionist:</b> Yes, please bring some form of identification. A <mark>passport</mark> is best.<br>" +
+    "<b>Customer:</b> No problem. Oh, and one last thing — is there anywhere to park?<br>" +
+    "<b>Receptionist:</b> <mark>Parking</mark> is free for members, but you'll need to collect a permit from the desk.<br>" +
+    "<b>Customer:</b> Thank you very much. You've been very helpful.",
   items: [
     { label:"1  Closing time on Sundays:", a:"8", alt:"8|8pm|eight|8 pm|20:00",
-      where:"Matnda: yakshanba kuni ertaroq — soat sakkizda yopiladi." },
+      where:"Xodim aytadi: yakshanba kuni ertaroq — soat sakkizda yopiladi." },
     { label:"2  Standard membership per month:", a:"30", alt:"30|£30|30 pounds|thirty",
-      where:"Matnda: standart a'zolik oyiga o'ttiz funt." },
+      where:"Xodim aytadi: standart a'zolik oyiga o'ttiz funt." },
     { label:"3  Most popular class:", a:"swimming", alt:"swimming|swim",
-      where:"Matnda: eng ommabop mashg'ulot — suzish." },
+      where:"Xodim aytadi: eng ommabop mashg'ulot — suzish." },
     { label:"4  Classes run on Thursday and:", a:"Tuesday", alt:"tuesday|tues|tue",
-      where:"Matnda: seshanba va payshanba kunlari kechqurun o'tkaziladi." },
+      where:"Xodim aytadi: seshanba va payshanba kunlari kechqurun." },
     { label:"5  Bring identification, preferably a:", a:"passport", alt:"passport",
-      where:"Matnda: shaxsni tasdiqlovchi hujjat, eng yaxshisi pasport." },
+      where:"Xodim aytadi: shaxsni tasdiqlovchi hujjat, eng yaxshisi pasport." },
     { label:"6  Free for members:", a:"parking", alt:"parking|car parking",
-      where:"Matnda: a'zolar uchun avtoturargoh bepul." }
+      where:"Xodim aytadi: a'zolar uchun avtoturargoh bepul." }
   ]
 };
 
@@ -4388,6 +4597,7 @@ function revealTrainerCard(){
     <div class="trainer-word">${w.en}</div>
     <div class="trainer-uz">${w.uz}</div>
     <div class="trainer-ex">${w.example}</div>
+    ${w.exampleUz ? `<div class="trainer-ex-uz">${w.exampleUz}</div>` : ''}
   `;
   speakWord(w.en);
 }
@@ -4977,6 +5187,7 @@ function renderVocab(){
         <div class="flip-face flip-back">
           <div class="word-uz" style="font-size:16px; font-weight:600; color:var(--gold); margin-bottom:6px;">${w.emoji || ''} ${w.uz}</div>
           <div class="word-ex">${w.example}</div>
+          ${w.exampleUz ? `<div class="word-ex-uz">${w.exampleUz}</div>` : ''}
         </div>
       </div>
     `;
@@ -5533,7 +5744,11 @@ function startQuiz(set){
 
 function renderQuestion(){
   document.getElementById('explainBox').classList.remove('show');
+  if(!activeSet || !activeSet.questions.length) return;
+  if(currentIndex < 0) currentIndex = 0;
+  if(currentIndex > activeSet.questions.length - 1) currentIndex = activeSet.questions.length - 1;
   const q = activeSet.questions[currentIndex];
+  if(!q) return;
 
   // reading matni yoki topshiriq ko'rsatmasi (agar bor bo'lsa)
   const pBox = document.getElementById('passageBox');
@@ -5862,9 +6077,42 @@ function renderMistakes(){
       <div class="mistake-q"><span class="mistake-num">${m.num}</span> ${m.q.q}</div>
       ${answerLines}
       ${m.q.explain ? `<div class="mistake-expl">💡 ${m.q.explain}</div>` : ''}
+      ${m.q.passage ? `
+        <button class="mk-src-btn">📖 Matndan javobni ko'rsatish</button>
+        <div class="mk-src"><div class="mk-src-head">Javob shu yerdan chiqqan</div>${markPassage(m.q.passage, m.q.mark)}</div>
+      ` : ''}
     `;
+    if(m.q.passage){
+      const btn = div.querySelector('.mk-src-btn');
+      const box = div.querySelector('.mk-src');
+      btn.addEventListener('click', () => {
+        box.classList.toggle('show');
+        btn.textContent = box.classList.contains('show')
+          ? '📖 Matnni yashirish'
+          : '📖 Matndan javobni ko\'rsatish';
+        if(box.classList.contains('show')){
+          const hit = box.querySelector('mark');
+          if(hit) setTimeout(() => {
+            box.scrollTop = Math.max(0, hit.offsetTop - box.offsetTop - 60);
+          }, 80);
+        }
+      });
+    }
     list.appendChild(div);
   });
+}
+
+/* Matndagi javob joyini marker bilan bo'yaydi */
+function markPassage(text, marks){
+  let html = text
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  (marks || []).forEach(mk => {
+    const safe = mk.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    if(html.includes(safe)){
+      html = html.split(safe).join('<mark>' + safe + '</mark>');
+    }
+  });
+  return '<div class="mk-src-text">' + html.replace(/\n/g, '<br>') + '</div>';
 }
 
 document.getElementById('retryMistakesBtn').addEventListener('click', () => {
@@ -6173,15 +6421,21 @@ function wireWorksheet(card, unit, ws){
 /* ============== IELTS LISTENING ============== */
 let lsRate = 1.0;
 let lsSpeaking = false;
-let lsVoice = null;
+let lsVoiceW = null;   // ayol (receptionist)
+let lsVoiceM = null;   // erkak (customer)
+let lsQueue = [];
+let lsQi = 0;
 let lsActive = null;
 
 function lsPickVoice(){
   if(!('speechSynthesis' in window)) return;
   const vs = speechSynthesis.getVoices();
-  lsVoice = vs.find(v => /en-GB/i.test(v.lang))
-         || vs.find(v => /^en/i.test(v.lang))
-         || null;
+  const en = vs.filter(v => /^en/i.test(v.lang));
+  const pool = en.length ? en : vs;
+  const female = pool.find(v => /female|zira|samantha|karen|serena|fiona|hazel|susan|linda/i.test(v.name));
+  const male   = pool.find(v => /male|david|daniel|alex|george|james|fred|rishi/i.test(v.name) && !/female/i.test(v.name));
+  lsVoiceW = female || pool[0] || null;
+  lsVoiceM = male || pool.find(v => v !== lsVoiceW) || pool[0] || null;
 }
 if('speechSynthesis' in window){
   lsPickVoice();
@@ -6191,17 +6445,51 @@ if('speechSynthesis' in window){
 function lsStop(){
   if('speechSynthesis' in window) speechSynthesis.cancel();
   lsSpeaking = false;
+  lsQueue = []; lsQi = 0;
   const b = document.getElementById('lsPlayBtn');
   if(b) b.textContent = '▶';
-  document.getElementById('lsWave').classList.remove('on');
-  document.getElementById('lsState').textContent = "To'xtatildi";
+  const w = document.getElementById('lsWave');
+  if(w) w.classList.remove('on');
+  const st = document.getElementById('lsState');
+  if(st) st.textContent = "To'xtatildi";
+}
+
+/* Suhbatni navbat bilan, har bir gapirovchini o'z ovozida o'qiydi */
+function lsSpeakNext(){
+  if(lsQi >= lsQueue.length){
+    lsSpeaking = false;
+    document.getElementById('lsPlayBtn').textContent = '▶';
+    document.getElementById('lsWave').classList.remove('on');
+    document.getElementById('lsState').textContent = 'Tugadi — qayta eshitish mumkin';
+    return;
+  }
+  const turn = lsQueue[lsQi++];
+  const u = new SpeechSynthesisUtterance(turn.t);
+  const isW = turn.s === 'W';
+  const v = isW ? lsVoiceW : lsVoiceM;
+  if(v) u.voice = v;
+  u.lang = v ? v.lang : 'en-GB';
+  u.rate = lsRate;
+  /* Agar qurilmada bitta ovoz bo'lsa, tovush balandligi bilan farqlanadi */
+  u.pitch = (lsVoiceW === lsVoiceM) ? (isW ? 1.25 : 0.8) : (isW ? 1.05 : 0.92);
+  u.onend = () => { if(lsSpeaking) setTimeout(lsSpeakNext, 220); };
+  u.onerror = () => {
+    lsSpeaking = false;
+    document.getElementById('lsPlayBtn').textContent = '▶';
+    document.getElementById('lsWave').classList.remove('on');
+    document.getElementById('lsState').textContent = "Ovozni chiqarib bo'lmadi";
+  };
+  document.getElementById('lsState').textContent =
+    (isW ? '🎧 Receptionist' : '🎧 Customer') + ` · ${lsQi}/${lsQueue.length}`;
+  speechSynthesis.speak(u);
 }
 
 function openListening(data){
   lsActive = data;
   document.getElementById('lsTitle').textContent = data.title;
   document.getElementById('lsInstr').innerHTML =
-    `<b>${data.instr}</b><br>Avval eshiting, keyin javoblarni yozing. Kerak bo'lsa qayta eshitish mumkin.`;
+    `<b>${data.instr}</b><br>Ikki kishi suhbatlashadi: <b>Customer</b> va <b>Receptionist</b>. ` +
+    `Avval eshiting, keyin javoblarni yozing.`;
   document.getElementById('lsState').textContent = 'Tayyor';
   document.getElementById('lsScoreBox').classList.remove('show');
   const tr = document.getElementById('lsTranscript');
@@ -6235,29 +6523,13 @@ document.getElementById('lsPlayBtn').addEventListener('click', () => {
   if(!('speechSynthesis' in window) || !lsActive) return;
   if(lsSpeaking){ lsStop(); return; }
   speechSynthesis.cancel();
-  const u = new SpeechSynthesisUtterance(lsActive.script);
-  if(lsVoice) u.voice = lsVoice;
-  u.lang = lsVoice ? lsVoice.lang : 'en-GB';
-  u.rate = lsRate;
-  u.onstart = () => {
-    lsSpeaking = true;
-    document.getElementById('lsPlayBtn').textContent = '■';
-    document.getElementById('lsWave').classList.add('on');
-    document.getElementById('lsState').textContent = 'Eshitilmoqda…';
-  };
-  u.onend = () => {
-    lsSpeaking = false;
-    document.getElementById('lsPlayBtn').textContent = '▶';
-    document.getElementById('lsWave').classList.remove('on');
-    document.getElementById('lsState').textContent = 'Tugadi — qayta eshitish mumkin';
-  };
-  u.onerror = () => {
-    lsSpeaking = false;
-    document.getElementById('lsPlayBtn').textContent = '▶';
-    document.getElementById('lsWave').classList.remove('on');
-    document.getElementById('lsState').textContent = "Ovozni chiqarib bo'lmadi";
-  };
-  speechSynthesis.speak(u);
+  lsPickVoice();
+  lsQueue = lsActive.turns ? lsActive.turns.slice() : [{ s:'W', t:lsActive.script || '' }];
+  lsQi = 0;
+  lsSpeaking = true;
+  document.getElementById('lsPlayBtn').textContent = '■';
+  document.getElementById('lsWave').classList.add('on');
+  lsSpeakNext();
 });
 
 document.getElementById('lsSpeedBtn').addEventListener('click', () => {
