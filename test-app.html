@@ -204,6 +204,11 @@
     border-radius:3px; padding:1px 2px; font-weight:600;
   }
 
+  .vocab-end{
+    text-align:center; font-size:11.5px; color: rgba(247,244,236,0.35);
+    font-family:'IBM Plex Mono',monospace; padding:12px 0;
+  }
+
   /* --- lug'at darajalari --- */
   .lvl-chip.lvl-1.active{ background:#3ddc97; border-color:#3ddc97; color:var(--ink); }
   .lvl-chip.lvl-2.active{ background:var(--gold); border-color:var(--gold); color:var(--ink); }
@@ -1225,6 +1230,7 @@
     <div class="filter-row" id="vocabLevels"></div>
     <div class="filter-row" id="vocabFilters"></div>
     <div id="vocabList"></div>
+    <div id="vocabMore"></div>
   </div>
 
   <!-- SCREEN: Test -->
@@ -4649,6 +4655,473 @@ const IELTS_READING_1 = [
   explain:"📍 Javob butun matndan kelib chiqadi. A paragraf tanazzulni, B–C qaytishni, D–E qiyinchilik va kelajakni ko'rsatadi — sarlavha shu uch bosqichni qamrab olishi kerak. ✗ A) matn aksincha, narx farqi qisqarganini aytadi. ✗ C) vagon dizayni faqat E paragrafda. ✗ D) ÖBB — bitta misol, butun mavzu emas.\n\n💡 Maslahat: sarlavha savolida bitta paragrafga emas, matnning umumiy tuzilishiga qarang." }
 ];
 
+/* ---------- IELTS READING: 2–4 ---------- */
+
+const IELTS_R2_TEXT =
+"Why We Dream\n\n" +
+"A  Every night, the human brain produces a series of vivid, often illogical stories that most of us forget within minutes of waking. Dreaming happens mainly during a stage of sleep known as REM, or rapid eye movement, when the eyes flicker beneath closed lids and brain activity looks remarkably similar to that of a waking mind. A healthy adult passes through four or five REM periods a night, and the last of these can last almost an hour. Yet despite a century of laboratory research, scientists still cannot agree on what dreams are for.\n\n" +
+"B  The oldest modern theory belongs to Sigmund Freud, who argued that dreams were disguised wishes, a safe outlet for desires the waking mind refused to admit. Few researchers accept this today. The problem is not that Freud's idea is unpleasant but that it cannot be tested: almost any dream can be interpreted as a hidden wish if the interpreter is determined enough. Modern sleep science has therefore moved towards explanations that can be measured.\n\n" +
+"C  One such explanation is the threat simulation theory. Its supporters point out that dreams are unusually rich in danger — being chased, falling, arriving unprepared for an examination — and unusually poor in ordinary contentment. On this view, the sleeping brain runs a kind of rehearsal, practising responses to threats in a setting where mistakes cost nothing. Studies of children who have lived through war lend some support: their dreams contain far more threatening material than those of children in peaceful regions.\n\n" +
+"D  A rival account focuses on memory rather than danger. During sleep the brain appears to replay the day's experiences, strengthening connections that matter and discarding those that do not. In one experiment, volunteers who learned a complex route through a virtual maze and then slept performed considerably better than those who stayed awake — but only if they reported dreaming about the maze. The dream itself may not be the cause; it may simply be a visible sign that the sorting process is under way.\n\n" +
+"E  There is also a possibility that dreams have no purpose at all. The brain must remain partly active during sleep, and the images it generates may be no more meaningful than the noise of an idling engine. What is striking is that these three explanations are not mutually exclusive. Dreaming could be a by-product of memory processing that the brain has gradually put to further use. For now, the most honest summary is that we know a great deal about when people dream and very little about why.";
+
+const IELTS_READING_2 = [
+{ q:"According to paragraph A, what is unusual about brain activity during REM sleep?", passage:IELTS_R2_TEXT,
+  options:["It closely resembles the activity of a waking brain", "It stops almost completely", "It is strongest at the beginning of the night", "It cannot be measured in a laboratory"], correct:0,
+  mark:["brain activity looks remarkably similar to that of a waking mind"],
+  explain:"📍 Javob A paragrafda. Matnda REM bosqichidagi miya faoliyati uyg'oq miyanikiga juda o'xshashligi aytilgan. ✗ A) aksincha — faoliyat to'xtamaydi. ✗ C) matnda oxirgi REM davri eng uzun deyilgan. ✗ D) laboratoriya tadqiqotlari asr davomida olib borilgan.\n\n💡 Maslahat: \"According to paragraph A\" — faqat o'sha paragrafdan qidiring." },
+{ q:"Why do most researchers now reject Freud's theory?", passage:IELTS_R2_TEXT,
+  options:["It was based on too few patients", "It is impossible to test scientifically", "It ignores the role of REM sleep", "It was disproved by a famous experiment"], correct:1,
+  mark:["The problem is not that Freud's idea is unpleasant but that it cannot be tested"],
+  explain:"📍 Javob B paragrafda. Muammo nazariyaning yoqimsizligida emas, balki uni tekshirib bo'lmasligida. ✗ A) bemorlar soni haqida gap yo'q. ✗ C) REM boshqa paragrafda muhokama qilingan. ✗ D) matnda hech qanday tajriba uni rad etgani aytilmagan.\n\n💡 Maslahat: sabab so'ralganda \"The problem is...\" kabi iboralar atrofiga qarang." },
+{ q:"What kind of content is said to be common in dreams?", passage:IELTS_R2_TEXT,
+  options:["Conversations with strangers", "Memories of early childhood", "Situations involving danger", "Scenes of ordinary happiness"], correct:2,
+  mark:["dreams are unusually rich in danger — being chased, falling, arriving unprepared for an examination — and unusually poor in ordinary contentment"],
+  explain:"📍 Javob C paragrafda. Tushlar xavf bilan bog'liq holatlarga boy, oddiy xotirjamlikka esa kambag'al. ✗ D) matnda aynan buning teskarisi aytilgan — bu tipik IELTS tuzog'i.\n\n💡 Maslahat: \"rich in\" va \"poor in\" — qarama-qarshi juftlik, ikkalasini ham diqqat bilan o'qing." },
+{ q:"What do the dreams of children affected by war suggest?", passage:IELTS_R2_TEXT,
+  options:["That children forget frightening events quickly", "That dreaming helps children recover from trauma", "That war reduces the total amount of REM sleep", "That experience influences the content of dreams"], correct:3,
+  mark:["their dreams contain far more threatening material than those of children in peaceful regions"],
+  explain:"📍 Javob C paragrafda. Urushni boshdan kechirgan bolalarning tushlarida xavfli mazmun ancha ko'p — demak hayotiy tajriba tush mazmuniga ta'sir qiladi. ✗ B) tuzalish haqida hech narsa aytilmagan. ✗ D) REM miqdori muhokama qilinmagan.\n\n💡 Maslahat: \"suggest\" savollarida matndagi faktdan chiqadigan xulosani tanlang, faktning o'zini emas." },
+{ q:"In the maze experiment, better performance was linked to", passage:IELTS_R2_TEXT,
+  options:["sleeping and dreaming about the task", "staying awake and revising the route", "completing the maze several times", "sleeping for more than eight hours"], correct:0,
+  mark:["volunteers who learned a complex route through a virtual maze and then slept performed considerably better than those who stayed awake — but only if they reported dreaming about the maze"],
+  explain:"📍 Javob D paragrafda. Natija yaxshilangan, lekin faqat o'sha labirint haqida tush ko'rganlarda. ✗ A) matnga zid — uyg'oq qolganlar yomonroq natija ko'rsatgan. ✗ D) uyqu davomiyligi eslatilmagan.\n\n💡 Maslahat: \"but only if\" — javobni cheklovchi muhim ibora, e'tibordan qochirmang." },
+{ q:"What does the writer say about the dream itself in the memory theory?", passage:IELTS_R2_TEXT,
+  options:["It directly causes the improvement in memory", "It may simply be a sign that sorting is happening", "It prevents unnecessary memories from forming", "It occurs only after difficult mental tasks"], correct:1,
+  mark:["The dream itself may not be the cause; it may simply be a visible sign that the sorting process is under way"],
+  explain:"📍 Javob D paragrafning oxirida. Tush sabab emas, balki jarayon ketayotganining ko'rinadigan belgisi bo'lishi mumkin. ✗ A) matn aynan bunga shubha bildiradi.\n\n💡 Maslahat: \"may not be the cause\" — ehtiyotkor til; javob ham shunday ehtiyotkor bo'lishi kerak." },
+{ q:"What is the third possibility mentioned in paragraph E?", passage:IELTS_R2_TEXT,
+  options:["That only some people dream regularly", "That dreams are controlled by the sleeper", "That dreams serve no function whatsoever", "That dreaming replaces the need for rest"], correct:2,
+  mark:["There is also a possibility that dreams have no purpose at all"],
+  explain:"📍 Javob E paragrafning boshida. Uchinchi ehtimol — tushlarning umuman vazifasi yo'q. ✗ B, C, D) matnda muhokama qilinmagan g'oyalar.\n\n💡 Maslahat: paragraf boshidagi jumla ko'pincha o'sha paragrafning asosiy g'oyasini beradi." },
+{ q:"The comparison with 'the noise of an idling engine' is used to suggest that dreams", passage:IELTS_R2_TEXT,
+  options:["are louder in some sleepers than others", "warn the body that something is wrong", "gradually wear the brain out", "may be a meaningless side effect of activity"], correct:3,
+  mark:["the images it generates may be no more meaningful than the noise of an idling engine"],
+  explain:"📍 Javob E paragrafda. Bo'sh yurgan dvigatel shovqini kabi — ya'ni ma'nosiz yon ta'sir. ✗ B va D) taqqoslash ogohlantirish yoki zarar haqida emas.\n\n💡 Maslahat: metafora so'ralganda uning atrofidagi jumlani o'qing — ma'no o'sha yerda ochiladi." },
+{ q:"What does the writer conclude about the three explanations?", passage:IELTS_R2_TEXT,
+  options:["They could all be true at the same time", "Only one of them can eventually be correct", "The oldest one is the most convincing", "None of them is supported by evidence"], correct:0,
+  mark:["these three explanations are not mutually exclusive"],
+  explain:"📍 Javob E paragrafda. \"Not mutually exclusive\" — ular bir-birini istisno qilmaydi, ya'ni barchasi bir vaqtda to'g'ri bo'lishi mumkin. ✗ A) aynan buning teskarisi. ✗ C) Freyd nazariyasi rad etilgan.\n\n💡 Maslahat: \"mutually exclusive\" iborasini eslab qoling — IELTS'da tez-tez uchraydi." },
+{ q:"Which sentence best summarises the writer's overall position?", passage:IELTS_R2_TEXT,
+  options:["Dreams have finally been explained by modern science", "We understand when dreaming happens but not why", "Dreaming is the most important stage of sleep", "Freud's ideas deserve to be taken seriously again"], correct:1,
+  mark:["we know a great deal about when people dream and very little about why"],
+  explain:"📍 Javob eng oxirgi jumlada. Muallif ochiq aytadi: qachon tush ko'rilishini yaxshi bilamiz, nega ko'rilishini esa deyarli bilmaymiz. ✗ A) matn aksincha, olimlar hali kelisha olmaganini ta'kidlaydi.\n\n💡 Maslahat: umumiy xulosa savollarida oxirgi paragrafning yakuniy jumlasini birinchi bo'lib tekshiring." }
+];
+
+const IELTS_R3_TEXT =
+"The Long Journey of Chocolate\n\n" +
+"A  The tree that produces chocolate grows only in a narrow band of hot, wet country close to the equator. Its scientific name, Theobroma cacao, means 'food of the gods', and for most of its history that description was closer to the truth than the sweet bars sold today. In Mesoamerica, where the tree was first cultivated more than three thousand years ago, cacao beans were ground and mixed with water, chilli and maize to make a bitter, frothy drink. It was consumed at religious ceremonies and served to rulers; ordinary farmers rarely tasted it.\n\n" +
+"B  The beans themselves were valuable enough to be used as money. Records from the Aztec period list prices in cacao: a turkey might cost a hundred beans, a small rabbit thirty. Counterfeiting existed too — empty shells were carefully filled with earth and passed off as whole beans. Because the trees would not grow in the dry highlands where the Aztec capital stood, cacao had to be carried in from the coast, which made it a symbol of wealth and long-distance trade rather than an everyday food.\n\n" +
+"C  Spanish ships brought cacao to Europe in the sixteenth century, where it met a cool reception until sugar was added. Sweetened and served hot, it became fashionable among the aristocracy, and chocolate houses opened in London and Paris alongside the new coffee houses. It remained a drink for the rich for two hundred years, largely because processing the beans by hand was slow and the result was greasy and heavy.\n\n" +
+"D  The change came from engineering rather than cookery. In 1828 a Dutch chemist invented a press that removed much of the fat from the beans, producing a smooth powder that dissolved easily. Later inventors discovered that returning some of that fat, together with sugar and milk, produced a paste that could be moulded and eaten rather than drunk. By the end of the nineteenth century, machines could make solid chocolate cheaply enough for factory workers to buy it, and consumption rose sharply across northern Europe.\n\n" +
+"E  Today the industry faces problems that would have surprised its early promoters. Around two-thirds of the world's cacao is grown in West Africa, mostly on small farms of a few hectares, and the price paid to those farmers is a small fraction of the retail price of a chocolate bar. Rising temperatures are also expected to reduce the area suitable for cultivation. Some companies have responded by paying premiums for certified beans, though critics argue that such schemes reach only a minority of growers and leave the basic economics unchanged.";
+
+const IELTS_READING_3 = [
+{ q:"How was cacao consumed in early Mesoamerica?", passage:IELTS_R3_TEXT,
+  options:["As a sweet solid food", "As a medicine taken by farmers", "As a bitter drink mixed with other ingredients", "As a paste spread on maize bread"], correct:2,
+  mark:["cacao beans were ground and mixed with water, chilli and maize to make a bitter, frothy drink"],
+  explain:"📍 Javob A paragrafda. Donalar maydalanib, suv, chilli va makkajo'xori bilan aralashtirilib, achchiq ichimlik tayyorlangan. ✗ A) qattiq shokolad ancha keyin paydo bo'lgan. ✗ C) dehqonlar uni kamdan-kam tatib ko'rgan.\n\n💡 Maslahat: \"first cultivated\" bilan boshlanadigan jumla — dastlabki davr haqidagi ma'lumot shu yerda." },
+{ q:"What does the name 'Theobroma cacao' mean?", passage:IELTS_R3_TEXT,
+  options:["Bitter water", "Drink of the kings", "Gift of the forest", "Food of the gods"], correct:3,
+  mark:["Its scientific name, Theobroma cacao, means 'food of the gods'"],
+  explain:"📍 Javob A paragrafda, to'g'ridan-to'g'ri aytilgan. Qolgan uch variant matnda umuman uchramaydi.\n\n💡 Maslahat: ilmiy nom yoki atama so'ralsa — u odatda matnda kursiv yoki qo'shtirnoq bilan ajratilgan bo'ladi, tez topiladi." },
+{ q:"What does the example of the turkey and the rabbit show?", passage:IELTS_R3_TEXT,
+  options:["That cacao beans were used as currency", "That meat was cheaper than cacao", "That the Aztecs preferred birds to rabbits", "That prices rose during the Aztec period"], correct:0,
+  mark:["Records from the Aztec period list prices in cacao: a turkey might cost a hundred beans, a small rabbit thirty"],
+  explain:"📍 Javob B paragrafda. Narxlar kakao donalarida ko'rsatilgan — bu donalar pul vazifasini bajarganini isbotlaydi. ✗ C) qaysi hayvon afzal ko'rilgani mavzu emas.\n\n💡 Maslahat: misol keltirilganda savol ko'pincha \"bu nimani ko'rsatadi?\" deb so'raydi — misoldan oldingi umumiy jumlaga qarang." },
+{ q:"Why did cacao have to be transported to the Aztec capital?", passage:IELTS_R3_TEXT,
+  options:["Because coastal farmers refused to sell it locally", "Because the trees could not grow in the dry highlands", "Because the roads to the coast were unsafe", "Because the capital had no space for farming"], correct:1,
+  mark:["Because the trees would not grow in the dry highlands where the Aztec capital stood, cacao had to be carried in from the coast"],
+  explain:"📍 Javob B paragrafda. Poytaxt joylashgan quruq tog'li hududda daraxt o'smagan. ✗ A va C) matnda bunday sabablar yo'q.\n\n💡 Maslahat: \"Because\" bilan boshlangan jumla — sabab so'ralgan savolning tayyor javobi." },
+{ q:"What made chocolate popular among the European aristocracy?", passage:IELTS_R3_TEXT,
+  options:["Improvements in shipping", "The opening of coffee houses", "The addition of sugar", "Its reputation as a medicine"], correct:2,
+  mark:["where it met a cool reception until sugar was added"],
+  explain:"📍 Javob C paragrafda. Yevropada u shakar qo'shilgunga qadar iliq kutib olinmagan. ✗ B) qahvaxonalar shu bilan bir vaqtda ochilgan, lekin sabab emas.\n\n💡 Maslahat: \"until\" so'zi burilish nuqtasini ko'rsatadi — o'zgarish aynan shu yerda sodir bo'ladi." },
+{ q:"Why did chocolate remain expensive for two hundred years?", passage:IELTS_R3_TEXT,
+  options:["Because sugar was heavily taxed", "Because only royal families were allowed to buy it", "Because the beans spoiled during transport", "Because hand processing was slow"], correct:3,
+  mark:["largely because processing the beans by hand was slow and the result was greasy and heavy"],
+  explain:"📍 Javob C paragrafning oxirida. Qo'lda ishlov berish sekin kechgan va natija yog'li, og'ir bo'lgan. ✗ A va D) matnda soliq yoki taqiq haqida gap yo'q.\n\n💡 Maslahat: \"largely because\" — asosiy sababni bildiruvchi ibora." },
+{ q:"What was the importance of the invention of 1828?", passage:IELTS_R3_TEXT,
+  options:["It removed fat and produced a smooth powder", "It allowed chocolate to be moulded into bars", "It made cacao trees grow faster", "It reduced the price of sugar"], correct:0,
+  mark:["a Dutch chemist invented a press that removed much of the fat from the beans, producing a smooth powder that dissolved easily"],
+  explain:"📍 Javob D paragrafda. 1828-yilgi press yog'ni ajratib, oson eriydigan silliq kukun bergan. ✗ A) qolipga solish keyingi ixtirochilarning ishi — sanalarni chalkashtirmang.\n\n💡 Maslahat: matnda bir necha ixtiro ketma-ket sanalganda, qaysi biri qaysi sanaga tegishli ekanini aniq ajrating." },
+{ q:"According to paragraph D, what caused the sharp rise in consumption?", passage:IELTS_R3_TEXT,
+  options:["Doctors began recommending chocolate", "Machines made solid chocolate affordable", "New varieties of cacao were discovered", "Chocolate houses spread to northern Europe"], correct:1,
+  mark:["machines could make solid chocolate cheaply enough for factory workers to buy it, and consumption rose sharply"],
+  explain:"📍 Javob D paragrafning oxirida. Mashinalar qattiq shokoladni zavod ishchilari ham sotib oladigan darajada arzonlashtirgan. ✗ D) shokolad uylari ancha oldingi davrga oid.\n\n💡 Maslahat: \"cheaply enough for...\" — narx pasayishi va iste'mol o'sishi orasidagi bog'lanishni ko'rsatadi." },
+{ q:"What problem is mentioned about cacao farmers in West Africa?", passage:IELTS_R3_TEXT,
+  options:["They produce beans of declining quality", "They are moving to larger farms", "They receive only a small share of the retail price", "They refuse to join certification schemes"], correct:2,
+  mark:["the price paid to those farmers is a small fraction of the retail price of a chocolate bar"],
+  explain:"📍 Javob E paragrafda. Dehqonlarga to'lanadigan narx shokolad chakana narxining kichik ulushi. ✗ B) aksincha — fermalar kichik, bir necha gektar.\n\n💡 Maslahat: \"a small fraction of\" — ulush kichikligini bildiradi, foiz ko'rsatilmasa ham." },
+{ q:"What do critics say about certification schemes?", passage:IELTS_R3_TEXT,
+  options:["They increase the price of chocolate too much", "They have improved farmers' incomes greatly", "They are opposed by large companies", "They benefit only a minority of growers"], correct:3,
+  mark:["critics argue that such schemes reach only a minority of growers and leave the basic economics unchanged"],
+  explain:"📍 Javob E paragrafning oxirgi jumlasida. Tanqidchilar bunday dasturlar dehqonlarning ozchiligigagina yetib borishini aytadi. ✗ C) kompaniyalar aynan shu dasturlarni joriy qilgan.\n\n💡 Maslahat: \"critics argue\" — matnda muxolif fikr boshlanadigan belgi." }
+];
+
+const IELTS_R4_TEXT =
+"More Than Honey\n\n" +
+"A  Ask most people what bees are for and they will answer honey. In economic terms this is almost the least of it. Roughly a third of the food we eat depends on animal pollination, and honeybees, together with wild bees and other insects, carry out most of that work. Apples, almonds, coffee, cotton and hundreds of other crops set little or no fruit without visits from insects. Attempts to put a figure on the value of this service usually run into hundreds of billions of dollars a year, which is a way of saying that the true figure is unknown but very large.\n\n" +
+"B  A honeybee colony behaves less like a collection of individuals than like a single organism. A queen lays the eggs; tens of thousands of female workers clean, feed, build, guard and forage, changing jobs as they age; a few hundred males exist only to mate. Decisions that appear to require a leader are in fact reached collectively. When a swarm needs a new home, scouts inspect possible sites and advertise them by dancing; the site that attracts the most dancers is chosen, and the swarm moves. No individual bee compares the options.\n\n" +
+"C  That famous dance is also used to report food. A returning forager walks in a figure of eight on the vertical face of the comb, waggling her body along the straight run. The angle of that run relative to vertical indicates the direction of the flowers in relation to the sun, and the length of the waggle indicates the distance. Bees watching in complete darkness are able to translate this information and fly directly to a source they have never seen — one of the few examples of symbolic communication outside human language.\n\n" +
+"D  Since the mid-2000s beekeepers in Europe and North America have reported unusually heavy winter losses, sometimes a third of their hives in a single season. Early coverage blamed a single cause, most often a class of pesticides. The picture that has emerged from research is less dramatic and harder to solve: a combination of a parasitic mite that spreads viruses, poor nutrition where farmland grows only one crop, pesticide exposure that weakens immune systems, and the stress of being transported long distances to pollinate orchards.\n\n" +
+"E  Some responses are within the reach of anyone. Strips of wild flowers along the edges of fields give bees food throughout the season rather than for two intense weeks. Reducing pesticide use during flowering protects foragers directly. But the deeper issue is the shape of modern agriculture itself. A landscape of enormous single-crop fields is efficient for machinery and poor for pollinators, and no amount of beekeeping skill can fully compensate for that.";
+
+const IELTS_READING_4 = [
+{ q:"What point does the writer make in the first paragraph?", passage:IELTS_R4_TEXT,
+  options:["Pollination matters far more economically than honey", "Honey is the most valuable product bees provide", "Wild bees are more useful than honeybees", "The value of pollination has been calculated exactly"], correct:0,
+  mark:["Ask most people what bees are for and they will answer honey. In economic terms this is almost the least of it."],
+  explain:"📍 Javob A paragrafda. Ko'pchilik asalni aytadi, lekin iqtisodiy jihatdan bu eng kichik qismi. ✗ D) matn raqamning aniq emasligini ochiq tan oladi.\n\n💡 Maslahat: \"almost the least of it\" — bu ibora qiymati past ekanini bildiradi." },
+{ q:"What proportion of our food depends on animal pollination?", passage:IELTS_R4_TEXT,
+  options:["About a tenth", "About a third", "About a half", "Nearly all"], correct:1,
+  mark:["Roughly a third of the food we eat depends on animal pollination"],
+  explain:"📍 Javob A paragrafda: taxminan uchdan bir qismi. ✗ Boshqa raqamlar matnda umuman keltirilmagan.\n\n💡 Maslahat: raqam so'ralgan savollarda \"roughly\", \"about\" kabi taxminiy so'zlar javobda ham saqlanadi." },
+{ q:"Why does the writer compare a colony to a single organism?", passage:IELTS_R4_TEXT,
+  options:["Because all the bees are genetically identical", "Because the queen controls every action", "Because tasks are divided and decisions are collective", "Because a colony dies if one bee is lost"], correct:2,
+  mark:["A queen lays the eggs; tens of thousands of female workers clean, feed, build, guard and forage, changing jobs as they age"],
+  explain:"📍 Javob B paragrafda. Vazifalar taqsimlangan va qarorlar jamoaviy qabul qilinadi. ✗ C) matn aynan buning teskarisini aytadi — malika boshqarmaydi.\n\n💡 Maslahat: taqqoslash sababini so'raganda, taqqoslashdan keyingi tushuntirishni o'qing." },
+{ q:"How does a swarm choose a new home?", passage:IELTS_R4_TEXT,
+  options:["The queen inspects the sites herself", "Older workers make the final decision", "The nearest suitable site is always chosen", "The site with the most dancing scouts is selected"], correct:3,
+  mark:["the site that attracts the most dancers is chosen, and the swarm moves"],
+  explain:"📍 Javob B paragrafda. Eng ko'p raqqosani jalb qilgan joy tanlanadi. ✗ A) malika bu jarayonda ishtirok etmaydi. ✗ D) yoshi kattalar hal qilishi haqida gap yo'q.\n\n💡 Maslahat: oxirgi jumla \"No individual bee compares the options\" jamoaviylikni yana bir bor tasdiqlaydi." },
+{ q:"What does the angle of the waggle run indicate?", passage:IELTS_R4_TEXT,
+  options:["The direction of the flowers relative to the sun", "The quality of the nectar found", "The number of bees needed", "The distance to the hive entrance"], correct:0,
+  mark:["The angle of that run relative to vertical indicates the direction of the flowers in relation to the sun"],
+  explain:"📍 Javob C paragrafda. Burchak yo'nalishni, uzunlik esa masofani bildiradi. ✗ D) masofa uzunlik bilan beriladi — ikkalasini chalkashtirmaslik kerak.\n\n💡 Maslahat: bitta jumlada ikki ma'lumot berilsa (burchak va uzunlik), savol ko'pincha ularni almashtirib qo'yadi." },
+{ q:"Why is the dance described as remarkable?", passage:IELTS_R4_TEXT,
+  options:["It is performed in complete silence", "It is a rare case of symbolic communication in animals", "It can be understood by other insect species", "It is learned by young bees over several months"], correct:1,
+  mark:["one of the few examples of symbolic communication outside human language"],
+  explain:"📍 Javob C paragrafning oxirida. Bu inson tilidan tashqaridagi kam sonli ramziy muloqot namunalaridan biri. ✗ C) boshqa hasharotlar tushunishi haqida gap yo'q.\n\n💡 Maslahat: \"one of the few examples of...\" — noyoblikni ta'kidlovchi ibora." },
+{ q:"How did early media coverage of colony losses differ from later research?", passage:IELTS_R4_TEXT,
+  options:["It focused only on North America", "It underestimated the scale of the losses", "It identified one cause rather than several", "It blamed beekeepers themselves"], correct:2,
+  mark:["Early coverage blamed a single cause, most often a class of pesticides. The picture that has emerged from research is less dramatic and harder to solve"],
+  explain:"📍 Javob D paragrafda. Dastlab bitta sabab (pestitsidlar) ayblangan, tadqiqot esa bir necha omilni ko'rsatgan. ✗ B) yo'qotish miqdori kam baholangani aytilmagan.\n\n💡 Maslahat: \"Early ... The picture that has emerged\" — vaqt bo'yicha qarama-qarshilik, farq shu yerda." },
+{ q:"Which of the following is NOT mentioned as a cause of colony losses?", passage:IELTS_R4_TEXT,
+  options:["A parasitic mite that spreads viruses", "Poor nutrition on single-crop farmland", "Stress caused by long-distance transport", "Competition from imported bee species"], correct:3,
+  mark:["a parasitic mite that spreads viruses, poor nutrition where farmland grows only one crop, pesticide exposure that weakens immune systems, and the stress of being transported long distances"],
+  explain:"📍 Javob D paragrafda. Ro'yxatda kana, yomon oziqlanish, pestitsid va tashish stressi bor; import qilingan asalari turlari bilan raqobat esa yo'q. ✗ A, B, D) uchalasi matnda aniq sanab o'tilgan.\n\n💡 Maslahat: NOT savollarida har bir variantni matndan birma-bir belgilab chiqing — qolgani javob bo'ladi." },
+{ q:"What is the advantage of wild flower strips along fields?", passage:IELTS_R4_TEXT,
+  options:["They provide food across the whole season", "They keep pesticides away from crops", "They attract fewer parasitic mites", "They replace the need for beekeepers"], correct:0,
+  mark:["Strips of wild flowers along the edges of fields give bees food throughout the season rather than for two intense weeks"],
+  explain:"📍 Javob E paragrafda. Yovvoyi gullar butun mavsum davomida oziq beradi, ikki haftalik qisqa davr o'rniga. ✗ B) pestitsidni to'sish vazifasi aytilmagan.\n\n💡 Maslahat: \"rather than\" — taqqoslash; javob ko'pincha shu iboradan oldingi qismda bo'ladi." },
+{ q:"What does the writer identify as the deeper problem?", passage:IELTS_R4_TEXT,
+  options:["A shortage of trained beekeepers", "The structure of modern farming itself", "The high cost of pesticide-free crops", "Public misunderstanding about honey"], correct:1,
+  mark:["the deeper issue is the shape of modern agriculture itself"],
+  explain:"📍 Javob E paragrafda. Chuqurroq muammo — zamonaviy qishloq xo'jaligining tuzilishi. ✗ A) matn aksincha, hech qanday asalarichilik mahorati buni to'liq qoplay olmasligini aytadi.\n\n💡 Maslahat: \"the deeper issue is...\" — muallifning asosiy xulosasi shu yerda." }
+];
+
+/* ---------- IELTS READING: 5–7 ---------- */
+
+const IELTS_R5_TEXT =
+"The Cities of the Silk Road\n\n" +
+"A  The term 'Silk Road' was invented in 1877 by a German geographer and would have meant nothing to the merchants it describes. There was no single road, and silk was only one of the goods carried along it. What existed instead was a shifting web of routes running between China and the Mediterranean, along which caravans moved paper, spices, glass, horses, medicines and — more consequentially than any of these — ideas. Few traders travelled the whole distance. Goods changed hands many times, and a bale of silk that reached Rome might have passed through a dozen markets on the way.\n\n" +
+"B  The cities that grew up along these routes owed their wealth less to what they produced than to where they stood. Samarkand and Bukhara lay at points where routes converged and where water was available in a largely dry region. Merchants needed somewhere to rest, exchange currency, repair equipment and sell part of their load; the cities supplied all of this and taxed it. Around that trade grew workshops, libraries and observatories. The scholar al-Biruni, born in the region in the tenth century, calculated the circumference of the earth with an error of less than one percent — the kind of work that requires patronage, and patronage requires surplus wealth.\n\n" +
+"C  Paper offers the clearest example of how technology travelled. Invented in China, the technique of paper-making reached Samarkand in the eighth century, reportedly through craftsmen captured after a battle. From there it spread west to Baghdad, then to Spain and eventually to the rest of Europe, arriving some seven hundred years after its invention. Each stage of that journey took decades, and at each stage the method was adapted to local materials. What moved was not an object but a set of instructions carried in people's heads.\n\n" +
+"D  Decline, when it came, had several causes and no single date. Sea routes between Europe and Asia became cheaper and safer from the fifteenth century onwards, and a ship could carry in one voyage what a caravan needed years to move. Political fragmentation made overland travel less predictable. The old explanation — that the sea routes simply killed the land routes — is now considered too simple: regional overland trade continued for centuries, and some cities declined while others nearby grew.\n\n" +
+"E  Today the phrase has been revived, most visibly in large infrastructure projects that borrow its name. Historians tend to be cautious about the comparison. The original network was not planned by anyone; it emerged from thousands of separate decisions by traders pursuing profit. What it shows is that exchange over long distances is unusually good at moving things nobody intended to trade — techniques, diseases, alphabets and beliefs — and that these often outlast the goods that paid for the journey.";
+
+const IELTS_READING_5 = [
+{ q:"What does the writer say about the term 'Silk Road'?", passage:IELTS_R5_TEXT,
+  options:["It is a modern name for an older network", "It was used by merchants at the time", "It referred only to routes carrying silk", "It was first used in China"], correct:0,
+  mark:["The term 'Silk Road' was invented in 1877 by a German geographer and would have meant nothing to the merchants it describes"],
+  explain:"📍 Javob A paragrafda. Atama 1877-yilda o'ylab topilgan va savdogarlar uchun hech qanday ma'no anglatmagan. ✗ A) aynan buning teskarisi. ✗ C) ipak faqat bir necha tovardan biri edi.\n\n💡 Maslahat: sana ko'rsatilgan jumla — scanning uchun eng qulay belgi." },
+{ q:"According to paragraph A, most traders", passage:IELTS_R5_TEXT,
+  options:["carried only luxury goods", "covered just part of the distance", "travelled the entire route themselves", "worked for a single merchant house"], correct:1,
+  mark:["Few traders travelled the whole distance. Goods changed hands many times"],
+  explain:"📍 Javob A paragrafning oxirida. Kam savdogar butun masofani bosib o'tgan; tovar ko'p marta qo'ldan qo'lga o'tgan. ✗ B) matnga zid.\n\n💡 Maslahat: \"Few\" — inkorga yaqin ma'no beradi, \"a few\" bilan chalkashtirmang." },
+{ q:"Why did cities like Samarkand and Bukhara become wealthy?", passage:IELTS_R5_TEXT,
+  options:["Because they controlled the sea routes", "Because they produced the finest silk", "Because of their location and services to traders", "Because their rulers conquered nearby regions"], correct:2,
+  mark:["owed their wealth less to what they produced than to where they stood"],
+  explain:"📍 Javob B paragrafda. Boylik ishlab chiqarishdan emas, joylashuvdan kelgan. ✗ B) matn aynan bunga qarshi fikr bildiradi.\n\n💡 Maslahat: \"less to ... than to ...\" — nima muhimroq ekanini ko'rsatuvchi tuzilma." },
+{ q:"Why is al-Biruni mentioned?", passage:IELTS_R5_TEXT,
+  options:["To describe an early observatory", "To prove that the earth's size was known in Europe", "To explain how paper reached Samarkand", "To show that trade produced wealth that supported scholarship"], correct:3,
+  mark:["the kind of work that requires patronage, and patronage requires surplus wealth"],
+  explain:"📍 Javob B paragrafning oxirida. Bunday ilmiy ish homiylik talab qiladi, homiylik esa ortiqcha boylikni — ya'ni savdo daromadini. ✗ D) rasadxona eslatilgan, lekin misolning maqsadi boshqa.\n\n💡 Maslahat: shaxs nomi keltirilganda savol odatda \"nima uchun eslatilgan?\" deb so'raydi — undan keyingi izohga qarang." },
+{ q:"How did paper-making reportedly reach Samarkand?", passage:IELTS_R5_TEXT,
+  options:["Through craftsmen captured after a battle", "Through merchants from Baghdad", "Through Chinese officials sent to teach it", "Through books brought from Spain"], correct:0,
+  mark:["reached Samarkand in the eighth century, reportedly through craftsmen captured after a battle"],
+  explain:"📍 Javob C paragrafda. Rivoyatga ko'ra, jangdan keyin asirga olingan hunarmandlar orqali. ✗ A va D) yo'nalish teskari — Bag'dod va Ispaniya keyingi bosqichlar.\n\n💡 Maslahat: \"reportedly\" — muallif bu ma'lumotga ehtiyotkorlik bilan yondashayotganini bildiradi." },
+{ q:"What does the writer emphasise about the spread of paper?", passage:IELTS_R5_TEXT,
+  options:["It happened faster than expected", "Knowledge, not objects, was transferred", "It was controlled by governments", "It stopped when it reached Europe"], correct:1,
+  mark:["What moved was not an object but a set of instructions carried in people's heads"],
+  explain:"📍 Javob C paragrafning oxirida. Ko'chgan narsa buyum emas, odamlar boshidagi bilim edi. ✗ A) har bosqich o'nlab yil olgan — tez emas.\n\n💡 Maslahat: \"not ... but ...\" tuzilmasi asosiy fikrni to'g'ridan-to'g'ri beradi." },
+{ q:"What advantage did sea routes have over caravans?", passage:IELTS_R5_TEXT,
+  options:["They avoided all taxes", "They allowed travel in winter", "One voyage carried what caravans moved in years", "They needed fewer skilled workers"], correct:2,
+  mark:["a ship could carry in one voyage what a caravan needed years to move"],
+  explain:"📍 Javob D paragrafda. Bitta kema safari karvon yillab tashiydigan yukni ko'targan. ✗ A) soliq masalasi bu o'rinda eslatilmagan.\n\n💡 Maslahat: taqqoslash so'ralsa, \"what ... needed\" kabi tuzilmalarni qidiring." },
+{ q:"Why is the old explanation of the decline considered too simple?", passage:IELTS_R5_TEXT,
+  options:["Because caravans became faster over time", "Because sea routes were never cheaper", "Because the decline happened in a single year", "Because overland trade continued in some regions"], correct:3,
+  mark:["regional overland trade continued for centuries, and some cities declined while others nearby grew"],
+  explain:"📍 Javob D paragrafning oxirida. Mintaqaviy quruqlik savdosi asrlar davomida davom etgan. ✗ C) matn aynan \"no single date\" deydi.\n\n💡 Maslahat: \"is now considered too simple\" — undan keyin sabab keladi." },
+{ q:"What do historians say about modern projects using the name?", passage:IELTS_R5_TEXT,
+  options:["They should be compared with caution", "They are an exact repeat of history", "They will fail without state support", "They ignore the original trade routes"], correct:0,
+  mark:["Historians tend to be cautious about the comparison"],
+  explain:"📍 Javob E paragrafda. Tarixchilar bunday taqqoslashga ehtiyotkorlik bilan yondashadi. ✗ B) aksincha, asl tarmoq hech kim tomonidan rejalashtirilmagan edi.\n\n💡 Maslahat: \"tend to be cautious\" — to'g'ridan-to'g'ri rad etish emas, ehtiyotkorlik." },
+{ q:"What is the writer's main conclusion?", passage:IELTS_R5_TEXT,
+  options:["Silk was the most valuable commodity traded", "Long-distance exchange spreads more than goods", "Land routes were always safer than sea routes", "Modern infrastructure will restore the old cities"], correct:1,
+  mark:["exchange over long distances is unusually good at moving things nobody intended to trade — techniques, diseases, alphabets and beliefs"],
+  explain:"📍 Javob E paragrafning oxirgi jumlasida. Uzoq masofali ayirboshlash hech kim savdo qilmoqchi bo'lmagan narsalarni — texnika, kasallik, alifbo va e'tiqodni tarqatadi. ✗ B) ipak faqat bir tovar edi.\n\n💡 Maslahat: yakuniy jumla deyarli har doim muallifning asosiy xulosasi bo'ladi." }
+];
+
+const IELTS_R6_TEXT =
+"Do Video Games Train the Brain?\n\n" +
+"A  For most of their history, video games have been discussed mainly as a problem: a waste of time at best, a cause of violence at worst. Over the past two decades a different question has attracted researchers. If the brain adapts to whatever it practises, and if millions of people practise fast decision-making on a screen for hours each week, what exactly are they getting better at?\n\n" +
+"B  The clearest findings concern action games — those that demand rapid responses to unpredictable events. Regular players perform better than non-players on tests of visual attention: they notice small changes at the edge of their field of vision, track several moving objects at once, and switch between tasks with less loss of speed. In one much-cited study, participants who had never played were given ten hours of training on an action game and showed measurable improvement on these tests, while a control group trained on a slow puzzle game did not. Because the groups were assigned at random, the design rules out the obvious objection that people with good attention simply choose action games.\n\n" +
+"C  The limits of these findings are as interesting as the findings themselves. Improvements appear reliably on laboratory tasks that resemble the game — spotting targets, judging motion — and much less reliably on anything else. Claims that gaming raises general intelligence, improves memory or delays cognitive decline have not held up well when tested carefully. The pattern is familiar from research on brain training programmes: people get better at the exercise they practise, and the benefit rarely travels far beyond it.\n\n" +
+"D  Meanwhile the harms are real but narrower than early reports suggested. A small proportion of players — most estimates fall between one and three percent — show patterns of use that damage sleep, study or relationships, and this has been recognised as a disorder by the World Health Organization. Excessive play is also frequently a symptom rather than a cause: young people who are anxious or isolated may retreat into games, and treating the game alone misses the point.\n\n" +
+"E  Where the research has been put to practical use is more specific than the headlines suggest. Surgeons who play action games regularly make fewer errors in keyhole surgery training, which involves exactly the kind of hand-eye coordination games demand. Programmes designed to treat lazy eye in children now use games that force the weaker eye to work. In both cases the game is not making anyone cleverer; it is providing many hours of practice at a narrow skill in a form that people are willing to repeat.";
+
+const IELTS_READING_6 = [
+{ q:"What new question have researchers begun to ask about video games?", passage:IELTS_R6_TEXT,
+  options:["Whether games can replace formal education", "Why games cause violent behaviour", "What skills heavy players are actually improving", "How long the average player spends online"], correct:2,
+  mark:["what exactly are they getting better at?"],
+  explain:"📍 Javob A paragrafning oxirida. Yangi savol — o'yinchilar aslida nimada yaxshilanmoqda. ✗ C) bu eski, muammoga yo'naltirilgan qarash.\n\n💡 Maslahat: paragraf oxiridagi savol shakli ko'pincha matnning asosiy mavzusini belgilaydi." },
+{ q:"What are regular action-game players better at?", passage:IELTS_R6_TEXT,
+  options:["Remembering long lists of words", "Solving mathematical problems", "Working for long periods without rest", "Noticing and tracking visual information"], correct:3,
+  mark:["they notice small changes at the edge of their field of vision, track several moving objects at once"],
+  explain:"📍 Javob B paragrafda. Ular ko'rish maydonining chekkasidagi o'zgarishlarni payqaydi va bir vaqtda bir necha harakatlanuvchi ob'ektni kuzatadi. ✗ A) xotira keyingi paragrafda rad etilgan.\n\n💡 Maslahat: sanab o'tilgan uch qobiliyat ham ko'rish diqqatiga oid — umumlashtirib javob tanlang." },
+{ q:"Why is the ten-hour training study considered convincing?", passage:IELTS_R6_TEXT,
+  options:["Participants were randomly assigned to groups", "It involved thousands of participants", "It lasted for several years", "It was repeated in many countries"], correct:0,
+  mark:["Because the groups were assigned at random, the design rules out the obvious objection"],
+  explain:"📍 Javob B paragrafning oxirida. Tasodifiy taqsimot \"yaxshi diqqatlilar o'zi shunday o'yin tanlaydi\" degan e'tirozni bartaraf qiladi. ✗ B va C) ishtirokchilar soni yoki davomiyligi haqida gap yo'q.\n\n💡 Maslahat: \"rules out the objection\" — tadqiqot ishonchliligining kaliti shu yerda." },
+{ q:"What was the result for the control group?", passage:IELTS_R6_TEXT,
+  options:["They improved more than the action group", "They showed no measurable improvement", "They stopped taking part in the study", "They improved only on memory tasks"], correct:1,
+  mark:["while a control group trained on a slow puzzle game did not"],
+  explain:"📍 Javob B paragrafda. Sekin boshqotirma o'ynagan nazorat guruhida o'zgarish kuzatilmagan. ✗ D) xotira topshiriqlari bu tajribada eslatilmagan.\n\n💡 Maslahat: \"did not\" — oldingi jumladagi fe'lni takrorlaydi; nimani inkor qilayotganini aniqlang." },
+{ q:"According to paragraph C, where do improvements NOT reliably appear?", passage:IELTS_R6_TEXT,
+  options:["On tasks resembling the game itself", "On tests of spotting targets", "On abilities beyond the practised skill", "On measures of reaction speed"], correct:2,
+  mark:["Improvements appear reliably on laboratory tasks that resemble the game — spotting targets, judging motion — and much less reliably on anything else"],
+  explain:"📍 Javob C paragrafda. Natija o'yinga o'xshash topshiriqlarda ishonchli, boshqa hamma narsada esa ancha zaif. ✗ A, B, D) uchalasi ham o'yinga yaqin topshiriqlar — ularda natija bor.\n\n💡 Maslahat: NOT savolida qaysi uchtasi bir guruhga tegishli ekanini toping, qolgani javob bo'ladi." },
+{ q:"What comparison does the writer make in paragraph C?", passage:IELTS_R6_TEXT,
+  options:["With language learning software", "With studies of professional athletes", "With early research on television", "With research on brain training programmes"], correct:3,
+  mark:["The pattern is familiar from research on brain training programmes"],
+  explain:"📍 Javob C paragrafning oxirida. Xuddi miya mashqi dasturlaridagidek: odam faqat mashq qilgan narsasida yaxshilanadi. ✗ B, C, D) bu sohalar matnda umuman eslatilmagan.\n\n💡 Maslahat: \"The pattern is familiar from...\" — taqqoslash boshlanadigan ibora." },
+{ q:"What proportion of players show harmful patterns of use?", passage:IELTS_R6_TEXT,
+  options:["Between one and three percent", "Around a tenth", "About a quarter", "Fewer than one in a thousand"], correct:0,
+  mark:["most estimates fall between one and three percent"],
+  explain:"📍 Javob D paragrafda: taxminlarning ko'pi bir-uch foiz oralig'ida. ✗ Boshqa raqamlar matnda yo'q.\n\n💡 Maslahat: foiz so'ralganda \"estimates\" so'zi atrofini qidiring." },
+{ q:"What point does the writer make about excessive play?", passage:IELTS_R6_TEXT,
+  options:["It is usually caused by violent content", "It often reflects an underlying problem", "It affects adults more than teenagers", "It disappears without any treatment"], correct:1,
+  mark:["Excessive play is also frequently a symptom rather than a cause"],
+  explain:"📍 Javob D paragrafda. Haddan ziyod o'ynash ko'pincha sabab emas, alomat — xavotir yoki yolg'izlikning natijasi. ✗ D) matn aksincha, davolash zarurligini nazarda tutadi.\n\n💡 Maslahat: \"a symptom rather than a cause\" — sabab va oqibatni ajratuvchi muhim ibora." },
+{ q:"Why do action games help surgeons in training?", passage:IELTS_R6_TEXT,
+  options:["They teach anatomy through simulation", "They reduce stress before operations", "They practise the same hand-eye coordination", "They improve memory for procedures"], correct:2,
+  mark:["which involves exactly the kind of hand-eye coordination games demand"],
+  explain:"📍 Javob E paragrafda. Kalit teshigi jarrohligi aynan o'yin talab qiladigan qo'l-ko'z muvofiqligiga tayanadi. ✗ A) anatomiya o'rgatish haqida gap yo'q.\n\n💡 Maslahat: \"exactly the kind of\" — ikki faoliyat orasidagi bevosita o'xshashlikni bildiradi." },
+{ q:"What does the writer conclude about these practical uses?", passage:IELTS_R6_TEXT,
+  options:["Games make users generally more intelligent", "Games work only for children", "Games should replace traditional training", "Games provide repeated practice of one narrow skill"], correct:3,
+  mark:["it is providing many hours of practice at a narrow skill in a form that people are willing to repeat"],
+  explain:"📍 Javob E paragrafning oxirgi jumlasida. O'yin hech kimni aqlliroq qilmaydi — u shunchaki tor bir ko'nikmani ko'p marta mashq qilish imkonini beradi. ✗ A) matn buni ochiq rad etadi.\n\n💡 Maslahat: \"it is not ... it is ...\" tuzilmasi muallifning aniq xulosasini beradi." }
+];
+
+const IELTS_R7_TEXT =
+"The Problem with Fast Fashion\n\n" +
+"A  A shopper in 1980 bought, on average, around twenty new items of clothing a year and kept each of them for several seasons. Today the figure in wealthy countries is roughly three times higher, while the average garment is worn less than half as often before being discarded. The industry that made this possible is usually called fast fashion: a system of design, manufacture and distribution built for speed. Where traditional retailers planned two collections a year, the fastest companies now move a design from sketch to shop floor in under three weeks.\n\n" +
+"B  Speed is achieved partly through technology and partly through geography. Sales data from stores is analysed daily, so unpopular items are dropped within days and successful ones reordered immediately. Production is spread across countries chosen for low labour costs and few regulatory delays. The result is that a garment may be designed in one continent, sewn in a second from fabric woven in a third, and sold in a fourth — a supply chain so long that brands often cannot say with confidence which factories made their own products.\n\n" +
+"C  The environmental arithmetic is uncomfortable. Textile production is among the largest industrial consumers of fresh water: growing the cotton for a single shirt takes roughly 2,700 litres, about what one person drinks in three years. Dyeing and finishing release chemicals into rivers, and synthetic fabrics shed microscopic plastic fibres every time they are washed. Meanwhile only a small percentage of discarded clothing is recycled into new clothing, because blended fabrics are extremely difficult to separate back into their component materials.\n\n" +
+"D  Consumers are often told that donating unwanted clothes solves the problem. In practice, wealthy countries export enormous quantities of used garments to poorer ones, where the better items are resold and the rest — sometimes half a shipment — become waste in places with limited capacity to handle it. Ghana receives around fifteen million used garments each week; local traders have a name for the unsellable portion that translates roughly as 'dead white man's clothes'.\n\n" +
+"E  Proposed solutions fall into two groups. The first accepts the current model and tries to improve it: recycled fibres, take-back schemes, more efficient dyeing. Critics point out that such measures reduce the impact of each garment while the total number of garments keeps rising, so the overall effect may be small. The second group targets volume directly — extended producer responsibility laws, repair services, rental and resale. These face a harder problem: an industry whose profits depend on customers buying more has little reason to help them buy less, which is why several governments have begun to legislate rather than wait.";
+
+const IELTS_READING_7 = [
+{ q:"How has clothing consumption changed since 1980?", passage:IELTS_R7_TEXT,
+  options:["People buy more items and wear each one less", "People buy fewer but more expensive items", "People keep clothes for longer than before", "People buy the same amount but repair more"], correct:0,
+  mark:["Today the figure in wealthy countries is roughly three times higher, while the average garment is worn less than half as often"],
+  explain:"📍 Javob A paragrafda. Xarid uch barobar oshgan, kiyish chastotasi esa ikki barobardan ko'proq kamaygan. ✗ C) aynan teskarisi.\n\n💡 Maslahat: ikki raqam qarama-qarshi yo'nalishda o'zgarsa, javobda ikkalasi ham aks etishi kerak." },
+{ q:"How quickly can the fastest companies bring a design to the shop?", passage:IELTS_R7_TEXT,
+  options:["In two collections a year", "In under three weeks", "In about three months", "In roughly six weeks"], correct:1,
+  mark:["move a design from sketch to shop floor in under three weeks"],
+  explain:"📍 Javob A paragrafning oxirida: uch haftadan kam. ✗ A) ikki kolleksiya — an'anaviy sotuvchilarning usuli.\n\n💡 Maslahat: matnda ikki xil raqam berilganda (eski va yangi usul), savol qaysi biriga tegishli ekanini aniqlang." },
+{ q:"How is sales data used?", passage:IELTS_R7_TEXT,
+  options:["To predict fashion trends a year ahead", "To set prices in different countries", "To decide quickly what to drop and reorder", "To choose which factories to use"], correct:2,
+  mark:["Sales data from stores is analysed daily, so unpopular items are dropped within days and successful ones reordered immediately"],
+  explain:"📍 Javob B paragrafda. Ma'lumot har kuni tahlil qilinadi va shu asosda tez qaror qabul qilinadi. ✗ A) bir yil oldindan bashorat qilish — bu tizimga zid.\n\n💡 Maslahat: \"so\" bog'lovchisi natijani ko'rsatadi — javob shundan keyin keladi." },
+{ q:"What problem results from the long supply chain?", passage:IELTS_R7_TEXT,
+  options:["Workers receive the same wage everywhere", "Garments take longer to reach the shops", "Fabric quality cannot be tested", "Brands may not know which factories made their products"], correct:3,
+  mark:["a supply chain so long that brands often cannot say with confidence which factories made their own products"],
+  explain:"📍 Javob B paragrafning oxirida. Zanjir shu qadar uzunki, brendlar o'z mahsulotini qaysi fabrika tikkanini aniq ayta olmaydi. ✗ B) tizimning butun maqsadi — tezlik.\n\n💡 Maslahat: \"so ... that ...\" tuzilmasi oqibatni bildiradi." },
+{ q:"What is said about the water used for one cotton shirt?", passage:IELTS_R7_TEXT,
+  options:["It equals a person's drinking water for three years", "It is recycled after production", "It comes mainly from rainfall", "It is less than for synthetic fabrics"], correct:0,
+  mark:["growing the cotton for a single shirt takes roughly 2,700 litres, about what one person drinks in three years"],
+  explain:"📍 Javob C paragrafda. Bitta ko'ylak uchun ~2700 litr — bir kishi uch yilda ichadigan miqdor. ✗ D) sintetik matolar bilan taqqoslash bu o'rinda yo'q.\n\n💡 Maslahat: raqam berilganda undan keyingi taqqoslash ko'pincha javobning o'zi bo'ladi." },
+{ q:"Why is little clothing recycled into new clothing?", passage:IELTS_R7_TEXT,
+  options:["Because consumers refuse to return old clothes", "Because blended fabrics are hard to separate", "Because recycled fabric is illegal to sell", "Because the machinery has not been invented"], correct:1,
+  mark:["because blended fabrics are extremely difficult to separate back into their component materials"],
+  explain:"📍 Javob C paragrafning oxirida. Aralash tolali matolarni tarkibiy qismlarga ajratish o'ta qiyin. ✗ D) texnika yo'qligi haqida gap yo'q — muammo materialda.\n\n💡 Maslahat: \"because\" so'zi javobni to'g'ridan-to'g'ri belgilaydi." },
+{ q:"What happens to much of the clothing donated in wealthy countries?", passage:IELTS_R7_TEXT,
+  options:["It is stored until it can be recycled", "It is returned to the original brands", "It becomes waste in the importing country", "It is destroyed before export"], correct:2,
+  mark:["the rest — sometimes half a shipment — become waste in places with limited capacity to handle it"],
+  explain:"📍 Javob D paragrafda. Yaxshilari qayta sotiladi, qolgani — ba'zan yarmi — chiqindiga aylanadi. ✗ A va B) matnda bunday holat aytilmagan.\n\n💡 Maslahat: \"In practice\" iborasi ko'pincha kutilgan va haqiqiy holat orasidagi farqni ochadi." },
+{ q:"Why is the Ghana example included?", passage:IELTS_R7_TEXT,
+  options:["To compare Ghana with wealthy countries", "To praise local recycling efforts", "To explain why donations were banned", "To show the scale of the export problem"], correct:3,
+  mark:["Ghana receives around fifteen million used garments each week"],
+  explain:"📍 Javob D paragrafda. Haftasiga o'n besh million kiyim — bu raqam muammo ko'lamini ko'rsatish uchun keltirilgan. ✗ C) taqiq haqida gap yo'q.\n\n💡 Maslahat: konkret misol keltirilsa, u odatda oldingi umumiy fikrni dalillash uchun xizmat qiladi." },
+{ q:"What criticism is made of the first group of solutions?", passage:IELTS_R7_TEXT,
+  options:["Total production keeps growing despite them", "They are too expensive for small brands", "They have never been tested in practice", "They rely entirely on government funding"], correct:0,
+  mark:["such measures reduce the impact of each garment while the total number of garments keeps rising, so the overall effect may be small"],
+  explain:"📍 Javob E paragrafda. Har bir kiyimning zarari kamayadi, lekin umumiy soni o'sib boradi — natijada umumiy ta'sir kichik bo'lishi mumkin. ✗ C) bu choralar amalda qo'llanilmoqda.\n\n💡 Maslahat: \"while\" bu yerda qarama-qarshilikni bildiradi." },
+{ q:"Why have some governments begun to legislate?", passage:IELTS_R7_TEXT,
+  options:["Because consumers demanded higher quality", "Because the industry has little reason to reduce sales", "Because recycling technology has failed completely", "Because exports to poorer countries were stopped"], correct:1,
+  mark:["an industry whose profits depend on customers buying more has little reason to help them buy less, which is why several governments have begun to legislate"],
+  explain:"📍 Javob E paragrafning oxirgi jumlasida. Foydasi ko'proq sotishga bog'liq soha kamroq sotishga yordam berishdan manfaatdor emas. ✗ D) eksport to'xtatilgani aytilmagan.\n\n💡 Maslahat: \"which is why\" — sabab va natija orasidagi eng aniq bog'lovchi." }
+];
+
+/* ---------- IELTS READING: 8–10 ---------- */
+
+const IELTS_R8_TEXT =
+"Music and Memory\n\n" +
+"A  Of all the things a failing memory lets go, songs are among the last. Patients in the advanced stages of dementia, unable to recognise their own children, will sometimes sing every word of a piece they learned at fifteen. The observation is old — nurses have reported it for over a century — but the explanation has only recently begun to take shape, and it says something about how ordinary memory works.\n\n" +
+"B  Part of the answer lies in where musical memory is stored. Brain imaging suggests that long-familiar melodies are associated with regions that are damaged relatively late in the course of the disease, while the areas that handle recent events deteriorate early. This is not a case of music being stored in a single protected place; rather, a song heard hundreds of times over decades leaves traces across many networks, and damage to any one of them leaves the rest intact.\n\n" +
+"C  Music also arrives bundled with other information. Ask someone to name a song from their youth and they will often supply, unasked, the room they heard it in and who else was there. Psychologists call this the reminiscence bump: memories formed between roughly fifteen and twenty-five are recalled far more readily than those from any other period, and music from those years is a particularly effective key to them. Playing a patient the music of their adolescence can therefore recover not just the tune but fragments of the life around it.\n\n" +
+"D  This has led to therapeutic programmes in which people with dementia listen to personalised playlists. The reported effects are real but modest: reduced agitation, better mood, more willingness to eat and to talk with staff. What the programmes do not do is slow the underlying disease, and a number of early media reports implied otherwise. Careful reviews have also noted that the improvements often fade within hours of the music stopping, which limits how much can be claimed for the approach.\n\n" +
+"E  Outside medicine, the same principle explains something every student knows. Setting information to a melody makes it far easier to retain, which is why alphabets and multiplication tables are taught as songs. The mechanism is not mysterious: melody imposes structure, rhythm imposes timing, and rhyme narrows the options for the next word. A learner who forgets a line can often recover it by starting the tune again from the beginning — a strategy that works poorly with ordinary prose.\n\n" +
+"F  The limits matter here too. Music helps with material that can be fitted to a tune, and there is no evidence that listening to music while studying improves comprehension of an unrelated text; for many people it makes it worse. The useful conclusion is narrower than the popular one. Music is not a general enhancer of the mind. It is an unusually durable container, and what it preserves best is what was put into it long ago.";
+
+const IELTS_READING_8 = [
+{ q:"What observation about dementia patients does the writer begin with?", passage:IELTS_R8_TEXT,
+  options:["They may recall song lyrics learned in youth", "They recognise family members through singing", "They prefer instrumental music to songs", "They learn new songs faster than other patients"], correct:0,
+  mark:["unable to recognise their own children, will sometimes sing every word of a piece they learned at fifteen"],
+  explain:"📍 Javob A paragrafda. Bemor farzandini tanimasa ham, o'n besh yoshida o'rgangan qo'shiqni to'liq kuylashi mumkin. ✗ A) qo'shiq orqali tanish haqida gap yo'q — bular alohida holatlar.\n\n💡 Maslahat: matn boshidagi kuchli misol ko'pincha butun mavzuni belgilaydi." },
+{ q:"Why is musical memory often preserved?", passage:IELTS_R8_TEXT,
+  options:["It is stored in one protected area of the brain", "Its traces are spread across many networks", "It uses less energy than other memories", "It is refreshed automatically during sleep"], correct:1,
+  mark:["a song heard hundreds of times over decades leaves traces across many networks, and damage to any one of them leaves the rest intact"],
+  explain:"📍 Javob B paragrafda. Ko'p marta eshitilgan qo'shiq izlari ko'plab tarmoqlarga tarqaladi, biriga shikast yetsa qolganlari saqlanadi. ✗ A) matn buni ochiq rad etadi: \"not a case of music being stored in a single protected place\".\n\n💡 Maslahat: \"This is not ... rather ...\" — noto'g'ri variantni ham, to'g'risini ham bir jumlada beradi." },
+{ q:"What is the 'reminiscence bump'?", passage:IELTS_R8_TEXT,
+  options:["A sudden return of lost memories", "Confusion between recent and old events", "Stronger recall of memories from ages 15–25", "A temporary improvement caused by music"], correct:2,
+  mark:["memories formed between roughly fifteen and twenty-five are recalled far more readily than those from any other period"],
+  explain:"📍 Javob C paragrafda. Taxminan 15–25 yoshda shakllangan xotiralar boshqa davrlarnikiga qaraganda ancha oson eslanadi. ✗ D) musiqa bu hodisaning kaliti, o'zi emas.\n\n💡 Maslahat: atama ta'rifi so'ralganda \"Psychologists call this...\" iborasidan keyingi qismni o'qing." },
+{ q:"What extra information does music often bring back?", passage:IELTS_R8_TEXT,
+  options:["Other songs from the same period", "The exact date the song was released", "The name of the composer", "Details of the surroundings and people present"], correct:3,
+  mark:["they will often supply, unasked, the room they heard it in and who else was there"],
+  explain:"📍 Javob C paragrafda. Odam so'ralmasa ham qaysi xonada eshitgani va yonida kim bo'lganini aytadi. ✗ B va C) sana yoki bastakor haqida gap yo'q.\n\n💡 Maslahat: \"unasked\" so'zi — bu ma'lumot o'z-o'zidan qalqib chiqishini ta'kidlaydi." },
+{ q:"What effects do personalised playlists have?", passage:IELTS_R8_TEXT,
+  options:["They produce real but limited improvements", "They cure the early stages of dementia", "They work only for professional musicians", "They increase agitation in some patients"], correct:0,
+  mark:["The reported effects are real but modest: reduced agitation, better mood, more willingness to eat"],
+  explain:"📍 Javob D paragrafda. Ta'sir haqiqiy, lekin cheklangan: bezovtalik kamayadi, kayfiyat yaxshilanadi. ✗ D) aksincha, bezovtalik kamayadi.\n\n💡 Maslahat: \"real but modest\" — ikki tomonlama baho; javob ham ikkalasini aks ettirishi kerak." },
+{ q:"What did some early media reports wrongly imply?", passage:IELTS_R8_TEXT,
+  options:["That the therapy was expensive", "That music slows the disease itself", "That only classical music works", "That patients disliked the playlists"], correct:1,
+  mark:["What the programmes do not do is slow the underlying disease, and a number of early media reports implied otherwise"],
+  explain:"📍 Javob D paragrafda. Dasturlar kasallikning o'zini sekinlashtirmaydi, ba'zi dastlabki xabarlar esa buning aksini uqtirgan. ✗ B va C) matnda muhokama qilinmagan.\n\n💡 Maslahat: \"implied otherwise\" — oldingi jumladagi fikrning teskarisini bildiradi." },
+{ q:"What limitation of the therapy is noted in reviews?", passage:IELTS_R8_TEXT,
+  options:["It requires expensive equipment", "It only works in the morning", "Improvements fade soon after the music stops", "It cannot be used with familiar songs"], correct:2,
+  mark:["the improvements often fade within hours of the music stopping"],
+  explain:"📍 Javob D paragrafning oxirida. Yaxshilanish musiqa to'xtagach bir necha soat ichida yo'qoladi. ✗ A) jihoz narxi eslatilmagan.\n\n💡 Maslahat: \"which limits how much can be claimed\" — cheklovni bildiruvchi ibora." },
+{ q:"According to paragraph E, why is set-to-music information easier to retain?", passage:IELTS_R8_TEXT,
+  options:["Because learners repeat songs less often", "Because songs are always shorter than texts", "Because music increases overall intelligence", "Because melody, rhythm and rhyme add structure"], correct:3,
+  mark:["melody imposes structure, rhythm imposes timing, and rhyme narrows the options for the next word"],
+  explain:"📍 Javob E paragrafda. Ohang tuzilma beradi, ritm vaqtni belgilaydi, qofiya esa keyingi so'z variantlarini toraytiradi. ✗ C) matn F paragrafda buni ochiq rad etadi.\n\n💡 Maslahat: uch sabab sanalgan bo'lsa, javob ularni umumlashtirgan variant bo'ladi." },
+{ q:"What strategy works with songs but not with ordinary prose?", passage:IELTS_R8_TEXT,
+  options:["Restarting the tune from the beginning", "Reading the text aloud twice", "Writing the words down from memory", "Translating the words into another language"], correct:0,
+  mark:["can often recover it by starting the tune again from the beginning — a strategy that works poorly with ordinary prose"],
+  explain:"📍 Javob E paragrafning oxirida. Unutilgan qatorni ohangni boshidan boshlab tiklash mumkin. ✗ A, C, D) matnda bunday usullar eslatilmagan.\n\n💡 Maslahat: tire (—) dan keyingi qism ko'pincha muhim izohni beradi." },
+{ q:"What is the writer's final conclusion about music?", passage:IELTS_R8_TEXT,
+  options:["It improves concentration while studying", "It is a durable container rather than a mental enhancer", "It should replace traditional teaching methods", "It benefits recent memories most of all"], correct:1,
+  mark:["Music is not a general enhancer of the mind. It is an unusually durable container"],
+  explain:"📍 Javob F paragrafning oxirida. Musiqa aqlni umuman kuchaytirmaydi — u g'ayrioddiy chidamli idish, eng yaxshi saqlaydigani esa ancha oldin solingan narsa. ✗ A) matn aynan buning teskarisini aytadi.\n\n💡 Maslahat: \"not ... It is ...\" — muallif xulosasining eng aniq shakli." }
+];
+
+const IELTS_R9_TEXT =
+"Living on the Ice\n\n" +
+"A  Antarctica is the coldest, driest and windiest continent on earth, and the only one with no permanent population. What it does have is a shifting community of researchers: roughly four thousand people in the southern summer, falling to about one thousand when the sun disappears for the winter. They are distributed among some seventy stations operated by thirty countries, most of them clustered on the coast, where supply ships can reach them.\n\n" +
+"B  The continent's legal position is unusual. Seven countries made territorial claims in the first half of the twentieth century, several of them overlapping. Rather than resolve the dispute, the Antarctic Treaty of 1959 set it aside: existing claims were neither recognised nor rejected, no new claims could be made, and the continent was reserved for peaceful scientific use. A later agreement banned mining indefinitely. The arrangement has held for more than sixty years, which is often cited as evidence that shared scientific interest can outweigh competition over resources.\n\n" +
+"C  Much of the research could not be done anywhere else. The ice sheet is a record of the atmosphere: snow that fell hundreds of thousands of years ago has been compressed into layers containing trapped bubbles of ancient air. Drilling down and analysing those bubbles has produced a direct measurement of past carbon dioxide levels, and it was this work, more than any climate model, that established how closely temperature and greenhouse gases have moved together over glacial cycles. The deepest cores recovered so far reach back around 800,000 years.\n\n" +
+"D  Antarctica is also the best place on the planet to look for meteorites. Rocks that fall on dark ground are hard to spot and quickly weathered; rocks that fall on ice are visible from a distance and preserved in cold, dry conditions. Ice movement concentrates them in particular zones, so a small team can collect hundreds of specimens in a season. Several meteorites recovered this way have been shown to originate from Mars, having been blasted off its surface by impacts and eventually captured by earth.\n\n" +
+"E  Life at a station is heavily shaped by isolation. Winter crews are typically small, cannot be evacuated for months, and live in permanent darkness. Selection procedures therefore test psychological suitability as much as technical skill, and space agencies study these crews as an approximation of long-duration spaceflight. The findings are not entirely encouraging: sleep is often disrupted, minor conflicts become significant, and the middle of the winter, rather than the beginning or end, is usually the hardest period.\n\n" +
+"F  Pressure on the continent is nevertheless increasing. Tourist numbers have grown from a few thousand a year in the 1990s to over one hundred thousand, concentrated on a small and fragile part of the coast in a short season. Regulations exist but are largely voluntary, and enforcement across so many operators and flag states is difficult. Whether the treaty framework designed for a continent visited by a few hundred scientists can absorb this new kind of visitor is an open question.";
+
+const IELTS_READING_9 = [
+{ q:"How does the population of Antarctica change?", passage:IELTS_R9_TEXT,
+  options:["It stays constant throughout the year", "It rises during the winter months", "It falls from about 4,000 to about 1,000 in winter", "It has been growing steadily since 1959"], correct:2,
+  mark:["roughly four thousand people in the southern summer, falling to about one thousand when the sun disappears for the winter"],
+  explain:"📍 Javob A paragrafda. Yozda ~4000, qishda ~1000 kishi qoladi. ✗ C) aksincha — qishda kamayadi.\n\n💡 Maslahat: ikki raqam berilganda qaysi biri qaysi faslga tegishli ekanini aniq belgilang." },
+{ q:"What did the Antarctic Treaty do about territorial claims?", passage:IELTS_R9_TEXT,
+  options:["It cancelled them permanently", "It recognised all seven claims", "It transferred them to the United Nations", "It set them aside without resolving them"], correct:3,
+  mark:["Rather than resolve the dispute, the Antarctic Treaty of 1959 set it aside: existing claims were neither recognised nor rejected"],
+  explain:"📍 Javob B paragrafda. Da'volar na tan olingan, na rad etilgan — masala chetga surilgan. ✗ B va D) ikkalasi ham \"neither ... nor\" tuzilmasiga zid.\n\n💡 Maslahat: \"neither ... nor ...\" — ikkala imkoniyat ham inkor qilinadi." },
+{ q:"Why is the treaty often cited as an example?", passage:IELTS_R9_TEXT,
+  options:["It shows shared science can outweigh resource competition", "It ended a military conflict", "It was the first treaty signed by thirty countries", "It allowed mining under strict conditions"], correct:0,
+  mark:["evidence that shared scientific interest can outweigh competition over resources"],
+  explain:"📍 Javob B paragrafning oxirida. Kelishuv umumiy ilmiy manfaat resurs raqobatidan ustun kelishi mumkinligini ko'rsatadi. ✗ D) matnda konchilik muddatsiz taqiqlangani aytilgan.\n\n💡 Maslahat: \"cited as evidence that...\" — undan keyingi qism aynan javob." },
+{ q:"What makes the ice sheet valuable to scientists?", passage:IELTS_R9_TEXT,
+  options:["It is the thickest ice on the planet", "It contains trapped samples of ancient air", "It moves at a measurable speed", "It reflects sunlight back into space"], correct:1,
+  mark:["snow that fell hundreds of thousands of years ago has been compressed into layers containing trapped bubbles of ancient air"],
+  explain:"📍 Javob C paragrafda. Muz qatlamlarida qadimgi havo pufakchalari saqlanib qolgan. ✗ C) muz harakati D paragrafda, boshqa kontekstda.\n\n💡 Maslahat: \"is a record of the atmosphere\" — metafora, keyingi jumla uni ochib beradi." },
+{ q:"What did the analysis of air bubbles establish?", passage:IELTS_R9_TEXT,
+  options:["The exact age of the continent", "That climate models are unreliable", "The close link between temperature and greenhouse gases", "That carbon dioxide levels have never changed"], correct:2,
+  mark:["established how closely temperature and greenhouse gases have moved together over glacial cycles"],
+  explain:"📍 Javob C paragrafda. Harorat va issiqxona gazlari muzlik davrlari davomida qanchalik birga o'zgarganini aynan shu ish aniqlagan. ✗ C) matn modellarni rad etmaydi, faqat bu ish ulardan ko'ra ishonchliroq dalil bergan deydi.\n\n💡 Maslahat: \"more than any climate model\" — taqqoslash, rad etish emas." },
+{ q:"Why are meteorites easier to find in Antarctica?", passage:IELTS_R9_TEXT,
+  options:["They fall there more frequently", "They are attracted by the magnetic pole", "They are larger than elsewhere", "They are visible on ice and well preserved"], correct:3,
+  mark:["rocks that fall on ice are visible from a distance and preserved in cold, dry conditions"],
+  explain:"📍 Javob D paragrafda. Muz ustidagi toshlar uzoqdan ko'rinadi va sovuq, quruq sharoitda saqlanadi. ✗ A) tushish chastotasi bir xil — masala ko'rinishda.\n\n💡 Maslahat: taqqoslash \"dark ground\" va \"ice\" o'rtasida — farqni ajrating." },
+{ q:"What is notable about some meteorites found on the ice?", passage:IELTS_R9_TEXT,
+  options:["They came originally from Mars", "They contain living organisms", "They are older than the solar system", "They were found by tourists"], correct:0,
+  mark:["Several meteorites recovered this way have been shown to originate from Mars"],
+  explain:"📍 Javob D paragrafning oxirida. Bir nechtasi Marsdan kelgani aniqlangan. ✗ B) tirik organizmlar haqida gap yo'q.\n\n💡 Maslahat: \"have been shown to\" — isbotlangan fakt belgisidir." },
+{ q:"Why do space agencies study Antarctic winter crews?", passage:IELTS_R9_TEXT,
+  options:["To test new building materials", "As an approximation of long spaceflights", "To train astronauts in low gravity", "To measure the effects of cold on machinery"], correct:1,
+  mark:["space agencies study these crews as an approximation of long-duration spaceflight"],
+  explain:"📍 Javob E paragrafda. Qishki ekipajlar uzoq muddatli kosmik parvozning yaqin modeli sifatida o'rganiladi. ✗ C) Antarktidada tortishish kuchi oddiy.\n\n💡 Maslahat: \"as an approximation of\" — o'xshatish, aynan tenglik emas." },
+{ q:"Which period is usually hardest for winter crews?", passage:IELTS_R9_TEXT,
+  options:["The first weeks of darkness", "The final days before departure", "The middle of the winter", "The summer changeover"], correct:2,
+  mark:["the middle of the winter, rather than the beginning or end, is usually the hardest period"],
+  explain:"📍 Javob E paragrafning oxirida. Eng og'ir davr — qishning boshi yoki oxiri emas, o'rtasi. ✗ A va C) matn ularni ochiq istisno qiladi.\n\n💡 Maslahat: \"rather than\" — noto'g'ri variantlarni ham ko'rsatib beradi." },
+{ q:"What concern is raised in the final paragraph?", passage:IELTS_R9_TEXT,
+  options:["Whether tourists should pay higher fees", "Whether stations should be closed in winter", "Whether mining should be allowed again", "Whether the treaty can cope with mass tourism"], correct:3,
+  mark:["Whether the treaty framework designed for a continent visited by a few hundred scientists can absorb this new kind of visitor is an open question"],
+  explain:"📍 Javob F paragrafning oxirgi jumlasida. Bir necha yuz olim uchun tuzilgan tizim yuz mingdan ortiq sayyohni ko'tara oladimi — savol ochiq. ✗ C) konchilik muddatsiz taqiqlangan.\n\n💡 Maslahat: \"is an open question\" — muallif javobsiz qoldirgan masala; savol ko'pincha shunga qaratiladi." }
+];
+
+const IELTS_R10_TEXT =
+"The Trouble with Plastic in the Sea\n\n" +
+"A  Estimates of how much plastic enters the ocean each year vary widely, but even the lowest of them run into millions of tonnes. What happens to it afterwards is less obvious than it sounds. Only a small proportion floats on the surface where it can be seen and photographed; when researchers add up the plastic they can account for, a large amount is missing. Some has sunk, some has been buried in sediment, some has been eaten, and some has broken into fragments too small for the nets used to sample it.\n\n" +
+"B  Those fragments are the reason the problem has changed shape. Sunlight and wave action break plastic into ever smaller pieces without breaking the chemical bonds that make it plastic, producing microplastics — particles under five millimetres — and, below them, nanoplastics. These are now found in Arctic sea ice, in deep-sea sediment, in rainwater over remote mountains and in the tissues of animals at every level of the food chain. A single synthetic fleece can shed hundreds of thousands of fibres in one wash.\n\n" +
+"C  The visible harms are easiest to document. Seabirds, turtles and whales swallow larger items, sometimes mistaking floating bags for prey, and fishing gear that has been lost or abandoned continues to trap animals for years — a process known as ghost fishing, which accounts for a significant share of marine plastic by weight. The effects of the microscopic fraction on human health are much harder to establish. Particles have been detected in human blood and lung tissue, but detection is not the same as harm, and studies capable of showing whether typical exposure causes disease are only now being designed.\n\n" +
+"D  Attention has focused on cleaning up what is already there, and several projects tow barriers through areas where currents concentrate floating debris. Most oceanographers regard these as useful for public awareness and marginal in effect. The reasoning is arithmetic: the great majority of ocean plastic is not on the surface, the fraction that is spreads across an area larger than several countries, and the flow from rivers continues while cleaning proceeds. Removing plastic from the ocean also costs many times more than preventing the same quantity from entering it.\n\n" +
+"E  Prevention itself is unevenly distributed. A relatively small number of rivers, mostly in regions where waste collection has not kept pace with the growth of plastic consumption, carry a disproportionate share of the total. Improving collection in those places is unglamorous work with no photographs of dramatic rescues, but it is where each unit of spending achieves the most. The wider lesson is one that applies to a good deal of environmental policy: the visible response and the effective response are frequently not the same thing.";
+
+const IELTS_READING_10 = [
+{ q:"What does the writer say about plastic that enters the ocean?", passage:IELTS_R10_TEXT,
+  options:["Much of it cannot be accounted for", "Most of it floats where it can be seen", "It is mostly collected within a year", "It stays close to the coast"], correct:0,
+  mark:["when researchers add up the plastic they can account for, a large amount is missing"],
+  explain:"📍 Javob A paragrafda. Tadqiqotchilar hisoblaganda katta qismi yetishmaydi. ✗ A) matn aksincha, faqat kichik qismi yuzada suzishini aytadi.\n\n💡 Maslahat: \"less obvious than it sounds\" — muallif kutilgan javobga qarshi chiqmoqchi." },
+{ q:"How are microplastics formed?", passage:IELTS_R10_TEXT,
+  options:["By chemical breakdown into natural materials", "By physical breaking without chemical change", "By being manufactured at that size only", "By reaction with salt water"], correct:1,
+  mark:["Sunlight and wave action break plastic into ever smaller pieces without breaking the chemical bonds that make it plastic"],
+  explain:"📍 Javob B paragrafda. Quyosh va to'lqin plastikni maydalaydi, lekin kimyoviy bog'lar buzilmaydi. ✗ A) aynan buning teskarisi — tabiiy parchalanish sodir bo'lmaydi.\n\n💡 Maslahat: \"without\" so'zi javobning kalitini beradi." },
+{ q:"Where have microplastics been found?", passage:IELTS_R10_TEXT,
+  options:["Only in coastal waters", "Only in fish and seabirds", "In remote environments and living tissue", "In laboratory samples alone"], correct:2,
+  mark:["found in Arctic sea ice, in deep-sea sediment, in rainwater over remote mountains and in the tissues of animals"],
+  explain:"📍 Javob B paragrafda. Arktika muzi, chuqur dengiz cho'kindisi, uzoq tog'lardagi yomg'ir suvi va hayvon to'qimalarida. ✗ A) qirg'oq bilan cheklanmagan.\n\n💡 Maslahat: sanoq ro'yxati berilganda javob ularni umumlashtirgan variant bo'ladi." },
+{ q:"What is 'ghost fishing'?", passage:IELTS_R10_TEXT,
+  options:["Illegal fishing at night", "A method of collecting floating plastic", "Fishing in areas already emptied of fish", "Lost gear that keeps trapping animals"], correct:3,
+  mark:["fishing gear that has been lost or abandoned continues to trap animals for years — a process known as ghost fishing"],
+  explain:"📍 Javob C paragrafda. Yo'qolgan yoki tashlab ketilgan asboblar yillar davomida hayvonlarni tutishda davom etadi. ✗ A) noqonuniy baliq ovi bilan aloqasi yo'q.\n\n💡 Maslahat: atama tire yoki \"known as\" bilan izohlansa, ta'rif shu yerda." },
+{ q:"What does the writer say about plastic found in human tissue?", passage:IELTS_R10_TEXT,
+  options:["Detection does not by itself prove harm", "It has been proved to cause disease", "It is found only in industrial workers", "It disappears within a few weeks"], correct:0,
+  mark:["detection is not the same as harm, and studies capable of showing whether typical exposure causes disease are only now being designed"],
+  explain:"📍 Javob C paragrafda. Topilishi zarar borligini anglatmaydi; kerakli tadqiqotlar endi loyihalanmoqda. ✗ A) matn bunga aniq qarshi chiqadi.\n\n💡 Maslahat: \"is not the same as\" — ikki tushunchani ajratuvchi muhim ibora." },
+{ q:"How do most oceanographers view surface clean-up projects?", passage:IELTS_R10_TEXT,
+  options:["As the most effective available solution", "As useful for awareness but limited in effect", "As harmful to marine life", "As too cheap to be taken seriously"], correct:1,
+  mark:["Most oceanographers regard these as useful for public awareness and marginal in effect"],
+  explain:"📍 Javob D paragrafda. Ular jamoatchilik e'tiborini tortishda foydali, ta'siri esa juda cheklangan. ✗ C) zarar haqida gap yo'q.\n\n💡 Maslahat: \"useful for X and marginal in Y\" — ikki tomonlama baho, javobda ikkalasi ham bo'lishi kerak." },
+{ q:"Which reason for their limited effect is NOT given?", passage:IELTS_R10_TEXT,
+  options:["Most plastic is not on the surface", "The floating fraction is very widely spread", "The barriers damage the sea floor", "Rivers continue to add more plastic"], correct:2,
+  mark:["the great majority of ocean plastic is not on the surface, the fraction that is spreads across an area larger than several countries, and the flow from rivers continues"],
+  explain:"📍 Javob D paragrafda uchta sabab sanalgan; dengiz tubiga zarar yetkazish ular orasida yo'q. ✗ A, B, C) uchalasi ham matnda aniq keltirilgan.\n\n💡 Maslahat: NOT savolida sanoqni birma-bir belgilab chiqing." },
+{ q:"What is said about the cost of cleaning versus prevention?", passage:IELTS_R10_TEXT,
+  options:["Neither has been calculated", "Both cost about the same", "Prevention is more expensive at first", "Cleaning costs many times more"], correct:3,
+  mark:["Removing plastic from the ocean also costs many times more than preventing the same quantity from entering it"],
+  explain:"📍 Javob D paragrafning oxirgi jumlasida. Okeandan olib tashlash kirishiga yo'l qo'ymaslikdan bir necha barobar qimmatga tushadi. ✗ C) matnga zid.\n\n💡 Maslahat: \"many times more than\" — aniq taqqoslash ifodasi." },
+{ q:"Why is improving waste collection in certain regions important?", passage:IELTS_R10_TEXT,
+  options:["Because a few rivers carry a large share of the total", "Because those regions consume the most plastic", "Because their coastlines are the longest", "Because international law requires it"], correct:0,
+  mark:["A relatively small number of rivers, mostly in regions where waste collection has not kept pace with the growth of plastic consumption, carry a disproportionate share of the total"],
+  explain:"📍 Javob E paragrafda. Nisbatan kam sonli daryolar umumiy oqimning nomutanosib katta qismini tashiydi. ✗ B) muammo iste'mol miqdorida emas, chiqindi yig'ish tizimida.\n\n💡 Maslahat: \"disproportionate share\" — kichik qism katta ta'sir ko'rsatishini bildiradi." },
+{ q:"What is the writer's wider conclusion?", passage:IELTS_R10_TEXT,
+  options:["Environmental problems cannot be solved", "The visible response is often not the effective one", "Public awareness campaigns should be stopped", "Only governments can address the problem"], correct:1,
+  mark:["the visible response and the effective response are frequently not the same thing"],
+  explain:"📍 Javob E paragrafning oxirgi jumlasida. Ko'zga tashlanadigan chora bilan haqiqatan samarali chora ko'pincha bir xil emas. ✗ C) matn kampaniyalarni to'xtatishni talab qilmaydi, faqat cheklovini ko'rsatadi.\n\n💡 Maslahat: \"The wider lesson is...\" — muallifning umumiy xulosasi shu yerda boshlanadi." }
+];
+
 /* ===== LISTENING: Section 1 (form completion) ===== */
 const IELTS_LISTENING_1 = {
   title: "Section 1 · Sports centre membership",
@@ -5348,11 +5821,101 @@ const QUIZ_SETS = [
     id: "ielts-reading-1",
     icon: "\ud83d\udcd8",
     title: "IELTS Reading — Test 1",
-    desc: "10 savol · 20 daqiqa · javob qayerdan chiqqani izohlanadi",
+    desc: "The Return of the Night Train · 10 savol · 20 daqiqa",
     group: "special",
     olympiad: true,
     totalTimeSec: 1200,
     questions: IELTS_READING_1
+  },
+  {
+    id: "ielts-reading-2",
+    icon: "\ud83d\udcd8",
+    title: "IELTS Reading — Test 2",
+    desc: "Why We Dream · 10 savol · 20 daqiqa",
+    group: "special",
+    olympiad: true,
+    totalTimeSec: 1200,
+    questions: IELTS_READING_2
+  },
+  {
+    id: "ielts-reading-3",
+    icon: "\ud83d\udcd8",
+    title: "IELTS Reading — Test 3",
+    desc: "The Long Journey of Chocolate · 10 savol · 20 daqiqa",
+    group: "special",
+    olympiad: true,
+    totalTimeSec: 1200,
+    questions: IELTS_READING_3
+  },
+  {
+    id: "ielts-reading-4",
+    icon: "\ud83d\udcd8",
+    title: "IELTS Reading — Test 4",
+    desc: "More Than Honey · 10 savol · 20 daqiqa",
+    group: "special",
+    olympiad: true,
+    totalTimeSec: 1200,
+    questions: IELTS_READING_4
+  },
+  {
+    id: "ielts-reading-5",
+    icon: "\ud83d\udcd8",
+    title: "IELTS Reading — Test 5",
+    desc: "The Cities of the Silk Road · 10 savol · 20 daqiqa",
+    group: "special",
+    olympiad: true,
+    totalTimeSec: 1200,
+    questions: IELTS_READING_5
+  },
+  {
+    id: "ielts-reading-6",
+    icon: "\ud83d\udcd8",
+    title: "IELTS Reading — Test 6",
+    desc: "Do Video Games Train the Brain? · 10 savol · 20 daqiqa",
+    group: "special",
+    olympiad: true,
+    totalTimeSec: 1200,
+    questions: IELTS_READING_6
+  },
+  {
+    id: "ielts-reading-7",
+    icon: "\ud83d\udcd8",
+    title: "IELTS Reading — Test 7",
+    desc: "The Problem with Fast Fashion · 10 savol · 20 daqiqa",
+    group: "special",
+    olympiad: true,
+    totalTimeSec: 1200,
+    questions: IELTS_READING_7
+  },
+  {
+    id: "ielts-reading-8",
+    icon: "\ud83d\udcd8",
+    title: "IELTS Reading — Test 8",
+    desc: "Music and Memory · 10 savol · 20 daqiqa",
+    group: "special",
+    olympiad: true,
+    totalTimeSec: 1200,
+    questions: IELTS_READING_8
+  },
+  {
+    id: "ielts-reading-9",
+    icon: "\ud83d\udcd8",
+    title: "IELTS Reading — Test 9",
+    desc: "Living on the Ice · 10 savol · 20 daqiqa",
+    group: "special",
+    olympiad: true,
+    totalTimeSec: 1200,
+    questions: IELTS_READING_9
+  },
+  {
+    id: "ielts-reading-10",
+    icon: "\ud83d\udcd8",
+    title: "IELTS Reading — Test 10",
+    desc: "The Trouble with Plastic in the Sea · 10 savol · 20 daqiqa",
+    group: "special",
+    olympiad: true,
+    totalTimeSec: 1200,
+    questions: IELTS_READING_10
   },
   {
     id: "ielts-listening-1",
@@ -6356,13 +6919,15 @@ document.getElementById('profileNameEditBtn').addEventListener('click', () => {
 
 function enterApp(name){
   currentUser = name;
-  saveLastName(name);
-  renderXpStrip();
-  renderVocab();
-  renderHome();
-  showScreen('home');
-  syncAvatarToFirebase();
-  syncUserProfileToFirebase();
+  /* Avval ekranni almashtiramiz — shunda biror chizish funksiyasida xato chiqsa ham
+     foydalanuvchi ilovaga kirib qoladi. */
+  try{ showScreen('home'); }catch(e){ console.error('showScreen:', e); }
+  try{ saveLastName(name); }catch(e){ console.error('saveLastName:', e); }
+  try{ renderXpStrip(); }catch(e){ console.error('renderXpStrip:', e); }
+  try{ renderVocab(); }catch(e){ console.error('renderVocab:', e); }
+  try{ renderHome(); }catch(e){ console.error('renderHome:', e); }
+  try{ syncAvatarToFirebase(); }catch(e){ console.error('syncAvatar:', e); }
+  try{ syncUserProfileToFirebase(); }catch(e){ console.error('syncProfile:', e); }
 }
 
 document.getElementById('startBtn').addEventListener('click', () => {
@@ -6373,12 +6938,17 @@ document.getElementById('startBtn').addEventListener('click', () => {
   }
   enterApp(name);
 });
+/* Enter tugmasi bilan ham kirish mumkin */
+document.getElementById('nameInput').addEventListener('keydown', (e) => {
+  if(e.key === 'Enter'){ e.preventDefault(); document.getElementById('startBtn').click(); }
+});
 
+/* Avtomatik kirish: xato bo'lsa ham qolgan kod ishlashda davom etsin */
 (() => {
-  const last = getLastName();
-  if(last){
-    enterApp(last);
-  }
+  try{
+    const last = getLastName();
+    if(last) enterApp(last);
+  }catch(e){ console.error('avtomatik kirish:', e); }
 })();
 
 /* ============== VOCAB ============== */
@@ -6408,56 +6978,92 @@ function renderVocabFilters(){
     lw.appendChild(chip);
   });
 }
+let vocabShown = 0;                 // hozir nechta kartochka chizilgan
+const VOCAB_PAGE = 40;              // bir martada qo'shiladigan kartochkalar soni
+let vocabFiltered = [];
+
+/* Bitta so'z kartochkasini yasaydi */
+function makeWordCard(w){
+  const catLabels = VOCAB_TOPICS;
+  const div = document.createElement('div');
+  div.className = 'flip-card word-card';
+  div.innerHTML = `
+    <div class="flip-inner">
+      <div class="flip-face flip-front">
+        <div class="word-head">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <div class="word-emoji">${w.emoji || '📘'}</div>
+            <div class="word-en">${w.en}</div>
+          </div>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <div class="word-lvl lvl-${w.level||2}">${LEVEL_SHORT[w.level||2]||''}</div>
+            <div class="word-cat">${catLabels[w.topic] || w.topic}</div>
+            <button class="speak-btn" data-speak="${w.en}">&#128266;</button>
+          </div>
+        </div>
+        <div class="flip-hint">Tarjimasini ko'rish uchun bosing &#8635;</div>
+      </div>
+      <div class="flip-face flip-back">
+        <div class="word-uz" style="font-size:16px; font-weight:600; color:var(--gold); margin-bottom:6px;">${w.emoji || ''} ${w.uz}</div>
+        <div class="word-ex">${w.example}</div>
+        ${w.exampleUz ? `<div class="word-ex-uz">${w.exampleUz}</div>` : ''}
+      </div>
+    </div>
+  `;
+  div.addEventListener('click', (e) => {
+    if(e.target.closest('.speak-btn')){
+      e.stopPropagation();
+      speakWord(w.en);
+      return;
+    }
+    div.classList.toggle('flipped');
+    markWordSeen(w.en);
+  });
+  return div;
+}
+
+/* Kartochkalarni bo'lib-bo'lib qo'shadi — bir vaqtda 500 tasini chizsak,
+   telefondagi brauzer ko'tara olmaydi. */
+function appendVocabChunk(){
+  const list = document.getElementById('vocabList');
+  const moreBox = document.getElementById('vocabMore');
+  const slice = vocabFiltered.slice(vocabShown, vocabShown + VOCAB_PAGE);
+  const frag = document.createDocumentFragment();
+  slice.forEach(w => frag.appendChild(makeWordCard(w)));
+  list.appendChild(frag);
+  vocabShown += slice.length;
+
+  if(vocabShown < vocabFiltered.length){
+    moreBox.innerHTML = `<button class="btn-secondary" id="vocabMoreBtn" style="margin-top:4px;">
+      Yana ${Math.min(VOCAB_PAGE, vocabFiltered.length - vocabShown)} ta so'z
+      <span style="opacity:.55; font-family:'IBM Plex Mono',monospace; font-size:11px;">
+        (${vocabShown}/${vocabFiltered.length})</span>
+    </button>`;
+    document.getElementById('vocabMoreBtn').addEventListener('click', appendVocabChunk);
+  } else {
+    moreBox.innerHTML = vocabFiltered.length > VOCAB_PAGE
+      ? `<div class="vocab-end">Hammasi ko'rsatildi — ${vocabFiltered.length} ta so'z</div>` : '';
+  }
+}
+
 function renderVocab(){
   renderVocabFilters();
   const query = (document.getElementById('vocabSearch').value || '').toLowerCase();
   const list = document.getElementById('vocabList');
-  const filtered = VOCAB.filter(w => {
+  vocabFiltered = VOCAB.filter(w => {
     const matchCat = vocabFilter === 'all' || w.topic === vocabFilter;
     const matchLvl = vocabLevel === 0 || (w.level || 2) === vocabLevel;
     const matchQuery = w.en.toLowerCase().includes(query) || w.uz.toLowerCase().includes(query);
     return matchCat && matchLvl && matchQuery;
   });
   list.innerHTML = '';
-  if(filtered.length === 0){ list.innerHTML = '<div class="empty">Hech narsa topilmadi.</div>'; return; }
-  const catLabels = VOCAB_TOPICS;
-  filtered.forEach(w => {
-    const div = document.createElement('div');
-    div.className = 'flip-card word-card';
-    div.innerHTML = `
-      <div class="flip-inner">
-        <div class="flip-face flip-front">
-          <div class="word-head">
-            <div style="display:flex; align-items:center; gap:10px;">
-              <div class="word-emoji">${w.emoji || '📘'}</div>
-              <div class="word-en">${w.en}</div>
-            </div>
-            <div style="display:flex; align-items:center; gap:8px;">
-              <div class="word-lvl lvl-${w.level||2}">${LEVEL_SHORT[w.level||2]||''}</div>
-              <div class="word-cat">${catLabels[w.topic] || w.topic}</div>
-              <button class="speak-btn" data-speak="${w.en}">&#128266;</button>
-            </div>
-          </div>
-          <div class="flip-hint">Tarjimasini ko'rish uchun bosing &#8635;</div>
-        </div>
-        <div class="flip-face flip-back">
-          <div class="word-uz" style="font-size:16px; font-weight:600; color:var(--gold); margin-bottom:6px;">${w.emoji || ''} ${w.uz}</div>
-          <div class="word-ex">${w.example}</div>
-          ${w.exampleUz ? `<div class="word-ex-uz">${w.exampleUz}</div>` : ''}
-        </div>
-      </div>
-    `;
-    div.addEventListener('click', (e) => {
-      if(e.target.closest('.speak-btn')){
-        e.stopPropagation();
-        speakWord(w.en);
-        return;
-      }
-      div.classList.toggle('flipped');
-      markWordSeen(w.en);
-    });
-    list.appendChild(div);
-  });
+  document.getElementById('vocabMore').innerHTML = '';
+  vocabShown = 0;
+  if(vocabFiltered.length === 0){
+    list.innerHTML = '<div class="empty">Hech narsa topilmadi.</div>';
+    return;
+  }
+  appendVocabChunk();
 }
 
 /* ---- Talaffuz (brauzerning o'z ovozi) ---- */
@@ -7996,7 +8602,7 @@ document.getElementById('lsScriptBtn').addEventListener('click', (e) => {
   e.target.textContent = tr.classList.contains('show') ? 'Matnni yashirish' : "Matnni ko'rish";
 });
 
-renderInfo();
+try{ renderInfo(); }catch(e){ console.error('renderInfo:', e); }
 document.getElementById('grammarSearch').addEventListener('input', renderInfo);
 
 /* ============== NAV ============== */
@@ -8009,7 +8615,7 @@ document.getElementById('retryBtn').addEventListener('click', () => {
   else { showScreen('quizlist'); renderQuizSets(); }
 });
 
-renderXpStrip();
+try{ renderXpStrip(); }catch(e){ console.error('renderXpStrip:', e); }
 </script>
 </body>
 </html>
