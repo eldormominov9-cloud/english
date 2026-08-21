@@ -209,6 +209,27 @@
     font-family:'IBM Plex Mono',monospace; padding:12px 0;
   }
 
+  /* --- ukki personaji --- */
+  .owl-greet{ display:flex; align-items:center; gap:12px; }
+  .owl-greet-art{ flex-shrink:0; }
+  .owl-greet-art svg{ filter: drop-shadow(0 6px 12px rgba(0,0,0,.35)); }
+  .owl-greet-text{ flex:1; min-width:0; }
+  .owl-empty{ display:flex; flex-direction:column; align-items:center; gap:6px; padding:18px 10px; }
+  .owl-empty svg{ opacity:.85; }
+  .owl-empty-text{ font-size:13px; color: rgba(247,244,236,.55); text-align:center; }
+  .owl-empty-sub{ font-size:11.5px; color: rgba(247,244,236,.35); text-align:center; }
+
+  .owl-result{ display:flex; justify-content:center; margin:6px 0 2px; }
+  .owl-result svg{ filter: drop-shadow(0 8px 16px rgba(0,0,0,.4)); animation: owlPop .5s ease; }
+  @keyframes owlPop{ 0%{ transform:scale(.6) translateY(14px); opacity:0; }
+                     60%{ transform:scale(1.08) translateY(0); opacity:1; }
+                     100%{ transform:scale(1) translateY(0); } }
+  .owl-result-say{
+    text-align:center; font-family:'Space Grotesk',sans-serif; font-size:14px; font-weight:600;
+    color: var(--gold); margin-bottom:8px; min-height:18px;
+  }
+  @media (prefers-reduced-motion: reduce){ .owl-result svg{ animation:none; } }
+
   /* --- jamoa statistikasi --- */
   .community-card{
     margin-top:18px; padding:14px 16px; border-radius:16px;
@@ -1086,36 +1107,58 @@
 
 <div class="mascot-wrap" id="mascotWrap">
   <div class="mascot-bubble" id="mascotBubble">Zo'r!</div>
-  <svg class="mascot-body" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
-    <!-- tail -->
-    <g id="mascotTail" style="transform-origin:100px 95px;">
-      <path d="M95 90 Q120 82 116 105 Q106 98 96 96 Z" fill="#D97706"/>
-      <circle cx="114" cy="102" r="7" fill="#7C3F0D"/>
+  <svg class="mascot-body" viewBox="0 0 120 125" xmlns="http://www.w3.org/2000/svg">
+    <!-- oyoqlar -->
+    <path d="M50 108 v6 M46 114 h9 M70 108 v6 M65 114 h9" stroke="#e8a33d" stroke-width="3.5" stroke-linecap="round"/>
+    <!-- tana -->
+    <ellipse cx="60" cy="74" rx="34" ry="36" fill="#a9764a"/>
+    <ellipse cx="60" cy="82" rx="22" ry="26" fill="#f2ddbe"/>
+    <path d="M46 80 q6 5 12 0 M56 90 q6 5 12 0" stroke="#dcc09a" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <!-- quloqlar -->
+    <path d="M32 46 l-5 -18 l17 8 z" fill="#a9764a"/>
+    <path d="M88 46 l5 -18 l-17 8 z" fill="#a9764a"/>
+    <!-- magistr qalpoqchasi -->
+    <g>
+      <path d="M45 30 l0 10 q15 8 30 0 l0 -10" fill="#1e1811"/>
+      <path d="M60 16 l-30 12 l30 12 l30 -12 z" fill="#2a2118"/>
+      <path d="M60 16 l-30 12 l30 12 l30 -12 z" fill="none" stroke="#3d3122" stroke-width="1.5"/>
+      <path d="M88 28 v13" stroke="#ffd23f" stroke-width="2.5" stroke-linecap="round"/>
+      <circle cx="88" cy="43" r="3.6" fill="#ffd23f"/>
     </g>
-    <!-- mane -->
-    <g id="mascotMane">
-      <path d="M60 12 L71 24 L88 14 L86 34 L106 32 L96 50 L114 60 L94 64 L104 82 L84 74 L82 96 L66 82 L60 100 L54 82 L38 96 L36 74 L16 82 L26 64 L6 60 L24 50 L14 32 L34 34 L32 14 L49 24 Z" fill="#E58A1A"/>
+    <!-- qanotlar: kayfiyatga qarab o'rin almashadi -->
+    <g id="mascotWings">
+      <ellipse id="mascotWingL" cx="30" cy="78" rx="9" ry="20" fill="#8f6039" transform="rotate(-8 30 78)"/>
+      <ellipse id="mascotWingR" cx="90" cy="78" rx="9" ry="20" fill="#8f6039" transform="rotate(8 90 78)"/>
     </g>
-    <!-- head -->
-    <circle cx="60" cy="60" r="27" fill="#F5B44A"/>
-    <path d="M60 56 Q46 68 60 86 Q74 68 60 56 Z" fill="#FCEFD9"/>
-    <!-- cheeks -->
-    <circle cx="38" cy="66" r="6" fill="#FF9AA6" opacity="0.6"/>
-    <circle cx="82" cy="66" r="6" fill="#FF9AA6" opacity="0.6"/>
-    <!-- eyes -->
+    <!-- ko'zoynak -->
+    <circle cx="46" cy="56" r="15" fill="#fffdf7"/>
+    <circle cx="74" cy="56" r="15" fill="#fffdf7"/>
+    <circle cx="46" cy="56" r="15" fill="none" stroke="#ffd23f" stroke-width="3.5"/>
+    <circle cx="74" cy="56" r="15" fill="none" stroke="#ffd23f" stroke-width="3.5"/>
+    <path d="M61 56 h-2" stroke="#ffd23f" stroke-width="3.5" stroke-linecap="round"/>
+    <path d="M31 54 l-6 -3 M89 54 l6 -3" stroke="#ffd23f" stroke-width="3" stroke-linecap="round"/>
+    <!-- ochiq ko'zlar -->
     <g id="mascotEyes">
-      <ellipse cx="48" cy="56" rx="6" ry="7" fill="#1B1F3B"/>
-      <ellipse cx="72" cy="56" rx="6" ry="7" fill="#1B1F3B"/>
-      <circle cx="50" cy="53" r="1.8" fill="#fff"/>
-      <circle cx="74" cy="53" r="1.8" fill="#fff"/>
+      <circle cx="47" cy="57" r="6.5" fill="#2a2118"/>
+      <circle cx="73" cy="57" r="6.5" fill="#2a2118"/>
+      <circle cx="49" cy="54.5" r="2.2" fill="#fff"/>
+      <circle cx="75" cy="54.5" r="2.2" fill="#fff"/>
     </g>
-    <!-- nose -->
-    <path d="M55 70 L65 70 L60 76 Z" fill="#1B1F3B"/>
-    <!-- mouths -->
-    <path id="mascotMouthHappy" d="M50 78 Q60 87 70 78" stroke="#1B1F3B" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-    <path id="mascotMouthSad" d="M50 84 Q60 76 70 84" stroke="#1B1F3B" stroke-width="2.5" fill="none" stroke-linecap="round" style="display:none;"/>
-    <!-- tear -->
-    <path id="mascotTear" d="M44 60 Q47 68 44 72 Q41 68 44 60 Z" fill="#4CC9F0" style="display:none;"/>
+    <!-- baxtli ko'zlar (^ ^) -->
+    <g id="mascotEyesHappy" style="display:none;">
+      <path d="M39 58 q7 -9 14 0" fill="none" stroke="#2a2118" stroke-width="3.5" stroke-linecap="round"/>
+      <path d="M67 58 q7 -9 14 0" fill="none" stroke="#2a2118" stroke-width="3.5" stroke-linecap="round"/>
+    </g>
+    <!-- tumshuq -->
+    <path d="M60 66 l-6 8 h12 z" fill="#e8a33d"/>
+    <!-- yonoqlar -->
+    <circle id="mascotCheekL" cx="34" cy="70" r="4" fill="#ff9aa8" opacity=".45"/>
+    <circle id="mascotCheekR" cx="86" cy="70" r="4" fill="#ff9aa8" opacity=".45"/>
+    <!-- ko'z yoshi -->
+    <path id="mascotTear" d="M40 66 q3 8 0 12 q-3 -4 0 -12 z" fill="#54a9eb" style="display:none;"/>
+    <!-- eski nomlar saqlanadi (kod ularni izlaydi) -->
+    <path id="mascotMouthHappy" style="display:none;"/>
+    <path id="mascotMouthSad" style="display:none;"/>
   </svg>
 </div>
 
@@ -1182,8 +1225,13 @@
       </div>
     </div>
 
-    <h1 style="font-size:24px;" id="homeGreeting">Salom!</h1>
-    <p class="sub" style="margin-bottom:18px;">Bugun ham bilimingizni sinab ko'ring.</p>
+    <div class="owl-greet">
+      <div class="owl-greet-art" id="owlGreet"></div>
+      <div class="owl-greet-text">
+        <h1 style="font-size:22px; margin:0 0 4px;" id="homeGreeting">Salom!</h1>
+        <p class="sub" style="margin:0;" id="homeGreetSub">Bugun ham bilimingizni sinab ko'ring.</p>
+      </div>
+    </div>
 
     <div class="goal-card" id="goalCard">
       <div class="goal-ring">
@@ -1340,6 +1388,13 @@
       <div class="quiz-title">O'qituvchi paneli</div>
       <button class="quiz-grid-btn" id="teacherRefreshBtn">&#8635;</button>
     </div>
+    <div class="owl-greet" style="margin-bottom:14px;">
+      <div class="owl-greet-art" id="owlTeacher"></div>
+      <div class="owl-greet-text">
+        <h1 style="font-size:19px; margin:0 0 3px;">Sinf holati</h1>
+        <p class="sub" style="margin:0;">O'quvchini bosib, tafsilotini ko'ring.</p>
+      </div>
+    </div>
     <div class="teacher-stat-row" id="teacherSummary"></div>
     <div class="teacher-tabs" style="flex-wrap:wrap;">
       <button class="teacher-tab active" data-ttab="students">👥 O'quvchilar</button>
@@ -1390,6 +1445,8 @@
   <!-- SCREEN: Natija -->
   <div class="screen" id="screen-result">
     <div class="eyebrow">Natija</div>
+    <div class="owl-result" id="owlResult"></div>
+    <div class="owl-result-say" id="owlResultSay"></div>
     <div class="score-big"><span id="resultScore">0</span><span class="score-of" id="resultOf">/10</span></div>
     <div class="rank-badge" id="rankBadge">#1</div>
     <div class="rank-label">Umumiy reytingdagi o'rningiz</div>
@@ -1504,7 +1561,13 @@
   <!-- SCREEN: Qoidalar -->
   <div class="screen" id="screen-info">
     <div class="eyebrow">Qoidalar</div>
-    <h1 style="font-size:22px; margin-bottom:14px;">Grammatika ma'lumotlari</h1>
+    <div class="owl-greet" style="margin-bottom:12px;">
+      <div class="owl-greet-art" id="owlRules"></div>
+      <div class="owl-greet-text">
+        <h1 style="font-size:20px; margin:0 0 3px;">Grammatika ma'lumotlari</h1>
+        <p class="sub" style="margin:0;">Mavzuni oching, ostida mashq bor.</p>
+      </div>
+    </div>
     <div class="search-row">
       <span class="search-icon">&#9906;</span>
       <input type="text" id="grammarSearch" placeholder="Mavzu qidirish...">
@@ -6052,6 +6115,213 @@ const tabItems = document.querySelectorAll('.tab-item');
 const xpStrip = document.getElementById('xpStrip');
 const TAB_SCREENS = ['home','quizlist','vocab','leaderboard','info','profile'];
 
+
+/* ============== UKKI PERSONAJI ==============
+   Bir nechta holat. Har biri SVG matni sifatida saqlanadi va
+   kerakli joyga innerHTML orqali qo'yiladi. */
+const OWL_CAP = `
+    <g>
+      <path d="M45 30 l0 10 q15 8 30 0 l0 -10" fill="#1e1811"/>
+      <path d="M60 16 l-30 12 l30 12 l30 -12 z" fill="#2a2118"/>
+      <path d="M60 16 l-30 12 l30 12 l30 -12 z" fill="none" stroke="#3d3122" stroke-width="1.5"/>
+      <path d="M88 28 v13" stroke="#ffd23f" stroke-width="2.5" stroke-linecap="round"/>
+      <circle cx="88" cy="43" r="3.6" fill="#ffd23f"/>
+    </g>`;
+
+const OWL_BASE = `
+    <path d="M50 108 v6 M46 114 h9 M70 108 v6 M65 114 h9" stroke="#e8a33d" stroke-width="3.5" stroke-linecap="round"/>
+    <ellipse cx="60" cy="74" rx="34" ry="36" fill="#a9764a"/>
+    <ellipse cx="60" cy="82" rx="22" ry="26" fill="#f2ddbe"/>
+    <path d="M46 80 q6 5 12 0 M56 90 q6 5 12 0" stroke="#dcc09a" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <path d="M32 46 l-5 -18 l17 8 z" fill="#a9764a"/>
+    <path d="M88 46 l5 -18 l-17 8 z" fill="#a9764a"/>` + OWL_CAP;
+
+const OWL_GLASSES = `
+    <circle cx="46" cy="56" r="15" fill="#fffdf7"/>
+    <circle cx="74" cy="56" r="15" fill="#fffdf7"/>
+    <circle cx="46" cy="56" r="15" fill="none" stroke="#ffd23f" stroke-width="3.5"/>
+    <circle cx="74" cy="56" r="15" fill="none" stroke="#ffd23f" stroke-width="3.5"/>
+    <path d="M61 56 h-2" stroke="#ffd23f" stroke-width="3.5" stroke-linecap="round"/>`;
+
+const OWL_BEAK = `<path d="M60 66 l-6 8 h12 z" fill="#e8a33d"/>`;
+const OWL_CHEEKS = `
+    <circle cx="34" cy="70" r="4" fill="#ff9aa8" opacity=".45"/>
+    <circle cx="86" cy="70" r="4" fill="#ff9aa8" opacity=".45"/>`;
+
+function owlSvg(pose, size){
+  const s = size || 96;
+  let inner = '';
+  if(pose === 'wave'){                       // salom — qanot ko'tarilgan
+    inner = `<path d="M92 68 q14 -8 12 -24" fill="none" stroke="#8f6039" stroke-width="12" stroke-linecap="round"/>
+      <ellipse cx="30" cy="78" rx="9" ry="20" fill="#8f6039" transform="rotate(-8 30 78)"/>`
+      + OWL_BASE + OWL_GLASSES
+      + `<circle cx="47" cy="57" r="6.5" fill="#2a2118"/><circle cx="73" cy="57" r="6.5" fill="#2a2118"/>
+         <circle cx="49" cy="54.5" r="2.2" fill="#fff"/><circle cx="75" cy="54.5" r="2.2" fill="#fff"/>`
+      + OWL_BEAK + OWL_CHEEKS;
+  } else if(pose === 'read'){                // kitob o'qiyapti
+    inner = OWL_BASE + OWL_GLASSES
+      + `<circle cx="46" cy="61" r="6.5" fill="#2a2118"/><circle cx="74" cy="61" r="6.5" fill="#2a2118"/>
+         <circle cx="48" cy="59" r="2" fill="#fff"/><circle cx="76" cy="59" r="2" fill="#fff"/>`
+      + OWL_BEAK
+      + `<path d="M28 92 q32 -10 32 0 q0 -10 32 0 l0 18 q-32 -9 -32 0 q0 -9 -32 0 z" fill="#ff5a7a"/>
+         <path d="M32 93 q28 -8 28 1 l0 15 q-28 -8 -28 0 z" fill="#fff3f5"/>
+         <path d="M88 93 q-28 -8 -28 1 l0 15 q28 -8 28 0 z" fill="#ffe8ec"/>
+         <path d="M38 98 h16 M38 103 h13 M66 98 h16 M66 103 h13" stroke="#ffb3c1" stroke-width="1.8" stroke-linecap="round"/>
+         <ellipse cx="26" cy="86" rx="8" ry="17" fill="#8f6039" transform="rotate(-18 26 86)"/>
+         <ellipse cx="94" cy="86" rx="8" ry="17" fill="#8f6039" transform="rotate(18 94 86)"/>`;
+  } else if(pose === 'teach'){               // ustoz — ko'rsatkich bilan
+    inner = `<path d="M90 88 l22 -30" stroke="#e0d3a0" stroke-width="4" stroke-linecap="round"/>
+      <path d="M92 84 q10 -2 10 -10" fill="none" stroke="#8f6039" stroke-width="10" stroke-linecap="round"/>
+      <ellipse cx="30" cy="80" rx="9" ry="19" fill="#8f6039" transform="rotate(-8 30 80)"/>`
+      + OWL_BASE + OWL_GLASSES
+      + `<circle cx="47" cy="57" r="6.5" fill="#2a2118"/><circle cx="73" cy="57" r="6.5" fill="#2a2118"/>
+         <circle cx="49" cy="54.5" r="2.2" fill="#fff"/><circle cx="75" cy="54.5" r="2.2" fill="#fff"/>`
+      + OWL_BEAK;
+  } else if(pose === 'cheer'){               // quvonch
+    inner = `<path d="M28 66 q-14 -12 -10 -28" fill="none" stroke="#8f6039" stroke-width="12" stroke-linecap="round"/>
+      <path d="M92 66 q14 -12 10 -28" fill="none" stroke="#8f6039" stroke-width="12" stroke-linecap="round"/>`
+      + OWL_BASE + OWL_GLASSES
+      + `<path d="M39 58 q7 -9 14 0" fill="none" stroke="#2a2118" stroke-width="3.5" stroke-linecap="round"/>
+         <path d="M67 58 q7 -9 14 0" fill="none" stroke="#2a2118" stroke-width="3.5" stroke-linecap="round"/>`
+      + OWL_BEAK + OWL_CHEEKS
+      + `<path d="M14 30 l2 5 l5 2 l-5 2 l-2 5 l-2 -5 l-5 -2 l5 -2 z" fill="#ffd23f"/>
+         <path d="M106 26 l1.6 4 l4 1.6 l-4 1.6 l-1.6 4 l-1.6 -4 l-4 -1.6 l4 -1.6 z" fill="#3ddc97"/>`;
+  } else if(pose === 'cheer2'){              // dalda — bosh barmoq
+    inner = `<path d="M92 74 q14 -4 14 -16" fill="none" stroke="#8f6039" stroke-width="11" stroke-linecap="round"/>
+      <circle cx="106" cy="56" r="7" fill="#8f6039"/>
+      <rect x="103" y="44" width="6" height="10" rx="3" fill="#8f6039"/>
+      <ellipse cx="30" cy="78" rx="9" ry="20" fill="#8f6039" transform="rotate(-8 30 78)"/>`
+      + OWL_BASE + OWL_GLASSES
+      + `<circle cx="47" cy="57" r="6.5" fill="#2a2118"/><circle cx="73" cy="57" r="6.5" fill="#2a2118"/>
+         <circle cx="49" cy="54.5" r="2.2" fill="#fff"/><circle cx="75" cy="54.5" r="2.2" fill="#fff"/>`
+      + OWL_BEAK + OWL_CHEEKS;
+  } else {                                   // 'sleep' — uxlayapti
+    return `<svg viewBox="0 0 240 105" style="width:${s*1.9}px;height:auto;display:block;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Uxlayotgan ukki">
+      <ellipse cx="120" cy="95" rx="56" ry="6" fill="rgba(0,0,0,.28)"/>
+      <rect x="66" y="78" width="108" height="12" rx="3" fill="#ff5a7a"/>
+      <rect x="70" y="74" width="100" height="7" rx="2.5" fill="#fff3f5"/>
+      <ellipse cx="120" cy="52" rx="32" ry="27" fill="#a9764a"/>
+      <ellipse cx="120" cy="58" rx="20" ry="19" fill="#f2ddbe"/>
+      <path d="M96 30 l-5 -16 l16 7 z" fill="#a9764a"/>
+      <path d="M144 30 l5 -16 l-16 7 z" fill="#a9764a"/>
+      <g transform="rotate(-12 120 16)">
+        <path d="M107 16 l0 8.5 q13 7 26 0 l0 -8.5" fill="#1e1811"/>
+        <path d="M120 2 l-25.5 10 l25.5 10 l25.5 -10 z" fill="#2a2118"/>
+        <path d="M144 12 v11" stroke="#ffd23f" stroke-width="2.2" stroke-linecap="round"/>
+        <circle cx="144" cy="25" r="3" fill="#ffd23f"/>
+      </g>
+      <ellipse cx="94" cy="56" rx="8" ry="15" fill="#8f6039" transform="rotate(-10 94 56)"/>
+      <ellipse cx="146" cy="56" rx="8" ry="15" fill="#8f6039" transform="rotate(10 146 56)"/>
+      <circle cx="108" cy="46" r="13" fill="#fffdf7" opacity=".9"/>
+      <circle cx="132" cy="46" r="13" fill="#fffdf7" opacity=".9"/>
+      <circle cx="108" cy="46" r="13" fill="none" stroke="#ffd23f" stroke-width="3"/>
+      <circle cx="132" cy="46" r="13" fill="none" stroke="#ffd23f" stroke-width="3"/>
+      <path d="M120 46 h-1" stroke="#ffd23f" stroke-width="3" stroke-linecap="round"/>
+      <path d="M102 47 q6 5 12 0" fill="none" stroke="#2a2118" stroke-width="3" stroke-linecap="round"/>
+      <path d="M126 47 q6 5 12 0" fill="none" stroke="#2a2118" stroke-width="3" stroke-linecap="round"/>
+      <path d="M120 56 l-5 7 h10 z" fill="#e8a33d"/>
+      <text x="180" y="40" font-family="Space Grotesk,sans-serif" font-size="13" font-weight="700" fill="rgba(255,210,63,.75)">z</text>
+      <text x="191" y="28" font-family="Space Grotesk,sans-serif" font-size="16" font-weight="700" fill="rgba(255,210,63,.55)">z</text>
+      <text x="204" y="15" font-family="Space Grotesk,sans-serif" font-size="19" font-weight="700" fill="rgba(255,210,63,.35)">z</text>
+    </svg>`;
+  }
+  return `<svg viewBox="0 0 120 125" style="width:${s}px;height:auto;display:block;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ukki">${inner}</svg>`;
+}
+
+/* Bo'sh holat uchun tayyor blok: uxlayotgan ukki + matn */
+function emptyWithOwl(text, sub){
+  return `<div class="owl-empty">${owlSvg('sleep', 54)}
+    <div class="owl-empty-text">${text}</div>
+    ${sub ? `<div class="owl-empty-sub">${sub}</div>` : ''}</div>`;
+}
+
+/* ============== HAPTIKA (tebranish) ==============
+   Telegram o'z HapticFeedback API'sini beradi; boshqa brauzerlarda
+   navigator.vibrate ishlatiladi. Ikkalasi ham bo'lmasa — jimgina o'tkazib yuboriladi. */
+const TG = (window.Telegram && window.Telegram.WebApp) ? window.Telegram.WebApp : null;
+
+function haptic(kind){
+  try{
+    const h = TG && TG.HapticFeedback;
+    if(h){
+      if(kind === 'success' || kind === 'error' || kind === 'warning'){
+        h.notificationOccurred(kind);
+      } else if(kind === 'select'){
+        h.selectionChanged();
+      } else {
+        h.impactOccurred(kind || 'light');   // light | medium | heavy | soft | rigid
+      }
+      return;
+    }
+    if(navigator.vibrate){
+      const ms = { success:[15,40,15], error:[45,30,45], warning:[30,25,30],
+                   select:8, light:10, medium:18, heavy:28 }[kind] || 10;
+      navigator.vibrate(ms);
+    }
+  }catch(e){}
+}
+
+/* ============== TELEGRAM TUGMALARI ==============
+   BackButton — tizim orqaga tugmasi, ekran pastida emas, tepada chiqadi.
+   MainButton — ekran pastidagi katta tizim tugmasi. */
+let tgBackAction = null;
+
+function setTgBack(action){
+  tgBackAction = action;
+  if(!TG || !TG.BackButton) return;
+  try{
+    if(action) TG.BackButton.show();
+    else TG.BackButton.hide();
+  }catch(e){}
+}
+
+function setTgMain(text, action){
+  if(!TG || !TG.MainButton) return;
+  try{
+    if(text){
+      TG.MainButton.setText(text);
+      TG.MainButton.show();
+      tgMainAction = action;
+    } else {
+      TG.MainButton.hide();
+      tgMainAction = null;
+    }
+  }catch(e){}
+}
+let tgMainAction = null;
+
+try{
+  if(TG && TG.BackButton){
+    TG.BackButton.onClick(() => { haptic('light'); if(tgBackAction) tgBackAction(); });
+  }
+  if(TG && TG.MainButton){
+    TG.MainButton.onClick(() => { haptic('medium'); if(tgMainAction) tgMainAction(); });
+    TG.MainButton.setParams({ color:'#ffd23f', text_color:'#0f0f12' });
+  }
+}catch(e){}
+
+/* Barcha tugmalarga umumiy yengil sezgi.
+   Alohida haptic() chaqirilgan joylarda o'z turi ustun keladi — bu shunchaki asos. */
+document.addEventListener('click', (e) => {
+  const t = e.target.closest('button, .opt, .quizset-card, .folder-card, .tab-item, .filter-chip');
+  if(!t) return;
+  if(t.classList.contains('opt') || t.classList.contains('tab-item')) return; // ular o'zi chaqiradi
+  haptic('light');
+}, true);
+
+/* Har bir ekran uchun orqaga qaytish manzili */
+function screenBackAction(name){
+  switch(name){
+    case 'quiz':        return () => document.getElementById('quizBackBtn').click();
+    case 'result':      return () => { showScreen('quizlist'); renderQuizSets(); };
+    case 'mistakes':    return () => document.getElementById('mistakesBackBtn').click();
+    case 'trainer':     return () => document.getElementById('trainerBackBtn').click();
+    case 'teacher':     return () => document.getElementById('teacherBackBtn').click();
+    case 'listening':   return () => document.getElementById('lsBackBtn').click();
+    default:            return null;   // home, quizlist, vocab, leaderboard, info, profile, name
+  }
+}
+
 function showScreen(name){
   Object.values(screens).forEach(s => s.classList.remove('active'));
   screens[name].classList.add('active');
@@ -6065,11 +6335,20 @@ function showScreen(name){
     tabbar.style.display = 'none';
     xpStrip.style.display = 'none';
   }
+  // Telegram tugmalarini shu ekranga moslaymiz
+  setTgBack(screenBackAction(name));
+  if(name === 'name'){
+    setTgMain('Boshlash', () => document.getElementById('startBtn').click());
+  } else {
+    setTgMain(null);
+  }
+  try{ window.scrollTo({ top:0, behavior:'instant' }); }catch(e){ window.scrollTo(0,0); }
 }
 
 tabItems.forEach(btn => {
   btn.addEventListener('click', async () => {
     const tab = btn.dataset.tab;
+    haptic('select');
     showScreen(tab);
     if(tab === 'home'){ await renderHome(); }
     if(tab === 'quizlist'){ quizView = 'folders'; currentFolder = null; renderQuizSets(); }
@@ -6220,23 +6499,31 @@ const SAD_PHRASES = ["Hechqisi yo'q!", "Yana urinib ko'ring", "Keyingisi bo'ladi
 function mascotReact(mood, customText){
   const el = document.getElementById('mascotWrap');
   const bubble = document.getElementById('mascotBubble');
-  const mouthHappy = document.getElementById('mascotMouthHappy');
-  const mouthSad = document.getElementById('mascotMouthSad');
+  const eyes = document.getElementById('mascotEyes');
+  const eyesHappy = document.getElementById('mascotEyesHappy');
   const tear = document.getElementById('mascotTear');
+  const wingL = document.getElementById('mascotWingL');
+  const wingR = document.getElementById('mascotWingR');
 
   el.classList.remove('mood-happy','mood-sad');
   void el.offsetWidth;
   el.classList.add(mood === 'happy' ? 'mood-happy' : 'mood-sad');
 
   if(mood === 'happy'){
-    mouthHappy.style.display = '';
-    mouthSad.style.display = 'none';
+    /* quvonganda ko'zlar yumiladi (^ ^) va qanotlar tepaga ko'tariladi */
+    eyes.style.display = 'none';
+    eyesHappy.style.display = '';
     tear.style.display = 'none';
+    if(wingL) wingL.setAttribute('transform', 'rotate(-42 30 78) translate(0 -8)');
+    if(wingR) wingR.setAttribute('transform', 'rotate(42 90 78) translate(0 -8)');
     bubble.textContent = customText || HAPPY_PHRASES[Math.floor(Math.random()*HAPPY_PHRASES.length)];
   } else {
-    mouthHappy.style.display = 'none';
-    mouthSad.style.display = '';
+    /* xafa bo'lganda ko'z yoshi chiqadi, qanotlar pastga tushadi */
+    eyes.style.display = '';
+    eyesHappy.style.display = 'none';
     tear.style.display = '';
+    if(wingL) wingL.setAttribute('transform', 'rotate(6 30 78)');
+    if(wingR) wingR.setAttribute('transform', 'rotate(-6 90 78)');
     bubble.textContent = customText || SAD_PHRASES[Math.floor(Math.random()*SAD_PHRASES.length)];
   }
 
@@ -6247,9 +6534,12 @@ function mascotReact(mood, customText){
   mascotTimer = setTimeout(() => {
     el.classList.remove('peek');
     setTimeout(() => {
-      mouthHappy.style.display = '';
-      mouthSad.style.display = 'none';
-      tear.style.display = 'none';
+      /* dastlabki holatga qaytaramiz */
+      if(eyes) eyes.style.display = '';
+      if(eyesHappy) eyesHappy.style.display = 'none';
+      if(tear) tear.style.display = 'none';
+      if(wingL) wingL.setAttribute('transform', 'rotate(-8 30 78)');
+      if(wingR) wingR.setAttribute('transform', 'rotate(8 90 78)');
     }, 450);
   }, 1700);
 }
@@ -6929,7 +7219,7 @@ function renderProfile(){
   activityList.innerHTML = '';
   const recent = [...log].reverse().slice(0, 6);
   if(recent.length === 0){
-    activityList.innerHTML = '<div class="empty">Hali faollik yo\'q. Birinchi testni ishlab ko\'ring!</div>';
+    activityList.innerHTML = emptyWithOwl("Hali faollik yo'q", "Birinchi testni ishlab ko'ring");
   } else {
     recent.forEach(t => {
       const d = new Date(t.ts);
@@ -6987,6 +7277,18 @@ function enterApp(name){
   try{ syncAvatarToFirebase(); }catch(e){ console.error('syncAvatar:', e); }
   try{ syncUserProfileToFirebase(); }catch(e){ console.error('syncProfile:', e); }
   try{ loadCommunityStats(); }catch(e){ console.error('communityStats:', e); }
+  try{ paintOwls(); }catch(e){ console.error('paintOwls:', e); }
+}
+
+/* Ekranlardagi ukki rasmlarini chizadi (bir marta yetarli) */
+function paintOwls(){
+  const put = (id, pose, size) => {
+    const el = document.getElementById(id);
+    if(el && !el.innerHTML.trim()) el.innerHTML = owlSvg(pose, size);
+  };
+  put('owlGreet', 'wave', 84);
+  put('owlRules', 'read', 76);
+  put('owlTeacher', 'teach', 76);
 }
 
 document.getElementById('startBtn').addEventListener('click', () => {
@@ -7006,8 +7308,12 @@ document.getElementById('nameInput').addEventListener('keydown', (e) => {
 (() => {
   try{
     const last = getLastName();
-    if(last) enterApp(last);
-  }catch(e){ console.error('avtomatik kirish:', e); }
+    if(last){ enterApp(last); }
+    else { showScreen('name'); }   // Telegram tugmalari to'g'ri sozlanishi uchun
+  }catch(e){
+    console.error('avtomatik kirish:', e);
+    try{ showScreen('name'); }catch(_){}
+  }
 })();
 
 /* ============== VOCAB ============== */
@@ -7076,6 +7382,7 @@ function makeWordCard(w){
       return;
     }
     div.classList.toggle('flipped');
+    haptic('light');
     markWordSeen(w.en);
   });
   return div;
@@ -7305,7 +7612,7 @@ async function renderTeacherPanel(){
 
   // --- o'quvchilar ro'yxati ---
   if(users.length === 0){
-    studentsEl.innerHTML = '<div class="empty">Hozircha hech kim ro\'yxatdan o\'tmagan.</div>';
+    studentsEl.innerHTML = emptyWithOwl("Hozircha hech kim ro'yxatdan o'tmagan");
   } else {
     users.sort((a,b) => (b.xp||0) - (a.xp||0) || (b.totalCorrect||0) - (a.totalCorrect||0));
     studentsEl.innerHTML = '';
@@ -7537,7 +7844,7 @@ async function renderHome(){
   const last10 = log.slice(-10);
   chart.innerHTML = '';
   if(last10.length === 0){
-    chart.innerHTML = '<div class="empty" style="padding:20px 10px; margin:auto;">Hali natija yo\'q</div>';
+    chart.innerHTML = emptyWithOwl("Hali natija yo'q", "Birinchi testni ishlab ko'ring");
   } else {
     last10.forEach((t, i) => {
       const wrapEl = document.createElement('div');
@@ -7694,6 +8001,7 @@ function getBestForSet(setId){
 const startModal = document.getElementById('startModal');
 document.querySelectorAll('.mode-option').forEach(opt => {
   opt.addEventListener('click', () => {
+    haptic('select');
     document.querySelectorAll('.mode-option').forEach(o => o.classList.remove('selected'));
     opt.classList.add('selected');
     quizMode = opt.dataset.mode;
@@ -7704,6 +8012,7 @@ document.getElementById('startModalCancel').addEventListener('click', () => {
   pendingSet = null;
 });
 document.getElementById('startModalGo').addEventListener('click', () => {
+  haptic('medium');
   startModal.classList.remove('show');
   if(pendingSet){ startQuiz(pendingSet); pendingSet = null; }
 });
@@ -7868,6 +8177,7 @@ function selectAnswer(i){
      Hech qanday konfetti, maskot yoki tushuntirish chiqmaydi —
      hammasi test yakunida ko'rinadi. */
   if(quizMode === 'olympiad'){
+    haptic('select');
     if(currentIndex < total - 1){
       setTimeout(() => { currentIndex++; renderQuestion(); }, 250);
     }
@@ -7885,14 +8195,17 @@ function selectAnswer(i){
       const el = allOpts[i];
       const rect = el.getBoundingClientRect();
       confettiBurst(rect.left + rect.width/2, rect.top + rect.height/2);
+      haptic(streak >= 3 ? 'heavy' : 'success');
       if(streak >= 3){ mascotReact('happy', `🔥 ${streak} ta ketma-ket!`); }
       else { mascotReact('happy'); }
     } else {
       streak = 0;
+      haptic('error');
       mascotReact('sad');
       showExplain = true;
     }
   } else if(prev !== i){
+    haptic('select');
     if(prev === q.correct) score--;
     if(isCorrect) score++;
     if(!isCorrect) showExplain = true;
@@ -8046,6 +8359,28 @@ async function finishQuiz(forced){
   if(total >= 30 && quizElapsedSec > 0 && quizElapsedSec < 360 && percent >= 70) bumpCounter('fastFinish');
   syncUserProfileToFirebase();
 
+  haptic(percent >= 80 ? 'success' : (percent >= 50 ? 'warning' : 'error'));
+
+  /* Ukki natijaga munosabat bildiradi */
+  try{
+    const owlBox = document.getElementById('owlResult');
+    const owlSay = document.getElementById('owlResultSay');
+    let pose, phrases;
+    if(percent >= 90){
+      pose = 'cheer';
+      phrases = ["Bu — zo'r natija!", "Ajoyib ish!", "Barakalla!"];
+    } else if(percent >= 60){
+      pose = 'cheer2';
+      phrases = ["Yaxshi natija — davom eting!", "Yomon emas, yana bir bor urinib ko'ring!", "Yaxshi ketyapsiz!"];
+    } else {
+      pose = 'read';
+      phrases = ["Xatolarni ko'rib chiqing — keyingi safar yaxshiroq bo'ladi.",
+                 "Har xato — yangi bilim. Tahlilni o'qing.",
+                 "Shoshmang, qoidani takrorlab ko'ring."];
+    }
+    owlBox.innerHTML = owlSvg(pose, 96);
+    owlSay.textContent = phrases[Math.floor(Math.random()*phrases.length)];
+  }catch(e){ console.error('owlResult:', e); }
   if(percent === 100){ addXP(30); showToast("🏆 Ajoyib! 100% natija uchun bonus +30 XP"); }
 
   const rankBadge = document.getElementById('rankBadge');
@@ -8283,7 +8618,7 @@ async function renderLeaderboard(){
   const list = bestScoresList(scores);
 
   if(list.length === 0){
-    lbList.innerHTML = '<div class="empty">Hozircha hech kim test ishlamagan.<br>Birinchi bo\'ling!</div>';
+    lbList.innerHTML = emptyWithOwl("Hozircha hech kim test ishlamagan", "Birinchi bo'ling!");
     return;
   }
 
@@ -8503,6 +8838,7 @@ function wireWorksheet(card, unit, ws){
     scoreEl.textContent = right === inputs.length
       ? `Hammasi to'g'ri — ${right}/${inputs.length} 🎉`
       : `${right}/${inputs.length} to'g'ri`;
+    haptic(right === inputs.length ? 'success' : (right > inputs.length/2 ? 'warning' : 'error'));
   });
 }
 /* ============== IELTS LISTENING ============== */
@@ -8651,6 +8987,7 @@ document.getElementById('lsCheckBtn').addEventListener('click', () => {
   box.textContent = right === inputs.length
     ? `Hammasi to'g'ri — ${right}/${inputs.length} 🎉`
     : `${right}/${inputs.length} to'g'ri`;
+  haptic(right === inputs.length ? 'success' : 'warning');
 });
 
 document.getElementById('lsScriptBtn').addEventListener('click', (e) => {
