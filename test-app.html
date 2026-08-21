@@ -209,6 +209,36 @@
     font-family:'IBM Plex Mono',monospace; padding:12px 0;
   }
 
+  /* --- jamoa statistikasi --- */
+  .community-card{
+    margin-top:18px; padding:14px 16px; border-radius:16px;
+    background: rgba(255,255,255,0.04); border:1px solid var(--line);
+  }
+  .community-head{
+    display:flex; align-items:center; justify-content:space-between;
+    font-size:13px; font-weight:600; margin-bottom:12px;
+  }
+  .community-refresh{
+    width:28px; height:28px; border-radius:8px; border:1px solid var(--line);
+    background:transparent; color: rgba(247,244,236,0.55); font-size:14px; font-family:inherit;
+  }
+  .community-refresh:active{ opacity:0.6; }
+  .community-grid{ display:flex; flex-wrap:wrap; gap:8px; }
+  .community-item{
+    flex:1 1 calc(50% - 4px); min-width:120px; padding:11px 12px; border-radius:12px;
+    background: rgba(255,255,255,0.04); border:1px solid var(--line);
+  }
+  .community-val{
+    font-family:'Space Grotesk',sans-serif; font-size:20px; font-weight:700; color: var(--gold);
+  }
+  .community-lbl{ font-size:10.5px; color: rgba(247,244,236,0.5); margin-top:2px; }
+  .community-link{
+    display:block; text-align:center; margin-top:12px; padding:9px;
+    border-radius:11px; font-size:12px; font-weight:600; text-decoration:none;
+    color:#54a9eb; background: rgba(84,169,235,0.1); border:1px solid rgba(84,169,235,0.3);
+  }
+  .community-link:active{ opacity:0.75; }
+
   /* --- lug'at darajalari --- */
   .lvl-chip.lvl-1.active{ background:#3ddc97; border-color:#3ddc97; color:var(--ink); }
   .lvl-chip.lvl-2.active{ background:var(--gold); border-color:var(--gold); color:var(--ink); }
@@ -1175,6 +1205,34 @@
       <div class="home-stat"><div class="home-stat-icon">🎯</div><div class="home-stat-val" id="homeAvg">0%</div><div class="home-stat-lbl">o'rtacha natija</div></div>
       <div class="home-stat"><div class="home-stat-icon">📋</div><div class="home-stat-val" id="homeAttempts">0</div><div class="home-stat-lbl">jami urinish</div></div>
       <div class="home-stat"><div class="home-stat-icon">🔥</div><div class="home-stat-val" id="homeStreak">0</div><div class="home-stat-lbl">kunlik seriya</div></div>
+    </div>
+
+    <div class="community-card" id="communityCard">
+      <div class="community-head">
+        <span>👥 Bizning jamoa</span>
+        <button class="community-refresh" id="communityRefresh" title="Yangilash">&#8635;</button>
+      </div>
+      <div class="community-grid" id="communityGrid">
+        <div class="community-item">
+          <div class="community-val" id="statAppUsers">—</div>
+          <div class="community-lbl">ilovada o'quvchi</div>
+        </div>
+        <div class="community-item">
+          <div class="community-val" id="statActive">—</div>
+          <div class="community-lbl">shu hafta faol</div>
+        </div>
+        <div class="community-item" id="statBotBox" style="display:none;">
+          <div class="community-val" id="statBotUsers">—</div>
+          <div class="community-lbl">botda start bosgan</div>
+        </div>
+        <div class="community-item" id="statSubsBox" style="display:none;">
+          <div class="community-val" id="statChannelSubs">—</div>
+          <div class="community-lbl">kanal obunachisi</div>
+        </div>
+      </div>
+      <a class="community-link" href="https://t.me/Multilevel_Eldor" target="_blank" rel="noopener">
+        Kanalga qo'shilish · @Multilevel_Eldor
+      </a>
     </div>
 
     <div class="section-label" style="margin-top:22px;"><span>📊 Natijalaringiz</span><span style="color:rgba(247,244,236,0.45); font-weight:500; font-size:11px;">oxirgi 10 urinish</span></div>
@@ -6928,6 +6986,7 @@ function enterApp(name){
   try{ renderHome(); }catch(e){ console.error('renderHome:', e); }
   try{ syncAvatarToFirebase(); }catch(e){ console.error('syncAvatar:', e); }
   try{ syncUserProfileToFirebase(); }catch(e){ console.error('syncProfile:', e); }
+  try{ loadCommunityStats(); }catch(e){ console.error('communityStats:', e); }
 }
 
 document.getElementById('startBtn').addEventListener('click', () => {
@@ -8600,6 +8659,74 @@ document.getElementById('lsScriptBtn').addEventListener('click', (e) => {
   document.getElementById('lsTrBody').innerHTML = lsActive.scriptHtml;
   tr.classList.toggle('show');
   e.target.textContent = tr.classList.contains('show') ? 'Matnni yashirish' : "Matnni ko'rish";
+});
+
+/* ============== JAMOA STATISTIKASI ==============
+   Ilova foydalanuvchilari Firebase'dan hisoblanadi.
+   Bot va kanal raqamlari — agar bot serveri ularni Firebase'ga yozsa —
+   'stats/botUsers' va 'stats/channelSubs' tugunlaridan o'qiladi.
+   DIQQAT: bot tokenini hech qachon shu faylga yozmang, fayl ochiq ko'rinadi. */
+let communityCache = null;
+let communityCacheTs = 0;
+
+async function loadCommunityStats(force){
+  const el = id => document.getElementById(id);
+  if(!el('statAppUsers')) return;
+
+  // 5 daqiqa ichida qayta so'ramaymiz — ortiqcha trafik bo'lmasin
+  const fresh = communityCache && (Date.now() - communityCacheTs < 5*60*1000);
+  if(fresh && !force){ paintCommunity(communityCache); return; }
+
+  if(!db){
+    el('statAppUsers').textContent = '—';
+    el('statActive').textContent = '—';
+    return;
+  }
+  try{
+    const [usersSnap, statsSnap] = await Promise.all([
+      db.ref('users').once('value'),
+      db.ref('stats').once('value')
+    ]);
+    const users = Object.values(usersSnap.val() || {});
+    const stats = statsSnap.val() || {};
+    const weekAgo = Date.now() - 7*24*60*60*1000;
+    communityCache = {
+      total: users.length,
+      active: users.filter(u => (u.lastSeen || 0) > weekAgo).length,
+      botUsers: stats.botUsers || null,
+      channelSubs: stats.channelSubs || null
+    };
+    communityCacheTs = Date.now();
+    paintCommunity(communityCache);
+  }catch(e){
+    console.error('community stats:', e);
+  }
+}
+
+function paintCommunity(c){
+  const el = id => document.getElementById(id);
+  if(!el('statAppUsers')) return;
+  el('statAppUsers').textContent = c.total;
+  el('statActive').textContent = c.active;
+  if(c.botUsers){
+    el('statBotBox').style.display = '';
+    el('statBotUsers').textContent = c.botUsers;
+  }
+  if(c.channelSubs){
+    el('statSubsBox').style.display = '';
+    el('statChannelSubs').textContent = c.channelSubs;
+  }
+}
+
+document.getElementById('communityRefresh')?.addEventListener('click', () => {
+  const btn = document.getElementById('communityRefresh');
+  btn.style.opacity = '0.4';
+  loadCommunityStats(true).finally(() => { btn.style.opacity = ''; });
+});
+
+document.querySelector('.community-link')?.addEventListener('click', (e) => {
+  e.preventDefault();
+  openTgUrl('https://t.me/Multilevel_Eldor');
 });
 
 try{ renderInfo(); }catch(e){ console.error('renderInfo:', e); }
