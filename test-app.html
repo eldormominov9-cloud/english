@@ -209,36 +209,18 @@
     font-family:'IBM Plex Mono',monospace; padding:12px 0;
   }
 
-  /* --- o'chirish bo'limi --- */
-  .danger-zone{
-    margin-top:18px; padding-top:14px; border-top:1px solid rgba(255,90,122,.25);
+  /* --- savoldagi ajratilgan so'z --- */
+  .ul-word{
+    background: rgba(255,210,63,.22);
+    border-bottom: 2.5px solid var(--gold);
+    border-radius: 3px;
+    padding: 0 3px;
+    color: var(--gold);
+    font-weight: 700;
   }
-  .danger-label{ font-size:12px; font-weight:600; color: var(--coral); }
-  .danger-hint{ font-size:11px; color: rgba(247,244,236,.4); line-height:1.6; margin:5px 0 10px; }
-  .danger-btn{
-    width:100%; padding:11px; border-radius:12px; font-family:inherit;
-    font-size:12.5px; font-weight:600; background: rgba(255,90,122,.12);
-    border:1px solid rgba(255,90,122,.4); color: var(--coral);
-  }
-  .danger-btn:active{ background: rgba(255,90,122,.22); }
-  .danger-btn:disabled{ opacity:.5; }
+  .opt .ul-word, .mistake-q .ul-word{ font-weight:700; }
 
   /* --- sozlamalar --- */
-  .settings-card{
-    background: var(--ink-soft); border:1px solid var(--line);
-    border-radius:16px; padding:14px 16px; margin-bottom:6px;
-  }
-  .settings-row{ display:flex; align-items:center; justify-content:space-between; }
-  .settings-title{ font-size:13.5px; font-weight:600; }
-  .settings-sub{ font-size:11px; color: rgba(247,244,236,.45); margin-top:2px; }
-  .font-row{ display:flex; gap:7px; margin-top:12px; }
-  .font-chip{
-    flex:1; padding:9px 4px; border-radius:11px; font-family:inherit;
-    font-size:11.5px; font-weight:600; background: rgba(255,255,255,.05);
-    border:1px solid var(--line); color: rgba(247,244,236,.6);
-  }
-  .font-chip.active{ background: var(--gold); color: var(--ink); border-color: var(--gold); }
-
   /* --- skeleton yuklanish --- */
   .sk{ background: rgba(255,255,255,.06); border-radius:10px; position:relative; overflow:hidden; }
   .sk::after{
@@ -1541,12 +1523,6 @@
       <div id="studentModalYears"></div>
       <div class="achinfo-how-label" style="margin-top:16px;">Qo'lga kiritgan nishonlari</div>
       <div class="student-badges" id="studentModalBadges"></div>
-      <div class="danger-zone">
-        <div class="danger-label">Yozuvni o'chirish</div>
-        <div class="danger-hint">Bir odam ikki qurilmadan kirib, ikki marta chiqib qolgan bo'lsa,
-          keraksizini shu yerdan o'chiring. Bu amalni orqaga qaytarib bo'lmaydi.</div>
-        <button class="danger-btn" id="studentDeleteBtn">🗑 Reytingdan o'chirish</button>
-      </div>
     </div>
   </div>
 
@@ -1735,22 +1711,6 @@
       <div class="profile-stat-card"><div class="profile-stat-icon">🎯</div><div class="profile-stat-val" id="statAvg">0%</div><div class="profile-stat-lbl">O'rtacha natija</div></div>
       <div class="profile-stat-card"><div class="profile-stat-icon">⏱️</div><div class="profile-stat-val" id="statTime">0 daq</div><div class="profile-stat-lbl">Ilovada vaqt</div></div>
       <div class="profile-stat-card"><div class="profile-stat-icon">🔥</div><div class="profile-stat-val" id="statStreak">0 kun</div><div class="profile-stat-lbl">Ketma-ket faol</div></div>
-    </div>
-
-    <div class="section-label"><span>⚙️ Sozlamalar</span></div>
-    <div class="settings-card">
-      <div class="settings-row">
-        <div>
-          <div class="settings-title">Shrift kattaligi</div>
-          <div class="settings-sub">Matn kichik ko'rinsa, kattalashtiring</div>
-        </div>
-      </div>
-      <div class="font-row" id="fontRow">
-        <button class="font-chip" data-fs="0.92">Kichik</button>
-        <button class="font-chip active" data-fs="1">Oddiy</button>
-        <button class="font-chip" data-fs="1.1">Katta</button>
-        <button class="font-chip" data-fs="1.22">Juda katta</button>
-      </div>
     </div>
 
     <div class="section-label"><span>🏅 Yutuqlar</span><span id="achCount" style="color:rgba(247,244,236,0.5); font-weight:500;">0/9</span></div>
@@ -3991,12 +3951,12 @@ const OLYMPIAD_2025_9 = [
 { q:"___ books are important sources of knowledge for students.", options:["A","The","–","An"], correct:2, explain:"Umumiy ma'noda gapirilganda (kitoblar umuman) ko'plikdagi ot artiklsiz keladi — zero article." },
 { q:"Which word means \"a deep valley with steep sides\"?", options:["earthquake","pond","cave","canyon"], correct:3, explain:"canyon — tik yonbag'irli chuqur vodiy (jarlik)." },
 { q:"Choose the correct collocation.", options:["do a mistake","keep a journey","take a success","make a decision"], correct:3, explain:"make a decision — qaror qabul qilmoq, to'g'ri kollokatsiya. \"do a mistake\" emas, \"make a mistake\" bo'ladi." },
-{ q:"Find the word which is opposite of the underlined word. \"After hiking for six hours, she felt absolutely exhausted.\"", options:["very drained","very energetic","very anxious","very hungry"], correct:1, explain:"exhausted (juda charchagan) so'ziga qarama-qarshi ma'no — energetic (energiyaga to'la)." },
+{ q:"Find the word which is opposite of the underlined word. \"After hiking for six hours, she felt absolutely {{exhausted}}.\"", options:["very drained","very energetic","very anxious","very hungry"], correct:1, explain:"exhausted (juda charchagan) so'ziga qarama-qarshi ma'no — energetic (energiyaga to'la)." },
 { q:"Which word does NOT describe a home?", options:["spicy","cramped","spacious","tiny"], correct:0, explain:"spicy — \"achchiq, ziravorli\" — taom haqida ishlatiladi, uyni tasvirlash uchun mos emas." },
-{ q:"Which word is closest in meaning to the underlined word? The documentary was gripping.", options:["complicated","fascinating","terrifying","confusing"], correct:1, explain:"gripping — juda qiziqarli, e'tiborni tortuvchi = fascinating." },
+{ q:"Which word is closest in meaning to the underlined word? The documentary was {{gripping}}.", options:["complicated","fascinating","terrifying","confusing"], correct:1, explain:"gripping — juda qiziqarli, e'tiborni tortuvchi = fascinating." },
 { q:"She showed great ___ in designing a cozy home.", options:["creation","creative","creativity","creature"], correct:2, explain:"\"great\" sifatidan keyin ot kerak — creativity (ijodkorlik)." },
 { q:"The athlete was deeply ___ to her coach for the support.", options:["grateful","thanks","delighted","pleased"], correct:0, explain:"grateful to smb — kimgadir minnatdor bo'lmoq, to'g'ri kollokatsiya (deeply grateful)." },
-{ q:"Find the definition of the underlined word. He felt embarrassed when he forgot the ranger's name.", options:["feeling ashamed or uncomfortable because of a mistake","feeling pleased or satisfied after a success","feeling relaxed or easy about something important","feeling extremely weak or lacking physical energy"], correct:0, explain:"embarrassed — xijolat bo'lgan, xato tufayli noqulay ahvolga tushib uyalgan holat." },
+{ q:"Find the definition of the underlined word. He felt {{embarrassed}} when he forgot the ranger's name.", options:["feeling ashamed or uncomfortable because of a mistake","feeling pleased or satisfied after a success","feeling relaxed or easy about something important","feeling extremely weak or lacking physical energy"], correct:0, explain:"embarrassed — xijolat bo'lgan, xato tufayli noqulay ahvolga tushib uyalgan holat." },
 { q:"A geyser is:", options:["a tool that checks the heat of water","a white cloud that looks like rising smoke","a tall rock covered with snow and ice","a hole in the ground that sends up hot water"], correct:3, explain:"geyser — yerdan davriy ravishda issiq suv va bug' otilib chiqadigan tuynuk (geyzer)." },
 { q:"Choose the verb that goes correctly with the travel action. A traveler can ___.", options:["make suitcase","miss the bus","take airport","build ticket"], correct:1, explain:"miss the bus — avtobusga ulgurmaslik, to'g'ri kollokatsiya." },
 { q:"What is the purpose of this notice?", options:["To explain the rules of football to the students","To give details about the school's Sports Day","To invite students to join the school's football team","To advertise the snack stand during the event"], correct:1, passage:P25_9_SPORTS, explain:"Matn Sports Day tadbiri haqida umumiy ma'lumot (vaqti, kiyim, qoidalar) beradi — e'lonning maqsadi shu." },
@@ -4031,12 +3991,12 @@ const OLYMPIAD_2025_10 = [
 { q:"Choose the correct indirect question.", options:["Do you know when was the Roman Empire collapse?","Can you explain how this experiment proves the theory?","Could you tell me what time will the plane land?","Do you know where the new is shopping mall?"], correct:1, explain:"Bilvosita savolda ega-kesim tartibi to'g'ridan-to'g'ri gapdagidek bo'ladi (savol tartibi emas): how this experiment proves — to'g'ri tuzilgan yagona variant." },
 { q:"Hikers avoided the hot spring area because the rocks were covered with thick ___ rising from the water.", options:["mist","smoke","steam","dust"], correct:2, explain:"Issiq buloq ustidan ko'tarilayotgan narsa — steam (bug'), tutun (smoke) emas." },
 { q:"Which crime involves writing graffiti, breaking windows, or deliberately damaging buses and benches in a city park?", options:["burglary","vandalism","fraud","pickpocketing"], correct:1, explain:"vandalism — mulkni ataylab buzish, shikastlash (grafiti chizish, oyna sindirish kabi)." },
-{ q:"Find the word which is opposite of the underline word. She was thrilled when she heard the news.", options:["appealed","jealous","gloomy","attracted"], correct:2, explain:"thrilled (juda xursand, hayajonlangan) so'ziga qarama-qarshi — gloomy (g'amgin, tushkun)." },
+{ q:"Find the word which is opposite of the underline word. She was {{thrilled}} when she heard the news.", options:["appealed","jealous","gloomy","attracted"], correct:2, explain:"thrilled (juda xursand, hayajonlangan) so'ziga qarama-qarshi — gloomy (g'amgin, tushkun)." },
 { q:"Which word does NOT describe part of a film?", options:["director","plot","subtitle","suburb"], correct:3, explain:"suburb — shahar chekkasi, filmga hech qanday aloqasi yo'q; qolganlari film bilan bog'liq atamalar." },
-{ q:"Which word is closest in meaning to the underlined word? She felt miserable after the argument.", options:["delighted","depressed","jealous","suspicious"], correct:1, explain:"miserable — juda baxtsiz, tushkun = depressed." },
+{ q:"Which word is closest in meaning to the underlined word? She felt {{miserable}} after the argument.", options:["delighted","depressed","jealous","suspicious"], correct:1, explain:"miserable — juda baxtsiz, tushkun = depressed." },
 { q:"If someone is \"burning with curiosity,\" it means they are:", options:["extremely eager to know or learn something.","very ill and unable to leave the bed.","smiling nervously without any special reason.","falling asleep because they feel very tired."], correct:0, explain:"burning with curiosity — biror narsani bilishga juda qiziqib, sabrsizlanib turgan holat." },
 { q:"To upload a file means:", options:["to copy it from the internet to your device","to send it from your device to the internet","to delete it from your computer","to lock it with a password"], correct:1, explain:"upload — o'z qurilmangizdan internetga fayl yuklash (download esa aksincha, internetdan qurilmangizga)." },
-{ q:"Find the definition of the underlined word. The doctor promised a full cure for the illness.", options:["a treatment that makes a sick person healthy again","an accident that causes serious physical harm","a strong feeling of worry or nervous tension","a machine that doctors use in a hospital"], correct:0, explain:"cure — kasal odamni sog'aytiruvchi davo, muolaja." },
+{ q:"Find the definition of the underlined word. The doctor promised a full {{cure}} for the illness.", options:["a treatment that makes a sick person healthy again","an accident that causes serious physical harm","a strong feeling of worry or nervous tension","a machine that doctors use in a hospital"], correct:0, explain:"cure — kasal odamni sog'aytiruvchi davo, muolaja." },
 { q:"Choose the correct definition. A species is:", options:["natural places where wild animals usually live","a kind of machine that scientists often use","a group of animals or plants of the same kind","a group of people who usually work together"], correct:2, explain:"species — bir xil turdagi hayvon yoki o'simliklar guruhi (biologik tur)." },
 { q:"Choose the verb that goes correctly with the health action. A person can ___.", options:["take a sneeze","catch the flu","do breath","take an injury"], correct:1, explain:"catch the flu — shamollash, gripp yuqtirib olmoq — to'g'ri kollokatsiya." },
 { q:"What can we infer about the city council's decision?", options:["It was mainly the result of financial problems and saving money.","It suggests that the library may soon close down permanently.","It indicates that library workers wanted more personal free time.","It shows the library was empty because people stopped visiting."], correct:0, passage:P25_10_LIBRARY, explain:"Matnda: \"the decision was made due to budget cuts and rising energy costs\" — ya'ni moliyaviy sabablarga ko'ra." },
@@ -4071,12 +4031,12 @@ const OLYMPIAD_2025_11 = [
 { q:"Choose the correct indirect question.", options:["Can you explain where is located the train station?","Have you heard when does the meeting start?","Can you explain why people block each other online?","Do you know where the new is shopping mall?"], correct:2, explain:"Bilvosita savolda ega-kesim tartibi to'g'ri (savol tartibi emas): why people block — yagona to'g'ri tuzilgan variant." },
 { q:"He applied for the job, but they decided to ___ his application.", options:["get over","turn down","cut off","carry out"], correct:1, explain:"turn down — rad etmoq. Ariza rad etilgani haqida gap ketmoqda." },
 { q:"Which option shows the best correct collocation match?", options:["strong rain","heavy criticism","big attention","delicate scream"], correct:1, explain:"heavy criticism — kuchli tanqid, to'g'ri kollokatsiya (yomg'ir uchun \"heavy rain\", e'tibor uchun \"close attention\" ishlatiladi)." },
-{ q:"Which word is opposite in meaning to the underlined word? Research evidence in this area is scarce.", options:["abundant","erratic","insufficient","confined"], correct:0, explain:"scarce (kam, tanqis) so'ziga qarama-qarshi — abundant (mo'l-ko'l, yetarlicha)." },
+{ q:"Which word is opposite in meaning to the underlined word? Research evidence in this area is {{scarce}}.", options:["abundant","erratic","insufficient","confined"], correct:0, explain:"scarce (kam, tanqis) so'ziga qarama-qarshi — abundant (mo'l-ko'l, yetarlicha)." },
 { q:"Which word does NOT describe a building?", options:["spectacular","traditional","imposing","delectable"], correct:3, explain:"delectable — juda mazali (taom haqida), binoni tasvirlash uchun mos emas." },
-{ q:"Which word is closest in meaning to the underlined word? She conducted a meticulous investigation.", options:["thorough","brief","vague","ambiguous"], correct:0, explain:"meticulous — juda diqqatli, puxta = thorough." },
+{ q:"Which word is closest in meaning to the underlined word? She conducted a {{meticulous}} investigation.", options:["thorough","brief","vague","ambiguous"], correct:0, explain:"meticulous — juda diqqatli, puxta = thorough." },
 { q:"She felt deep ___ when she heard the sad news.", options:["sympathetic","symbol","simplify","sympathy"], correct:3, explain:"\"deep\" sifatidan keyin ot kerak — sympathy (hamdardlik)." },
 { q:"The workers were strongly ___ about the risks of the new project.", options:["avoided","prevented","warned","banned"], correct:2, explain:"strongly warned about — xavf haqida qattiq ogohlantirilgan, to'g'ri kollokatsiya." },
-{ q:"Find the definition of the underlined word. She is admired for being modest despite her great success.", options:["not talking much about your achievements","always feeling jealous of other people","being very confident and proud of yourself","being careless about important things"], correct:0, explain:"modest — kamtar, o'z yutuqlari haqida ko'p gapirmaydigan." },
+{ q:"Find the definition of the underlined word. She is admired for being {{modest}} despite her great success.", options:["not talking much about your achievements","always feeling jealous of other people","being very confident and proud of yourself","being careless about important things"], correct:0, explain:"modest — kamtar, o'z yutuqlari haqida ko'p gapirmaydigan." },
 { q:"A refugee is:", options:["someone who works in another country for money","someone who travels for pleasure and sightseeing","someone who studies in a foreign country","someone who has left their country because of danger"], correct:3, explain:"refugee — xavf tufayli o'z vatanini tark etgan qochqin." },
 { q:"Which word has a negative meaning?", options:["stingy","prudent","economical","considerate"], correct:0, explain:"stingy — ziqna, xasis (salbiy ma'no). Qolganlari — prudent (ehtiyotkor), economical (tejamkor), considerate (o'ylab ish yurituvchi) ijobiy sifatlar." },
 { q:"What is the purpose of this notice?", options:["To explain why students should delete their old accounts","To warn students not to use social media at school","To invite teachers to join the school's art competition","To give instructions about the school's new Instagram page"], correct:3, passage:P25_11_INSTA, explain:"Matn maktabning yangi Instagram sahifasi qanday ishlashi va u yerga qanday hissa qo'shish mumkinligi haqida ko'rsatma beradi." },
@@ -4258,7 +4218,7 @@ const P_ATT8_ENERGY = "Life, like all other processes that go on in material bod
 const P_ATT8_NIGERIA = "Nigeria is heavily dependent on the export of crude oil to finance industrial development. 90% of Nigeria's exports by value are crude oil. At current production rates, known reserves are only sufficient until the end of the century. Industrialization was boosted after 1973 following the fourfold increase in oil prices. In the early 1980s prices fell, and Nigeria lost important income. Oil production peaked in 1974 when output reached 112 million tonnes.";
 
 const ATTESTATION_8 = [
-{ q:"Bat — Which is the correct symbol for the underlined letter?", options:["/ɑː/","/ɔː/","/æ/","/ʊ/"], correct:2,
+{ q:"B{{a}}t — Which is the correct symbol for the underlined letter?", options:["/ɑː/","/ɔː/","/æ/","/ʊ/"], correct:2,
   explain:"\"Bat\" so'zidagi \"a\" harfi qisqa, ochiq old unli /æ/ tovushini beradi (cat, man, hat kabi). ✗ A) /ɑː/ — cho'ziq orqa unli (car, father). ✗ B) /ɔː/ — lablangan cho'ziq unli (law, more). ✗ D) /ʊ/ — qisqa lablangan orqa unli (book, put)." },
 
 { q:"______ vowel is presented in the word 'ghost'.", options:["/eɪ/","/ʊə/","/aʊ/","/əʊ/"], correct:3,
@@ -6398,79 +6358,15 @@ const CREATOR_PHOTO = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAA
 document.querySelectorAll(".creator-photo").forEach(im => { im.src = CREATOR_PHOTO; });
 
 
-/* ============== O'QITUVCHI: YOZUVNI O'CHIRISH ==============
-   Faqat o'qituvchi panelidan (PIN bilan) ishlaydi.
-   Firebase'dagi shu ismga tegishli natijalar va profil o'chiriladi. */
-async function deleteStudentRecords(name){
-  if(!db) throw new Error('Firebase ulanmagan');
-  const key = nameKey(name);
-  const paths = ['scores', 'olympiad_scores', 'users', 'avatars'];
-  let removed = 0;
-  for(const path of paths){
-    const snap = await db.ref(path).once('value');
-    const val = snap.val() || {};
-    const updates = {};
-    Object.keys(val).forEach(k => {
-      const rec = val[k];
-      const recName = (rec && rec.name) ? rec.name : k;
-      if(nameKey(recName) === key){ updates[k] = null; removed++; }
-    });
-    if(Object.keys(updates).length){ await db.ref(path).update(updates); }
-  }
-  return removed;
-}
 
-document.getElementById('studentDeleteBtn')?.addEventListener('click', async () => {
-  if(!currentStudent) return;
-  const name = currentStudent.name;
-  const btn = document.getElementById('studentDeleteBtn');
-
-  if(!confirm(`"${name}" ning barcha natijalari va profili o'chiriladi.\n\nBu amalni orqaga qaytarib bo'lmaydi. Davom etasizmi?`)) return;
-  if(!confirm(`Yana bir bor tasdiqlang: "${name}" o'chirilsinmi?`)) return;
-
-  btn.disabled = true;
-  btn.textContent = "O'chirilmoqda…";
-  try{
-    const n = await deleteStudentRecords(name);
-    haptic('success');
-    showToast(`"${name}" o'chirildi (${n} ta yozuv)`);
-    document.getElementById('studentModal').classList.remove('show');
-    currentStudent = null;
-    communityCache = null;
-    await renderTeacherPanel();
-  }catch(e){
-    console.error('delete failed:', e);
-    haptic('error');
-    showToast("O'chirib bo'lmadi — internetni tekshiring");
-  }finally{
-    btn.disabled = false;
-    btn.textContent = "🗑 Reytingdan o'chirish";
-  }
-});
-
-/* ============== SHRIFT KATTALIGI ============== */
-function getFontScale(){
-  const v = parseFloat(localStorage.getItem('fontScale') || '1');
-  return (v >= 0.8 && v <= 1.4) ? v : 1;
+/* Savol matnidagi {{so'z}} belgisini sariq marker + tag chiziq bilan ajratadi.
+   Qolgan matn xavfsiz tarzda (HTML sifatida talqin qilinmasdan) chiqariladi. */
+function markUnderlined(text){
+  const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  return esc(text || '')
+    .replace(/\{\{(.+?)\}\}/g, '<span class="ul-word">$1</span>')
+    .replace(/\n/g, '<br>');
 }
-function applyFontScale(v){
-  document.documentElement.style.fontSize = (16 * v) + 'px';
-  document.body.style.zoom = '';                  // ba'zi brauzerlarda muammo bermasin
-  document.body.style.setProperty('--fs', v);
-  document.querySelectorAll('.font-chip').forEach(c => {
-    c.classList.toggle('active', Math.abs(parseFloat(c.dataset.fs) - v) < 0.001);
-  });
-}
-function setFontScale(v){
-  try{ localStorage.setItem('fontScale', String(v)); }catch(e){}
-  applyFontScale(v);
-}
-document.getElementById('fontRow')?.addEventListener('click', (e) => {
-  const chip = e.target.closest('.font-chip');
-  if(!chip) return;
-  setFontScale(parseFloat(chip.dataset.fs));
-  showToast('Shrift kattaligi o\'zgartirildi');
-});
 
 /* ============== SERIYA OGOHLANTIRISHI ==============
    Bugun hali test ishlanmagan bo'lsa va seriya bor bo'lsa — eslatib qo'yamiz. */
@@ -8001,7 +7897,7 @@ document.getElementById('vocabSearch').addEventListener('input', renderVocab);
    O'QITUVCHI PANELI
    PIN-kodni o'zgartirish uchun pastdagi qatorni tahrirlang
    ========================================================= */
-const TEACHER_PIN = "2024";
+const TEACHER_PIN = "0905";
 
 screens.teacher = document.getElementById('screen-teacher');
 
@@ -8292,8 +8188,6 @@ let currentStudent = null;
 
 function openStudentModal(u){
   currentStudent = u;
-  const dz = document.querySelector('.danger-zone');
-  if(dz) dz.style.display = (u.name === currentUser) ? 'none' : '';   // o'zini o'chira olmasin
   const src = teacherAvatarsCache[safeUserKey(u.name || '')];
   const avEl = document.getElementById('studentModalAvatar');
   avEl.innerHTML = src ? `<img src="${src}" alt="">` : firstChar(u.name);
@@ -8692,7 +8586,7 @@ function renderQuestion(){
     pBox.style.display = 'none';
   }
   const total = activeSet.questions.length;
-  document.getElementById('qText').textContent = q.q;
+  document.getElementById('qText').innerHTML = markUnderlined(q.q);
   document.getElementById('progressNum').textContent = `${currentIndex+1}/${total}`;
   const answeredCount = userAnswers.filter(a => a !== null).length;
   document.getElementById('progressFill').style.width = `${(answeredCount/total)*100}%`;
@@ -9032,7 +8926,7 @@ function renderMistakes(){
       : `<div class="mistake-line mistake-wrong">✕ Sizning javobingiz: ${given}</div>
          <div class="mistake-line mistake-right">✓ To'g'ri javob: ${right}</div>`;
     div.innerHTML = `
-      <div class="mistake-q"><span class="mistake-num">${m.num}</span> ${m.q.q}</div>
+      <div class="mistake-q"><span class="mistake-num">${m.num}</span> ${markUnderlined(m.q.q)}</div>
       ${answerLines}
       ${m.q.explain ? `<div class="mistake-expl">💡 ${m.q.explain}</div>` : ''}
       ${m.q.passage ? `
@@ -9637,7 +9531,6 @@ document.querySelector('.community-link')?.addEventListener('click', (e) => {
   openTgUrl('https://t.me/Multilevel_Eldor');
 });
 
-try{ applyFontScale(getFontScale()); }catch(e){ console.error('fontScale:', e); }
 try{ renderInfo(); }catch(e){ console.error('renderInfo:', e); }
 document.getElementById('grammarSearch').addEventListener('input', renderInfo);
 
